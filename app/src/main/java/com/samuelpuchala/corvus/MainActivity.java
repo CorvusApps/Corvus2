@@ -1,5 +1,7 @@
 package com.samuelpuchala.corvus;
 
+import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -20,6 +22,19 @@ public class MainActivity extends AppCompatActivity {
 
         txtPicMaskX.animate().alpha(0f).setDuration(3000);
         imgCoverR.animate().rotation(1440).setDuration(3000);
+
+        new CountDownTimer(3500, 500) {
+
+            public void onTick(long millisUntilFinished) {
+               // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+            }
+
+            public void onFinish() {
+                Intent intent = new Intent(MainActivity.this, Login.class);
+                startActivity(intent);
+                //finish();
+            }
+        }.start();
 
 
 
