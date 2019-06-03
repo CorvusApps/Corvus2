@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 public class Home extends AppCompatActivity {
 
@@ -30,7 +31,7 @@ public class Home extends AppCompatActivity {
 
                 homeFirebaseAuth.signOut();
                 LoginManager.getInstance().logOut();
-                Toast.makeText(Home.this, "Log out", Toast.LENGTH_SHORT).show();
+                FancyToast.makeText(Home.this, "Log out successful", FancyToast.LENGTH_SHORT, FancyToast.INFO, true).show();
                 Intent intent = new Intent(Home.this, Login.class);
                 startActivity(intent);
 
