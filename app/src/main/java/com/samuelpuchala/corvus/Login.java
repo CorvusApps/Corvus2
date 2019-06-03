@@ -25,6 +25,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -39,15 +40,38 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_login);
        // printKeyHash();
 
         firebaseAuth = FirebaseAuth.getInstance();
         callbackManager = CallbackManager.Factory.create();
 
-        btnFBLoginX = (LoginButton)findViewById(R.id.btnFBLogin);
+        btnFBLoginX = findViewById(R.id.btnFBLogin);
         btnFBLoginX.setReadPermissions("email");
         btnFBLoginX.setOnClickListener(this);
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        // updateUI(currentUser); // not working and morteza doesn't even mention it
+
+        if (currentUser != null){
+
+            Intent intent = new Intent(Login.this, Home.class);
+            startActivity(intent);
+            finish();
+        }
+
 
     }
 
@@ -108,6 +132,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 String email = authResult.getUser().getEmail();
                 Toast.makeText(Login.this, "You are signed in with email: " + email, Toast.LENGTH_LONG).show();
 
+                Intent intent = new Intent(Login.this, Home.class);
+                startActivity(intent);
+                finish();
             }
         });
 
