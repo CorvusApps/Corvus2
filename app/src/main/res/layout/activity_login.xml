@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login">
+
+    <ImageView
+        android:id="@+id/imgLoginCrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:srcCompat="@drawable/crow" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/btnFBLogin"
@@ -35,10 +49,13 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/com_facebook_button_background"
         android:drawableLeft="@drawable/com_facebook_button_icon_blue"
-        android:text="    Log in with Facebook"
 
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        android:text="     Log in with Facebook"
         android:textAllCaps="false"
         android:textColor="@color/cardview_light_background"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btnFBLogin"
@@ -50,9 +67,9 @@
         android:id="@+id/btnGoogleLogin"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
+        android:layout_marginBottom="16dp"
         android:text="Log in with Google"
         app:layout_constraintBottom_toTopOf="@+id/btnFBLoginOverlay"
         app:layout_constraintEnd_toEndOf="@+id/btnFBLoginOverlay"
@@ -66,17 +83,19 @@
         android:id="@+id/btnGoogleLoginOverlay"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/com_facebook_device_auth_text"
+        android:layout_marginBottom="14dp"
+        android:background="#2F4779"
 
+        android:backgroundTint="#AFACAC"
         android:drawableLeft="@drawable/common_google_signin_btn_icon_light"
         android:text="Log in with Google     "
         android:textAllCaps="false"
         android:textColor="@color/cardview_light_background"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnFBLoginOverlay"
         app:layout_constraintEnd_toEndOf="@+id/btnFBLogin"
         app:layout_constraintStart_toStartOf="@+id/btnFBLogin" />
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

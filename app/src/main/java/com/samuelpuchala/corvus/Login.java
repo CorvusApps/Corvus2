@@ -2,17 +2,15 @@ package com.samuelpuchala.corvus;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -27,7 +25,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -38,9 +35,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.shashank.sony.fancytoastlib.FancyToast;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,6 +49,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     SignInButton btnGoogleLoginX;
     Button btnGoogleLoginOverlayX;
+
+    ImageView imgLoginCrowX;
 
     int signInProvider; // 0 initial, 1 = google, 2 = facebook
 
@@ -92,6 +88,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         btnGoogleLoginOverlayX.setOnClickListener(this);
 
         signInProvider = 0;
+
+        imgLoginCrowX = findViewById(R.id.imgLoginCrow);
+        imgLoginCrowX.setAlpha(0.5f);
 
     }
 

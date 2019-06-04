@@ -9,6 +9,13 @@
 
         <item name="android:statusBarColor">@color/status_bar_color</item>
         <item name="android:windowLightStatusBar">true</item>
+
+
+    </style>
+
+
+    <style name="AppTextField" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">#FFFFFF</item>
     </style>
 
 </resources>
