@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#CFD8DC"
     tools:context=".Home">
 
 
@@ -19,23 +19,19 @@
 
 
     <com.github.florent37.shapeofview.shapes.ArcView
+        android:id="@+id/arcView"
         android:layout_width="match_parent"
+
+
         android:layout_height="400dp"
-
-
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView"
 
-        app:shape_arc_position="bottom"
+        app:layout_constraintTop_toTopOf="@+id/textView"
         app:shape_arc_height="60dp"
 
 
-
-        >
+        app:shape_arc_position="bottom">
 
         <ImageView
             android:layout_width="match_parent"

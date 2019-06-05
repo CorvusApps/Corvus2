@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#CFD8DC"
     tools:context=".Login">
 
     <ImageView
@@ -53,7 +54,7 @@
         android:paddingLeft="0dp"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
-        android:text="  Log in with Facebook"
+        android:text="    Log in with Facebook"
         android:textAllCaps="false"
         android:textColor="@color/cardview_light_background"
         android:textSize="11sp"
@@ -87,13 +88,13 @@
         android:id="@+id/btnGoogleLoginOverlay"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="14dp"
+        android:layout_marginBottom="12dp"
 
         android:backgroundTint="@color/com_facebook_button_background_color_focused_disabled"
         android:paddingLeft="0dp"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
-        android:text="Log in with Google     "
+        android:text="Log in with Google   "
         android:textAllCaps="false"
         android:textColor="@color/browser_actions_bg_grey"
         android:textSize="11sp"
