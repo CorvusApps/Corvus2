@@ -41,7 +41,8 @@ dependencies {
     implementation 'com.github.Shashank02051997:FancyToast-Android:0.1.6'
     implementation 'com.github.mjn1369:prettydialog:1.0.4'
 
-    implementation 'com.google.android.material:material:1.1.0-alpha05'
+    implementation 'com.google.android.material:material:1.0.0-rc01'
+    implementation 'com.github.florent37:shapeofview:1.4.7'
 
 
 }
