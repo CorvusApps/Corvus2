@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <item
         android:id="@+id/popMenuLogout"
         android:orderInCategory="300"
+        android:icon="@drawable/logout"
+
         app:showAsAction="never"
         android:title="Log out" />
 
     <item
-        android:id="@+id/popMenuAddCollection"
+        android:id="@+id/popMenuDeleteCollection"
         android:orderInCategory="300"
+        android:icon="@drawable/delete"
         app:showAsAction="never"
-        android:title="Add a New Collection" />
+        android:title="Delete a Collection" />
 
 </menu>

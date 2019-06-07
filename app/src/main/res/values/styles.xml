@@ -10,12 +10,21 @@
         <item name="android:statusBarColor">@color/status_bar_color</item>
         <item name="android:windowLightStatusBar">true</item>
 
-
     </style>
 
-
-    <style name="AppTextField" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="boxBackgroundColor">#FFFFFF</item>
+    <style name="PopupMenuInStandAloneToolbar" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@color/colorAccent</item>
+        <item name="android:popupCharacters">@android:color/white</item>
     </style>
+
+    <style name="MyPopupOtherStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <!-- Used for the background -->
+        <item name="android:background">@color/colorAccent</item>
+    </style>
+
 
 </resources>

@@ -5,4 +5,11 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="status_bar_color">#78909C</color>
+
+    <color name="colorControHighlight">#D81B60</color>
+
+    <color name="colorControlActivated">#D81B60</color>
+
+
+
 </resources>

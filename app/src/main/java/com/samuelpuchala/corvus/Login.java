@@ -6,10 +6,14 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,6 +32,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -38,6 +43,7 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
+    ConstraintLayout loutLoginX;
     FirebaseAuth firebaseAuth;
 
     CallbackManager callbackManager;
@@ -54,6 +60,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     int signInProvider; // 0 initial, 1 = google, 2 = facebook
 
+    String email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +70,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         setContentView(R.layout.activity_login);
        // printKeyHash();
+
+       loutLoginX = findViewById(R.id.loutLogin);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -91,6 +101,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         imgLoginCrowX = findViewById(R.id.imgLoginCrow);
         imgLoginCrowX.setAlpha(0.5f);
+
+        //email = "";
 
     }
 
@@ -173,9 +185,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
 
-        final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setMessage("Loading");
-        dialog.show();
+//        final ProgressDialog dialog = new ProgressDialog(this);
+//        dialog.setMessage("Loading");
+//        dialog.show();
 
         firebaseAuth.signInWithCredential(credential).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -188,12 +200,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onSuccess(AuthResult authResult) {
 
-                String email = authResult.getUser().getEmail();
-                FancyToast.makeText(Login.this, "You are signed in with email: " + email, Toast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
+                email = authResult.getUser().getEmail();
 
-                Intent intent = new Intent(Login.this, Home.class);
-                startActivity(intent);
-                finish();
+                Snackbar.make(loutLoginX, "You are signed in with email: " + email, Snackbar.LENGTH_LONG).show();
+
+                transitionToHome();
+
+
+
             }
         });
 
@@ -246,11 +260,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         FirebaseUser user = firebaseAuth.getCurrentUser();
 
                         String email = authResult.getUser().getEmail();
-                        FancyToast.makeText(Login.this, "You are signed in with email: " + email, Toast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
+                        Snackbar.make(loutLoginX, "You are signed in with email: " + email, Snackbar.LENGTH_LONG).show();
 
-                        Intent intent = new Intent(Login.this, Home.class);
-                        startActivity(intent);
-                        finish();
+
+                        transitionToHome();
+
+
 
                     }
 
@@ -261,6 +276,28 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 FancyToast.makeText(Login.this, e.getMessage(), Toast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
             }
         });
+
+
+
+    }
+
+    private void transitionToHome () {
+
+
+
+        new CountDownTimer(5000, 500) {
+
+
+            public void onTick(long millisUntilFinished) {
+                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+            }
+
+            public void onFinish() {
+                Intent intent = new Intent(Login.this, Home.class);
+                startActivity(intent);
+                finish();
+            }
+        }.start();
 
 
 
