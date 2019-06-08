@@ -1,11 +1,13 @@
 package com.samuelpuchala.corvus;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.CountDownTimer;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,18 +40,25 @@ public class MainActivity extends AppCompatActivity {
         imgCoin6X.animate().rotation(1440).setDuration(4500);
 
 
-        new CountDownTimer(5000, 500) {
+       if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
 
-            public void onTick(long millisUntilFinished) {
-               // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
-            }
+           new CountDownTimer(5000, 500) {
 
-            public void onFinish() {
-                Intent intent = new Intent(MainActivity.this, Login.class);
-                startActivity(intent);
-                finish();
-            }
-        }.start();
+               public void onTick(long millisUntilFinished) {
+                   // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+               }
+
+               public void onFinish() {
+                   Intent intent = new Intent(MainActivity.this, Login.class);
+                   startActivity(intent);
+                   finish();
+               }
+           }.start();
+
+       } else {
+
+           Toast.makeText(MainActivity.this, "Your version of android is old dude", Toast.LENGTH_LONG).show();
+       }
 
     }
 

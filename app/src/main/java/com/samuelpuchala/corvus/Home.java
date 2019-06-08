@@ -3,14 +3,19 @@ package com.samuelpuchala.corvus;
 import android.content.Context;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
@@ -20,9 +25,11 @@ import java.lang.reflect.Method;
 public class Home extends AppCompatActivity implements View.OnClickListener {
 
 
+    ConstraintLayout loutHomeX;
     FirebaseAuth homeFirebaseAuth;
 
     TextView btnPopUpMenuX;
+    Button btnNewCollectionX;
 
 
     @Override
@@ -35,9 +42,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         btnPopUpMenuX = findViewById(R.id.btnPopUpMenu);
         btnPopUpMenuX.setOnClickListener(this);
 
+        loutHomeX = findViewById(R.id.loutHome);
 
-
-
+        btnNewCollectionX = findViewById(R.id.btnNewCollection);
+        btnNewCollectionX.setOnClickListener(this);
     }
 
     @Override
@@ -47,46 +55,16 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
             case R.id.btnPopUpMenu:
 
-                showPopupMenu(view, true, R.style.MyPopupOtherStyle);
-
-//                PopupMenu popup = new PopupMenu(Home.this, btnPopUpMenuX);
-//                popup.getMenuInflater().inflate(R.menu.actions, popup.getMenu());
-//
-//
-//                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//                    @Override
-//                    public boolean onMenuItemClick(MenuItem item) {
-//
-//                        switch (item.getItemId()) {
-//
-//                            case R.id.popMenuLogout:
-//
-//                                homeFirebaseAuth.signOut();
-//                                LoginManager.getInstance().logOut();
-//                                FancyToast.makeText(Home.this, "Log out successful", FancyToast.LENGTH_SHORT, FancyToast.INFO, true).show();
-//                                Intent intent = new Intent(Home.this, Login.class);
-//                                startActivity(intent);
-//
-//                                finish();
-//
-//                                return true;
-//
-//                            case R.id.popMenuAddCollection:
-//
-//                                FancyToast.makeText(Home.this, "Add a collection", FancyToast.LENGTH_SHORT, FancyToast.INFO, true).show();
-//
-//                                return true;
-//
-//                        }
-//
-//                        return false;
-//
-//                    }
-//                });
-//
-//                popup.show();
+                showPopupMenu(view, true, R.style.MyPopupOtherStyle);//
 
                break;
+
+            case R.id.btnNewCollection:
+
+                Intent intent = new Intent(Home.this, AddCollection.class);
+                startActivity(intent);
+
+                break;
 
         }
 
@@ -131,11 +109,12 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
                         homeFirebaseAuth.signOut();
                         LoginManager.getInstance().logOut();
-                        FancyToast.makeText(Home.this, "Log out successful", FancyToast.LENGTH_SHORT, FancyToast.INFO, true).show();
-                        Intent intent = new Intent(Home.this, Login.class);
-                        startActivity(intent);
+                        logoutSnackbar();
 
-                        finish();
+                        transitionBackToLogin ();
+
+
+
 
                         return true;
 
@@ -151,6 +130,46 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             }
         });
         popup.show();
+
+    }
+
+    private void logoutSnackbar(){
+
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutHomeX, "Good bye", Snackbar.LENGTH_INDEFINITE);
+
+        // snackbar.setActionTextColor(getResources().getColor(R.color.pdlg_color_blue));
+
+        View snackbarView = snackbar.getView();
+        //snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+        // THE COLOR SET BELOW WORKS but the default is white which is what we want; keeping code for reference
+       int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+       TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+       textView.setTextSize(18);
+//       textView.setTextColor(getResources().getColor(R.color.com_facebook_blue));
+
+    }
+
+    private void transitionBackToLogin () {
+
+        new CountDownTimer(1000, 500) {
+
+
+            public void onTick(long millisUntilFinished) {
+                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+            }
+
+            public void onFinish() {
+                Intent intent = new Intent(Home.this, Login.class);
+                startActivity(intent);
+                finish();
+            }
+        }.start();
 
     }
 

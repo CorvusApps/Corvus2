@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -185,15 +186,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
 
-//        final ProgressDialog dialog = new ProgressDialog(this);
-//        dialog.setMessage("Loading");
-//        dialog.show();
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading");
+        dialog.show();
 
         firebaseAuth.signInWithCredential(credential).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                FancyToast.makeText(Login.this, e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
-                Log.e("ERROR_COMT", ""+e.getMessage());
+                Snackbar.make(loutLoginX, e.getMessage(), Snackbar.LENGTH_INDEFINITE).show();
 
             }
         }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -202,11 +202,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 email = authResult.getUser().getEmail();
 
-                Snackbar.make(loutLoginX, "You are signed in with email: " + email, Snackbar.LENGTH_LONG).show();
+                loginSnackbar();
 
                 transitionToHome();
-
-
 
             }
         });
@@ -259,13 +257,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                         FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                        String email = authResult.getUser().getEmail();
-                        Snackbar.make(loutLoginX, "You are signed in with email: " + email, Snackbar.LENGTH_LONG).show();
+                        email = authResult.getUser().getEmail();
 
+                        loginSnackbar();
 
                         transitionToHome();
-
-
 
                     }
 
@@ -273,19 +269,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onFailure(@NonNull Exception e) {
 
-                FancyToast.makeText(Login.this, e.getMessage(), Toast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
+                Snackbar.make(loutLoginX, e.getMessage(), Snackbar.LENGTH_INDEFINITE).show();
             }
         });
-
-
 
     }
 
     private void transitionToHome () {
 
-
-
-        new CountDownTimer(5000, 500) {
+        new CountDownTimer(2000, 500) {
 
 
             public void onTick(long millisUntilFinished) {
@@ -299,9 +291,31 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             }
         }.start();
 
+    }
 
+    private void loginSnackbar(){
+
+
+       Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutLoginX, "Welcome: " + email, Snackbar.LENGTH_INDEFINITE);
+
+        snackbar.setActionTextColor(getResources().getColor(R.color.pdlg_color_blue));
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+        // THE COLOR SET BELOW WORKS but the default is white which is what we want; keeping code for reference
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+//       textView.setTextColor(getResources().getColor(R.color.com_facebook_blue));
 
     }
+
+
 
     //    private void printKeyHash() {
 //
