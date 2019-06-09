@@ -61,7 +61,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
             case R.id.btnNewCollection:
 
-                Intent intent = new Intent(Home.this, AddCollection.class);
+                Intent intent = new Intent(Home.this, CollectionAdd.class);
                 startActivity(intent);
 
                 break;

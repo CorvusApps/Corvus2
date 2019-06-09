@@ -3,6 +3,7 @@
 
     <string name="facebook_app_id">436089210504491</string>
     <string name="fb_login_protocol_scheme">fb436089210504491</string>
+    <string name="title_activity_collection_add">CollectionAdd</string>
 
 
 </resources>
