@@ -55,7 +55,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
             case R.id.btnPopUpMenu:
 
-                showPopupMenu(view, true, R.style.MyPopupOtherStyle);//
+                showPopupMenu(view, true, R.style.MyPopupOtherStyle);
 
                break;
 
@@ -118,7 +118,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
                         return true;
 
-                    case R.id.popMenuDeleteCollection:
+                    case R.id.popMenuFAQ:
 
                         FancyToast.makeText(Home.this, "Delete a collection", FancyToast.LENGTH_SHORT, FancyToast.INFO, true).show();
 

@@ -9,18 +9,11 @@
     tools:context=".CollectionAdd"
     android:backgroundTint="@color/colorPrimary"
     android:orientation="vertical"
+
     tools:showIn="@layout/activity_collection_add">
 
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -29,7 +22,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="loginLayoutTapped"
+
             android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         <com.github.florent37.shapeofview.shapes.ArcView
@@ -51,6 +55,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+
                 android:src="@drawable/painting"
 
                 />
@@ -62,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
             android:hint="Collection Name"
             app:boxCornerRadiusBottomEnd="20dp"
@@ -90,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:hint="Collection Desc"
                 app:boxCornerRadiusBottomEnd="20dp"
