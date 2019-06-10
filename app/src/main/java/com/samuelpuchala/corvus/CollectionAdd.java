@@ -12,9 +12,15 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.facebook.login.LoginManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.UploadTask;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import androidx.annotation.NonNull;
@@ -35,8 +41,10 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.UUID;
 
 public class CollectionAdd extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,6 +55,8 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth collAddFirebaseAuth;
     private CoordinatorLayout loutCollectionAddActLOX;
     private Bitmap recievedCollectionImageBitmap;
+    private String imageIdentifier;
+    private String imageLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +116,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
             case R.id.fbtnSaveCollection:
 
-                Toast.makeText(CollectionAdd.this, "save", Toast.LENGTH_SHORT).show();
+                uploadImageToServer ();
 
                 break;
 
@@ -294,4 +304,88 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         }
 
     }
+
+    private void uploadImageToServer () {
+
+        if (recievedCollectionImageBitmap != null) {
+
+            // Get the data from an ImageView as bytes
+            imgCollectionImageX.setDrawingCacheEnabled(true);
+            imgCollectionImageX.buildDrawingCache();
+            //Bitmap bitmap = ((BitmapDrawable) imgPicX.getDrawable()).getBitmap(); // we already have the bitmap
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            recievedCollectionImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] data = baos.toByteArray();
+
+            imageIdentifier = UUID.randomUUID() + ".png";   //initialized here because needs to be unique for each image but is random = unique??
+
+            UploadTask uploadTask = FirebaseStorage.getInstance().getReference().child("myImages")
+                    .child(imageIdentifier).putBytes(data);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+
+                    Toast.makeText(CollectionAdd.this, exception.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                    Toast.makeText(CollectionAdd.this, "success", Toast.LENGTH_SHORT).show();
+//                    edtDescriptionX.setVisibility(View.VISIBLE);
+//
+//                    FirebaseDatabase.getInstance().getReference().child("my_users").addChildEventListener(new ChildEventListener() {
+//                        @Override
+//                        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                            // populating and updating the listView
+//                            uids.add(dataSnapshot.getKey()); //unique identifier in my_users
+//                            String username = (String) dataSnapshot.child("username").getValue();
+//                            usernames.add(username);
+//                            adapter.notifyDataSetChanged();
+//                        }
+//
+//                        @Override
+//                        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                        }
+//                    });
+
+                    // get the download link of the image uploaded to server
+                    taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        // apparently the onCompleteListener is to allow this to happen in the backround vs. UI thread
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+
+                            if (task.isSuccessful()) {
+
+                                imageLink = task.getResult().toString();
+                            }
+
+                        }
+                    });
+                }
+            });
+
+        }
+
+    }
+
+
+
 }
