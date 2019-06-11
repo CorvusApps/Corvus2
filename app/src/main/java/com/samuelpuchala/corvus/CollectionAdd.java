@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
 import com.shashank.sony.fancytoastlib.FancyToast;
@@ -36,6 +38,7 @@ import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -44,6 +47,7 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class CollectionAdd extends AppCompatActivity implements View.OnClickListener {
@@ -57,6 +61,9 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     private Bitmap recievedCollectionImageBitmap;
     private String imageIdentifier;
     private String imageLink;
+    private EditText edtCollectionNameX, edtCollectionDescX;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +82,9 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         collAddFirebaseAuth = FirebaseAuth.getInstance();
 
         loutCollectionAddActLOX = findViewById(R.id.loutCollectionAddActLO);
+
+        edtCollectionNameX = findViewById(R.id.edtCollectionName);
+        edtCollectionDescX = findViewById(R.id.edtCollectionDesc);
 
 
 //        FloatingActionButton fab = findViewById(R.id.fbtnSaveCollection);
@@ -375,6 +385,33 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                             if (task.isSuccessful()) {
 
                                 imageLink = task.getResult().toString();
+                            }
+
+                        }
+                    });
+
+                    HashMap<String, String> dataMap = new HashMap<>();
+
+
+                    dataMap.put("title", edtCollectionNameX.getText().toString());
+                    dataMap.put("imageIdentifier", imageIdentifier);
+                    dataMap.put("imageLink", imageLink);
+                    dataMap.put("des", edtCollectionDescX.getText().toString());
+                    String uid = FirebaseAuth.getInstance().getUid();
+
+                    // get(position) because we clicking on user in an array so that position  is the array key
+                    // the push() method creats a key to the child
+                    FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
+                            .child("collections").push().setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if (task.isSuccessful()) {
+
+
+                                            Toast.makeText(CollectionAdd.this, "Upload complete", Toast.LENGTH_SHORT).show();
+
+
                             }
 
                         }

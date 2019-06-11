@@ -13,6 +13,7 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -40,6 +42,8 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.FirebaseDatabase;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
@@ -62,6 +66,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     int signInProvider; // 0 initial, 1 = google, 2 = facebook
 
     String email;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +112,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         //email = "";
 
+
     }
 
     @Override
@@ -118,7 +126,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         if (currentUser != null){
 
-            Intent intent = new Intent(Login.this, Home.class);
+            Intent intent = new Intent(Login.this, HomePage.class);
             startActivity(intent);
             finish();
         }
@@ -147,6 +155,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 signInProvider = 1;
                 googleSignIn();
 
+                break;
 
         }
 
@@ -259,6 +268,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                         email = authResult.getUser().getEmail();
 
+//                        FirebaseDatabase.getInstance().getReference().child("my_users").
+//                                child(user.getUid()).child("username").
+//                                setValue(email);
+
+
+
                         loginSnackbar();
 
                         transitionToHome();
@@ -285,7 +300,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             }
 
             public void onFinish() {
-                Intent intent = new Intent(Login.this, Home.class);
+                Intent intent = new Intent(Login.this, HomePage.class);
                 startActivity(intent);
                 finish();
             }
@@ -314,6 +329,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 //       textView.setTextColor(getResources().getColor(R.color.com_facebook_blue));
 
     }
+
 
 
 
