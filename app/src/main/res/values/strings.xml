@@ -5,6 +5,7 @@
     <string name="fb_login_protocol_scheme">fb436089210504491</string>
     <string name="title_activity_collection_add">CollectionAdd</string>
     <string name="title_activity_home_page">HomePage</string>
+    <string name="title_activity_coin_list">CoinList</string>
 
 
 </resources>

@@ -126,16 +126,29 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
             case R.id.fbtnSaveCollection:
 
-                uploadImageToServer ();
+                // prevent uploading collections without names
+                if(edtCollectionNameX.getText().toString().equals("")) {
+
+                    Toast.makeText(CollectionAdd.this, "You must enter a Collection Name", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    // allows the collection to be uploaded without the pic while making sure pic uploaded first if there to first generate the imageLink
+                    if (recievedCollectionImageBitmap == null) {
+
+                        uploadCollection();
+                    } else {
+
+                        uploadImageToServer();
+
+                    }
+                }
 
                 break;
-
-
 
         }
 
     }
-
+    //onClick set up in XML; gets rid of keyboard when background tapped
     public void loginLayoutTapped (View view) {
 
         try { // we need this because if you tap with no keyboard up the app will crash
@@ -147,7 +160,6 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
             e.printStackTrace();
         }
-
     }
 
     private void showPopupMenu(View anchor, boolean isWithIcons, int style) {
@@ -192,9 +204,6 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                         logoutSnackbar();
 
                         transitionBackToLogin ();
-
-
-
 
                         return true;
 
@@ -275,7 +284,6 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                 getChosenImage();
 
             }
-
         }
     }
 
@@ -315,6 +323,8 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
     }
 
+
+    // Start of the save collection function go with pic first if pic selected; if not start with uploadCollection()
     private void uploadImageToServer () {
 
         if (recievedCollectionImageBitmap != null) {
@@ -342,39 +352,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                    Toast.makeText(CollectionAdd.this, "success", Toast.LENGTH_SHORT).show();
-//                    edtDescriptionX.setVisibility(View.VISIBLE);
-//
-//                    FirebaseDatabase.getInstance().getReference().child("my_users").addChildEventListener(new ChildEventListener() {
-//                        @Override
-//                        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                            // populating and updating the listView
-//                            uids.add(dataSnapshot.getKey()); //unique identifier in my_users
-//                            String username = (String) dataSnapshot.child("username").getValue();
-//                            usernames.add(username);
-//                            adapter.notifyDataSetChanged();
-//                        }
-//
-//                        @Override
-//                        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                        }
-//                    });
+
 
                     // get the download link of the image uploaded to server
                     taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -385,44 +363,44 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                             if (task.isSuccessful()) {
 
                                 imageLink = task.getResult().toString();
+
+                                // setting up as separate method to let image upload finish before calling the put function which requires the imageLink
+                                uploadCollection ();
                             }
-
-                        }
-                    });
-
-                    HashMap<String, String> dataMap = new HashMap<>();
-
-
-                    dataMap.put("title", edtCollectionNameX.getText().toString());
-                    dataMap.put("imageIdentifier", imageIdentifier);
-                    dataMap.put("imageLink", imageLink);
-                    dataMap.put("des", edtCollectionDescX.getText().toString());
-                    String uid = FirebaseAuth.getInstance().getUid();
-
-                    // get(position) because we clicking on user in an array so that position  is the array key
-                    // the push() method creats a key to the child
-                    FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
-                            .child("collections").push().setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-
-                            if (task.isSuccessful()) {
-
-
-                                            Toast.makeText(CollectionAdd.this, "Upload complete", Toast.LENGTH_SHORT).show();
-
-
-                            }
-
                         }
                     });
                 }
             });
 
         }
-
     }
 
+    private void uploadCollection (){
 
+        HashMap<String, String> dataMap = new HashMap<>();
 
+        dataMap.put("title", edtCollectionNameX.getText().toString());
+        dataMap.put("imageIdentifier", imageIdentifier);
+        dataMap.put("imageLink", imageLink);
+        dataMap.put("des", edtCollectionDescX.getText().toString());
+        String uid = FirebaseAuth.getInstance().getUid();
+
+        FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
+                .child("collections").push().setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                if (task.isSuccessful()) {
+
+                    Toast.makeText(CollectionAdd.this, "Upload complete", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CollectionAdd.this, CoinList.class);
+                    startActivity(intent);
+                    finish();
+
+                }
+
+            }
+        });
+
+    }
 }
