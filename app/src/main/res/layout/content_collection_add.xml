@@ -41,6 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"
 
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
 
@@ -57,6 +58,7 @@
                 android:scaleType="centerCrop"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:elevation="5dp"
 
                 android:src="@drawable/painting"
 

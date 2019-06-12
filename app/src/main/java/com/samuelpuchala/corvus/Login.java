@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +68,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     String email;
 
+    TextView txtShieldX;
+    ProgressBar pbFBLoginX;
+
+
 
 
 
@@ -110,7 +115,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         imgLoginCrowX = findViewById(R.id.imgLoginCrow);
         imgLoginCrowX.setAlpha(0.5f);
 
-        //email = "";
+        txtShieldX = findViewById(R.id.txtShield);
+        txtShieldX.setAlpha(0f);
+
+        pbFBLoginX = findViewById(R.id.pbFBLogin);
+        pbFBLoginX.setAlpha(0f);
 
 
     }
@@ -195,9 +204,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
 
-        final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setMessage("Loading");
-        dialog.show();
+//        final ProgressDialog dialog = new ProgressDialog(this);
+//        dialog.setMessage("Loading");
+//        dialog.show();
+
+        txtShieldX.setAlpha(1f);
+        pbFBLoginX.setAlpha(1f);
+
+
 
         firebaseAuth.signInWithCredential(credential).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -257,6 +271,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         Log.d("GOOGLE", "firebaseAuthWithGoogle:" + acct.getId());
 
+//        final ProgressDialog dialog = new ProgressDialog(this);
+//        dialog.setMessage("Loading");
+//        dialog.show();
+
+        txtShieldX.setAlpha(1f);
+        pbFBLoginX.setAlpha(1f);
+
+
+
+
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -267,12 +291,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         FirebaseUser user = firebaseAuth.getCurrentUser();
 
                         email = authResult.getUser().getEmail();
-
-//                        FirebaseDatabase.getInstance().getReference().child("my_users").
-//                                child(user.getUid()).child("username").
-//                                setValue(email);
-
-
 
                         loginSnackbar();
 

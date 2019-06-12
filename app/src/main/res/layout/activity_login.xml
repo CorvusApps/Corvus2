@@ -108,5 +108,38 @@
         app:layout_constraintEnd_toEndOf="@+id/btnFBLogin"
         app:layout_constraintStart_toStartOf="@+id/btnFBLogin" />
 
+    <TextView
+        android:id="@+id/txtShield"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="0dp"
+        android:outlineProvider="none"
+        android:background="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimary"
+        android:translationZ="2dp"
+
+
+        app:layout_constraintBottom_toBottomOf="@+id/imgLoginCrow"
+        app:layout_constraintEnd_toEndOf="@+id/btnFBLoginOverlay"
+        app:layout_constraintStart_toStartOf="@+id/btnFBLoginOverlay"
+        app:layout_constraintTop_toTopOf="@+id/imgLoginCrow" />
+
+    <ProgressBar
+        android:id="@+id/pbFBLogin"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="0dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:background="@color/colorPrimary"
+        android:elevation="2.001dp"
+        android:outlineProvider="none"
+
+        app:layout_constraintBottom_toBottomOf="@+id/txtShield"
+        app:layout_constraintEnd_toEndOf="@+id/txtShield"
+        app:layout_constraintStart_toStartOf="@+id/txtShield"
+        app:layout_constraintTop_toTopOf="@+id/txtShield" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

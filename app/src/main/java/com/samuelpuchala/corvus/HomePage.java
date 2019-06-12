@@ -1,5 +1,6 @@
 package com.samuelpuchala.corvus;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,14 +14,18 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomePage extends AppCompatActivity {
 
@@ -32,6 +37,11 @@ public class HomePage extends AppCompatActivity {
     // private String identifier;
     private FirebaseAuth firebaseAuthCollections;
     private ArrayList <DataSnapshot> snapshots;
+    private AlertDialog dialog;
+
+
+
+    List<String> keyList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +66,8 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+
+
         FirebaseDatabase.getInstance().getReference().child("my_users").child(firebaseAuthCollections.getCurrentUser().getUid())
                 .child("collections").addChildEventListener(new ChildEventListener() {
             @Override
@@ -66,6 +78,8 @@ public class HomePage extends AppCompatActivity {
                 String collectionNames = (String) dataSnapshot.child("title").getValue();
                 collectionnames.add(collectionNames);
                 adapter.notifyDataSetChanged();
+
+                keyList.add(dataSnapshot.getKey());
 
 
             }
@@ -78,6 +92,11 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
+                int index = keyList.indexOf(dataSnapshot.getKey());
+                collectionnames.remove(index);
+                keyList.remove(index);
+
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -90,6 +109,40 @@ public class HomePage extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        Button btnYesX = view.findViewById(R.id.btnYes);
+        btnYesX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                finish();
+
+            }
+        });
+
+        Button btnNoX = view.findViewById(R.id.btnNo);
+        btnNoX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
     }
 
 }

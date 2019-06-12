@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -35,12 +36,14 @@ import androidx.core.app.ActivityCompat;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
 import android.view.ContextThemeWrapper;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +65,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     private String imageIdentifier;
     private String imageLink;
     private EditText edtCollectionNameX, edtCollectionDescX;
+    private ProgressBar pgCollectionAddX;
 
 
 
@@ -86,15 +90,13 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         edtCollectionNameX = findViewById(R.id.edtCollectionName);
         edtCollectionDescX = findViewById(R.id.edtCollectionDesc);
 
+        pgCollectionAddX = findViewById(R.id.pgCollectionAdd);
+        pgCollectionAddX.setAlpha(0f);
 
-//        FloatingActionButton fab = findViewById(R.id.fbtnSaveCollection);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
+
+
+
     }
 
     @Override
@@ -329,6 +331,22 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         if (recievedCollectionImageBitmap != null) {
 
+            //setting up and centering the progress dialog
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int width = size.x;
+            int height = size.y;
+
+
+            pgCollectionAddX.setAlpha(1f);
+
+            pgCollectionAddX.animate().translationX(width/2);
+            pgCollectionAddX.animate().translationY(height/2);
+
+
+
+
             // Get the data from an ImageView as bytes
             imgCollectionImageX.setDrawingCacheEnabled(true);
             imgCollectionImageX.buildDrawingCache();
@@ -392,7 +410,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
                 if (task.isSuccessful()) {
 
-                    Toast.makeText(CollectionAdd.this, "Upload complete", Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent(CollectionAdd.this, CoinList.class);
                     startActivity(intent);
                     finish();
