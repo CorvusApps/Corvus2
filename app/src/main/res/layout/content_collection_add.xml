@@ -5,25 +5,23 @@
     android:id="@+id/loutCollectionAdd"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+
     tools:context=".CollectionAdd"
     android:backgroundTint="@color/colorPrimary"
     android:orientation="vertical"
 
     tools:showIn="@layout/activity_collection_add">
 
-
-
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="loginLayoutTapped"
-
             android:orientation="vertical" >
 
             <TextView
@@ -35,35 +33,30 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
-        <com.github.florent37.shapeofview.shapes.ArcView
-            android:id="@+id/arcView"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-
-            app:layout_constraintTop_toTopOf="@+id/textView"
-            app:shape_arc_height="60dp"
-
-
-            app:shape_arc_position="bottom">
-
-            <ImageView
-                android:id="@+id/imgCollectionImage"
+            <com.github.florent37.shapeofview.shapes.ArcView
+                android:id="@+id/arcView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:elevation="5dp"
+                android:layout_height="200dp"
 
-                android:src="@drawable/painting"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView"
+                app:shape_arc_height="60dp"
+                app:shape_arc_position="bottom">
 
-                />
-        </com.github.florent37.shapeofview.shapes.ArcView>
+                <ImageView
+                    android:id="@+id/imgCollectionImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:elevation="5dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:scaleType="centerCrop"
+
+                    android:src="@drawable/painting"
+
+                    />
+            </com.github.florent37.shapeofview.shapes.ArcView>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout3"

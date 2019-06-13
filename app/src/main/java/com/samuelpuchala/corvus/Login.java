@@ -175,7 +175,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         startActivityForResult(signInIntent, 101);
     }
 
-
     private void fBsignIn() {
 
         btnFBLoginX.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -197,21 +196,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             }
         });
 
-
     }
 
     private void handleFacebookAccessToken(AccessToken accessToken) {
 
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
 
-//        final ProgressDialog dialog = new ProgressDialog(this);
-//        dialog.setMessage("Loading");
-//        dialog.show();
-
         txtShieldX.setAlpha(1f);
         pbFBLoginX.setAlpha(1f);
-
-
 
         firebaseAuth.signInWithCredential(credential).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -228,10 +220,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 loginSnackbar();
 
                 transitionToHome();
-
             }
         });
-
     }
 
     @Override
@@ -271,15 +261,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         Log.d("GOOGLE", "firebaseAuthWithGoogle:" + acct.getId());
 
-//        final ProgressDialog dialog = new ProgressDialog(this);
-//        dialog.setMessage("Loading");
-//        dialog.show();
-
         txtShieldX.setAlpha(1f);
         pbFBLoginX.setAlpha(1f);
-
-
-
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
@@ -327,7 +310,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void loginSnackbar(){
-
 
        Snackbar snackbar;
 

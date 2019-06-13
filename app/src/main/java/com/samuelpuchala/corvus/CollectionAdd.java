@@ -9,10 +9,12 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import com.facebook.login.LoginManager;
+import com.github.florent37.shapeofview.ShapeOfView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,6 +29,7 @@ import com.google.firebase.storage.UploadTask;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -37,9 +40,12 @@ import android.os.CountDownTimer;
 import android.provider.MediaStore;
 import android.view.ContextThemeWrapper;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -48,6 +54,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -66,6 +74,8 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     private String imageLink;
     private EditText edtCollectionNameX, edtCollectionDescX;
     private ProgressBar pgCollectionAddX;
+    private AlertDialog dialog;
+    private String exceptions;
 
 
 
@@ -94,8 +104,28 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         pgCollectionAddX.setAlpha(0f);
 
 
+        //Getting the ArcView to which we are pegging the FAB to be midscreen so it oes not get hidden by keyboard
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
 
+        fbtnSaveCollectionX.setAlpha(0f);
+        ShapeOfView arcViewX = findViewById(R.id.arcView);
+        setArcViewDimensions(arcViewX, width/1, height/2);
 
+    }
+
+    private void setArcViewDimensions(View view, int width, int height){
+
+        fbtnSaveCollectionX.animate().translationY(height-200).setDuration(1);
+        fbtnSaveCollectionX.setAlpha(1f);
+
+        android.view.ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = width;
+        params.height = height;
+        view.setLayoutParams(params);
 
     }
 
@@ -131,13 +161,16 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                 // prevent uploading collections without names
                 if(edtCollectionNameX.getText().toString().equals("")) {
 
-                    Toast.makeText(CollectionAdd.this, "You must enter a Collection Name", Toast.LENGTH_SHORT).show();
+                    alertDialogNoCollectionName();
+
+
+
                 } else {
 
                     // allows the collection to be uploaded without the pic while making sure pic uploaded first if there to first generate the imageLink
                     if (recievedCollectionImageBitmap == null) {
 
-                        uploadCollection();
+                        alertDialogNoCollectionPicture();
                     } else {
 
                         uploadImageToServer();
@@ -201,11 +234,16 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
                     case R.id.popMenuLogout:
 
-                        collAddFirebaseAuth.signOut();
-                        LoginManager.getInstance().logOut();
-                        logoutSnackbar();
+                        //Confirm the user wants to logout and execute
 
-                        transitionBackToLogin ();
+
+//                        collAddFirebaseAuth.signOut();
+//                        LoginManager.getInstance().logOut();
+//                        logoutSnackbar();
+//
+//                        transitionBackToLogin ();
+
+                        alertDialogLogOut();
 
                         return true;
 
@@ -266,9 +304,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
     private void getChosenImage() {
 
-        // FancyToast.makeText(getContext(), "we can access images", FancyToast.LENGTH_LONG,
-        // FancyToast.SUCCESS, true).show();
-
+        // gets image from internal storage - GALLERY
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 2000);
 
@@ -338,7 +374,6 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             int width = size.x;
             int height = size.y;
 
-
             pgCollectionAddX.setAlpha(1f);
 
             pgCollectionAddX.animate().translationX(width/2);
@@ -364,13 +399,16 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                 public void onFailure(@NonNull Exception exception) {
                     // Handle unsuccessful uploads
 
-                    Toast.makeText(CollectionAdd.this, exception.toString(), Toast.LENGTH_SHORT).show();
+                   //makes the exception message an instance variable string that can be used in a custom dialog below
+
+                    exceptions = exception.toString();
+                    alertDialogException();
+
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-
 
                     // get the download link of the image uploaded to server
                     taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -393,7 +431,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void uploadCollection (){
+    private void uploadCollection(){
 
         HashMap<String, String> dataMap = new HashMap<>();
 
@@ -421,4 +459,156 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         });
 
     }
+
+    private void alertDialogNoCollectionName() {
+
+        //Everything in this method is code for the universal alert dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_alert_universal, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        TextView txtAlertMsgX = view.findViewById(R.id.txtAlertMsg);
+        txtAlertMsgX.setText("You must enter a collection name");
+
+        Button btnOKdauX = view.findViewById(R.id.btnOKdau);
+        btnOKdauX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+    }
+
+    private void alertDialogException() {
+
+        //Everything in this method is code for the universal alert dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_alert_universal, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        TextView txtAlertMsgX = view.findViewById(R.id.txtAlertMsg);
+        txtAlertMsgX.setText(exceptions);
+
+        Button btnOKdauX = view.findViewById(R.id.btnOKdau);
+        btnOKdauX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+    }
+
+    private void alertDialogLogOut() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        ImageView imgIconX = view.findViewById(R.id.imgIcon);
+        imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.logout));
+
+        TextView txtTitleX = view.findViewById(R.id.txtTitle);
+        txtTitleX.setText("Logout");
+
+        TextView txtMsgX = view.findViewById(R.id.txtMsg);
+        txtMsgX.setText("Do you really want to Logout?");
+
+        Button btnYesX = view.findViewById(R.id.btnYes);
+        btnYesX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                collAddFirebaseAuth.signOut();
+                LoginManager.getInstance().logOut();
+                logoutSnackbar();
+                transitionBackToLogin ();
+            }
+        });
+
+        Button btnNoX = view.findViewById(R.id.btnNo);
+        btnNoX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+    private void alertDialogNoCollectionPicture() {
+
+        //Everything in this method is code for the universal alert dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_setcolimage, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        Button btnSetImageX = view.findViewById(R.id.btnSetImage);
+        btnSetImageX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                getChosenImage();
+                dialog.dismiss();
+
+            }
+        });
+
+        Button btnSaveAsIsX = view.findViewById(R.id.btnSaveAsIs);
+        btnSaveAsIsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (edtCollectionNameX.getText().toString().equals("")) {
+
+                    dialog.dismiss();
+                    alertDialogNoCollectionName();
+
+                } else {
+
+                    uploadCollection();
+                    dialog.dismiss();
+                }
+
+            }
+        });
+
+        Button btnCancelX = view.findViewById(R.id.btnCancel);
+        btnCancelX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+
+    }
+
+
 }
