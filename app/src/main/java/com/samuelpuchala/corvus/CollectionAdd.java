@@ -61,7 +61,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class CollectionAdd extends AppCompatActivity implements View.OnClickListener {
+public class CollectionAdd extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
 
 
     private ImageView imgCollectionImageX;
@@ -76,6 +76,9 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     private ProgressBar pgCollectionAddX;
     private AlertDialog dialog;
     private String exceptions;
+
+    int height2;
+    int fabheight2;
 
 
 
@@ -97,8 +100,13 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         loutCollectionAddActLOX = findViewById(R.id.loutCollectionAddActLO);
 
+
+        //setting onFocusChangeListeners to change UI when EditText is touched and keyboard comes up
         edtCollectionNameX = findViewById(R.id.edtCollectionName);
+        edtCollectionNameX.setOnFocusChangeListener(this);
+
         edtCollectionDescX = findViewById(R.id.edtCollectionDesc);
+        edtCollectionDescX.setOnFocusChangeListener(this);
 
         pgCollectionAddX = findViewById(R.id.pgCollectionAdd);
         pgCollectionAddX.setAlpha(0f);
@@ -109,22 +117,51 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
-        int height = size.y;
+        double height = size.y;
+
+        // sets up the height variable to be used in ArcView and Button position to different screen sizes
+
+        if (height<1300){
+
+            height = height * .5;
+            double fabheight = height - 125;
+
+            height2 = (int) Math.round(height);
+            fabheight2 = (int) Math.round(fabheight);
+
+        } else if (height < 2000) {
+
+            height = height * .6;
+            double fabheight = height - 200;
+
+            height2 = (int) Math.round(height);
+            fabheight2 = (int) Math.round(fabheight);
+
+        } else {
+
+            height = height * .7;
+            double fabheight = height - 250;
+
+            height2 = (int) Math.round(height);
+            fabheight2 = (int) Math.round(fabheight);
+
+        }
+
 
         fbtnSaveCollectionX.setAlpha(0f);
         ShapeOfView arcViewX = findViewById(R.id.arcView);
-        setArcViewDimensions(arcViewX, width/1, height/2);
+        setArcViewDimensions(arcViewX, width/1, height2/1);
 
     }
 
-    private void setArcViewDimensions(View view, int width, int height){
+    private void setArcViewDimensions(View view, int width, int height2){
 
-        fbtnSaveCollectionX.animate().translationY(height-200).setDuration(1);
+        fbtnSaveCollectionX.animate().translationY(fabheight2).setDuration(1);
         fbtnSaveCollectionX.setAlpha(1f);
 
         android.view.ViewGroup.LayoutParams params = view.getLayoutParams();
         params.width = width;
-        params.height = height;
+        params.height = height2;
         view.setLayoutParams(params);
 
     }
@@ -611,4 +648,70 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     }
 
 
+    @Override
+    public void onFocusChange(View view, boolean hasFocus) {
+
+        switch (view.getId()){
+
+            case R.id.edtCollectionName:
+
+                uiChangeWhenKeyboardUp();
+
+                break;
+
+            case R.id.edtCollectionDesc:
+
+                uiChangeWhenKeyboardUp();
+
+                break;
+
+        }
+
+    }
+
+    private void uiChangeWhenKeyboardUp(){
+
+        //This repeats the code from OnCreate with different params and sends the params back to ArcViewDimensions method which actually controls the UI
+
+        //Getting the ArcView to which we are pegging the FAB to be midscreen so it oes not get hidden by keyboard
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        double height = size.y;
+
+        // sets up the height variable to be used in ArcView and Button position to different screen sizes
+
+        if (height<1300){
+
+            height = height * .425;
+            double fabheight = height - 125;
+
+            height2 = (int) Math.round(height);
+            fabheight2 = (int) Math.round(fabheight);
+
+        } else if (height < 2000) {
+
+            height = height * .45;
+            double fabheight = height - 200;
+
+            height2 = (int) Math.round(height);
+            fabheight2 = (int) Math.round(fabheight);
+
+        } else {
+
+            height = height * .5;
+            double fabheight = height - 250;
+
+            height2 = (int) Math.round(height);
+            fabheight2 = (int) Math.round(fabheight);
+
+        }
+
+
+        //fbtnSaveCollectionX.setAlpha(0f);
+        ShapeOfView arcViewX = findViewById(R.id.arcView);
+        setArcViewDimensions(arcViewX, width/1, height2/1);
+
+    }
 }
