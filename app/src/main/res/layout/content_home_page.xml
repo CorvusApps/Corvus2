@@ -9,11 +9,13 @@
     android:orientation="vertical"
     tools:showIn="@layout/activity_home_page">
 
-    <Button
-        android:id="@+id/button2"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvCollections"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+        android:layout_height="200dp">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <ListView
         android:id="@+id/lvCollections"

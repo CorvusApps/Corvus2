@@ -62,7 +62,7 @@
             android:layout_marginTop="0dp"
             android:textColor="#FFFFFF"
 
-            android:text="Do you want to set an image for your collection description as is?"
+            android:text="Do you want to set an image for your collection description OR save it as is?"
             android:textSize="18sp"
             android:paddingLeft="16dp"
             android:paddingRight="8dp"

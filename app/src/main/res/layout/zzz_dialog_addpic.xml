@@ -62,7 +62,7 @@
             android:layout_marginTop="0dp"
             android:textColor="#FFFFFF"
 
-            android:text="Do you really want to exit?"
+            android:text="Do you really want to exit Corvus?"
             android:textSize="18sp"
             android:paddingLeft="16dp"
             android:paddingRight="8dp"

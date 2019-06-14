@@ -1,5 +1,6 @@
 package com.samuelpuchala.corvus;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.annotation.NonNull;
@@ -17,7 +19,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.SyncStateContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -29,24 +33,31 @@ import java.util.List;
 
 public class HomePage extends AppCompatActivity {
 
-    FloatingActionButton fbtnAddNewCollectionX;
+    private FloatingActionButton fbtnAddNewCollectionX;
+    private AlertDialog dialog;
+    private FirebaseAuth firebaseAuthCollections;
+
+    private RecyclerView rcvCollectionsX;
+    private DatabaseReference mDatabase;
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    //For old trial listView
 
     private ListView lvCollectionsX;
     private ArrayList<String> collectionnames;
     private ArrayAdapter adapter;
-    // private String identifier;
-    private FirebaseAuth firebaseAuthCollections;
     private ArrayList <DataSnapshot> snapshots;
-    private AlertDialog dialog;
+    private List<String> keyList = new ArrayList<String>();
 
-
-
-    List<String> keyList = new ArrayList<String>();
+    ///////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        //For old trial listView
 
         lvCollectionsX = findViewById(R.id.lvCollections);
         collectionnames = new ArrayList<>();
@@ -61,8 +72,10 @@ public class HomePage extends AppCompatActivity {
         fbtnAddNewCollectionX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomePage.this, CollectionAdd.class);
-                startActivity(intent);
+               Intent intent = new Intent(HomePage.this, CollectionAdd.class);
+               startActivity(intent);
+
+
             }
         });
 
@@ -146,3 +159,5 @@ public class HomePage extends AppCompatActivity {
     }
 
 }
+
+

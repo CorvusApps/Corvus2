@@ -38,11 +38,13 @@ import androidx.core.app.ActivityCompat;
 
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
+import android.transition.Explode;
 import android.view.ContextThemeWrapper;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -81,11 +83,12 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     int fabheight2;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection_add);
+
 
         imgCollectionImageX = findViewById(R.id.imgCollectionImage);
         imgCollectionImageX.setOnClickListener(this);
@@ -110,6 +113,8 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         pgCollectionAddX = findViewById(R.id.pgCollectionAdd);
         pgCollectionAddX.setAlpha(0f);
+
+
 
 
         //Getting the ArcView to which we are pegging the FAB to be midscreen so it oes not get hidden by keyboard
@@ -153,6 +158,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         setArcViewDimensions(arcViewX, width/1, height2/1);
 
     }
+
 
     private void setArcViewDimensions(View view, int width, int height2){
 
@@ -272,14 +278,6 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                     case R.id.popMenuLogout:
 
                         //Confirm the user wants to logout and execute
-
-
-//                        collAddFirebaseAuth.signOut();
-//                        LoginManager.getInstance().logOut();
-//                        logoutSnackbar();
-//
-//                        transitionBackToLogin ();
-
                         alertDialogLogOut();
 
                         return true;
@@ -510,7 +508,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         dialog.show();
 
         TextView txtAlertMsgX = view.findViewById(R.id.txtAlertMsg);
-        txtAlertMsgX.setText("You must enter a collection name");
+        txtAlertMsgX.setText("You must enter a collection name before you save it to Corvus");
 
         Button btnOKdauX = view.findViewById(R.id.btnOKdau);
         btnOKdauX.setOnClickListener(new View.OnClickListener() {
@@ -568,7 +566,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         txtTitleX.setText("Logout");
 
         TextView txtMsgX = view.findViewById(R.id.txtMsg);
-        txtMsgX.setText("Do you really want to Logout?");
+        txtMsgX.setText("Do you really want to Logout from Corvus?");
 
         Button btnYesX = view.findViewById(R.id.btnYes);
         btnYesX.setOnClickListener(new View.OnClickListener() {
