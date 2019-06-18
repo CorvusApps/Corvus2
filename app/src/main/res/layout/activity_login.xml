@@ -141,5 +141,28 @@
         app:layout_constraintStart_toStartOf="@+id/txtShield"
         app:layout_constraintTop_toTopOf="@+id/txtShield" />
 
+    <TextView
+        android:id="@+id/txtOneTimeInfoLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+
+
+        android:layout_marginTop="30dp"
+        android:text="Why do I need to login?"
+        android:textColor="@color/colorAccent"
+        android:textStyle="italic"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/txtShield" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="@+id/txtShield"
+        app:layout_constraintTop_toBottomOf="@+id/txtShield"
+        app:srcCompat="@drawable/info_red" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,5 +8,10 @@
     <string name="title_activity_coin_list">CoinList</string>
     <string name="title_activity_test_expanded_collection">TestExpandedCollection</string>
 
+    <!-- For FAQ & one time dialogs -->
+
+    <string name="login_01">Your collection will be stored in the cloud to minimize the storage and memory requirements of your phone. We need a unique, verifiable ID to authenticate your access to your collection.</string>
+    <string name="login_02">Corvus is only accessing your email which is necessary for authentication and your user ID.</string>
+
 
 </resources>

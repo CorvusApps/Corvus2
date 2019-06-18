@@ -5,13 +5,16 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -71,8 +74,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     TextView txtShieldX;
     ProgressBar pbFBLoginX;
 
-
-
+    private AlertDialog dialog;
+    TextView txtOneTimeInfoLoginX;
 
 
     @Override
@@ -121,6 +124,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         pbFBLoginX = findViewById(R.id.pbFBLogin);
         pbFBLoginX.setAlpha(0f);
 
+        txtOneTimeInfoLoginX = findViewById(R.id.txtOneTimeInfoLogin);
+        txtOneTimeInfoLoginX.setOnClickListener(this);
+
 
     }
 
@@ -163,6 +169,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 btnGoogleLoginX.performClick();
                 signInProvider = 1;
                 googleSignIn();
+
+                break;
+
+            case R.id.txtOneTimeInfoLogin:
+
+                oneTimeInfoLogin();
 
                 break;
 
@@ -328,6 +340,29 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         textView.setTextSize(18);
 //       textView.setTextColor(getResources().getColor(R.color.com_facebook_blue));
 
+    }
+
+    private void oneTimeInfoLogin(){
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzzz_otinfo_login, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        Button btnOKoneTimeLoginX = view.findViewById(R.id.btnOKoneTimeLogin);
+        btnOKoneTimeLoginX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
     }
 
     @Override
