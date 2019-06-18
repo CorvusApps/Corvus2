@@ -288,7 +288,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
                     case R.id.popMenuFAQ:
 
-                        FancyToast.makeText(CollectionAdd.this, "FAQ", FancyToast.LENGTH_SHORT, FancyToast.INFO, true).show();
+                        faqDialogView();
 
                         return true;
 
@@ -512,25 +512,6 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             }
         });
 
-
-//        OLD CODE - before getting key for UID of the collection - keeping until comfortable it's not needed
-//        FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
-//                .child("collections").push().setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//
-//                if (task.isSuccessful()) {
-//
-//
-//                    Intent intent = new Intent(CollectionAdd.this, CoinList.class);
-//                    startActivity(intent);
-//                    finish();
-//
-//                }
-//
-//            }
-//        });
-
     }
 
     private void alertDialogNoCollectionName() {
@@ -683,6 +664,25 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
     }
 
+    public void faqDialogView() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+    }
     //Detects when user is on different edit texts and sends to methods that change position of arcview and fab when keyboard is up; differ by detected screen resolution
     @Override
     public void onFocusChange(View view, boolean hasFocus) {
@@ -747,13 +747,23 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
             height2 = (int) Math.round(height);
             fabheight2 = (int) Math.round(fabheight);
-
         }
-
 
         //fbtnSaveCollectionX.setAlpha(0f);
         ShapeOfView arcViewX = findViewById(R.id.arcView);
         setArcViewDimensions(arcViewX, width/1, height2/1);
+
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(CollectionAdd.this, HomePage.class);
+        startActivity(intent);
+        finish();
 
     }
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.facebook.login.LoginManager;
@@ -32,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -90,6 +92,7 @@ public class HomePage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(HomePage.this, CollectionAdd.class);
                 startActivity(intent);
+                finish();
 
 
             }
@@ -375,7 +378,7 @@ public class HomePage extends AppCompatActivity {
 
                     case R.id.popMenuFAQ:
 
-                        FancyToast.makeText(HomePage.this, "FAQ", FancyToast.LENGTH_SHORT, FancyToast.INFO, true).show();
+                        faqDialogView();
 
                         return true;
 
@@ -460,7 +463,13 @@ public class HomePage extends AppCompatActivity {
                 .setView(view)
                 .create();
 
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
         dialog.show();
+        dialog.getWindow().setAttributes(lp);
 
 
         if (colImageY != null) {
@@ -518,6 +527,27 @@ public class HomePage extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+
+    }
+
+    public void faqDialogView() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
 
     }
 

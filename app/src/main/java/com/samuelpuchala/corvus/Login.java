@@ -330,8 +330,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
+        finish();
 
+    }
 
     //    private void printKeyHash() {
 //
