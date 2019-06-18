@@ -6,6 +6,7 @@
     <string name="title_activity_collection_add">CollectionAdd</string>
     <string name="title_activity_home_page">HomePage</string>
     <string name="title_activity_coin_list">CoinList</string>
+    <string name="title_activity_test_expanded_collection">TestExpandedCollection</string>
 
 
 </resources>

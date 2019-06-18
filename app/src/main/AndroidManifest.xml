@@ -14,9 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".TestExpandedCollection"
+            android:label="@string/title_activity_test_expanded_collection"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".CoinList"
             android:label="@string/title_activity_coin_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".HomePage"
             android:label="@string/title_activity_home_page"
@@ -24,9 +28,9 @@
         <activity
             android:name=".CollectionAdd"
             android:label="@string/title_activity_collection_add"
-            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

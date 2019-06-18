@@ -9,15 +9,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.TextView;
 
 public class CoinList extends AppCompatActivity {
+
+    TextView txtCListCollUIDX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_list);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -27,6 +29,13 @@ public class CoinList extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        txtCListCollUIDX = findViewById(R.id.txtCListCollUID);
+        String cListuid = getIntent().getStringExtra("coluid");
+        txtCListCollUIDX.setText(cListuid);
+
+
+
     }
 
 }

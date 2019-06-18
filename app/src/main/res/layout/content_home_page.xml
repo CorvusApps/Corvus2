@@ -23,8 +23,5 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <ListView
-        android:id="@+id/lvCollections"
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
+
 </GridLayout>

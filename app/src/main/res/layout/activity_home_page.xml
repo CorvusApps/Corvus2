@@ -6,16 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".HomePage">
 
-
-
     <include layout="@layout/content_home_page" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnPopUpMenuHomePage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:outlineProvider="none"
+        app:rippleColor="@color/colorPrimary"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/menu"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fbtnAddNewCollection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+
+
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/add"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

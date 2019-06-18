@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -74,7 +75,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     private Bitmap recievedCollectionImageBitmap;
     private String imageIdentifier;
     private String imageLink;
-    private EditText edtCollectionNameX, edtCollectionDescX;
+    private EditText edtCollectionNameX, edtCollectionDescX, edtCollectionsNotesX;
     private ProgressBar pgCollectionAddX;
     private AlertDialog dialog;
     private String exceptions;
@@ -110,6 +111,9 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         edtCollectionDescX = findViewById(R.id.edtCollectionDesc);
         edtCollectionDescX.setOnFocusChangeListener(this);
+
+        edtCollectionsNotesX = findViewById(R.id.edtCollectionNotes);
+        edtCollectionsNotesX.setOnFocusChangeListener(this);
 
         pgCollectionAddX = findViewById(R.id.pgCollectionAdd);
         pgCollectionAddX.setAlpha(0f);
@@ -468,16 +472,31 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
     private void uploadCollection(){
 
+        String uid = FirebaseAuth.getInstance().getUid();
+
+        //////// this and the noted datapush below gets the uid key for this snapshot so we can use it later on item click
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
+                .child("collections");
+        DatabaseReference blankRecordReference = dbReference;
+        DatabaseReference db_ref = blankRecordReference.push();
+        String coluidX = db_ref.getKey();
+        //////
+
         HashMap<String, String> dataMap = new HashMap<>();
 
         dataMap.put("title", edtCollectionNameX.getText().toString());
         dataMap.put("imageIdentifier", imageIdentifier);
         dataMap.put("imageLink", imageLink);
         dataMap.put("des", edtCollectionDescX.getText().toString());
-        String uid = FirebaseAuth.getInstance().getUid();
+        dataMap.put("notes", edtCollectionsNotesX.getText().toString());
 
-        FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
-                .child("collections").push().setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+        //////
+        dataMap.put("coluid", coluidX);
+
+        /////
+
+
+        db_ref.setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
@@ -492,6 +511,25 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
             }
         });
+
+
+//        OLD CODE - before getting key for UID of the collection - keeping until comfortable it's not needed
+//        FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
+//                .child("collections").push().setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//
+//                if (task.isSuccessful()) {
+//
+//
+//                    Intent intent = new Intent(CollectionAdd.this, CoinList.class);
+//                    startActivity(intent);
+//                    finish();
+//
+//                }
+//
+//            }
+//        });
 
     }
 
@@ -645,7 +683,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
     }
 
-
+    //Detects when user is on different edit texts and sends to methods that change position of arcview and fab when keyboard is up; differ by detected screen resolution
     @Override
     public void onFocusChange(View view, boolean hasFocus) {
 
@@ -658,6 +696,12 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.edtCollectionDesc:
+
+                uiChangeWhenKeyboardUp();
+
+                break;
+
+            case R.id.edtCollectionNotes:
 
                 uiChangeWhenKeyboardUp();
 
