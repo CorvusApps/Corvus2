@@ -1,5 +1,6 @@
 package com.samuelpuchala.corvus;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -38,4 +39,13 @@ public class CoinList extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(CoinList.this, HomePage.class);
+        startActivity(intent);
+        finish();
+
+    }
 }

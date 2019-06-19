@@ -74,6 +74,9 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
+        //To be shown first time only as intro info - keeping as always for now
+        oneTimeInfoLogin();
+
         mDatabase = FirebaseDatabase.getInstance().getReference().child("my_users");
         mDatabase.keepSynced(true);
 
@@ -530,7 +533,7 @@ public class HomePage extends AppCompatActivity {
 
     }
 
-    public void faqDialogView() {
+    private void faqDialogView() {
 
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -548,7 +551,29 @@ public class HomePage extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setAttributes(lp);
 
+    }
 
+    private void oneTimeInfoLogin() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzzz_otinfo_homepage, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        Button btnOKoneTimeHPX = view.findViewById(R.id.btnOKoneTimeHP);
+        btnOKoneTimeHPX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
     }
 
 }

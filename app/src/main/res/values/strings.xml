@@ -10,8 +10,17 @@
 
     <!-- For FAQ & one time dialogs -->
 
-    <string name="login_01">Your collection will be stored in the cloud to minimize the storage and memory requirements of your phone. We need a unique, verifiable ID to authenticate your access to your collection.</string>
+    <string name="universal_01">You can always access this information from the FAQ available through the drop down menus in most screens.</string>
+
+    <string name="login_01">Your collection will be stored in the cloud to minimize the storage and memory requirements of your device. We need a unique, verifiable ID to authenticate your access.</string>
     <string name="login_02">Corvus is only accessing your email which is necessary for authentication and your user ID.</string>
+
+    <string name="homepage_01">You need at least one collection to enter coins. You can set up as many as you need.</string>
+    <string name="homepage_02">Currently, Corvus has only this level to split your overall collection into sub-collections.</string>
+    <string name="homepage_03">Click a collection card to access coins in the collection or long-click to view, edit or delete the collection itself.</string>
+    <string name="homepage_04">The reference collections can to help you identify coins and demonstrate our view of how to maximize Corvus functionality.</string>
+    <string name="homepage_05">Currently, Corvus doesn\'t automate identification but you can key-word search both your own and reference collections.</string>
+
 
 
 </resources>
