@@ -21,6 +21,10 @@
     <string name="homepage_04">The reference collections can to help you identify coins and demonstrate our view of how to maximize Corvus functionality.</string>
     <string name="homepage_05">Currently, Corvus doesn\'t automate identification but you can key-word search both your own and reference collections.</string>
 
-
+    <string name="collectionadd_01">You only need to enter a collection name to set up a collection.</string>
+    <string name="collectionadd_02">You can upload any PNG or JPG picture to represent your collection; best results when cropped square.</string>
+    <string name="collectionadd_03">We are working on making data input easier including uploading pictures from your computer and batch uploads from excel.</string>
+    <string name="collectionadd_04">Your data is safe. Only you can access your collection and we backup our entire database daily.</string>
+    <string name="collectionadd_05">.</string>
 
 </resources>

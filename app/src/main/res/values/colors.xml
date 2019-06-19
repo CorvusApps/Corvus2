@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#78909C</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="darktext">#FC0E0D0D</color>
+
+
+
     <color name="status_bar_color">#78909C</color>
 
     <color name="colorControHighlight">#D81B60</color>

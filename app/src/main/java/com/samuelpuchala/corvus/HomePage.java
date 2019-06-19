@@ -16,8 +16,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.shashank.sony.fancytoastlib.FancyToast;
+
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
@@ -67,6 +68,8 @@ public class HomePage extends AppCompatActivity {
     // creating instance variables to be passed to the CoinList Activity
 
     private String colUIDY;
+
+
 
 
     @Override
@@ -188,6 +191,11 @@ public class HomePage extends AppCompatActivity {
                         }
 
                         colNotesY = colNotes.getText().toString();
+
+
+                        //getting these so we can use downstream in delete and modify methods
+                        TextView colUID = view.findViewById(R.id.crdTxtCollectionUID);
+                        colUIDY = colUID.getText().toString();
 
 
                         collectionDialogView();
@@ -526,7 +534,47 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(HomePage.this, "Delete the collection", Toast.LENGTH_SHORT).show();
+                alertDialogDeleteCollection();
+            }
+        });
+
+    }
+
+    //Dialog that comes up when user chooses delete from the expanded collection; strange legacy menu name but standard yes no dialog
+    private void alertDialogDeleteCollection() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        ImageView imgIconX = view.findViewById(R.id.imgIcon);
+        imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.delete));
+
+        TextView txtTitleX = view.findViewById(R.id.txtTitle);
+        txtTitleX.setText("Delete Collection");
+
+        TextView txtMsgX = view.findViewById(R.id.txtMsg);
+        txtMsgX.setText("Do you really want to permanently delete this collection from Corvus?");
+
+        Button btnYesX = view.findViewById(R.id.btnYes);
+        btnYesX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                deleteCollection();
+            }
+        });
+
+        Button btnNoX = view.findViewById(R.id.btnNo);
+        btnNoX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 dialog.dismiss();
             }
         });
@@ -551,6 +599,16 @@ public class HomePage extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setAttributes(lp);
 
+        ImageView btnFAQbackX = view.findViewById(R.id.btnFAQback);
+        btnFAQbackX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+
     }
 
     private void oneTimeInfoLogin() {
@@ -574,6 +632,40 @@ public class HomePage extends AppCompatActivity {
 
             }
         });
+    }
+
+    //Called from the delete button on the expanded collection view
+    private void deleteCollection(){
+
+        //get uid data from the cardview that will identify the collection we want to delete
+
+        Toast.makeText(HomePage.this, "Deleting " + colUIDY, Toast.LENGTH_SHORT).show();
+
+        //use the uid we got from the onLongClick to find and delete the collection; we are in the same activity that generated the uid so don't need to use hidden textViews like we did when creating the collection
+
+        Query mQuery = mDatabase.child(firebaseAuthCollections.getCurrentUser().getUid())
+                .child("collections").orderByChild("coluid").equalTo(colUIDY);
+        mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                    ds.getRef().removeValue();
+
+                }
+
+                Toast.makeText(HomePage.this, "Deleted " + colUIDY, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Toast.makeText(HomePage.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
     }
 
 }

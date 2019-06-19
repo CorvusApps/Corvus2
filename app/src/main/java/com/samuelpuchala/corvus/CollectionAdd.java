@@ -24,10 +24,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
-import com.shashank.sony.fancytoastlib.FancyToast;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -89,6 +89,9 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection_add);
+
+        //To be shown first time only as intro info - keeping as always for now
+        oneTimeInfoLogin();
 
 
         imgCollectionImageX = findViewById(R.id.imgCollectionImage);
@@ -682,6 +685,16 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         dialog.show();
         dialog.getWindow().setAttributes(lp);
 
+        ImageView btnFAQbackX = view.findViewById(R.id.btnFAQback);
+        btnFAQbackX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+
     }
     //Detects when user is on different edit texts and sends to methods that change position of arcview and fab when keyboard is up; differ by detected screen resolution
     @Override
@@ -711,7 +724,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void uiChangeWhenKeyboardUp(){
+    private void uiChangeWhenKeyboardUp() {
 
         //This repeats the code from OnCreate with different params and sends the params back to ArcViewDimensions method which actually controls the UI
 
@@ -724,7 +737,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         // sets up the height variable to be used in ArcView and Button position to different screen sizes
 
-        if (height<1300){
+        if (height < 1300) {
 
             height = height * .425;
             double fabheight = height - 125;
@@ -751,11 +764,9 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         //fbtnSaveCollectionX.setAlpha(0f);
         ShapeOfView arcViewX = findViewById(R.id.arcView);
-        setArcViewDimensions(arcViewX, width/1, height2/1);
+        setArcViewDimensions(arcViewX, width / 1, height2 / 1);
 
     }
-
-
 
     @Override
     public void onBackPressed() {
@@ -765,5 +776,28 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         startActivity(intent);
         finish();
 
+    }
+
+    private void oneTimeInfoLogin() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzzz_otinfo_collectionadd, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        Button btnOKoneTimeHPX = view.findViewById(R.id.btnOKoneTimeCA);
+        btnOKoneTimeHPX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
     }
 }

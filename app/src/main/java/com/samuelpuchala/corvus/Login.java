@@ -48,7 +48,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
-import com.shashank.sony.fancytoastlib.FancyToast;
+
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
@@ -327,7 +327,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         snackbar = Snackbar.make(loutLoginX, "Welcome: " + email, Snackbar.LENGTH_INDEFINITE);
 
-        snackbar.setActionTextColor(getResources().getColor(R.color.pdlg_color_blue));
+       // snackbar.setActionTextColor(getResources().getColor(R.color.pdlg_color_blue));
 
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
