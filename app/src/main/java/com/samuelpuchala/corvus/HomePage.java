@@ -547,7 +547,6 @@ public class HomePage extends AppCompatActivity {
 
                 modifyCollectionActivity();
 
-                Toast.makeText(HomePage.this, "Modify collection page", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
@@ -693,23 +692,26 @@ public class HomePage extends AppCompatActivity {
 
         // delete the picture from storage after removing the collection record
 
+        if (colImageLinkY != "") {
+            //not executing if the collection does not have an image attached to avoid crashing
 
-        StorageReference mPictureReference = FirebaseStorage.getInstance().getReferenceFromUrl(colImageLinkY);
+            StorageReference mPictureReference = FirebaseStorage.getInstance().getReferenceFromUrl(colImageLinkY);
 
-        mPictureReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
+            mPictureReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
 
 
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(HomePage.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
-                Toast.makeText(HomePage.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        }
 
 
     }

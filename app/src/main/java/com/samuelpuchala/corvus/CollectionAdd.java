@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,11 +23,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 
 import androidx.annotation.NonNull;
@@ -80,8 +87,14 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     private AlertDialog dialog;
     private String exceptions;
 
+    // variables to be used in screen measurement methods needed to adjust UI for different screen sizes
     int height2;
     int fabheight2;
+
+    //variables to recieve inputs from modify collection method from expanded collectio dialog in homepage
+    String colUIDYRec, colTitleRec, colImageLinkRec, colDesRec, colNotesRec;
+    String modify; // toggle to whether we are saving a new collection or modifying existing
+
 
 
     @Override
@@ -92,7 +105,6 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         //To be shown first time only as intro info - keeping as always for now
         oneTimeInfoLogin();
-
 
         imgCollectionImageX = findViewById(R.id.imgCollectionImage);
         imgCollectionImageX.setOnClickListener(this);
@@ -107,7 +119,6 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         loutCollectionAddActLOX = findViewById(R.id.loutCollectionAddActLO);
 
-
         //setting onFocusChangeListeners to change UI when EditText is touched and keyboard comes up
         edtCollectionNameX = findViewById(R.id.edtCollectionName);
         edtCollectionNameX.setOnFocusChangeListener(this);
@@ -121,7 +132,30 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         pgCollectionAddX = findViewById(R.id.pgCollectionAdd);
         pgCollectionAddX.setAlpha(0f);
 
+        modify = "no"; // toggle to whether we are saving a new collection or modifying existing
 
+        //try to get data from intent if not null
+        Bundle intent = getIntent().getExtras();
+        if (intent != null){
+            // we can come into this class from either add collection (home page) or modify collection (expanded collection window)
+            // this code will be executed if we came in from modify and thus with push Extras
+
+            //get and store data
+            colUIDYRec = getIntent().getStringExtra("coluid");
+            colTitleRec = getIntent().getStringExtra("title");
+            colDesRec = getIntent().getStringExtra("des");
+            colImageLinkRec = getIntent().getStringExtra("imageLink");
+            colNotesRec = getIntent().getStringExtra("notes");
+
+            //populate the input views with existing value
+            edtCollectionNameX.setText(colTitleRec);
+            edtCollectionDescX.setText(colDesRec);
+            edtCollectionsNotesX.setText(colNotesRec);
+            Picasso.get().load(colImageLinkRec).into(imgCollectionImageX);
+
+            modify = "yes";
+
+        }
 
 
         //Getting the ArcView to which we are pegging the FAB to be midscreen so it oes not get hidden by keyboard
@@ -224,20 +258,38 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
                     alertDialogNoCollectionName();
 
-
-
                 } else {
 
-                    // allows the collection to be uploaded without the pic while making sure pic uploaded first if there to first generate the imageLink
-                    if (recievedCollectionImageBitmap == null) {
 
-                        alertDialogNoCollectionPicture();
+                    if (modify.equals("no")) {
+
+                        Toast.makeText(CollectionAdd.this, "modify = " + modify, Toast.LENGTH_SHORT).show();
+                        //executes this if this is a new collection
+
+                        // allows the collection to be uploaded without the pic while making sure pic uploaded first if there to first generate the imageLink
+                        if (recievedCollectionImageBitmap == null) {
+
+                            alertDialogNoCollectionPicture();
+                        } else {
+
+                            uploadImageToServer();
+
+                        }
+
                     } else {
+                        //executes this if it is an update
 
-                        uploadImageToServer();
+                        //will need to build in missing picture logic but for now building basic
+                        //have to have logic if there is no pic brough over, vs. pic brought over and kept vs. added new pic
+
+                        //this assumes image was there but is being replaced
+                        beginUpdate();
+
+
+                        }
 
                     }
-                }
+
 
                 break;
 
@@ -772,7 +824,6 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             fabheight2 = (int) Math.round(fabheight);
         }
 
-        //fbtnSaveCollectionX.setAlpha(0f);
         ShapeOfView arcViewX = findViewById(R.id.arcView);
         setArcViewDimensions(arcViewX, width / 1, height2 / 1);
 
@@ -809,5 +860,129 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
             }
         });
+    }
+
+   // Functionality for saving as an upate vs. as a new collection
+    private void beginUpdate() {
+
+        //start by deleting existing pic from storage
+        deletePreviousImage();
+    }
+
+   // Deletes image previously associated with the collection being modified
+    private void deletePreviousImage() {
+
+        StorageReference mPictureReference = FirebaseStorage.getInstance().getReferenceFromUrl(colImageLinkRec);
+
+        mPictureReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                uploadNewImg();
+
+                //this deletes the image but until you close out of the app, that is not updated in the UI...
+                //... which is OK because it also re-uploads the same image; but why?
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(CollectionAdd.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void uploadNewImg() {
+
+        // Get the data from an ImageView as bytes - this is identical to what we did for new collection except needing to get the bitmap here because not available from pic upload
+        imgCollectionImageX.setDrawingCacheEnabled(true);
+        imgCollectionImageX.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) imgCollectionImageX.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        imageIdentifier = UUID.randomUUID() + ".jpg";   //initialized here because needs to be unique for each image but is random = unique??
+
+        UploadTask uploadTask = FirebaseStorage.getInstance().getReference().child("myImages")
+                .child(imageIdentifier).putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+
+                //makes the exception message an instance variable string that can be used in a custom dialog below
+
+                exceptions = exception.toString();
+                alertDialogException();
+
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+
+                // get the download link of the image uploaded to server
+                taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    // apparently the onCompleteListener is to allow this to happen in the backround vs. UI thread
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+
+                        if (task.isSuccessful()) {
+
+                            imageLink = task.getResult().toString();
+
+                            // setting up as separate method to let image upload finish before calling the put function which requires the imageLink
+                            // sending to an update method seperate from the one used to upload a new collection
+                            updateCollection ();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void updateCollection() {
+
+        //new values to update the previous record
+        final String updateTitle = edtCollectionNameX.getText().toString();
+        final String updateDes = edtCollectionDescX.getText().toString();
+        final String updateNotes = edtCollectionsNotesX.getText().toString();
+
+        DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("my_users").child(collAddFirebaseAuth.getCurrentUser().getUid())
+                .child("collections");
+
+        Query query = updateRef.orderByChild("coluid").equalTo(colUIDYRec);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot ds: dataSnapshot.getChildren()) {
+
+                    //update data
+                    ds.getRef().child("title").setValue(updateTitle);
+                    ds.getRef().child("des").setValue(updateDes);
+                    ds.getRef().child("notes").setValue(updateNotes);
+                    ds.getRef().child("imageLink").setValue(imageLink);
+                    ds.getRef().child("uid").setValue(imageIdentifier);
+
+                    Intent intent = new Intent(CollectionAdd.this, HomePage.class);
+                    startActivity(intent);
+                    finish();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 }
