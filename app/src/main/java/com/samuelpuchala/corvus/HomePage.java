@@ -1,6 +1,7 @@
 package com.samuelpuchala.corvus;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,7 +11,10 @@ import android.os.Bundle;
 
 import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,11 +23,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -48,8 +55,10 @@ import java.lang.reflect.Method;
 
 public class HomePage extends AppCompatActivity {
 
+    private CoordinatorLayout loutHomePageActLOX;
     private FloatingActionButton fbtnAddNewCollectionX;
     private AlertDialog dialog;
+
     private FirebaseAuth firebaseAuthCollections;
 
     private RecyclerView rcvCollectionsX;
@@ -65,9 +74,12 @@ public class HomePage extends AppCompatActivity {
 
     private Drawable colImageY;
 
-    // creating instance variables to be passed to the CoinList Activity
-
+    // creating instance variables to be passed to the CoinList Activity or Delete from Storage activity
     private String colUIDY;
+    private String colImageLinkY;
+
+    // creating a dialog with a different name than standard dialog so it can be nested within
+    private AlertDialog deleteDialog;
 
 
 
@@ -79,6 +91,8 @@ public class HomePage extends AppCompatActivity {
 
         //To be shown first time only as intro info - keeping as always for now
         oneTimeInfoLogin();
+
+        loutHomePageActLOX = findViewById(R.id.loutHomePageActLO);
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("my_users");
         mDatabase.keepSynced(true);
@@ -129,7 +143,7 @@ public class HomePage extends AppCompatActivity {
                 viewHolder.setNotes(model.getNotes());
 
                 viewHolder.setColuid(model.getColuid()); //so ridiculous the get and set functions have to be the same name as the variable like coluid = setColuid wtf
-
+                viewHolder.setImageLink(model.getImageLink());
 
             }
 
@@ -162,9 +176,6 @@ public class HomePage extends AppCompatActivity {
                         intent.putExtra("coluid", colUIDY);
                         startActivity(intent);
 
-                       // collectionDialogView();
-
-
                     }
 
 
@@ -196,6 +207,9 @@ public class HomePage extends AppCompatActivity {
                         //getting these so we can use downstream in delete and modify methods
                         TextView colUID = view.findViewById(R.id.crdTxtCollectionUID);
                         colUIDY = colUID.getText().toString();
+
+                        TextView colImageLink = view.findViewById(R.id.crdTxtCollectionImgLink);
+                        colImageLinkY = colImageLink.getText().toString();
 
 
                         collectionDialogView();
@@ -279,9 +293,16 @@ public class HomePage extends AppCompatActivity {
 
         }
 
+        // these are setting hiddent textviews in cardView which can then passvalues to child views like expanded collectio or delete method
+
         public void setColuid(String coluid) {
             TextView crdTxtCollectionUIDX = (TextView)mView.findViewById(R.id.crdTxtCollectionUID);
             crdTxtCollectionUIDX.setText(coluid);
+        }
+
+        public void setImageLink(String imageLink) {
+            TextView crdTxtCollectionImgLinkX = (TextView)mView.findViewById(R.id.crdTxtCollectionImgLink);
+            crdTxtCollectionImgLinkX.setText(imageLink);
         }
 
 
@@ -431,7 +452,7 @@ public class HomePage extends AppCompatActivity {
 
                 firebaseAuthCollections.signOut();
                 LoginManager.getInstance().logOut();
-                // logoutSnackbar();
+                logoutSnackbar();
                 transitionBackToLogin ();
             }
         });
@@ -524,6 +545,8 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                modifyCollectionActivity();
+
                 Toast.makeText(HomePage.this, "Modify collection page", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
@@ -535,6 +558,7 @@ public class HomePage extends AppCompatActivity {
             public void onClick(View view) {
 
                 alertDialogDeleteCollection();
+
             }
         });
 
@@ -547,11 +571,12 @@ public class HomePage extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
 
-        dialog = new AlertDialog.Builder(this)
+        //using a specific dialog because will be sitting on top of another dialog and need to dismiss them both in the end
+        deleteDialog = new AlertDialog.Builder(this)
                 .setView(view)
                 .create();
 
-        dialog.show();
+        deleteDialog.show();
 
         ImageView imgIconX = view.findViewById(R.id.imgIcon);
         imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.delete));
@@ -568,6 +593,7 @@ public class HomePage extends AppCompatActivity {
             public void onClick(View view) {
 
                 deleteCollection();
+
             }
         });
 
@@ -575,7 +601,7 @@ public class HomePage extends AppCompatActivity {
         btnNoX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
+                deleteDialog.dismiss();
             }
         });
 
@@ -637,11 +663,8 @@ public class HomePage extends AppCompatActivity {
     //Called from the delete button on the expanded collection view
     private void deleteCollection(){
 
-        //get uid data from the cardview that will identify the collection we want to delete
 
-        Toast.makeText(HomePage.this, "Deleting " + colUIDY, Toast.LENGTH_SHORT).show();
-
-        //use the uid we got from the onLongClick to find and delete the collection; we are in the same activity that generated the uid so don't need to use hidden textViews like we did when creating the collection
+        //use the uid and imageLink we got from the onLongClick to find and delete the collection; we are in the same activity that generated the uid so don't need to use hidden textViews like we did when creating the collection
 
         Query mQuery = mDatabase.child(firebaseAuthCollections.getCurrentUser().getUid())
                 .child("collections").orderByChild("coluid").equalTo(colUIDY);
@@ -649,12 +672,15 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
-                    ds.getRef().removeValue();
+                    ds.getRef().removeValue(); // removes values from firebase
 
                 }
 
-                Toast.makeText(HomePage.this, "Deleted " + colUIDY, Toast.LENGTH_SHORT).show();
+                collectionDeletedSnackbar();
 
+
+                deleteDialog.dismiss();
+                dialog.dismiss();
             }
 
             @Override
@@ -665,7 +691,76 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+        // delete the picture from storage after removing the collection record
 
+
+        StorageReference mPictureReference = FirebaseStorage.getInstance().getReferenceFromUrl(colImageLinkY);
+
+        mPictureReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(HomePage.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+    private void logoutSnackbar(){
+
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutHomePageActLOX, "Good bye", Snackbar.LENGTH_SHORT);
+
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+        textView.setTextColor(getResources().getColor(R.color.lighttext));
+
+    }
+
+    private void collectionDeletedSnackbar() {
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutHomePageActLOX, colTitleY +" collection deleted.", Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+        textView.setTextColor(getResources().getColor(R.color.lighttext));
+    }
+
+    private void modifyCollectionActivity() {
+
+        Intent intent = new Intent(HomePage.this, CollectionAdd.class);
+        intent.putExtra("coluid", colUIDY);
+        intent.putExtra("title", colTitleY);
+        intent.putExtra("imageLink", colImageLinkY);
+        intent.putExtra("des", colDesY);
+        intent.putExtra("notes", colNotesY);
+        startActivity(intent);
     }
 
 }

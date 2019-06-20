@@ -208,6 +208,17 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
             case R.id.fbtnSaveCollection:
 
+                // hiding keyboard when save button pressed
+                try { // we need this because if you tap with no keyboard up the app will crash
+
+                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+
                 // prevent uploading collections without names
                 if(edtCollectionNameX.getText().toString().equals("")) {
 
@@ -309,12 +320,11 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         Snackbar snackbar;
 
-        snackbar = Snackbar.make(loutCollectionAddActLOX, "Good bye", Snackbar.LENGTH_INDEFINITE);
+        snackbar = Snackbar.make(loutCollectionAddActLOX, "Good bye", Snackbar.LENGTH_SHORT);
 
-        // snackbar.setActionTextColor(getResources().getColor(R.color.pdlg_color_blue));
 
         View snackbarView = snackbar.getView();
-        //snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
 
         snackbar.show();
 
@@ -322,7 +332,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         int snackbarTextId = com.google.android.material.R.id.snackbar_text;
         TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
         textView.setTextSize(18);
-//       textView.setTextColor(getResources().getColor(R.color.com_facebook_blue));
+        textView.setTextColor(getResources().getColor(R.color.lighttext));
 
     }
 
