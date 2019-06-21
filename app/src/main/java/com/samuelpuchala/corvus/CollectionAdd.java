@@ -2,6 +2,7 @@ package com.samuelpuchala.corvus;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -83,9 +84,9 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     private String imageIdentifier;
     private String imageLink;
     private EditText edtCollectionNameX, edtCollectionDescX, edtCollectionsNotesX;
-    private ProgressBar pgCollectionAddX;
     private AlertDialog dialog;
     private String exceptions;
+    private ProgressDialog pd;
 
     // variables to be used in screen measurement methods needed to adjust UI for different screen sizes
     int height2;
@@ -129,9 +130,6 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         edtCollectionsNotesX = findViewById(R.id.edtCollectionNotes);
         edtCollectionsNotesX.setOnFocusChangeListener(this);
 
-        pgCollectionAddX = findViewById(R.id.pgCollectionAdd);
-        pgCollectionAddX.setAlpha(0f);
-
         modify = "no"; // toggle to whether we are saving a new collection or modifying existing
 
         //try to get data from intent if not null
@@ -151,8 +149,17 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             edtCollectionNameX.setText(colTitleRec);
             edtCollectionDescX.setText(colDesRec);
             edtCollectionsNotesX.setText(colNotesRec);
-            Picasso.get().load(colImageLinkRec).into(imgCollectionImageX);
 
+
+           // executes only if there is an imageLink coming through to prevent crashing
+            if (colImageLinkRec.isEmpty()) {
+
+                //skip
+
+            } else {
+                Picasso.get().load(colImageLinkRec).into(imgCollectionImageX);
+            }
+            // toggles to this being modification input vs. new collection
             modify = "yes";
 
         }
@@ -263,7 +270,6 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
                     if (modify.equals("no")) {
 
-                        Toast.makeText(CollectionAdd.this, "modify = " + modify, Toast.LENGTH_SHORT).show();
                         //executes this if this is a new collection
 
                         // allows the collection to be uploaded without the pic while making sure pic uploaded first if there to first generate the imageLink
@@ -388,6 +394,27 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
     }
 
+    private void collectionLoadSnackbar(){
+
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutCollectionAddActLOX, "Collection uploaded successfully", Snackbar.LENGTH_SHORT);
+
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+        // THE COLOR SET BELOW WORKS but the default is white which is what we want; keeping code for reference
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+        textView.setTextColor(getResources().getColor(R.color.lighttext));
+
+    }
+
     private void transitionBackToLogin () {
 
         new CountDownTimer(1000, 500) {
@@ -466,35 +493,24 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     }
 
 
-    // Start of the save collection function go with pic first if pic selected; if not start with uploadCollection()
+    // Start of the save collection function go with pic first as we need the imageLink and identifier when uploading the collection
     private void uploadImageToServer () {
 
-        if (recievedCollectionImageBitmap != null) {
-
-            //setting up and centering the progress dialog
-            Display display = getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            int width = size.x;
-            int height = size.y;
-
-            pgCollectionAddX.setAlpha(1f);
-
-            pgCollectionAddX.animate().translationX(width/2);
-            pgCollectionAddX.animate().translationY(height/2);
-
-
-
+        pd = new ProgressDialog(CollectionAdd.this,R.style.CustomAlertDialog);
+        pd.setCancelable(false);
+        pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+        pd.show();
 
             // Get the data from an ImageView as bytes
             imgCollectionImageX.setDrawingCacheEnabled(true);
             imgCollectionImageX.buildDrawingCache();
-            //Bitmap bitmap = ((BitmapDrawable) imgPicX.getDrawable()).getBitmap(); // we already have the bitmap
+            Bitmap bitmapColAdd = ((BitmapDrawable) imgCollectionImageX.getDrawable()).getBitmap(); // we already have the bitmap
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            recievedCollectionImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+           // create this bitmap using recieved to upload stock image if user did not upload theirs; looks better in cardview and consistent with modify outcomes
+            bitmapColAdd.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] data = baos.toByteArray();
 
-            imageIdentifier = UUID.randomUUID() + ".png";   //initialized here because needs to be unique for each image but is random = unique??
+            imageIdentifier = UUID.randomUUID() + ".jpg";   //initialized here because needs to be unique for each image but is random = unique??
 
             UploadTask uploadTask = FirebaseStorage.getInstance().getReference().child("myImages")
                     .child(imageIdentifier).putBytes(data);
@@ -532,7 +548,6 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                 }
             });
 
-        }
     }
 
     private void uploadCollection(){
@@ -567,10 +582,24 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
                 if (task.isSuccessful()) {
 
+                    pd.dismiss();
+                    collectionLoadSnackbar();
 
-                    Intent intent = new Intent(CollectionAdd.this, CoinList.class);
-                    startActivity(intent);
-                    finish();
+                    new CountDownTimer(3000, 500) {
+
+
+                        public void onTick(long millisUntilFinished) {
+                            // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+                        }
+
+                        public void onFinish() {
+                            Intent intent = new Intent(CollectionAdd.this, CoinList.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }.start();
+
+
 
                 }
 
@@ -709,7 +738,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
                 } else {
 
-                    uploadCollection();
+                    uploadImageToServer();
                     dialog.dismiss();
                 }
 
@@ -865,8 +894,16 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
    // Functionality for saving as an upate vs. as a new collection
     private void beginUpdate() {
 
-        //start by deleting existing pic from storage
-        deletePreviousImage();
+        //if the collection did not have any image to start with skip delete image to avoid a crash
+
+        if (colImageLinkRec.isEmpty() | colImageLinkRec.equals("")) {
+
+            uploadNewImg();
+        } else {
+
+            //start by deleting existing pic from storage
+            deletePreviousImage();
+        }
     }
 
    // Deletes image previously associated with the collection being modified
@@ -896,54 +933,64 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
     private void uploadNewImg() {
 
+        pd = new ProgressDialog(CollectionAdd.this,R.style.CustomAlertDialog);
+        pd.setCancelable(false);
+        pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+        pd.show();
+
         // Get the data from an ImageView as bytes - this is identical to what we did for new collection except needing to get the bitmap here because not available from pic upload
-        imgCollectionImageX.setDrawingCacheEnabled(true);
-        imgCollectionImageX.buildDrawingCache();
-        Bitmap bitmap = ((BitmapDrawable) imgCollectionImageX.getDrawable()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
 
-        imageIdentifier = UUID.randomUUID() + ".jpg";   //initialized here because needs to be unique for each image but is random = unique??
 
-        UploadTask uploadTask = FirebaseStorage.getInstance().getReference().child("myImages")
-                .child(imageIdentifier).putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
+            imgCollectionImageX.setDrawingCacheEnabled(true);
+            imgCollectionImageX.buildDrawingCache();
+            Bitmap bitmap = ((BitmapDrawable) imgCollectionImageX.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
 
-                //makes the exception message an instance variable string that can be used in a custom dialog below
+            imageIdentifier = UUID.randomUUID() + ".jpg";   //initialized here because needs to be unique for each image but is random = unique??
 
-                exceptions = exception.toString();
-                alertDialogException();
+            UploadTask uploadTask = FirebaseStorage.getInstance().getReference().child("myImages")
+                    .child(imageIdentifier).putBytes(data);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
 
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                    //makes the exception message an instance variable string that can be used in a custom dialog below
 
-                // get the download link of the image uploaded to server
-                taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    // apparently the onCompleteListener is to allow this to happen in the backround vs. UI thread
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
+                    exceptions = exception.toString();
+                    alertDialogException();
 
-                        if (task.isSuccessful()) {
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
 
-                            imageLink = task.getResult().toString();
+                    // get the download link of the image uploaded to server
+                    taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        // apparently the onCompleteListener is to allow this to happen in the backround vs. UI thread
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
 
-                            // setting up as separate method to let image upload finish before calling the put function which requires the imageLink
-                            // sending to an update method seperate from the one used to upload a new collection
-                            updateCollection ();
+                            if (task.isSuccessful()) {
+
+                                imageLink = task.getResult().toString();
+
+                                // setting up as separate method to let image upload finish before calling the put function which requires the imageLink
+                                // sending to an update method seperate from the one used to upload a new collection
+                                updateCollection();
+                            }
                         }
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+
+
     }
 
+    // updates collection in Firebase in a similar was as for adding a new collection
     private void updateCollection() {
 
         //new values to update the previous record
@@ -951,6 +998,8 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         final String updateDes = edtCollectionDescX.getText().toString();
         final String updateNotes = edtCollectionsNotesX.getText().toString();
 
+
+        //This points to what needs to be updated versus setting up a new upload
         DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("my_users").child(collAddFirebaseAuth.getCurrentUser().getUid())
                 .child("collections");
 
@@ -969,9 +1018,24 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                     ds.getRef().child("imageLink").setValue(imageLink);
                     ds.getRef().child("uid").setValue(imageIdentifier);
 
-                    Intent intent = new Intent(CollectionAdd.this, HomePage.class);
-                    startActivity(intent);
-                    finish();
+
+                    pd.dismiss();
+                    collectionLoadSnackbar();
+
+                    new CountDownTimer(3000, 500) {
+
+
+                        public void onTick(long millisUntilFinished) {
+                            // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+                        }
+
+                        public void onFinish() {
+                            Intent intent = new Intent(CollectionAdd.this, HomePage.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }.start();
+
 
                 }
 

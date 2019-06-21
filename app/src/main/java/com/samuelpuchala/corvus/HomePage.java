@@ -81,6 +81,9 @@ public class HomePage extends AppCompatActivity {
     // creating a dialog with a different name than standard dialog so it can be nested within
     private AlertDialog deleteDialog;
 
+    // custom view to use as a shade behind custom dialogs
+    private View shadeX;
+
 
 
 
@@ -98,6 +101,9 @@ public class HomePage extends AppCompatActivity {
         mDatabase.keepSynced(true);
 
         firebaseAuthCollections = FirebaseAuth.getInstance();
+
+        // custom view to use as a shade behind custom dialogs
+        shadeX = findViewById(R.id.shade);
 
         rcvCollectionsX = findViewById(R.id.rcvCollections);
         rcvCollectionsX.setHasFixedSize(true); //Not sure this applies or why it is here
@@ -487,6 +493,8 @@ public class HomePage extends AppCompatActivity {
 
     private void collectionDialogView() {
 
+        shadeX.setVisibility(View.VISIBLE);
+
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.zzx_dia_view_collection, null);
@@ -524,6 +532,7 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                shadeX.setVisibility(View.INVISIBLE);
                 dialog.dismiss();
 
             }
@@ -536,6 +545,7 @@ public class HomePage extends AppCompatActivity {
            public void onClick(View view) {
 
                Toast.makeText(HomePage.this, "Enter coin list", Toast.LENGTH_SHORT).show();
+               shadeX.setVisibility(View.INVISIBLE);
                dialog.dismiss();
             }
        });
@@ -546,7 +556,7 @@ public class HomePage extends AppCompatActivity {
             public void onClick(View view) {
 
                 modifyCollectionActivity();
-
+                shadeX.setVisibility(View.INVISIBLE);
                 dialog.dismiss();
             }
         });
@@ -557,7 +567,16 @@ public class HomePage extends AppCompatActivity {
             public void onClick(View view) {
 
                 alertDialogDeleteCollection();
+                shadeX.setVisibility(View.INVISIBLE);
 
+            }
+        });
+
+        //if dismissed in any way like a backbutton resets the view on HomePage to normal
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                shadeX.setVisibility(View.INVISIBLE);
             }
         });
 

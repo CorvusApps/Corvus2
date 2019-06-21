@@ -6,6 +6,9 @@
 
     <color name="darktext">#FC0E0D0D</color>
     <color name="lighttext">#FFFFFF</color>
+    <color name="editText">#10D81B60</color>
+    <color name="transparent">#00000000</color>
+    <color name="primaryShadow">#75000000</color>
 
 
 
