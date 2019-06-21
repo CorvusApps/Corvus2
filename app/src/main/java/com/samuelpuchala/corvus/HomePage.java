@@ -44,6 +44,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -625,35 +626,7 @@ public class HomePage extends AppCompatActivity {
 
     }
 
-    private void faqDialogView() {
 
-        //Everything in this method is code for a custom dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-
-        ImageView btnFAQbackX = view.findViewById(R.id.btnFAQback);
-        btnFAQbackX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dialog.dismiss();
-
-            }
-        });
-
-    }
 
     private void oneTimeInfoLogin() {
 
@@ -783,6 +756,78 @@ public class HomePage extends AppCompatActivity {
         intent.putExtra("notes", colNotesY);
         startActivity(intent);
     }
+
+    private void faqDialogView() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+        ImageView btnFAQbackX = view.findViewById(R.id.btnFAQback);
+        btnFAQbackX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+        //Faq section layouts expandable onClick
+
+        final LinearLayout faqLoginLogoutX = view.findViewById(R.id.faqLoginLogout);
+        final TextView txtFAQLoginLogoutX = view.findViewById(R.id.txtFAQLoginLogout);
+        txtFAQLoginLogoutX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqLoginLogoutX.getVisibility() == View.GONE) {
+                    faqLoginLogoutX.setVisibility(View.VISIBLE);
+                    txtFAQLoginLogoutX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqLoginLogoutX.setVisibility(View.GONE);
+                    txtFAQLoginLogoutX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqCollectionsX = view.findViewById(R.id.faqCollections);
+        final TextView txtFAQCollectionsX = view.findViewById(R.id.txtFAQCollections);
+        txtFAQCollectionsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCollectionsX.getVisibility() == View.GONE) {
+                    faqCollectionsX.setVisibility(View.VISIBLE);
+                    txtFAQCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCollectionsX.setVisibility(View.GONE);
+                    txtFAQCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+    }
+
+
 
 }
 
