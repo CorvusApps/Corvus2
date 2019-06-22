@@ -19,10 +19,12 @@
         <activity
             android:name=".RefCoinList"
             android:label="@string/title_activity_ref_coin_list"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".RefCollections"
             android:label="@string/title_activity_ref_collections"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CoinList"

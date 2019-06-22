@@ -1,5 +1,6 @@
 package com.samuelpuchala.corvus;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -9,8 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.TextView;
 
 public class RefCoinList extends AppCompatActivity {
+
+    TextView txtRefCListCollUIDX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,26 @@ public class RefCoinList extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        txtRefCListCollUIDX = findViewById(R.id.txtRefCListCollUID);
+        String cListuid = getIntent().getStringExtra("coluid");
+        txtRefCListCollUIDX.setText(cListuid);
+
+
+
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(RefCoinList.this, RefCollections.class);
+        startActivity(intent);
+        finish();
+
+    }
+
+
+
 
 }

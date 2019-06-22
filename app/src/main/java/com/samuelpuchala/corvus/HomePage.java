@@ -419,6 +419,13 @@ public class HomePage extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
 
+                    case R.id.popMenuSort:
+
+                        Toast.makeText(HomePage.this, "sort", Toast.LENGTH_SHORT).show();
+
+
+                        return true;
+
                     case R.id.popMenuRefCollections:
 
                         Intent intent = new Intent(HomePage.this, RefCollections.class);

@@ -141,7 +141,7 @@ public class RefCollections extends AppCompatActivity {
 
 
                         // no need to pass the image to the CoinList Class but keeping the lines below as example code
-                        Intent intent = new Intent(view.getContext(), CoinList.class);
+                        Intent intent = new Intent(view.getContext(), RefCoinList.class);
 //                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
 //                        colBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 //                        byte [] bytes = stream.toByteArray();
@@ -565,7 +565,7 @@ public class RefCollections extends AppCompatActivity {
 
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzx_dia_view_collection, null);
+        View view = inflater.inflate(R.layout.zzx_dia_view_ref_collection, null);
 
         dialog = new AlertDialog.Builder(this)
                 .setView(view)
@@ -612,6 +612,11 @@ public class RefCollections extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                Intent intent = new Intent(view.getContext(), RefCoinList.class);
+//
+                intent.putExtra("coluid", colUIDY);
+                startActivity(intent);
+
                 Toast.makeText(RefCollections.this, "Enter coin list", Toast.LENGTH_SHORT).show();
                 shadeX.setVisibility(View.INVISIBLE);
                 dialog.dismiss();
@@ -627,6 +632,15 @@ public class RefCollections extends AppCompatActivity {
                 shadeX.setVisibility(View.INVISIBLE);
             }
         });
+
+    }
+
+    @Override
+    public void onBackPressed(){
+
+        Intent intent = new Intent(RefCollections.this, HomePage.class);
+        startActivity(intent);
+        finish();
 
     }
 
