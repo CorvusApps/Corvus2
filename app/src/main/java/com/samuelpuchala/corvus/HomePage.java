@@ -3,14 +3,17 @@ package com.samuelpuchala.corvus;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
+
 import android.os.Bundle;
 
 import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.github.florent37.shapeofview.ShapeOfView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,6 +40,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -88,13 +92,18 @@ public class HomePage extends AppCompatActivity {
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
         //To be shown first time only as intro info - keeping as always for now
-        oneTimeInfoLogin();
+
+        if (isFirstTime()) {
+            oneTimeInfoLogin();
+        }
 
         loutHomePageActLOX = findViewById(R.id.loutHomePageActLO);
 
@@ -108,9 +117,10 @@ public class HomePage extends AppCompatActivity {
 
         rcvCollectionsX = findViewById(R.id.rcvCollections);
         rcvCollectionsX.setHasFixedSize(true); //Not sure this applies or why it is here
-       // rcvCollectionsX.setLayoutManager(new LinearLayoutManager(this));    // different layout options - use 1 of the 3
-       // rcvCollectionsX.setLayoutManager(new GridLayoutManager(this, 2));    // different layout options - use 1 of the 3
-       rcvCollectionsX.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));  // different layout options - use 1 of the 3
+            // rcvCollectionsX.setLayoutManager(new LinearLayoutManager(this));    // different layout options - use 1 of the 3
+            // rcvCollectionsX.setLayoutManager(new GridLayoutManager(this, 2));    // different layout options - use 1 of the 3
+        rcvCollectionsX.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));  // different layout options - use 1 of the 3
+
 
         // FAB to add a new collection
         fbtnAddNewCollectionX = findViewById(R.id.fbtnAddNewCollection);
@@ -228,14 +238,13 @@ public class HomePage extends AppCompatActivity {
             }
         };
 
-        // This method is part of the onItemClick AND onLongItem Click code NOT to populate the recycler view /////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////
 
        // The onclick methods were in the broader recycler view methods - this calls for the adapter on everything
         rcvCollectionsX.setAdapter(firebaseRecyclerAdapter);
 
 
     }
-
 
 
     // View holder for the recycler view
@@ -291,6 +300,7 @@ public class HomePage extends AppCompatActivity {
 
             ImageView crdImgCollectionsImgX = (ImageView) mView.findViewById(R.id.crdImgCollectionImage);
             Picasso.get().load(imageLink).into(crdImgCollectionsImgX); //tutorial had with which got renamed to get but with took ctx as parameter...
+
 
         }
 
@@ -356,7 +366,8 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                finish();
+                finishAffinity();
+                System.exit(0);
 
             }
         });
@@ -408,6 +419,13 @@ public class HomePage extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
 
+                    case R.id.popMenuRefCollections:
+
+                        Intent intent = new Intent(HomePage.this, RefCollections.class);
+                        startActivity(intent);
+
+
+                        return true;
                     case R.id.popMenuLogout:
 
                         //Confirm the user wants to logout and execute
@@ -787,6 +805,25 @@ public class HomePage extends AppCompatActivity {
 
         //Faq section layouts expandable onClick
 
+        final LinearLayout faqSupportX = view.findViewById(R.id.faqSupport);
+        final TextView txtFAQSupportX = view.findViewById(R.id.txtFAQSupport);
+        txtFAQSupportX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqSupportX.getVisibility() == View.GONE) {
+                    faqSupportX.setVisibility(View.VISIBLE);
+                    txtFAQSupportX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqSupportX.setVisibility(View.GONE);
+                    txtFAQSupportX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
         final LinearLayout faqLoginLogoutX = view.findViewById(R.id.faqLoginLogout);
         final TextView txtFAQLoginLogoutX = view.findViewById(R.id.txtFAQLoginLogout);
         txtFAQLoginLogoutX.setOnClickListener(new View.OnClickListener() {
@@ -825,9 +862,39 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+        final LinearLayout faqCollectionsSetupX = view.findViewById(R.id.faqCollectionSetup);
+        final TextView txtFAQCollectionSetupX = view.findViewById(R.id.txtFAQCollectionSetup);
+        txtFAQCollectionSetupX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCollectionsSetupX.getVisibility() == View.GONE) {
+                    faqCollectionsSetupX.setVisibility(View.VISIBLE);
+                    txtFAQCollectionSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCollectionsSetupX.setVisibility(View.GONE);
+                    txtFAQCollectionSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
     }
-
-
+ // checks this is the app is run first time which we use to decide whether to show the one time info dialogs
+    private boolean isFirstTime()
+    {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+            // first time
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+        }
+        return !ranBefore;
+    }
 
 }
 

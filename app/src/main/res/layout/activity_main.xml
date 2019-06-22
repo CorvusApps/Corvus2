@@ -70,28 +70,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/claudius" />
+            app:srcCompat="@drawable/lucius" />
 
         <ImageView
             android:id="@+id/imgCoin2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/titus" />
+            app:srcCompat="@drawable/lucius" />
 
         <ImageView
             android:id="@+id/imgCoin3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/trajan" />
+            app:srcCompat="@drawable/lucius" />
 
         <ImageView
             android:id="@+id/imgCoin4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/pius" />
+            app:srcCompat="@drawable/lucius" />
 
         <ImageView
             android:id="@+id/imgCoin5"
@@ -105,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/severus" />
+            app:srcCompat="@drawable/lucius" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,5 +26,7 @@
     <string name="collectionadd_03">We are working on making data input easier including uploading pictures from your computer and batch uploads from excel.</string>
     <string name="collectionadd_04">Your data is safe. Only you can access your collection and we backup our entire database daily.</string>
     <string name="collectionadd_05">.</string>
+    <string name="title_activity_ref_collections">RefCollections</string>
+    <string name="title_activity_ref_coin_list">RefCoinList</string>
 
 </resources>

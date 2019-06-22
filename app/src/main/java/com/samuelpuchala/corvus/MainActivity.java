@@ -57,7 +57,20 @@ public class MainActivity extends AppCompatActivity {
 
        } else {
 
-           Toast.makeText(MainActivity.this, "Your version of android is old dude", Toast.LENGTH_LONG).show();
+           Toast.makeText(MainActivity.this, "Your version of android does not support Corvus functionality", Toast.LENGTH_LONG).show();
+
+           new CountDownTimer(2000, 500) {
+
+               public void onTick(long millisUntilFinished) {
+                   // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+               }
+
+               public void onFinish() {
+                   finishAffinity();
+                   System.exit(0);
+               }
+           }.start();
+
        }
 
     }

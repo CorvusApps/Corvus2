@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -59,6 +60,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -104,8 +106,11 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection_add);
 
-        //To be shown first time only as intro info - keeping as always for now
-        oneTimeInfoLogin();
+        //To be shown first time only as intro info
+
+        if (isFirstTime()) {
+            oneTimeInfoLogin();
+        }
 
         imgCollectionImageX = findViewById(R.id.imgCollectionImage);
         imgCollectionImageX.setOnClickListener(this);
@@ -200,13 +205,10 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         }
 
-
         fbtnSaveCollectionX.setAlpha(0f);
         ShapeOfView arcViewX = findViewById(R.id.arcView);
         setArcViewDimensions(arcViewX, width/1, height2/1);
-
     }
-
 
     private void setArcViewDimensions(View view, int width, int height2){
 
@@ -350,6 +352,14 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
+
+                    case R.id.popMenuRefCollections:
+
+                        Intent intent = new Intent(CollectionAdd.this, RefCollections.class);
+                        startActivity(intent);
+
+
+                        return true;
 
                     case R.id.popMenuLogout:
 
@@ -758,35 +768,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
     }
 
-    public void faqDialogView() {
 
-        //Everything in this method is code for a custom dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-
-        ImageView btnFAQbackX = view.findViewById(R.id.btnFAQback);
-        btnFAQbackX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dialog.dismiss();
-
-            }
-        });
-
-    }
     //Detects when user is on different edit texts and sends to methods that change position of arcview and fab when keyboard is up; differ by detected screen resolution
     @Override
     public void onFocusChange(View view, boolean hasFocus) {
@@ -1046,7 +1028,127 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
             }
         });
+    }
 
+    public void faqDialogView() {
 
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+        ImageView btnFAQbackX = view.findViewById(R.id.btnFAQback);
+        btnFAQbackX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+        //Faq section layouts expandable onClick
+
+        final LinearLayout faqSupportX = view.findViewById(R.id.faqSupport);
+        final TextView txtFAQSupportX = view.findViewById(R.id.txtFAQSupport);
+        txtFAQSupportX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqSupportX.getVisibility() == View.GONE) {
+                    faqSupportX.setVisibility(View.VISIBLE);
+                    txtFAQSupportX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqSupportX.setVisibility(View.GONE);
+                    txtFAQSupportX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqLoginLogoutX = view.findViewById(R.id.faqLoginLogout);
+        final TextView txtFAQLoginLogoutX = view.findViewById(R.id.txtFAQLoginLogout);
+        txtFAQLoginLogoutX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqLoginLogoutX.getVisibility() == View.GONE) {
+                    faqLoginLogoutX.setVisibility(View.VISIBLE);
+                    txtFAQLoginLogoutX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqLoginLogoutX.setVisibility(View.GONE);
+                    txtFAQLoginLogoutX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqCollectionsX = view.findViewById(R.id.faqCollections);
+        final TextView txtFAQCollectionsX = view.findViewById(R.id.txtFAQCollections);
+        txtFAQCollectionsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCollectionsX.getVisibility() == View.GONE) {
+                    faqCollectionsX.setVisibility(View.VISIBLE);
+                    txtFAQCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCollectionsX.setVisibility(View.GONE);
+                    txtFAQCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqCollectionsSetupX = view.findViewById(R.id.faqCollectionSetup);
+        final TextView txtFAQCollectionSetupX = view.findViewById(R.id.txtFAQCollectionSetup);
+        txtFAQCollectionSetupX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCollectionsSetupX.getVisibility() == View.GONE) {
+                    faqCollectionsSetupX.setVisibility(View.VISIBLE);
+                    txtFAQCollectionSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCollectionsSetupX.setVisibility(View.GONE);
+                    txtFAQCollectionSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+    }
+
+    // checks if the app has been run first time before showing activity
+    private boolean isFirstTime()
+    {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+            // first time
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+        }
+        return !ranBefore;
     }
 }

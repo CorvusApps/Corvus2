@@ -10,13 +10,13 @@
     android:background="@color/colorPrimary"
     android:columnCount="2"
     android:alignmentMode="alignMargins"
-    tools:showIn="@layout/activity_home_page">
+    tools:showIn="@layout/activity_ref_collections">
 
 
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvCollections"
+        android:id="@+id/rcvRefCollections"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

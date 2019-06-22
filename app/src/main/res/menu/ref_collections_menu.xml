@@ -4,11 +4,11 @@
 
 
     <item
-        android:id="@+id/popMenuRefCollections"
+        android:id="@+id/popMenuMyCollections"
         android:orderInCategory="300"
-        android:icon="@drawable/ref_collections"
+        android:icon="@drawable/my_collections"
         app:showAsAction="never"
-        android:title="Reference Collections" />
+        android:title="My Collections" />
 
     <item
         android:id="@+id/popMenuFAQ"

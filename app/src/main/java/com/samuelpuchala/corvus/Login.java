@@ -1,6 +1,6 @@
 package com.samuelpuchala.corvus;
 
-import android.app.ProgressDialog;
+
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
@@ -14,10 +14,9 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
+
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
+
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -35,7 +34,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -46,8 +45,7 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.FirebaseDatabase;
+
 
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
@@ -137,15 +135,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
-        // updateUI(currentUser); // not working and morteza doesn't even mention it
-
         if (currentUser != null){
 
             Intent intent = new Intent(Login.this, HomePage.class);
             startActivity(intent);
             finish();
         }
-
 
     }
 
@@ -260,9 +255,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 } catch (ApiException e) {
 
 
-                    // Google Sign In failed, update UI appropriately
-                    Log.w("GOOGLE", "Google sign in failed", e);
-                    // ...
+                    Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -307,7 +300,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         new CountDownTimer(2000, 500) {
 
-
             public void onTick(long millisUntilFinished) {
                 // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
             }
@@ -327,8 +319,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         snackbar = Snackbar.make(loutLoginX, "Welcome: " + email, Snackbar.LENGTH_INDEFINITE);
 
-       // snackbar.setActionTextColor(getResources().getColor(R.color.pdlg_color_blue));
-
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
 
@@ -338,7 +328,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         int snackbarTextId = com.google.android.material.R.id.snackbar_text;
         TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
         textView.setTextSize(18);
-//       textView.setTextColor(getResources().getColor(R.color.com_facebook_blue));
 
     }
 
@@ -372,6 +361,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         finish();
 
     }
+
+// This is the the code for generating the key hash required to link project to facebook; saving code for next app
 
     //    private void printKeyHash() {
 //

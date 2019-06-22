@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RefCollections"
+    android:id="@+id/loutRefCollectionsActLO">
+
+    <include layout="@layout/content_ref_collections" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnPopUpMenuRefCols"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:outlineProvider="none"
+        app:rippleColor="@color/colorPrimary"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/menu"/>
+
+
+    <View
+        android:id="@+id/shade"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primaryShadow"
+        android:visibility="invisible"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
