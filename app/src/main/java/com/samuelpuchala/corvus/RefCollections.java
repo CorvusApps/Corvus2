@@ -106,7 +106,7 @@ public class RefCollections extends AppCompatActivity {
          // The tutorial had this section of code through to setAdapter in separate on Start Method but for StaggeredGrid that seemed to cause the recycler view to be destroyed and not come back once we moved off the screen works fine here
         final FirebaseRecyclerAdapter<ZZZjcRefCollections, RefCollections.ZZZjcRefCollectionsViewHolder> firebaseRecyclerAdapter
             = new FirebaseRecyclerAdapter<ZZZjcRefCollections, RefCollections.ZZZjcRefCollectionsViewHolder>
-            (ZZZjcRefCollections.class,R.layout.yyy_card_ref_collections, RefCollections.ZZZjcRefCollectionsViewHolder.class,mDatabase.child(firebaseAuthRefCollections.getCurrentUser().getUid())
+            (ZZZjcRefCollections.class,R.layout.yyy_card_ref_collections, RefCollections.ZZZjcRefCollectionsViewHolder.class,mDatabase.child("T4Fz6LaUBDeKKDf7VBAu9UyYlzN2")
                     .child("collections")) {
             @Override
              protected void populateViewHolder(RefCollections.ZZZjcRefCollectionsViewHolder viewHolder, ZZZjcRefCollections model, int position) {
@@ -634,6 +634,8 @@ public class RefCollections extends AppCompatActivity {
         });
 
     }
+
+
 
     @Override
     public void onBackPressed(){

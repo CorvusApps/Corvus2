@@ -50,6 +50,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,8 +90,12 @@ public class HomePage extends AppCompatActivity {
     // custom view to use as a shade behind custom dialogs
     private View shadeX;
 
+    //For Sorting
 
+    StaggeredGridLayoutManager layoutManager;
+    SharedPreferences sortSharedPref;
 
+    Query sortQuery;
 
 
 
@@ -115,12 +120,47 @@ public class HomePage extends AppCompatActivity {
         // custom view to use as a shade behind custom dialogs
         shadeX = findViewById(R.id.shade);
 
+
+        //query for sorting see notest below
+
+        DatabaseReference sortReference = mDatabase.child(firebaseAuthCollections.getCurrentUser().getUid())
+                .child("collections");
+
+
+
+        //Shared preferences for sorting
+        sortSharedPref = getSharedPreferences("SortSetting", MODE_PRIVATE);
+        String mSorting = sortSharedPref.getString("Sort", "alpha"); // where if no settings
+
+        if(mSorting.equals("alpha")) {
+
+            sortQuery = sortReference.orderByChild("title");
+            layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            layoutManager.setReverseLayout(false);
+
+        }
+
+        if (mSorting.equals("newest")) {
+
+            layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            layoutManager.setReverseLayout(true);
+            sortQuery = sortReference;
+
+
+        } else if (mSorting.equals("oldest")) {
+
+            layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            layoutManager.setReverseLayout(false);
+            sortQuery = sortReference;
+
+        }
+
         rcvCollectionsX = findViewById(R.id.rcvCollections);
         rcvCollectionsX.setHasFixedSize(true); //Not sure this applies or why it is here
             // rcvCollectionsX.setLayoutManager(new LinearLayoutManager(this));    // different layout options - use 1 of the 3
             // rcvCollectionsX.setLayoutManager(new GridLayoutManager(this, 2));    // different layout options - use 1 of the 3
-        rcvCollectionsX.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));  // different layout options - use 1 of the 3
-
+       //rcvCollectionsX.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));  // different layout options - use 1 of the 3
+        rcvCollectionsX.setLayoutManager(layoutManager);
 
         // FAB to add a new collection
         fbtnAddNewCollectionX = findViewById(R.id.fbtnAddNewCollection);
@@ -146,12 +186,24 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+
+
+
+
         // The Code setting out recycler view /////////////////////////////////////////////////////////////////
         // The tutorial had this section of code through to setAdapter in separate on Start Method but for StaggeredGrid that seemed to cause the recycler view to be destroyed and not come back once we moved off the screen works fine here
+
+//        final FirebaseRecyclerAdapter<ZZZjcCollections, ZZZjcCollectionsViewHolder>firebaseRecyclerAdapter
+//                = new FirebaseRecyclerAdapter<ZZZjcCollections, ZZZjcCollectionsViewHolder>
+//                (ZZZjcCollections.class,R.layout.yyy_card_collection,ZZZjcCollectionsViewHolder.class,mDatabase.child(firebaseAuthCollections.getCurrentUser().getUid())
+//                        .child("collections")) {
+
         final FirebaseRecyclerAdapter<ZZZjcCollections, ZZZjcCollectionsViewHolder>firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<ZZZjcCollections, ZZZjcCollectionsViewHolder>
-                (ZZZjcCollections.class,R.layout.yyy_card_collection,ZZZjcCollectionsViewHolder.class,mDatabase.child(firebaseAuthCollections.getCurrentUser().getUid())
-                        .child("collections")) {
+                (ZZZjcCollections.class,R.layout.yyy_card_collection,ZZZjcCollectionsViewHolder.class,sortQuery) {
+
+            // To trully sort properly need to pass a query instead of the DB reference - straight up DB reference above.
+
             @Override
             protected void populateViewHolder(ZZZjcCollectionsViewHolder viewHolder, ZZZjcCollections model, int position) {
                 viewHolder.setTitle(model.getTitle());
@@ -421,7 +473,7 @@ public class HomePage extends AppCompatActivity {
 
                     case R.id.popMenuSort:
 
-                        Toast.makeText(HomePage.this, "sort", Toast.LENGTH_SHORT).show();
+                        alertDialogSortCollections();
 
 
                         return true;
@@ -901,6 +953,112 @@ public class HomePage extends AppCompatActivity {
             editor.commit();
         }
         return !ranBefore;
+    }
+
+    private void alertDialogSortCollections() {
+
+        //Everything in this method is code for the universal alert dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_sort_collections, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        // Sort radio buttons
+
+        final RadioButton rbSortByCustomNumberX = view.findViewById(R.id.rbSortByCustomNumber);
+        final RadioButton rbSortLastUpdatedX = view.findViewById(R.id.rbSortLastUpdated);
+        final RadioButton rbSortOldestX = view.findViewById(R.id.rbSortOldest);
+        final RadioButton rbSortMostValuableX = view.findViewById(R.id.rbSortMostValuable);
+        final RadioButton rbSortBiggestX = view.findViewById(R.id.rbSortBiggest);
+
+        Button btnSetImageX = view.findViewById(R.id.btnSort);
+        btnSetImageX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(rbSortByCustomNumberX.isChecked()){
+
+                    Toast.makeText(HomePage.this, "Custom", Toast.LENGTH_SHORT).show();
+                    SharedPreferences.Editor editor = sortSharedPref.edit();
+                    editor.putString("Sort", "alpha");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
+
+                } else if (rbSortLastUpdatedX.isChecked()) {
+
+                    SharedPreferences.Editor editor = sortSharedPref.edit();
+                    editor.putString("Sort", "newest");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
+
+                    Toast.makeText(HomePage.this, "Updated", Toast.LENGTH_SHORT).show();
+
+                } else if (rbSortOldestX.isChecked()) {
+
+                    SharedPreferences.Editor editor = sortSharedPref.edit();
+                    editor.putString("Sort", "oldest");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
+
+                    Toast.makeText(HomePage.this, "Oldest", Toast.LENGTH_SHORT).show();
+
+                } else if (rbSortMostValuableX.isChecked()) {
+
+                    Toast.makeText(HomePage.this, "Value", Toast.LENGTH_SHORT).show();
+
+
+                } else if (rbSortBiggestX.isChecked()) {
+
+
+                    Toast.makeText(HomePage.this, "Biggest", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    noSortCriteriaSnackbar();
+
+                }
+
+
+
+            }
+        });
+
+
+        Button btnCancelX = view.findViewById(R.id.btnCancel);
+        btnCancelX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+
+    }
+
+    private void noSortCriteriaSnackbar() {
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutHomePageActLOX, "Please select sorting criteria", Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+        textView.setTextColor(getResources().getColor(R.color.lighttext));
+
     }
 
 }

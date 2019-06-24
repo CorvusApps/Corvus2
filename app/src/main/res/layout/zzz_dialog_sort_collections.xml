@@ -71,6 +71,76 @@
             android:elevation="0dp"
             />
 
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:textColor="#FFFFFF">
+
+            <RadioButton
+                android:id="@+id/rbSortByCustomNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="#FFFFFF"
+                android:paddingLeft="6dp"
+                android:paddingRight="8dp"
+                android:text="By Custom Collection number"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/rbSortLastUpdated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="#FFFFFF"
+                android:paddingLeft="6dp"
+                android:paddingRight="8dp"
+                android:text="From Last Updated"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/rbSortOldest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="#FFFFFF"
+                android:paddingLeft="6dp"
+                android:paddingRight="8dp"
+                android:text="From First Established"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/rbSortMostValuable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="#FFFFFF"
+                android:paddingLeft="6dp"
+                android:paddingRight="8dp"
+                android:text="From Highest Value"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/rbSortBiggest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="#FFFFFF"
+                android:paddingLeft="6dp"
+                android:paddingRight="8dp"
+                android:text="From Highest No. of Coins"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+        </RadioGroup>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -79,27 +149,17 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnSetImage"
+                android:id="@+id/btnSort"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:outlineProvider="none"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="Image"
+                android:text="Sort"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:cornerRadius="4dp" />
 
-            <Button
-                android:id="@+id/btnSaveAsIs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:outlineProvider="none"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"
-                android:text="Save"
-                android:textSize="12sp"
-                android:textStyle="normal" />
 
             <Button
                 android:id="@+id/btnCancel"
