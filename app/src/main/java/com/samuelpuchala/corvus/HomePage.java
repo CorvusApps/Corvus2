@@ -34,6 +34,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -57,6 +58,7 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Collections;
 
 
 public class HomePage extends AppCompatActivity {
@@ -77,6 +79,7 @@ public class HomePage extends AppCompatActivity {
     private String colTitleY;
     private String colDesY;
     private String colNotesY;
+    private int colIDY;
 
     private Drawable colImageY;
 
@@ -96,8 +99,6 @@ public class HomePage extends AppCompatActivity {
     SharedPreferences sortSharedPref;
 
     Query sortQuery;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,11 +122,9 @@ public class HomePage extends AppCompatActivity {
         shadeX = findViewById(R.id.shade);
 
 
-        //query for sorting see notest below
-
+        //query for sorting see notes below
         DatabaseReference sortReference = mDatabase.child(firebaseAuthCollections.getCurrentUser().getUid())
                 .child("collections");
-
 
 
         //Shared preferences for sorting
@@ -134,23 +133,24 @@ public class HomePage extends AppCompatActivity {
 
         if(mSorting.equals("alpha")) {
 
-            sortQuery = sortReference.orderByChild("title");
+            sortQuery = sortReference.orderByChild("id");
             layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-            layoutManager.setReverseLayout(false);
+           // layoutManager.setReverseLayout(false);
 
         }
 
         if (mSorting.equals("newest")) {
 
+            sortQuery = sortReference.orderByChild("timestamp");
             layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-            layoutManager.setReverseLayout(true);
-            sortQuery = sortReference;
+            //layoutManager.setReverseLayout(false);
+
 
 
         } else if (mSorting.equals("oldest")) {
 
             layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-            layoutManager.setReverseLayout(false);
+           // layoutManager.setReverseLayout(false);
             sortQuery = sortReference;
 
         }
@@ -160,7 +160,8 @@ public class HomePage extends AppCompatActivity {
             // rcvCollectionsX.setLayoutManager(new LinearLayoutManager(this));    // different layout options - use 1 of the 3
             // rcvCollectionsX.setLayoutManager(new GridLayoutManager(this, 2));    // different layout options - use 1 of the 3
        //rcvCollectionsX.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));  // different layout options - use 1 of the 3
-        rcvCollectionsX.setLayoutManager(layoutManager);
+
+        rcvCollectionsX.setLayoutManager(layoutManager); //passing layout manager which is accounting for the sort directions
 
         // FAB to add a new collection
         fbtnAddNewCollectionX = findViewById(R.id.fbtnAddNewCollection);
@@ -186,10 +187,6 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-
-
-
-
         // The Code setting out recycler view /////////////////////////////////////////////////////////////////
         // The tutorial had this section of code through to setAdapter in separate on Start Method but for StaggeredGrid that seemed to cause the recycler view to be destroyed and not come back once we moved off the screen works fine here
 
@@ -198,11 +195,13 @@ public class HomePage extends AppCompatActivity {
 //                (ZZZjcCollections.class,R.layout.yyy_card_collection,ZZZjcCollectionsViewHolder.class,mDatabase.child(firebaseAuthCollections.getCurrentUser().getUid())
 //                        .child("collections")) {
 
+
+        // passing the query into the adapter instead of database reference; version with just db ref above
+
         final FirebaseRecyclerAdapter<ZZZjcCollections, ZZZjcCollectionsViewHolder>firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<ZZZjcCollections, ZZZjcCollectionsViewHolder>
                 (ZZZjcCollections.class,R.layout.yyy_card_collection,ZZZjcCollectionsViewHolder.class,sortQuery) {
 
-            // To trully sort properly need to pass a query instead of the DB reference - straight up DB reference above.
 
             @Override
             protected void populateViewHolder(ZZZjcCollectionsViewHolder viewHolder, ZZZjcCollections model, int position) {
@@ -210,6 +209,7 @@ public class HomePage extends AppCompatActivity {
                 viewHolder.setDes(model.getDes());
                 viewHolder.setImage(getApplicationContext(),model.getImageLink());
                 viewHolder.setNotes(model.getNotes());
+                viewHolder.setId(model.getId());
 
                 viewHolder.setColuid(model.getColuid()); //so ridiculous the get and set functions have to be the same name as the variable like coluid = setColuid wtf
                 viewHolder.setImageLink(model.getImageLink());
@@ -257,6 +257,7 @@ public class HomePage extends AppCompatActivity {
                         TextView colDes = view.findViewById(R.id.crdTxtCollectionDes);
                         ImageView colImage = view.findViewById(R.id.crdImgCollectionImage);
                         TextView colNotes = view.findViewById(R.id.crdTxtCollectionNotes);
+                        TextView colId = view.findViewById(R.id.crdTxtCollectionID);
 
 
                         //get data from views
@@ -264,6 +265,9 @@ public class HomePage extends AppCompatActivity {
                         colTitleY = colTitle.getText().toString();
                         colDesY = colDes.getText().toString();
                         colImageY = colImage.getDrawable();
+                         //the ID has to be converted to an int
+                        String colIDYpre = colId.getText().toString();
+                        colIDY = Integer.parseInt(colIDYpre);
 
                         if (colImageY != null) {
 
@@ -280,10 +284,10 @@ public class HomePage extends AppCompatActivity {
                         TextView colImageLink = view.findViewById(R.id.crdTxtCollectionImgLink);
                         colImageLinkY = colImageLink.getText().toString();
 
-
                         collectionDialogView();
 
                     }
+
                 });
 
                 return viewHolder;
@@ -294,8 +298,6 @@ public class HomePage extends AppCompatActivity {
 
        // The onclick methods were in the broader recycler view methods - this calls for the adapter on everything
         rcvCollectionsX.setAdapter(firebaseRecyclerAdapter);
-
-
     }
 
 
@@ -359,6 +361,14 @@ public class HomePage extends AppCompatActivity {
         public void setNotes(String notes) {
             TextView crdTxtCollectionNotesX = (TextView)mView.findViewById(R.id.crdTxtCollectionNotes);
             crdTxtCollectionNotesX.setText(notes);
+
+        }
+
+        public void setId(int id) {
+
+            TextView crdTxtCollectionIdX = (TextView)mView.findViewById(R.id.crdTxtCollectionID);
+            String id2 = String.valueOf(id);
+            crdTxtCollectionIdX.setText(id2);
 
         }
 
@@ -595,6 +605,14 @@ public class HomePage extends AppCompatActivity {
             imgColDetailImageX.setImageBitmap(colBitmap);
         }
 
+
+        TextView txtColDetailIdX = view.findViewById(R.id.txtColDetailId);
+
+        // need to convert to string before putting into editText but want int in firbase for sorting
+
+        String colIDY2 = String.valueOf(colIDY);
+        txtColDetailIdX.setText(colIDY2);
+
         TextView txtColDetailTitleX = view.findViewById(R.id.txtColDetailTitle);
         txtColDetailTitleX.setText(colTitleY);
         TextView txtColDetailDesX = view.findViewById(R.id.txtColDetailDesc);
@@ -787,17 +805,14 @@ public class HomePage extends AppCompatActivity {
 
     private void logoutSnackbar(){
 
-
         Snackbar snackbar;
 
         snackbar = Snackbar.make(loutHomePageActLOX, "Good bye", Snackbar.LENGTH_SHORT);
-
 
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
 
         snackbar.show();
-
 
         int snackbarTextId = com.google.android.material.R.id.snackbar_text;
         TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
@@ -831,6 +846,7 @@ public class HomePage extends AppCompatActivity {
         intent.putExtra("imageLink", colImageLinkY);
         intent.putExtra("des", colDesY);
         intent.putExtra("notes", colNotesY);
+        intent.putExtra("id", colIDY);
         startActivity(intent);
     }
 
@@ -982,7 +998,7 @@ public class HomePage extends AppCompatActivity {
 
                 if(rbSortByCustomNumberX.isChecked()){
 
-                    Toast.makeText(HomePage.this, "Custom", Toast.LENGTH_SHORT).show();
+
                     SharedPreferences.Editor editor = sortSharedPref.edit();
                     editor.putString("Sort", "alpha");
                     editor.apply(); // saves the value
@@ -997,8 +1013,6 @@ public class HomePage extends AppCompatActivity {
                     dialog.dismiss();
                     recreate(); // restart activity to take effect
 
-                    Toast.makeText(HomePage.this, "Updated", Toast.LENGTH_SHORT).show();
-
                 } else if (rbSortOldestX.isChecked()) {
 
                     SharedPreferences.Editor editor = sortSharedPref.edit();
@@ -1007,7 +1021,6 @@ public class HomePage extends AppCompatActivity {
                     dialog.dismiss();
                     recreate(); // restart activity to take effect
 
-                    Toast.makeText(HomePage.this, "Oldest", Toast.LENGTH_SHORT).show();
 
                 } else if (rbSortMostValuableX.isChecked()) {
 

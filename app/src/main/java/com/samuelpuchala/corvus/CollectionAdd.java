@@ -10,9 +10,11 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -31,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -67,6 +70,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -77,7 +81,7 @@ import java.util.UUID;
 public class CollectionAdd extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
 
 
-    private ImageView imgCollectionImageX;
+
     private FloatingActionButton fbtnPopUpMenuX;
     private FloatingActionButton fbtnSaveCollectionX;
     private FirebaseAuth collAddFirebaseAuth;
@@ -85,10 +89,13 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     private Bitmap recievedCollectionImageBitmap;
     private String imageIdentifier;
     private String imageLink;
-    private EditText edtCollectionNameX, edtCollectionDescX, edtCollectionsNotesX;
+    private EditText edtCollectionNameX, edtCollectionDescX, edtCollectionsNotesX, edtCollectionIDX;
     private AlertDialog dialog;
     private String exceptions;
     private ProgressDialog pd;
+    private ImageView imgCollectionImageX;
+    private ImageView imgInfoX;
+
 
     // variables to be used in screen measurement methods needed to adjust UI for different screen sizes
     int height2;
@@ -96,6 +103,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
     //variables to recieve inputs from modify collection method from expanded collectio dialog in homepage
     String colUIDYRec, colTitleRec, colImageLinkRec, colDesRec, colNotesRec;
+    int colIDYRec;
     String modify; // toggle to whether we are saving a new collection or modifying existing
 
 
@@ -135,7 +143,14 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         edtCollectionsNotesX = findViewById(R.id.edtCollectionNotes);
         edtCollectionsNotesX.setOnFocusChangeListener(this);
 
+        edtCollectionIDX = findViewById(R.id.edtCollectionID);
+        edtCollectionIDX.setOnFocusChangeListener(this);
+
+        imgInfoX = findViewById(R.id.imgInfo);
+        imgInfoX.setOnClickListener(this);
+
         modify = "no"; // toggle to whether we are saving a new collection or modifying existing
+
 
         //try to get data from intent if not null
         Bundle intent = getIntent().getExtras();
@@ -149,11 +164,17 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             colDesRec = getIntent().getStringExtra("des");
             colImageLinkRec = getIntent().getStringExtra("imageLink");
             colNotesRec = getIntent().getStringExtra("notes");
+            colIDYRec = getIntent().getIntExtra("id", 0);
+
 
             //populate the input views with existing value
             edtCollectionNameX.setText(colTitleRec);
             edtCollectionDescX.setText(colDesRec);
             edtCollectionsNotesX.setText(colNotesRec);
+            // need to convert to string before putting into editText but want int in firbase for sorting
+
+            String colIDYRec2 = String.valueOf(colIDYRec);
+            edtCollectionIDX.setText(colIDYRec2);
 
 
            // executes only if there is an imageLink coming through to prevent crashing
@@ -287,16 +308,17 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                     } else {
                         //executes this if it is an update
 
-                        //will need to build in missing picture logic but for now building basic
-                        //have to have logic if there is no pic brough over, vs. pic brought over and kept vs. added new pic
-
-                        //this assumes image was there but is being replaced
                         beginUpdate();
 
-
                         }
-
                     }
+
+
+                break;
+
+            case R.id.imgInfo:
+
+                collectionIDInfoDialog();
 
 
                 break;
@@ -304,6 +326,41 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         }
 
     }
+
+    private void collectionIDInfoDialog() {
+        //Everything in this method is code for the universal alert dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_alert_universal, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        TextView txtAlertTitleX = view.findViewById(R.id.txtAlertTitle);
+        txtAlertTitleX.setText("Info");
+
+
+        TextView txtAlertMsgX = view.findViewById(R.id.txtAlertMsg);
+        txtAlertMsgX.setText("You can enter a unique numeric ID for your collection (1-999). You will be able to sort your collections on this ID as well as on other factors such us last update time and collection value.");
+
+        ImageView imgUniAlertX = view.findViewById(R.id.imgUniAlert);
+        imgUniAlertX.setImageDrawable(getResources().getDrawable(R.drawable.info_white));
+
+        Button btnOKdauX = view.findViewById(R.id.btnOKdau);
+        btnOKdauX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+
+    }
+
     //onClick set up in XML; gets rid of keyboard when background tapped
     public void loginLayoutTapped (View view) {
 
@@ -484,11 +541,58 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                             filePathColumn, null, null, null);
                     cursor.moveToFirst();
                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
+                    String picturePath = cursor.getString(columnIndex); // I THINK THIS IS THE PATH TO INTERNAL STORAGE - can use picasso?
                     cursor.close();
                     recievedCollectionImageBitmap = BitmapFactory.decodeFile(picturePath);
 
-                    imgCollectionImageX.setImageBitmap(recievedCollectionImageBitmap);
+                    int degree = 0;
+                    ExifInterface exif = null;
+                    try {
+                        exif = new ExifInterface(picturePath);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    if (exif != null) {
+                        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
+                        if (orientation != -1) {
+                            // We only recognise a subset of orientation tag values.
+                            switch (orientation) {
+                                case ExifInterface.ORIENTATION_ROTATE_90:
+                                    degree = 90;
+                                    break;
+                                case ExifInterface.ORIENTATION_ROTATE_180:
+                                    degree = 180;
+                                    break;
+                                case ExifInterface.ORIENTATION_ROTATE_270:
+                                    degree = 270;
+                                    break;
+                            }
+
+                        }
+                    }
+
+                    recievedCollectionImageBitmap = Bitmap.createScaledBitmap(recievedCollectionImageBitmap, 400,400,true);
+
+                    Bitmap bitmap = recievedCollectionImageBitmap;
+
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(degree);
+
+
+
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0,bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                    imgCollectionImageX.setImageBitmap(bitmap);
+
+
+
+                    //imgCollectionImageX.setImageBitmap(recievedCollectionImageBitmap);
+                    //Picasso.get().load(picturePath).into(imgCollectionImageX); does not work probably because it's a bitmap - but then not really because it only decodes it without destroying the original path...!!
+
+                    //messing around
+
+
+
+                    //////
 
 
                 } catch (Exception e) {
@@ -502,6 +606,38 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
     }
 
+    public static int getExitofOrientation(String picturePath) {
+
+        int degree = 0;
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(picturePath);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        if (exif != null) {
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
+            if (orientation != -1) {
+                // We only recognise a subset of orientation tag values.
+                switch (orientation) {
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        degree = 90;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        degree = 180;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        degree = 270;
+                        break;
+                }
+
+            }
+        }
+
+        return degree;
+
+    }
+
 
     // Start of the save collection function go with pic first as we need the imageLink and identifier when uploading the collection
     private void uploadImageToServer () {
@@ -511,7 +647,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
         pd.show();
 
-            // Get the data from an ImageView as bytes
+            // Get the data from an ImageView as bytes; does not crash when user does not select and image because takes default image provided by the app
             imgCollectionImageX.setDrawingCacheEnabled(true);
             imgCollectionImageX.buildDrawingCache();
             Bitmap bitmapColAdd = ((BitmapDrawable) imgCollectionImageX.getDrawable()).getBitmap(); // we already have the bitmap
@@ -564,28 +700,35 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         String uid = FirebaseAuth.getInstance().getUid();
 
-        //////// this and the noted datapush below gets the uid key for this snapshot so we can use it later on item click
+        //////// this and the noted data put below gets the uid key for this snapshot so we can use it later on item click
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
                 .child("collections");
         DatabaseReference blankRecordReference = dbReference;
         DatabaseReference db_ref = blankRecordReference.push();
         String coluidX = db_ref.getKey();
+        Long timestampX = System.currentTimeMillis() * -1; // make negative for sorting; using timestamp instead is giant pain in the ass as you can't make it a long value easily
+
         //////
 
-        HashMap<String, String> dataMap = new HashMap<>();
+        String id2 = edtCollectionIDX.getText().toString();
+        int id3 = Integer.parseInt(id2);// getting id to be an int before uploading so sorting work well
+
+        HashMap<String, Object> dataMap = new HashMap<>();
 
         dataMap.put("title", edtCollectionNameX.getText().toString());
         dataMap.put("imageIdentifier", imageIdentifier);
         dataMap.put("imageLink", imageLink);
         dataMap.put("des", edtCollectionDescX.getText().toString());
         dataMap.put("notes", edtCollectionsNotesX.getText().toString());
+        dataMap.put("timestamp", timestampX);
+        dataMap.put("id", id3);
+
+
 
         //////
         dataMap.put("coluid", coluidX);
 
         /////
-
-
         db_ref.setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -608,8 +751,6 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                             finish();
                         }
                     }.start();
-
-
 
                 }
 
@@ -788,6 +929,12 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.edtCollectionNotes:
+
+                uiChangeWhenKeyboardUp();
+
+                break;
+
+            case R.id.edtCollectionID:
 
                 uiChangeWhenKeyboardUp();
 
@@ -979,6 +1126,9 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         final String updateTitle = edtCollectionNameX.getText().toString();
         final String updateDes = edtCollectionDescX.getText().toString();
         final String updateNotes = edtCollectionsNotesX.getText().toString();
+        final String updateID = edtCollectionIDX.getText().toString();
+
+        final int updateID2 = Integer.parseInt(updateID);// getting id to be an int before uploading so sorting work well
 
 
         //This points to what needs to be updated versus setting up a new upload
@@ -986,6 +1136,9 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                 .child("collections");
 
         Query query = updateRef.orderByChild("coluid").equalTo(colUIDYRec);
+
+        //updating timestamp to be able to sort on last updated
+        final Long timestampX = System.currentTimeMillis() * -1; // make negative for sorting; using timestamp instead is giant pain in the ass as you can't make it a long value easily
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -999,6 +1152,8 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                     ds.getRef().child("notes").setValue(updateNotes);
                     ds.getRef().child("imageLink").setValue(imageLink);
                     ds.getRef().child("uid").setValue(imageIdentifier);
+                    ds.getRef().child("timestamp").setValue(timestampX);
+                    ds.getRef().child("id").setValue(updateID2);
 
 
                     pd.dismiss();

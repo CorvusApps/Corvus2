@@ -34,7 +34,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imgUniAlert"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -42,7 +42,7 @@
                 app:srcCompat="@drawable/alert" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/txtAlertTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="8dp"
