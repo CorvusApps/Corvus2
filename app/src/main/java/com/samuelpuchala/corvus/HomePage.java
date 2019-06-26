@@ -105,7 +105,7 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        //To be shown first time only as intro info - keeping as always for now
+        //To be shown first time only as intro info
 
         if (isFirstTime()) {
             oneTimeInfoLogin();
@@ -932,6 +932,25 @@ public class HomePage extends AppCompatActivity {
 
                     faqCollectionsX.setVisibility(View.GONE);
                     txtFAQCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqReferenceCollectionsX = view.findViewById(R.id.faqRefCollections);
+        final TextView txtFAQReferenceCollectionsX = view.findViewById(R.id.txtFAQReferenceCollections);
+        txtFAQReferenceCollectionsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqReferenceCollectionsX.getVisibility() == View.GONE) {
+                    faqReferenceCollectionsX.setVisibility(View.VISIBLE);
+                    txtFAQReferenceCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqReferenceCollectionsX.setVisibility(View.GONE);
+                    txtFAQReferenceCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
                 }
 
             }

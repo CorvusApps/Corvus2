@@ -14,7 +14,10 @@ import android.widget.TextView;
 
 public class CoinList extends AppCompatActivity {
 
+
+    // UI and data components for transfering collection ID from Homepage through here to AddCoin and ShowCoin activities
     TextView txtCListCollUIDX;
+    String cListuid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,17 +25,19 @@ public class CoinList extends AppCompatActivity {
         setContentView(R.layout.activity_coin_list);
 
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabCoinAddX = findViewById(R.id.fabCoinAdd);
+        fabCoinAddX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(CoinList.this, CoinAdd.class);
+                intent.putExtra("coluid", cListuid);
+                startActivity(intent);
             }
         });
 
+        // UI and data components for transfering collection ID from Homepage through here to AddCoin and ShowCoin activities
         txtCListCollUIDX = findViewById(R.id.txtCListCollUID);
-        String cListuid = getIntent().getStringExtra("coluid");
+        cListuid = getIntent().getStringExtra("coluid");
         txtCListCollUIDX.setText(cListuid);
 
 

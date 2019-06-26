@@ -17,10 +17,14 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".CoinAdd"
+            android:label="@string/title_activity_coin_add"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".RefCoinList"
             android:label="@string/title_activity_ref_coin_list"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RefCollections"
             android:label="@string/title_activity_ref_collections"

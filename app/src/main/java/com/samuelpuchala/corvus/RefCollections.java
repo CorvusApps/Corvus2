@@ -3,6 +3,7 @@ package com.samuelpuchala.corvus;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.app.AlertDialog;
@@ -72,6 +74,12 @@ public class RefCollections extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ref_collections);
 
+        //To be shown first time only as intro info
+
+        if (isFirstTime()) {
+            oneTimeInfoLogin();
+        }
+
         loutRefCollectionsActLOX = findViewById(R.id.loutRefCollectionsActLO);
         firebaseAuthRefCollections = FirebaseAuth.getInstance();
 
@@ -80,6 +88,12 @@ public class RefCollections extends AppCompatActivity {
 
         // custom view to use as a shade behind custom dialogs
         shadeX = findViewById(R.id.shade);
+
+        //query for sorting; unlike in home page this will be hardwired for only sort by collection number; and the database ref is already hardcoded for my facebook account which will store the reference collections
+        DatabaseReference sortReference = mDatabase.child("T4Fz6LaUBDeKKDf7VBAu9UyYlzN2")
+                .child("collections");
+
+        Query sortQuery = sortReference.orderByChild("id");
 
         rcvRefCollectionsX = findViewById(R.id.rcvRefCollections);
         rcvRefCollectionsX.setHasFixedSize(true); //Not sure this applies or why it is here
@@ -106,8 +120,7 @@ public class RefCollections extends AppCompatActivity {
          // The tutorial had this section of code through to setAdapter in separate on Start Method but for StaggeredGrid that seemed to cause the recycler view to be destroyed and not come back once we moved off the screen works fine here
         final FirebaseRecyclerAdapter<ZZZjcRefCollections, RefCollections.ZZZjcRefCollectionsViewHolder> firebaseRecyclerAdapter
             = new FirebaseRecyclerAdapter<ZZZjcRefCollections, RefCollections.ZZZjcRefCollectionsViewHolder>
-            (ZZZjcRefCollections.class,R.layout.yyy_card_ref_collections, RefCollections.ZZZjcRefCollectionsViewHolder.class,mDatabase.child("T4Fz6LaUBDeKKDf7VBAu9UyYlzN2")
-                    .child("collections")) {
+            (ZZZjcRefCollections.class,R.layout.yyy_card_ref_collections, RefCollections.ZZZjcRefCollectionsViewHolder.class,sortQuery) {
             @Override
              protected void populateViewHolder(RefCollections.ZZZjcRefCollectionsViewHolder viewHolder, ZZZjcRefCollections model, int position) {
                 viewHolder.setTitle(model.getTitle());
@@ -199,6 +212,20 @@ public class RefCollections extends AppCompatActivity {
     // The onclick methods were in the broader recycler view methods - this calls for the adapter on everything
         rcvRefCollectionsX.setAdapter(firebaseRecyclerAdapter);
 
+    }
+
+    // checks this is the app is run first time which we use to decide whether to show the one time info dialogs
+    private boolean isFirstTime()
+    {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+            // first time
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+        }
+        return !ranBefore;
     }
 
 
@@ -440,6 +467,25 @@ public class RefCollections extends AppCompatActivity {
             }
         });
 
+        final LinearLayout faqReferenceCollectionsX = view.findViewById(R.id.faqRefCollections);
+        final TextView txtFAQReferenceCollectionsX = view.findViewById(R.id.txtFAQReferenceCollections);
+        txtFAQReferenceCollectionsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqReferenceCollectionsX.getVisibility() == View.GONE) {
+                    faqReferenceCollectionsX.setVisibility(View.VISIBLE);
+                    txtFAQReferenceCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqReferenceCollectionsX.setVisibility(View.GONE);
+                    txtFAQReferenceCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
         final LinearLayout faqCollectionsSetupX = view.findViewById(R.id.faqCollectionSetup);
         final TextView txtFAQCollectionSetupX = view.findViewById(R.id.txtFAQCollectionSetup);
         txtFAQCollectionSetupX.setOnClickListener(new View.OnClickListener() {
@@ -633,6 +679,29 @@ public class RefCollections extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void oneTimeInfoLogin() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzzz_otinfo_refcollections, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        Button btnOKoneTimeHPX = view.findViewById(R.id.btnOKoneTimeRC);
+        btnOKoneTimeHPX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
     }
 
 

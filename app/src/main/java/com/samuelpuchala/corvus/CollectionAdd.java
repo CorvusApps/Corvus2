@@ -343,7 +343,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
 
         TextView txtAlertMsgX = view.findViewById(R.id.txtAlertMsg);
-        txtAlertMsgX.setText("You can enter a unique numeric ID for your collection (1-999). You will be able to sort your collections on this ID as well as on other factors such us last update time and collection value.");
+        txtAlertMsgX.setText(R.string.collectionadd_04); // talks about collection id; repeated in FAQ
 
         ImageView imgUniAlertX = view.findViewById(R.id.imgUniAlert);
         imgUniAlertX.setImageDrawable(getResources().getDrawable(R.drawable.info_white));
@@ -541,10 +541,11 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                             filePathColumn, null, null, null);
                     cursor.moveToFirst();
                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex); // I THINK THIS IS THE PATH TO INTERNAL STORAGE - can use picasso?
+                    String picturePath = cursor.getString(columnIndex); // path to the Bitmap created from pulled image
                     cursor.close();
                     recievedCollectionImageBitmap = BitmapFactory.decodeFile(picturePath);
 
+                    // getting to the rotation wierdness from large files using the picturePath to id the file
                     int degree = 0;
                     ExifInterface exif = null;
                     try {
@@ -571,29 +572,17 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                         }
                     }
 
+                    // resizing the image to a standard size that is easy on the storage
                     recievedCollectionImageBitmap = Bitmap.createScaledBitmap(recievedCollectionImageBitmap, 400,400,true);
 
+                    // correcting the rotation on the resized file using the degree variable of how much to fix we got above
                     Bitmap bitmap = recievedCollectionImageBitmap;
-
                     Matrix matrix = new Matrix();
                     matrix.postRotate(degree);
-
-
-
                     bitmap = Bitmap.createBitmap(bitmap, 0, 0,bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+
                     imgCollectionImageX.setImageBitmap(bitmap);
-
-
-
-                    //imgCollectionImageX.setImageBitmap(recievedCollectionImageBitmap);
-                    //Picasso.get().load(picturePath).into(imgCollectionImageX); does not work probably because it's a bitmap - but then not really because it only decodes it without destroying the original path...!!
-
-                    //messing around
-
-
-
-                    //////
-
 
                 } catch (Exception e) {
 
@@ -603,38 +592,6 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             }
 
         }
-
-    }
-
-    public static int getExitofOrientation(String picturePath) {
-
-        int degree = 0;
-        ExifInterface exif = null;
-        try {
-            exif = new ExifInterface(picturePath);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        if (exif != null) {
-            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
-            if (orientation != -1) {
-                // We only recognise a subset of orientation tag values.
-                switch (orientation) {
-                    case ExifInterface.ORIENTATION_ROTATE_90:
-                        degree = 90;
-                        break;
-                    case ExifInterface.ORIENTATION_ROTATE_180:
-                        degree = 180;
-                        break;
-                    case ExifInterface.ORIENTATION_ROTATE_270:
-                        degree = 270;
-                        break;
-                }
-
-            }
-        }
-
-        return degree;
 
     }
 
@@ -1060,6 +1017,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
     }
 
+    // this uses the image added into the image view which is either the one that comes from firebase or is added there even on modify with the collection add functionality which is active on the input page
     private void uploadNewImg() {
 
         pd = new ProgressDialog(CollectionAdd.this,R.style.CustomAlertDialog);
@@ -1267,6 +1225,25 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
                     faqCollectionsX.setVisibility(View.GONE);
                     txtFAQCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqReferenceCollectionsX = view.findViewById(R.id.faqRefCollections);
+        final TextView txtFAQReferenceCollectionsX = view.findViewById(R.id.txtFAQReferenceCollections);
+        txtFAQReferenceCollectionsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqReferenceCollectionsX.getVisibility() == View.GONE) {
+                    faqReferenceCollectionsX.setVisibility(View.VISIBLE);
+                    txtFAQReferenceCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqReferenceCollectionsX.setVisibility(View.GONE);
+                    txtFAQReferenceCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
                 }
 
             }
