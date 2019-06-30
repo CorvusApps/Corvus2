@@ -4,11 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/loutCoinListActLO"
     tools:context=".CoinList">
 
 
 
     <include layout="@layout/content_coin_list" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnPopUpMenuCoinList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:outlineProvider="none"
+        app:rippleColor="@color/colorPrimary"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/menu"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCoinAdd"

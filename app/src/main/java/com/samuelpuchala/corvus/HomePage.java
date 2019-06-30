@@ -975,6 +975,25 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+        final LinearLayout faqCoinsSetupX = view.findViewById(R.id.faqCoinsSetup);
+        final TextView txtFAQCoinsSetupX = view.findViewById(R.id.txtFAQCoinsSetup);
+        txtFAQCoinsSetupX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCoinsSetupX.getVisibility() == View.GONE) {
+                    faqCoinsSetupX.setVisibility(View.VISIBLE);
+                    txtFAQCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCoinsSetupX.setVisibility(View.GONE);
+                    txtFAQCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
     }
  // checks this is the app is run first time which we use to decide whether to show the one time info dialogs
     private boolean isFirstTime()

@@ -32,6 +32,13 @@
     <string name="refcollections_03">The Corvus reference collections have over 10,000 coins all vf+ or better. We continue to upload them to the app daily.</string>
     <string name="refcollections_04">Yes!! We are working on automating collection sharing. For now you can send us an email letting us know you wish to share and we can add your coins to our reference libraries. We will indicated them as belonging to you or not as per your instructions.</string>
 
+    <string name="coinadd_01">You can add as many coins to your collection as you want. For easier viewing consider setting up multiple collections where you can group similar coins.</string>
+    <string name="coinadd_02">Only the personage field is mandatory. We strongly suggest using the attribution field to make it easy to sort your collection</string>
+    <string name="coinadd_03">You can upload any PNG or JPG picture to represent your collection; best results when cropped to a rectangle with the coin edges close to the image edge.</string>
+    <string name="coinadd_04">The fields you do not fill in will not appear at all in your record to make viewing easier </string>
+    <string name="coinadd_05">The RIC number is numeric for sorting purposes. In the RICvar field you can add qualifiers such as a letter (e.g. RIC 197 b) or var or note</string>
+    <string name="coinadd_06">If you wish to add Provincial coins, the legend fields can be toggled to the greek alphabet</string>
+
 
     <string name="title_activity_ref_collections">RefCollections</string>
     <string name="title_activity_ref_coin_list">RefCoinList</string>

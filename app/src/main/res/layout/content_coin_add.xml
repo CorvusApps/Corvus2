@@ -8,6 +8,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".CoinAdd"
     android:orientation="vertical"
+    android:onClick="loginLayoutTapped"
     android:background="@color/colorPrimary"
     tools:showIn="@layout/activity_coin_add">
 
@@ -16,7 +17,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:visibility="gone"
          />
+
+    <ImageView
+        android:id="@+id/imgCoinAdd"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp"
+        android:elevation="5dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="@color/colorPrimary"
+
+        android:src="@drawable/vespasiancoin"
+
+        />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -25,31 +40,72 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="loginLayoutTapped"
             android:orientation="vertical">
 
-            <com.github.florent37.shapeofview.shapes.ArcView
-                android:id="@+id/arcView"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_150sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginRight="@dimen/_5sdp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_weight="2"
+                    android:hint="Personage">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtPersonage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="25"
+                        android:inputType="textMultiLine"
+                        android:nextFocusForward="@+id/edtDenomination"
+
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
 
-                app:shape_arc_height="30dp"
-                app:shape_arc_position="right">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:hint="Denomination">
 
-                <ImageView
-                    android:id="@+id/imgCoinAdd"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:elevation="5dp"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:scaleType="centerCrop"
-                    android:background="@color/colorPrimary"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtDenomination"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textMultiLine"
+                        android:nextFocusForward="@+id/edtMint"
+                        android:maxLength="25"/>
 
-                    android:src="@drawable/vespasiancoin"
+                </com.google.android.material.textfield.TextInputLayout>
 
-                    />
-            </com.github.florent37.shapeofview.shapes.ArcView>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Mint">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtMint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:nextFocusForward="@+id/edtRIC"
+                        android:maxLength="25"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -60,29 +116,82 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Personage"
-                    android:layout_weight="5">
+                    android:layout_weight="1"
+
+                    android:hint="RIC #">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtRIC"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:nextFocusForward="@+id/edtRICvar"
+                        />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/imgRICvarInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/info"
+
+                    />
 
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="RIC #"
-                    android:layout_weight="2">
+                    android:layout_weight="3"
+                    android:hint="RIC var">
+
+
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtRICvar"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:nextFocusForward="@+id/edtWeight"
+                        android:maxLength="10"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="grams">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtWeight"
+                        android:inputType="numberDecimal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:nextFocusForward="@+id/edtDiameter"
+                        android:maxLength="10"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="mm">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtDiameter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+
+                        android:nextFocusForward="@+id/edtObvDesc"
+                        android:maxLength="5"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
@@ -91,6 +200,181 @@
 
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Obverse"
+
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtObvDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:nextFocusForward="@+id/edtObLegend"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Obverse Legend">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtObLegend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:inputType="textMultiLine"
+                        android:nextFocusForward="@+id/edtRevDesc"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Reverse">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtRevDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:nextFocusForward="@+id/edtRevLegend"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Reverse Legend">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtRevLegend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:inputType="textMultiLine"
+                        android:nextFocusForward="@+id/edtProvenance"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:hint="Provenance">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtProvenance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:nextFocusForward="@+id/edtValue"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Value">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:nextFocusForward="@+id/edtNotes"
+
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Notes">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:inputType="textMultiLine"
+
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
         </LinearLayout>
 
     </ScrollView>

@@ -95,6 +95,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     private ProgressDialog pd;
     private ImageView imgCollectionImageX;
     private ImageView imgInfoX;
+    private int id3;
 
 
     // variables to be used in screen measurement methods needed to adjust UI for different screen sizes
@@ -151,6 +152,8 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         modify = "no"; // toggle to whether we are saving a new collection or modifying existing
 
+        colUIDYRec = getIntent().getStringExtra("coluid"); //getting this value in the onCreate so it can be passed on coinAdd to coinList
+
 
         //try to get data from intent if not null
         Bundle intent = getIntent().getExtras();
@@ -159,12 +162,13 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             // this code will be executed if we came in from modify and thus with push Extras
 
             //get and store data
-            colUIDYRec = getIntent().getStringExtra("coluid");
+
             colTitleRec = getIntent().getStringExtra("title");
             colDesRec = getIntent().getStringExtra("des");
             colImageLinkRec = getIntent().getStringExtra("imageLink");
             colNotesRec = getIntent().getStringExtra("notes");
             colIDYRec = getIntent().getIntExtra("id", 0);
+            //"coluid" set up in onCreate because needed both in Add and Modify
 
 
             //populate the input views with existing value
@@ -661,14 +665,22 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
                 .child("collections");
         DatabaseReference blankRecordReference = dbReference;
-        DatabaseReference db_ref = blankRecordReference.push();
-        String coluidX = db_ref.getKey();
+        DatabaseReference db_ref = blankRecordReference.push(); // this generates the uid
+        final String coluidX = db_ref.getKey();
         Long timestampX = System.currentTimeMillis() * -1; // make negative for sorting; using timestamp instead is giant pain in the ass as you can't make it a long value easily
 
         //////
 
-        String id2 = edtCollectionIDX.getText().toString();
-        int id3 = Integer.parseInt(id2);// getting id to be an int before uploading so sorting work well
+        if(edtCollectionIDX.getText().toString().equals("")) {
+
+            id3 = 0;
+
+        } else {
+
+            String id2 = edtCollectionIDX.getText().toString();
+            id3 = Integer.parseInt(id2);// getting id to be an int before uploading so sorting work well
+
+        }
 
         HashMap<String, Object> dataMap = new HashMap<>();
 
@@ -704,6 +716,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
                         public void onFinish() {
                             Intent intent = new Intent(CollectionAdd.this, CoinList.class);
+                            intent.putExtra("coluid", coluidX);
                             startActivity(intent);
                             finish();
                         }
@@ -1087,6 +1100,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         final String updateID = edtCollectionIDX.getText().toString();
 
         final int updateID2 = Integer.parseInt(updateID);// getting id to be an int before uploading so sorting work well
+                                                         // no need to do the if logic to see if it's blank because in modify value from firebase has to be something even if that is 0
 
 
         //This points to what needs to be updated versus setting up a new upload
@@ -1263,6 +1277,25 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
                     faqCollectionsSetupX.setVisibility(View.GONE);
                     txtFAQCollectionSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqCoinsSetupX = view.findViewById(R.id.faqCoinsSetup);
+        final TextView txtFAQCoinsSetupX = view.findViewById(R.id.txtFAQCoinsSetup);
+        txtFAQCoinsSetupX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCoinsSetupX.getVisibility() == View.GONE) {
+                    faqCoinsSetupX.setVisibility(View.VISIBLE);
+                    txtFAQCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCoinsSetupX.setVisibility(View.GONE);
+                    txtFAQCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
                 }
 
             }
