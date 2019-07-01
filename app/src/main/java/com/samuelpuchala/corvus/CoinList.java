@@ -418,12 +418,15 @@ public class CoinList extends AppCompatActivity {
             txtLabelRICX.setVisibility(View.VISIBLE);
             txtCardRICX.setVisibility(View.VISIBLE);
 
-
+            try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
             if (id == 0){
 
                 txtLabelRICX.setVisibility(View.GONE);
                 txtCardRICX.setVisibility(View.GONE);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         }
 
@@ -444,9 +447,13 @@ public class CoinList extends AppCompatActivity {
             TextView txtLabelWeightX = (TextView)mView.findViewById(R.id.txtLabelWeight);
             txtLabelWeightX.setVisibility(View.VISIBLE);
 
+            try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
             if (weight.isEmpty()) {
 
                 txtLabelWeightX.setVisibility(View.GONE);
+            }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
         }
@@ -458,9 +465,13 @@ public class CoinList extends AppCompatActivity {
             TextView txtLabelDiameterX = (TextView)mView.findViewById(R.id.txtLabelDiameter);
             txtLabelDiameterX.setVisibility(View.VISIBLE);
 
+            try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
             if (diameter.isEmpty()) {
 
                 txtLabelDiameterX.setVisibility(View.GONE);
+            }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
@@ -501,10 +512,14 @@ public class CoinList extends AppCompatActivity {
             TextView txtLabelValueX = (TextView)mView.findViewById(R.id.txtLabelValue);
             txtLabelValueX.setVisibility(View.VISIBLE);
 
+            try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
             if (value == 0){
 
                 txtLabelValueX.setVisibility(View.GONE);
 
+            }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
         }

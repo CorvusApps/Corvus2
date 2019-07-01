@@ -326,7 +326,7 @@
                         android:id="@+id/edtProvenance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
+                        android:inputType="textMultiLine"
                         android:nextFocusForward="@+id/edtValue"
                         />
 
