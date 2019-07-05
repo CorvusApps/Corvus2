@@ -505,6 +505,25 @@ public class RefCollections extends AppCompatActivity {
             }
         });
 
+        final LinearLayout faqCoinListX = view.findViewById(R.id.faqCoinList2);
+        final TextView txtFAQCoinListX = view.findViewById(R.id.txtFAQCoinList2);
+        txtFAQCoinListX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCoinListX.getVisibility() == View.GONE) {
+                    faqCoinListX.setVisibility(View.VISIBLE);
+                    txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCoinListX.setVisibility(View.GONE);
+                    txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
     }
 
     // View holder for the recycler view

@@ -26,10 +26,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -70,9 +76,6 @@ public class CoinAdd extends AppCompatActivity {
     // UI and data components for transfering collection ID from Homepage through here to AddCoin and ShowCoin activities
     private TextView txtHiddenCoinAddColIdX;
     private String cAdduidX; //collection UID
-    private String modify; // to toggle between adding a new coin and modifying an existing one
-
-
 
     // UI components and intermediate variables to manipulate them
     private EditText edtPersonageX, edtRICX, edtDenominationX, edtRICvarX, edtWeightX, edtDiamaterX, edtMintX, edtObvDescX
@@ -96,13 +99,23 @@ public class CoinAdd extends AppCompatActivity {
     private String imageLink; // created by Firebase when image uploaded
     private FirebaseAuth coinAddFirebaseAuth;
 
+    //variables to recieve inputs from modify collection method from expanded collectio dialog in homepage
+    private String coinUIDRec, coinPersonageRec, coinDenominationRec, coinMintRec, coinRICvarRec, coinWeightRec, coinDiameterRec, coinObvDescRec
+            ,coinObvLegRec, coinRevDescRec, coinRevLegRec, coinProvenanceRec, coinNotesRec, coinImageLinkRec;
+
+    private String colUIDRec; //col uid we get from coin list versus homepage
+    private int coinRICRec, coinValueRec;
+    private String modify; // toggle to whether we are saving a new collection or modifying existing
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_add);
 
-        //To be shown first time only as intro info
+        Toast.makeText(CoinAdd.this, "here", Toast.LENGTH_SHORT).show();
+        modify = "no"; // toggle to whether we are saving a new collection or modifying existing
 
+        //To be shown first time only as intro info
         if (isFirstTime()) {
             oneTimeInfoCoinAdd();
         }
@@ -111,8 +124,6 @@ public class CoinAdd extends AppCompatActivity {
         txtHiddenCoinAddColIdX = findViewById(R.id.txtHiddenCoinAddColId);
         cAdduidX = getIntent().getStringExtra("coluid");
         txtHiddenCoinAddColIdX.setText(cAdduidX);
-
-        modify = "no"; // default value of this activity is adding a new coin not modify
 
         //Firebase related
         coinAddFirebaseAuth = FirebaseAuth.getInstance();
@@ -198,7 +209,6 @@ public class CoinAdd extends AppCompatActivity {
         });
 
         //clickable info for RICvar
-
         imgRICvarInfoX = findViewById(R.id.imgRICvarInfo);
         imgRICvarInfoX.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,8 +218,6 @@ public class CoinAdd extends AppCompatActivity {
 
             }
         });
-
-
 
         FloatingActionButton fabCoinPopUpMenuX = findViewById(R.id.fabCoinPopUpMenu);
         fabCoinPopUpMenuX.setOnClickListener(new View.OnClickListener() {
@@ -221,7 +229,6 @@ public class CoinAdd extends AppCompatActivity {
             }
         });
 
-
         FloatingActionButton fabCoinSaveX = findViewById(R.id.fabCoinSave);
         fabCoinSaveX.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,6 +237,81 @@ public class CoinAdd extends AppCompatActivity {
                 coinSave();
             }
         });
+
+        Toast.makeText(CoinAdd.this, "On create modify = " + modify, Toast.LENGTH_SHORT).show();
+
+        //try to get data from intent if not null
+        Bundle intent = getIntent().getExtras();
+        if (getIntent().getStringExtra("personage") != null){
+            // we can come into this class from either add collection (home page) or modify collection (expanded collection window)
+            // this code will be executed if we came in from modify and thus with push Extras; but because will have intent from Homepage need to be specific for coin intent
+
+            //get and store data
+
+            colUIDRec =  getIntent().getStringExtra("coluid"); // need collection because coming in from coinlist not home page
+            coinUIDRec = getIntent().getStringExtra("coinuid");
+
+            coinPersonageRec = getIntent().getStringExtra("personage");
+            coinDenominationRec = getIntent().getStringExtra("denomination");
+            coinMintRec = getIntent().getStringExtra("mint");
+            coinRICvarRec = getIntent().getStringExtra("ricvar");
+            coinRICRec = getIntent().getIntExtra("id", 0);
+            coinWeightRec = getIntent().getStringExtra("weight");
+            coinDiameterRec = getIntent().getStringExtra("diameter");
+            coinObvDescRec = getIntent().getStringExtra("obvdesc");
+            coinObvLegRec = getIntent().getStringExtra("obvleg");
+            coinRevDescRec = getIntent().getStringExtra("revdesc");
+            coinRevLegRec = getIntent().getStringExtra("revleg");
+            coinProvenanceRec = getIntent().getStringExtra("provenance");
+            coinValueRec = getIntent().getIntExtra("value", 0);
+            coinNotesRec = getIntent().getStringExtra("notes");
+
+            coinImageLinkRec = getIntent().getStringExtra("imageLink");
+
+
+            //populate the input views with existing value
+            edtPersonageX.setText(coinPersonageRec);
+            edtDenominationX.setText(coinDenominationRec);
+            edtMintX.setText(coinMintRec);
+            edtRICvarX.setText(coinRICvarRec);
+            edtWeightX.setText(coinWeightRec);
+            edtDiamaterX.setText(coinDiameterRec);
+            edtObvDescX.setText(coinObvDescRec);
+            edtObvLegendX.setText(coinObvLegRec);
+            edtRevLegendX.setText(coinRevLegRec);
+            edtRevDescX.setText(coinRevDescRec);
+            edtProvenanceX.setText(coinProvenanceRec);
+            edtNotesX.setText(coinNotesRec);
+
+            // need to convert to string before putting into editText but want int in firbase for sorting
+            String coinRICRec2 = String.valueOf(coinRICRec);
+            edtRICX.setText(coinRICRec2);
+
+            String coinValueRec2 = String.valueOf(coinValueRec);
+            edtValueX.setText(coinValueRec2);
+
+
+            // executes only if there is an imageLink coming through to prevent crashing
+
+            try {
+                if (coinImageLinkRec.isEmpty()) {
+
+                    //skip
+
+                } else {
+                    Picasso.get().load(coinImageLinkRec).into(imgCoinAddX);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            // toggles to this being modification input vs. new collection
+            modify = "yes";
+
+            Toast.makeText(CoinAdd.this, "After intent modify = " + modify, Toast.LENGTH_SHORT).show();
+
+        }
+
     }
 
     //land here from pressing coinSave fab to begin getting the new coin entry in firebase
@@ -246,12 +328,14 @@ public class CoinAdd extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // prevent uploading collections without names
+        // prevent uploading coins without at least the Personage filled in
         if(edtPersonageX.getText().toString().equals("")) {
 
             alertDialogNoCoinPersonage();
 
         } else {
+
+            Toast.makeText(CoinAdd.this, "Coin save modify = " + modify, Toast.LENGTH_SHORT).show();
 
 
             if (modify.equals("no")) {
@@ -281,8 +365,20 @@ public class CoinAdd extends AppCompatActivity {
     //land here if press coinSave but modify is set to yes - ie. this is an update and not a new coin add
     private void beginUpdate() {
 
-        // TODO - write update functionality
+        Toast.makeText(CoinAdd.this, "modify in begin update" + modify, Toast.LENGTH_SHORT).show();
+
+        //if the coin did not have any image to start with skip delete image to avoid a crash
+
+        if (coinImageLinkRec.isEmpty() | coinImageLinkRec.equals("")) {
+
+            uploadNewImg();
+        } else {
+
+            //start by deleting existing pic from storage
+            deletePreviousImage();
+        }
     }
+
 
     // land here if press coinSave fab but have no collection picture; gives user options to get picture or go on
     private void alertDialogNoCoinPicture() {
@@ -431,7 +527,7 @@ public class CoinAdd extends AppCompatActivity {
 
         } else {
 
-            String Value2 = edtRICX.getText().toString();
+            String Value2 = edtValueX.getText().toString();
             Value3 = Integer.parseInt(Value2);// getting Value to be an int before uploading so sorting works well
 
         }
@@ -502,7 +598,7 @@ public class CoinAdd extends AppCompatActivity {
 
         snackbar.show();
 
-        // THE COLOR SET BELOW WORKS but the default is white which is what we want; keeping code for reference
+
         int snackbarTextId = com.google.android.material.R.id.snackbar_text;
         TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
         textView.setTextSize(18);
@@ -785,7 +881,7 @@ public class CoinAdd extends AppCompatActivity {
 
         snackbar.show();
 
-        // THE COLOR SET BELOW WORKS but the default is white which is what we want; keeping code for reference
+
         int snackbarTextId = com.google.android.material.R.id.snackbar_text;
         TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
         textView.setTextSize(18);
@@ -1043,6 +1139,183 @@ public class CoinAdd extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void deletePreviousImage() {
+
+        StorageReference mPictureReference = FirebaseStorage.getInstance().getReferenceFromUrl(coinImageLinkRec);
+
+        mPictureReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                uploadNewImg();
+
+                //this deletes the image but until you close out of the app, that is not updated in the UI...
+                //... which is OK because it also re-uploads the same image; but why?
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(CoinAdd.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    // this uses the image added into the image view which is either the one that comes from firebase or is added there even on modify with the collection add functionality which is active on the input page
+    private void uploadNewImg() {
+
+        pd = new ProgressDialog(CoinAdd.this,R.style.CustomAlertDialog);
+        pd.setCancelable(false);
+        pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+        pd.show();
+
+        // Get the data from an ImageView as bytes - this is identical to what we did for new collection except needing to get the bitmap here because not available from pic upload
+
+
+        imgCoinAddX.setDrawingCacheEnabled(true);
+        imgCoinAddX.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) imgCoinAddX.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        imageIdentifier = UUID.randomUUID() + ".jpg";   //initialized here because needs to be unique for each image but is random = unique??
+
+        UploadTask uploadTask = FirebaseStorage.getInstance().getReference().child("myImages").child("coinImages")
+                .child(imageIdentifier).putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+
+                //makes the exception message an instance variable string that can be used in a custom dialog below
+
+                exceptions = exception.toString();
+                alertDialogException();
+
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+
+                // get the download link of the image uploaded to server
+                taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    // apparently the onCompleteListener is to allow this to happen in the backround vs. UI thread
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+
+                        if (task.isSuccessful()) {
+
+                            imageLink = task.getResult().toString();
+
+                            // setting up as separate method to let image upload finish before calling the put function which requires the imageLink
+                            // sending to an update method seperate from the one used to upload a new collection
+                            updateCollection();
+                        }
+                    }
+                });
+            }
+        });
+
+
+    }
+
+    // updates collection in Firebase in a similar was as for adding a new collection
+    private void updateCollection() {
+
+        //new values to update the previous record
+        final String updatePersonage = edtPersonageX.getText().toString();
+        final String updateDenomination = edtDenominationX.getText().toString();
+        final String updateMint = edtMintX.getText().toString();
+
+        final String updateRIC = edtRICX.getText().toString();
+        final int updateRIC2 = Integer.parseInt(updateRIC);// getting id to be an int before uploading so sorting work well
+        // no need to do the if logic to see if it's blank because in modify value from firebase has to be something even if that is 0
+
+        final String updateRICvar = edtRICvarX.getText().toString();
+        final String updateWeight = edtWeightX.getText().toString();
+        final String updateDiameter = edtDiamaterX.getText().toString();
+        final String updateObvDesc = edtObvDescX.getText().toString();
+        final String updateObvLeg = edtObvLegendX.getText().toString();
+        final String updateRevDesc = edtRevDescX.getText().toString();
+        final String updateRevLeg = edtRevLegendX.getText().toString();
+        final String updateProvenace = edtProvenanceX.getText().toString();
+
+        final String updateValue = edtValueX.getText().toString();
+        final int updateValue2 = Integer.parseInt(updateValue);// getting id to be an int before uploading so sorting work well
+        // no need to do the if logic to see if it's blank because in modify value from firebase has to be something even if that is 0
+
+        final String updateNotes = edtNotesX.getText().toString();
+
+
+        //This points to what needs to be updated versus setting up a new upload
+
+        String uid = FirebaseAuth.getInstance().getUid();
+
+        DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
+                .child("collections").child(colUIDRec).child("coins");
+
+        Query query = updateRef.orderByChild("coinuid").equalTo(coinUIDRec);
+
+        //updating timestamp to be able to sort on last updated
+        final Long timestampX = System.currentTimeMillis() * -1; // make negative for sorting; using timestamp instead is giant pain in the ass as you can't make it a long value easily
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot ds: dataSnapshot.getChildren()) {
+
+                    //update data
+                    ds.getRef().child("personage").setValue(updatePersonage);
+                    ds.getRef().child("denomination").setValue(updateDenomination);
+                    ds.getRef().child("mint").setValue(updateMint);
+                    ds.getRef().child("id").setValue(updateRIC2);
+                    ds.getRef().child("ricvar").setValue(updateRICvar);
+                    ds.getRef().child("weight").setValue(updateWeight);
+                    ds.getRef().child("diameter").setValue(updateDiameter);
+                    ds.getRef().child("obvdesc").setValue(updateObvDesc);
+                    ds.getRef().child("obvleg").setValue(updateObvLeg);
+                    ds.getRef().child("revdesc").setValue(updateRevDesc);
+                    ds.getRef().child("revleg").setValue(updateRevLeg);
+                    ds.getRef().child("provenance").setValue(updateProvenace);
+                    ds.getRef().child("value").setValue(updateValue2);
+                    ds.getRef().child("notes").setValue(updateNotes);
+
+                    ds.getRef().child("timestamp").setValue(timestampX);
+                    ds.getRef().child("imageLink").setValue(imageLink);
+                    ds.getRef().child("uid").setValue(imageIdentifier);
+
+
+                    pd.dismiss();
+                    coinLoadSnackbar();
+
+                    new CountDownTimer(3000, 500) {
+
+                        public void onTick(long millisUntilFinished) {
+                            // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+                        }
+
+                        public void onFinish() {
+                            Intent intent = new Intent(CoinAdd.this, CoinList.class);
+                            intent.putExtra("coluid", colUIDRec);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }.start();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

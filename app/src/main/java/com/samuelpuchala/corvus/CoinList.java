@@ -3,7 +3,10 @@ package com.samuelpuchala.corvus;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.facebook.login.LoginManager;
@@ -57,8 +60,6 @@ public class CoinList extends AppCompatActivity {
     TextView txtCListCollUIDX;
     String cListuid;
 
-
-
     // Firebase related
     FirebaseAuth firebaseAuthCoins;
     DatabaseReference coinDatabase;
@@ -71,12 +72,26 @@ public class CoinList extends AppCompatActivity {
     Dialog dialog; //universal dialog instance variable used for most dialogs in the activity
     CoordinatorLayout loutCoinListActLOX; //primarily used for snackbars
 
+    //creating instance variables that can be used to pass info to the coin modify screen
+
+    private Bitmap coinBitmap;
+    private Drawable coinImageY;
+
+    private String coinPersonageY, coinDenominationY, coinMintY, coinRICvarY, coinWeightY, coinDiameterY, coinObvDescY, coinObvLegY, coinRevDescY
+            , coinRevLegY, coinProvenanceY,coinNotesY, coinImageLinkY, coinUIDY;
+    private int coinRICY,  coinValueY;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_list);
+
+        //To be shown first time only as intro info
+        if (isFirstTime()) {
+            oneTimeInfoLogin();
+        }
 
 
         FloatingActionButton fabCoinAddX = findViewById(R.id.fabCoinAdd);
@@ -231,7 +246,57 @@ public class CoinList extends AppCompatActivity {
                     @Override
                     public void onItemLongClick(View view, int position) {
 
-                        // TODO - code to modify coin
+                        //Pulling views from the card
+                        TextView txtPersonageX = view.findViewById(R.id.txtCardPersonage);
+                        TextView txtDenominationX = view.findViewById(R.id.txtCardDenomination);
+                        TextView txtMintX = view.findViewById(R.id.txtCardMint);
+                        TextView txtRICX = view.findViewById(R.id.txtCardRIC);
+                        TextView txtRICvarX = view.findViewById(R.id.txtCardRICvar);
+                        TextView txtWeightX = view.findViewById(R.id.txtCardWeight);
+                        TextView txtDiameterX = view.findViewById(R.id.txtCardDiameter);
+                        TextView txtObvDescX = view.findViewById(R.id.txtObvDesc);
+                        TextView txtObvLegX = view.findViewById(R.id.txtObvLeg);
+                        TextView txtRevDescX = view.findViewById(R.id.txtRevDesc);
+                        TextView txtRevLegX = view.findViewById(R.id.txtRevLeg);
+                        TextView txtProvenanceX = view.findViewById(R.id.txtProvenance);
+                        TextView txtValueX = view.findViewById(R.id.txtValue);
+                        TextView txtNotesX = view.findViewById(R.id.txtNotes);
+
+                        TextView txtCoinUIDX = view.findViewById(R.id.txtCardCoinUid);
+                        TextView txtImageLinkX = view.findViewById(R.id.txtCardImgLink);
+
+                        ImageView coinImageX = view.findViewById(R.id.imgCardCoinAdd);
+
+                        //get data from views
+
+                        coinPersonageY = txtPersonageX.getText().toString();
+                        coinDenominationY = txtDenominationX.getText().toString();
+                        coinMintY = txtMintX.getText().toString();
+
+                        coinRICvarY = txtRICvarX.getText().toString();
+                        coinWeightY = txtWeightX.getText().toString();
+                        coinDiameterY = txtDiameterX.getText().toString();
+                        coinObvDescY = txtObvDescX.getText().toString();
+                        coinObvLegY = txtObvLegX.getText().toString();
+                        coinRevLegY = txtRevLegX.getText().toString();
+                        coinRevDescY = txtRevDescX.getText().toString();
+                        coinProvenanceY = txtProvenanceX.getText().toString();
+
+                        coinNotesY = txtNotesX.getText().toString();
+
+                        coinUIDY = txtCoinUIDX.getText().toString();
+                        coinImageLinkY = txtImageLinkX.getText().toString();
+
+                        coinImageY = coinImageX.getDrawable();
+
+                        //the RIC and Value have to be converted to an int before being put to coinadd class
+                        String coinRICYpre = txtRICX.getText().toString();
+                        coinRICY = Integer.parseInt(coinRICYpre);
+
+                        String coinValueYpre = txtValueX.getText().toString();
+                        coinValueY = Integer.parseInt(coinValueYpre);
+
+                        modifyCoinActivity();
 
                     }
 
@@ -239,9 +304,6 @@ public class CoinList extends AppCompatActivity {
 
                 return viewHolder;
             }
-
-
-
 
         };
 
@@ -265,6 +327,37 @@ public class CoinList extends AppCompatActivity {
 
             }
         }).attachToRecyclerView(rcvCoinsX);
+
+    }
+
+    // sends the information from the longclicked item to the coinadd class for modification including the coinuidy which will allow it to be saved over the current info
+    private void modifyCoinActivity() {
+
+        Intent intent = new Intent(CoinList.this, CoinAdd.class);
+
+        intent.putExtra("coluid", cListuid); // need to pass the collection back to the coinadd
+        intent.putExtra("coinuid", coinUIDY);
+
+        intent.putExtra("personage", coinPersonageY);
+        intent.putExtra("denomination", coinDenominationY);
+        intent.putExtra("mint", coinMintY);
+        intent.putExtra("id", coinRICY);
+        intent.putExtra("ricvar", coinRICvarY);
+        intent.putExtra("weight", coinWeightY);
+        intent.putExtra("diameter", coinDiameterY);
+        intent.putExtra("obvdesc", coinObvDescY);
+        intent.putExtra("obvleg", coinObvLegY);
+        intent.putExtra("revdesc", coinRevDescY);
+        intent.putExtra("revleg", coinRevLegY);
+        intent.putExtra("provenance", coinProvenanceY);
+        intent.putExtra("value", coinValueY);
+        intent.putExtra("notes", coinNotesY);
+
+
+        intent.putExtra("imageLink", coinImageLinkY);
+
+        startActivity(intent);
+
 
     }
 
@@ -853,6 +946,63 @@ public class CoinList extends AppCompatActivity {
             }
         });
 
+        final LinearLayout faqCoinListX = view.findViewById(R.id.faqCoinList2);
+        final TextView txtFAQCoinListX = view.findViewById(R.id.txtFAQCoinList2);
+        txtFAQCoinListX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCoinListX.getVisibility() == View.GONE) {
+                    faqCoinListX.setVisibility(View.VISIBLE);
+                    txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCoinListX.setVisibility(View.GONE);
+                    txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+
+    }
+
+    private void oneTimeInfoLogin() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzzz_otinfo_homepage, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        Button btnOKoneTimeHPX = view.findViewById(R.id.btnOKoneTimeCL);
+        btnOKoneTimeHPX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+    }
+
+    // checks this is the app is run first time which we use to decide whether to show the one time info dialogs
+    private boolean isFirstTime()
+    {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+            // first time
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+        }
+        return !ranBefore;
     }
 
     @Override

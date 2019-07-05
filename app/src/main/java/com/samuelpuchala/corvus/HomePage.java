@@ -106,7 +106,6 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
 
         //To be shown first time only as intro info
-
         if (isFirstTime()) {
             oneTimeInfoLogin();
         }
@@ -225,6 +224,8 @@ public class HomePage extends AppCompatActivity {
                 ZZZjcCollectionsViewHolder viewHolder = super.onCreateViewHolder(parent, viewType);
 
                 viewHolder.setOnItemClickListener(new ZZZjcCollectionsViewHolder.OnItemClickListener() {
+
+                    // Enter the coinlist of clicked collection
                     @Override
                     public void onItemClick(View view, int position) {
                         //Pulling data from view on card
@@ -238,17 +239,14 @@ public class HomePage extends AppCompatActivity {
 
                        // no need to pass the image to the CoinList Class but keeping the lines below as example code
                         Intent intent  = new Intent(view.getContext(), CoinList.class);
-//                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                        colBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//                        byte [] bytes = stream.toByteArray();
-//                        intent.putExtra("image", bytes); // put bitmap image as array of bytes
+
                         intent.putExtra("coluid", colUIDY);
                         startActivity(intent);
 
                     }
 
 
-
+                    // onLongClick explode card into dialog view with all the Collection data including what is needed for downstream methods accessible through buttons on exploded view - delete, modify, go to coinslist
                     @Override
                     public void onItemLongClick(View view, int position) {
 
@@ -640,7 +638,11 @@ public class HomePage extends AppCompatActivity {
            @Override
            public void onClick(View view) {
 
-               Toast.makeText(HomePage.this, "Enter coin list", Toast.LENGTH_SHORT).show();
+               Intent intent  = new Intent(view.getContext(), CoinList.class);
+
+               intent.putExtra("coluid", colUIDY);
+               startActivity(intent);
+
                shadeX.setVisibility(View.INVISIBLE);
                dialog.dismiss();
             }
@@ -994,6 +996,25 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+        final LinearLayout faqCoinListX = view.findViewById(R.id.faqCoinList2);
+        final TextView txtFAQCoinListX = view.findViewById(R.id.txtFAQCoinList2);
+        txtFAQCoinListX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCoinListX.getVisibility() == View.GONE) {
+                    faqCoinListX.setVisibility(View.VISIBLE);
+                    txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCoinListX.setVisibility(View.GONE);
+                    txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
     }
  // checks this is the app is run first time which we use to decide whether to show the one time info dialogs
     private boolean isFirstTime()
@@ -1111,6 +1132,8 @@ public class HomePage extends AppCompatActivity {
         textView.setTextColor(getResources().getColor(R.color.lighttext));
 
     }
+
+
 
 }
 

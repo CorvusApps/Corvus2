@@ -175,8 +175,8 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             edtCollectionNameX.setText(colTitleRec);
             edtCollectionDescX.setText(colDesRec);
             edtCollectionsNotesX.setText(colNotesRec);
-            // need to convert to string before putting into editText but want int in firbase for sorting
 
+            // need to convert to string before putting into editText but want int in firbase for sorting
             String colIDYRec2 = String.valueOf(colIDYRec);
             edtCollectionIDX.setText(colIDYRec2);
 
@@ -189,6 +189,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             } else {
                 Picasso.get().load(colImageLinkRec).into(imgCollectionImageX);
             }
+
             // toggles to this being modification input vs. new collection
             modify = "yes";
 
@@ -1296,6 +1297,25 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
                     faqCoinsSetupX.setVisibility(View.GONE);
                     txtFAQCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqCoinListX = view.findViewById(R.id.faqCoinList2);
+        final TextView txtFAQCoinListX = view.findViewById(R.id.txtFAQCoinList2);
+        txtFAQCoinListX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCoinListX.getVisibility() == View.GONE) {
+                    faqCoinListX.setVisibility(View.VISIBLE);
+                    txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCoinListX.setVisibility(View.GONE);
+                    txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
                 }
 
             }

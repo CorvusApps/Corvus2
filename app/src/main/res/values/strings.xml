@@ -39,6 +39,14 @@
     <string name="coinadd_05">The RIC number is numeric for sorting purposes. In the RICvar field you can add qualifiers such as a letter (e.g. RIC 197 b) or var or note</string>
     <string name="coinadd_06">If you wish to add Provincial coins, the legend fields can be toggled to the greek alphabet</string>
 
+    <string name="coinlist_01">Click the floating button at the bottom of the screen to add a coin.</string>
+    <string name="coinlist_02">Corvus does not currently support batch additions from a spreadsheet but we are working on it!</string>
+    <string name="coinlist_03">Click on a coin-card to show all the information about the coin. Swipe right or left to delete the coin. Longclick to modify the coin record.</string>
+    <string name="coinlist_04">You can sort the coins on the personage, RIC number or last-modified; sort options in the drop down menu.</string>
+    <string name="coinlist_05">You can also search coins accross all your collection; search available in the drop down menu.</string>
+    <string name="coinlist_06"></string>
+
+
 
     <string name="title_activity_ref_collections">RefCollections</string>
     <string name="title_activity_ref_coin_list">RefCoinList</string>
