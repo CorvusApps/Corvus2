@@ -38,6 +38,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.CountDownTimer;
 import android.view.ContextThemeWrapper;
@@ -63,20 +64,20 @@ public class CoinList extends AppCompatActivity {
 
 
     // UI and data components for transfering collection ID from Homepage through here to AddCoin and ShowCoin activities
-    TextView txtCListCollUIDX;
-    String cListuid;
+    private TextView txtCListCollUIDX;
+    private String cListuid;
 
     // Firebase related
-    FirebaseAuth firebaseAuthCoins;
-    DatabaseReference coinDatabase;
+    private FirebaseAuth firebaseAuthCoins;
+    private DatabaseReference coinDatabase;
 
     //UI Components
-    RecyclerView rcvCoinsX;
+    private RecyclerView rcvCoinsX;
 
     int cardToggle; // allows for onclick expansion and deflation of coin cards
 
-    Dialog dialog; //universal dialog instance variable used for most dialogs in the activity
-    CoordinatorLayout loutCoinListActLOX; //primarily used for snackbars
+    private Dialog dialog; //universal dialog instance variable used for most dialogs in the activity
+    private CoordinatorLayout loutCoinListActLOX; //primarily used for snackbars
 
     private ProgressDialog pd; // universal progress dialog used in this activity
 
@@ -91,6 +92,13 @@ public class CoinList extends AppCompatActivity {
 
     //need to get imageLink before removing the values so can delete it later
     private String deleteImageLink;
+
+    //For Sorting
+
+    private LinearLayoutManager layoutManagerCoins;
+    private SharedPreferences sortSharedPrefCoins;
+
+    private Query sortQueryCoins;
 
 
 
@@ -139,10 +147,49 @@ public class CoinList extends AppCompatActivity {
                 .child("collections").child(cListuid).child("coins");
         coinDatabase.keepSynced(true);
 
+
+        //Shared preferences for sorting
+        sortSharedPrefCoins = getSharedPreferences("SortSetting2", MODE_PRIVATE);
+        String mSorting2 = sortSharedPrefCoins.getString("Sort2", "ric"); // where if no settings
+
+        if(mSorting2.equals("ric")) {
+
+            sortQueryCoins = coinDatabase.orderByChild("id");
+            layoutManagerCoins = new LinearLayoutManager(this);
+            layoutManagerCoins.setReverseLayout(false);
+
+        }
+
+        if(mSorting2.equals("value")) {
+
+            sortQueryCoins = coinDatabase.orderByChild("value");
+            layoutManagerCoins = new LinearLayoutManager(this);
+            layoutManagerCoins.setReverseLayout(true);
+
+        }
+
+        if (mSorting2.equals("newest")) {
+
+            sortQueryCoins = coinDatabase.orderByChild("timestamp");
+            layoutManagerCoins = new LinearLayoutManager(this);
+            layoutManagerCoins.setReverseLayout(false);
+
+
+
+        } else if (mSorting2.equals("personage")) {
+
+            sortQueryCoins = coinDatabase.orderByChild("personage");
+            layoutManagerCoins = new LinearLayoutManager(this);
+            layoutManagerCoins.setReverseLayout(false);
+
+        }
+
+
+
         //UI Components
         rcvCoinsX = findViewById(R.id.rcvCoins);
         rcvCoinsX.setHasFixedSize(true); //Not sure this applies or why it is here
-        rcvCoinsX.setLayoutManager(new LinearLayoutManager(this));
+        rcvCoinsX.setLayoutManager(layoutManagerCoins);
 
         cardToggle = 0; // allows for onclick expansion and deflation of coin cards
 
@@ -154,7 +201,7 @@ public class CoinList extends AppCompatActivity {
 
         final FirebaseRecyclerAdapter<ZZZjcCoins, ZZZjcCoinsViewHolder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<ZZZjcCoins, ZZZjcCoinsViewHolder>
-                (ZZZjcCoins.class,R.layout.yyy_card_coin, ZZZjcCoinsViewHolder.class,coinDatabase) {
+                (ZZZjcCoins.class,R.layout.yyy_card_coin, ZZZjcCoinsViewHolder.class,sortQueryCoins) {
 
 
             @Override
@@ -1004,14 +1051,13 @@ public class CoinList extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void oneTimeInfoLogin() {
 
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzzz_otinfo_homepage, null);
+        View view = inflater.inflate(R.layout.zzzz_otinfo_coinlist, null);
 
         dialog = new AlertDialog.Builder(this)
                 .setView(view)
@@ -1019,8 +1065,8 @@ public class CoinList extends AppCompatActivity {
 
         dialog.show();
 
-        Button btnOKoneTimeHPX = view.findViewById(R.id.btnOKoneTimeCL);
-        btnOKoneTimeHPX.setOnClickListener(new View.OnClickListener() {
+        Button btnOKoneTimeCLX = view.findViewById(R.id.btnOKoneTimeCL);
+        btnOKoneTimeCLX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -1066,7 +1112,7 @@ public class CoinList extends AppCompatActivity {
 
         //Everything in this method is code for the universal alert dialog
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzz_dialog_sort_collections, null);
+        View view = inflater.inflate(R.layout.zzz_dialog_sort_coin, null);
 
         dialog = new AlertDialog.Builder(this)
                 .setView(view)
@@ -1076,38 +1122,38 @@ public class CoinList extends AppCompatActivity {
 
         // Sort radio buttons
 
-        final RadioButton rbSortByCustomNumberX = view.findViewById(R.id.rbSortByCustomNumber);
-        final RadioButton rbSortLastUpdatedX = view.findViewById(R.id.rbSortLastUpdated);
-        final RadioButton rbSortOldestX = view.findViewById(R.id.rbSortOldest);
-        final RadioButton rbSortMostValuableX = view.findViewById(R.id.rbSortMostValuable);
-        final RadioButton rbSortBiggestX = view.findViewById(R.id.rbSortBiggest);
+        final RadioButton rbSortByRICX = view.findViewById(R.id.rbSortByRIC);
+        final RadioButton rbSortLastUpdatedX = view.findViewById(R.id.rbSortLastUpdatedCoin);
+        final RadioButton rbSortPersonageX = view.findViewById(R.id.rbSortPersonage);
+        final RadioButton rbSortMostValuableX = view.findViewById(R.id.rbSortMostValuableCoin);
 
-        Button btnSetImageX = view.findViewById(R.id.btnSort);
-        btnSetImageX.setOnClickListener(new View.OnClickListener() {
+
+        Button btnSortX = view.findViewById(R.id.btnSortCoins);
+        btnSortX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(rbSortByCustomNumberX.isChecked()){
+                if(rbSortByRICX.isChecked()){
 
 
-                    SharedPreferences.Editor editor = sortSharedPref.edit();
-                    editor.putString("Sort", "alpha");
+                    SharedPreferences.Editor editor = sortSharedPrefCoins.edit();
+                    editor.putString("Sort2", "ric");
                     editor.apply(); // saves the value
                     dialog.dismiss();
                     recreate(); // restart activity to take effect
 
                 } else if (rbSortLastUpdatedX.isChecked()) {
 
-                    SharedPreferences.Editor editor = sortSharedPref.edit();
-                    editor.putString("Sort", "newest");
+                    SharedPreferences.Editor editor = sortSharedPrefCoins.edit();
+                    editor.putString("Sort2", "newest");
                     editor.apply(); // saves the value
                     dialog.dismiss();
                     recreate(); // restart activity to take effect
 
-                } else if (rbSortOldestX.isChecked()) {
+                } else if (rbSortPersonageX.isChecked()) {
 
-                    SharedPreferences.Editor editor = sortSharedPref.edit();
-                    editor.putString("Sort", "oldest");
+                    SharedPreferences.Editor editor = sortSharedPrefCoins.edit();
+                    editor.putString("Sort2", "personage");
                     editor.apply(); // saves the value
                     dialog.dismiss();
                     recreate(); // restart activity to take effect
@@ -1115,26 +1161,24 @@ public class CoinList extends AppCompatActivity {
 
                 } else if (rbSortMostValuableX.isChecked()) {
 
-                    Toast.makeText(HomePage.this, "Value", Toast.LENGTH_SHORT).show();
+                    SharedPreferences.Editor editor = sortSharedPrefCoins.edit();
+                    editor.putString("Sort2", "value");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
 
 
-                } else if (rbSortBiggestX.isChecked()) {
-
-
-                    Toast.makeText(HomePage.this, "Biggest", Toast.LENGTH_SHORT).show();
                 } else {
 
                     noSortCriteriaSnackbar();
 
                 }
 
-
-
             }
         });
 
 
-        Button btnCancelX = view.findViewById(R.id.btnCancel);
+        Button btnCancelX = view.findViewById(R.id.btnCancelCoinSort);
         btnCancelX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1151,7 +1195,7 @@ public class CoinList extends AppCompatActivity {
 
         Snackbar snackbar;
 
-        snackbar = Snackbar.make(loutHomePageActLOX, "Please select sorting criteria", Snackbar.LENGTH_SHORT);
+        snackbar = Snackbar.make(loutCoinListActLOX, "Please select sorting criteria", Snackbar.LENGTH_SHORT);
 
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
