@@ -1,11 +1,14 @@
 package com.samuelpuchala.corvus;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -31,6 +34,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,11 +51,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
 
 public class CoinList extends AppCompatActivity {
 
@@ -72,6 +78,8 @@ public class CoinList extends AppCompatActivity {
     Dialog dialog; //universal dialog instance variable used for most dialogs in the activity
     CoordinatorLayout loutCoinListActLOX; //primarily used for snackbars
 
+    private ProgressDialog pd; // universal progress dialog used in this activity
+
     //creating instance variables that can be used to pass info to the coin modify screen
 
     private Bitmap coinBitmap;
@@ -80,6 +88,9 @@ public class CoinList extends AppCompatActivity {
     private String coinPersonageY, coinDenominationY, coinMintY, coinRICvarY, coinWeightY, coinDiameterY, coinObvDescY, coinObvLegY, coinRevDescY
             , coinRevLegY, coinProvenanceY,coinNotesY, coinImageLinkY, coinUIDY;
     private int coinRICY,  coinValueY;
+
+    //need to get imageLink before removing the values so can delete it later
+    private String deleteImageLink;
 
 
 
@@ -361,59 +372,87 @@ public class CoinList extends AppCompatActivity {
 
     }
 
-    public void deleteItem (DatabaseReference position) {
+    public void deleteItem (final DatabaseReference position) {
 
-        Query mQuery = position;
-        mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        // we first need to get the imageLink of the deleted picture before and only once we know we have it start the method for delete rest of record
+        Query deleteQuery = position.child("imageLink");
+        deleteQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()){
-                    ds.getRef().removeValue(); // removes values from firebase
 
-                }
-                // WIERD ERROR was happening here caused by the FB SDK - apparently a bug - had to downgrade to version 5.0.3 to fix it
-                Toast.makeText(CoinList.this,"Delete successfull", Toast.LENGTH_LONG).show();
+                deleteImageLink = dataSnapshot.getValue().toString();
 
-                // collectionDeletedSnackbar();
+                //calling a method with deleteImageLink as a parameter forces the query to complete before moving on
+                deleteCoin(deleteImageLink, position);
+                pd = new ProgressDialog(CoinList.this,R.style.CustomAlertDialog);
+                pd.setCancelable(false);
+                pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+                pd.show();
 
-                        // need an undo or a are you sure logic here
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        Toast.makeText(CoinList.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-
             }
         });
 
-        // delete the picture from storage after removing the collection record
-
-//                if (colImageLinkY != "") {
-//                    //not executing if the collection does not have an image attached to avoid crashing
-//
-//                    StorageReference mPictureReference = FirebaseStorage.getInstance().getReferenceFromUrl(colImageLinkY);
-//
-//                    mPictureReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-//                        @Override
-//                        public void onSuccess(Void aVoid) {
-//
-//
-//                        }
-//                    }).addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//
-//                            Toast.makeText(HomePage.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//
-//                }
-
     }
 
+    public void deleteCoin(String deleteImageLink, final DatabaseReference position) {
+
+        // delete the picture from storage after removing the coin record
+        try { // putting in try catch because crashing - the if statement does not help - oddly works in collection section
+            if (deleteImageLink != "") {
+                //not executing if the collection does not have an image attached to avoid crashing
+
+                StorageReference mPictureReference = FirebaseStorage.getInstance().getReferenceFromUrl(deleteImageLink);
+
+                mPictureReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        Query mQuery = position;
+                        mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot ds : dataSnapshot.getChildren()){
+
+                                    ds.getRef().removeValue(); // removes values from firebase
+
+                                }
+                                // WIERD ERROR was happening here caused by the FB SDK - apparently a bug - had to downgrade to version 5.0.3 to fix it
 
 
+                                coinDeletedSnackbar();
+                                pd.dismiss();
+
+                                // need an undo or a are you sure logic here
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                Toast.makeText(CoinList.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Toast.makeText(CoinList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     // View holder for the recycler view
     public static class ZZZjcCoinsViewHolder extends RecyclerView.ViewHolder {
@@ -688,7 +727,7 @@ public class CoinList extends AppCompatActivity {
 
                     case R.id.popMenuSort:
 
-                       // TODO alertDialogSortCollections();
+                       alertDialogSortCoins();
 
 
                         return true;
@@ -1004,6 +1043,128 @@ public class CoinList extends AppCompatActivity {
         }
         return !ranBefore;
     }
+
+    // called when coin deleted including the picture
+    private void coinDeletedSnackbar() {
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutCoinListActLOX, "Coin record deleted.", Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+        textView.setTextColor(getResources().getColor(R.color.lighttext));
+    }
+
+    private void alertDialogSortCoins() {
+
+        //Everything in this method is code for the universal alert dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_sort_collections, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        // Sort radio buttons
+
+        final RadioButton rbSortByCustomNumberX = view.findViewById(R.id.rbSortByCustomNumber);
+        final RadioButton rbSortLastUpdatedX = view.findViewById(R.id.rbSortLastUpdated);
+        final RadioButton rbSortOldestX = view.findViewById(R.id.rbSortOldest);
+        final RadioButton rbSortMostValuableX = view.findViewById(R.id.rbSortMostValuable);
+        final RadioButton rbSortBiggestX = view.findViewById(R.id.rbSortBiggest);
+
+        Button btnSetImageX = view.findViewById(R.id.btnSort);
+        btnSetImageX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(rbSortByCustomNumberX.isChecked()){
+
+
+                    SharedPreferences.Editor editor = sortSharedPref.edit();
+                    editor.putString("Sort", "alpha");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
+
+                } else if (rbSortLastUpdatedX.isChecked()) {
+
+                    SharedPreferences.Editor editor = sortSharedPref.edit();
+                    editor.putString("Sort", "newest");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
+
+                } else if (rbSortOldestX.isChecked()) {
+
+                    SharedPreferences.Editor editor = sortSharedPref.edit();
+                    editor.putString("Sort", "oldest");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
+
+
+                } else if (rbSortMostValuableX.isChecked()) {
+
+                    Toast.makeText(HomePage.this, "Value", Toast.LENGTH_SHORT).show();
+
+
+                } else if (rbSortBiggestX.isChecked()) {
+
+
+                    Toast.makeText(HomePage.this, "Biggest", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    noSortCriteriaSnackbar();
+
+                }
+
+
+
+            }
+        });
+
+
+        Button btnCancelX = view.findViewById(R.id.btnCancel);
+        btnCancelX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+
+    }
+
+    private void noSortCriteriaSnackbar() {
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutHomePageActLOX, "Please select sorting criteria", Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+        textView.setTextColor(getResources().getColor(R.color.lighttext));
+
+    }
+
 
     @Override
     public void onBackPressed() {

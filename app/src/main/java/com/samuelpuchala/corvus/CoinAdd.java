@@ -112,7 +112,6 @@ public class CoinAdd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_add);
 
-        Toast.makeText(CoinAdd.this, "here", Toast.LENGTH_SHORT).show();
         modify = "no"; // toggle to whether we are saving a new collection or modifying existing
 
         //To be shown first time only as intro info
@@ -238,8 +237,6 @@ public class CoinAdd extends AppCompatActivity {
             }
         });
 
-        Toast.makeText(CoinAdd.this, "On create modify = " + modify, Toast.LENGTH_SHORT).show();
-
         //try to get data from intent if not null
         Bundle intent = getIntent().getExtras();
         if (getIntent().getStringExtra("personage") != null){
@@ -308,8 +305,6 @@ public class CoinAdd extends AppCompatActivity {
             // toggles to this being modification input vs. new collection
             modify = "yes";
 
-            Toast.makeText(CoinAdd.this, "After intent modify = " + modify, Toast.LENGTH_SHORT).show();
-
         }
 
     }
@@ -334,9 +329,6 @@ public class CoinAdd extends AppCompatActivity {
             alertDialogNoCoinPersonage();
 
         } else {
-
-            Toast.makeText(CoinAdd.this, "Coin save modify = " + modify, Toast.LENGTH_SHORT).show();
-
 
             if (modify.equals("no")) {
 
@@ -365,10 +357,7 @@ public class CoinAdd extends AppCompatActivity {
     //land here if press coinSave but modify is set to yes - ie. this is an update and not a new coin add
     private void beginUpdate() {
 
-        Toast.makeText(CoinAdd.this, "modify in begin update" + modify, Toast.LENGTH_SHORT).show();
-
         //if the coin did not have any image to start with skip delete image to avoid a crash
-
         if (coinImageLinkRec.isEmpty() | coinImageLinkRec.equals("")) {
 
             uploadNewImg();

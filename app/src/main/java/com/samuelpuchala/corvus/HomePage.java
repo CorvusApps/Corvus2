@@ -764,7 +764,7 @@ public class HomePage extends AppCompatActivity {
 
                 }
 
-                collectionDeletedSnackbar();
+
 
 
                 deleteDialog.dismiss();
@@ -790,6 +790,7 @@ public class HomePage extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void aVoid) {
 
+                    collectionDeletedSnackbar();
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
