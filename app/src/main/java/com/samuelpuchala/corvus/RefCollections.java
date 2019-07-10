@@ -147,10 +147,12 @@ public class RefCollections extends AppCompatActivity {
                         //Pulling data from view on card
 
                         TextView colUID = view.findViewById(R.id.crdRefTxtCollectionUID);
+                        TextView colTitle = view.findViewById(R.id.crdRefTxtCollectionTitle);
 
                         //get data from views
 
                         colUIDY = colUID.getText().toString();
+                        colTitleY = colTitle.getText().toString();
 
 
                         // no need to pass the image to the CoinList Class but keeping the lines below as example code
@@ -160,6 +162,7 @@ public class RefCollections extends AppCompatActivity {
 //                        byte [] bytes = stream.toByteArray();
 //                        intent.putExtra("image", bytes); // put bitmap image as array of bytes
                         intent.putExtra("coluid", colUIDY);
+                        intent.putExtra("title", colTitleY);
                         startActivity(intent);
 
                     }
@@ -680,6 +683,7 @@ public class RefCollections extends AppCompatActivity {
                 Intent intent = new Intent(view.getContext(), RefCoinList.class);
 //
                 intent.putExtra("coluid", colUIDY);
+                intent.putExtra("title", colTitleY);
                 startActivity(intent);
 
                 Toast.makeText(RefCollections.this, "Enter coin list", Toast.LENGTH_SHORT).show();

@@ -102,6 +102,9 @@ public class CoinList extends AppCompatActivity {
 
     private Query sortQueryCoins;
 
+    // For passing the collection title to coin add and coin modify so when back from there to coin list there is a title to populate the top
+    private String cListColName;
+
 
 
     @Override
@@ -121,6 +124,7 @@ public class CoinList extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(CoinList.this, CoinAdd.class);
                 intent.putExtra("coluid", cListuid);
+                intent.putExtra("title", cListColName);
                 startActivity(intent);
             }
         });
@@ -144,7 +148,7 @@ public class CoinList extends AppCompatActivity {
 
         //setting the title to the coinlist which is the collection name
         TextView txtCollectionNameCoinList = findViewById(R.id.txtCoinListCollectionName);
-        String cListColName = getIntent().getStringExtra("title");
+        cListColName = getIntent().getStringExtra("title");
         txtCollectionNameCoinList.setText(cListColName);
 
         // Firebase related
@@ -411,6 +415,7 @@ public class CoinList extends AppCompatActivity {
 
         intent.putExtra("coluid", cListuid); // need to pass the collection back to the coinadd
         intent.putExtra("coinuid", coinUIDY);
+        intent.putExtra("title", cListColName); // need to pass back to coin add so it can go back to coinlist after coin modified
 
         intent.putExtra("personage", coinPersonageY);
         intent.putExtra("denomination", coinDenominationY);
@@ -486,6 +491,32 @@ public class CoinList extends AppCompatActivity {
                                 }
                                 // WIERD ERROR was happening here caused by the FB SDK - apparently a bug - had to downgrade to version 5.0.3 to fix it
 
+                                // update collection timestamp for the deletion - as it is a modification to the collection //////
+
+                                final Long timestampD = System.currentTimeMillis() * -1;
+                                String uid = FirebaseAuth.getInstance().getUid();
+                                DatabaseReference collectionDelCoinReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
+                                        .child("collections");
+
+                                Query colTimeDelCoinQuery = collectionDelCoinReference.orderByChild("coluid").equalTo(cListuid);
+
+                                colTimeDelCoinQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        for (DataSnapshot ds4: dataSnapshot.getChildren()) {
+
+                                            ds4.getRef().child("timestamp").setValue(timestampD);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                                /////////////////////////////////////////////////////////
 
                                 coinDeletedSnackbar();
                                 pd.dismiss();

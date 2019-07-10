@@ -670,6 +670,10 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         final String coluidX = db_ref.getKey();
         Long timestampX = System.currentTimeMillis() * -1; // make negative for sorting; using timestamp instead is giant pain in the ass as you can't make it a long value easily
 
+        //Starting amounts for collection size and value against which we will add and subtract with each con add, delete or modification
+        int itemCount = 0;
+        int collectionValue = 0;
+
         //////
 
         if(edtCollectionIDX.getText().toString().equals("")) {
@@ -692,6 +696,8 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         dataMap.put("notes", edtCollectionsNotesX.getText().toString());
         dataMap.put("timestamp", timestampX);
         dataMap.put("id", id3);
+        dataMap.put("coincount", itemCount);
+        dataMap.put("colvalue", collectionValue);
 
 
 

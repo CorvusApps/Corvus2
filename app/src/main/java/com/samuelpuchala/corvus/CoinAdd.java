@@ -73,9 +73,12 @@ import java.util.UUID;
 
 public class CoinAdd extends AppCompatActivity {
 
-    // UI and data components for transfering collection ID from Homepage through here to AddCoin and ShowCoin activities
+    // UI and data components for transfering collection ID and collection Title from Homepage through here to AddCoin and ShowCoin activities
     private TextView txtHiddenCoinAddColIdX;
     private String cAdduidX; //collection UID
+
+    private TextView txtHiddenCoinAddColTitleX;
+    private String cAddColTitleX; // collection Title
 
     // UI components and intermediate variables to manipulate them
     private EditText edtPersonageX, edtRICX, edtDenominationX, edtRICvarX, edtWeightX, edtDiamaterX, edtMintX, edtObvDescX
@@ -104,6 +107,7 @@ public class CoinAdd extends AppCompatActivity {
             ,coinObvLegRec, coinRevDescRec, coinRevLegRec, coinProvenanceRec, coinNotesRec, coinImageLinkRec;
 
     private String colUIDRec; //col uid we get from coin list versus homepage
+    private String colTitleRec; //col title we get from coin list versus homepage
     private int coinRICRec, coinValueRec;
     private String modify; // toggle to whether we are saving a new collection or modifying existing
 
@@ -123,10 +127,16 @@ public class CoinAdd extends AppCompatActivity {
             oneTimeInfoCoinAdd();
         }
 
-        // UI and data components for transfering collection ID from Homepage through here to AddCoin and ShowCoin activities
+        // UI and data components for transfering collection ID and collection Title from Homepage through here to AddCoin and ShowCoin activities
         txtHiddenCoinAddColIdX = findViewById(R.id.txtHiddenCoinAddColId);
         cAdduidX = getIntent().getStringExtra("coluid");
         txtHiddenCoinAddColIdX.setText(cAdduidX);
+
+        txtHiddenCoinAddColTitleX = findViewById(R.id.txtHiddenCoinAddColTitle);
+        cAddColTitleX = getIntent().getStringExtra("title");
+        txtHiddenCoinAddColTitleX.setText(cAddColTitleX);
+
+
 
         //Firebase related
         coinAddFirebaseAuth = FirebaseAuth.getInstance();
@@ -251,6 +261,7 @@ public class CoinAdd extends AppCompatActivity {
 
             colUIDRec =  getIntent().getStringExtra("coluid"); // need collection because coming in from coinlist not home page
             coinUIDRec = getIntent().getStringExtra("coinuid");
+            colTitleRec = getIntent().getStringExtra("title");
 
             coinPersonageRec = getIntent().getStringExtra("personage");
             coinDenominationRec = getIntent().getStringExtra("denomination");
@@ -572,6 +583,34 @@ public class CoinAdd extends AppCompatActivity {
                     pd.dismiss();
                     coinLoadSnackbar();
 
+                    //once coin uploaded update collection timestamp///////////////
+                    final Long timestampY = System.currentTimeMillis() * -1;
+                    String uid = FirebaseAuth.getInstance().getUid();
+                    DatabaseReference collectionReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
+                            .child("collections");
+
+                    Query colTimeModQuery = collectionReference.orderByChild("coluid").equalTo(cAdduidX);
+
+                    colTimeModQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            for (DataSnapshot ds2: dataSnapshot.getChildren()) {
+
+                                ds2.getRef().child("timestamp").setValue(timestampY);
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    /////////////////////////////////////////////////////////
+
                     new CountDownTimer(3000, 500) {
 
 
@@ -582,6 +621,7 @@ public class CoinAdd extends AppCompatActivity {
                         public void onFinish() {
                             Intent intent = new Intent(CoinAdd.this, CoinList.class);
                             intent.putExtra("coluid", cAdduidX);
+                            intent.putExtra("title", cAddColTitleX);
                             startActivity(intent);
                             finish();
                         }
@@ -1307,6 +1347,31 @@ public class CoinAdd extends AppCompatActivity {
                     ds.getRef().child("imageLink").setValue(imageLink);
                     ds.getRef().child("uid").setValue(imageIdentifier);
 
+                    //once coin uploaded update collection timestamp///////////////
+                    final Long timestampZ = System.currentTimeMillis() * -1;
+                    String uid = FirebaseAuth.getInstance().getUid();
+                    DatabaseReference collectionUpDateReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
+                            .child("collections");
+
+                    Query colTimeModUpDateQuery = collectionUpDateReference.orderByChild("coluid").equalTo(colUIDRec);
+
+                    colTimeModUpDateQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            for (DataSnapshot ds3: dataSnapshot.getChildren()) {
+
+                                ds3.getRef().child("timestamp").setValue(timestampZ);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    /////////////////////////////////////////////////////////
 
                     pd.dismiss();
                     coinLoadSnackbar();
@@ -1320,6 +1385,7 @@ public class CoinAdd extends AppCompatActivity {
                         public void onFinish() {
                             Intent intent = new Intent(CoinAdd.this, CoinList.class);
                             intent.putExtra("coluid", colUIDRec);
+                            intent.putExtra("title", colTitleRec);
                             startActivity(intent);
                             finish();
                         }

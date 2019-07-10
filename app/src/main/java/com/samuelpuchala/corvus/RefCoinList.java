@@ -135,6 +135,13 @@ public class RefCoinList extends AppCompatActivity {
         cRefListuid = getIntent().getStringExtra("coluid");
         txtRefCListCollUIDX.setText(cRefListuid);
 
+        //setting the title to the coinlist which is the collection name
+        TextView txtRefCollectionNameCoinList = findViewById(R.id.txtRefCoinListCollectionName);
+        String cListRefColName = getIntent().getStringExtra("title");
+        txtRefCollectionNameCoinList.setText("REF. COLLECTION " + cListRefColName);
+
+
+
         // Firebase related
         firebaseAuthRefCoins = FirebaseAuth.getInstance();
 

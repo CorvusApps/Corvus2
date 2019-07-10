@@ -28,6 +28,7 @@
         android:layout_marginLeft="@dimen/_8sdp"
         android:layout_marginRight="@dimen/_8sdp"
         android:textSize="@dimen/_12sdp"
+        android:textAllCaps="false"
         app:cornerRadius="@dimen/_10sdp"
         android:text="Augustus Denari Part I: Spanish and Gaulish Mints" />
 
