@@ -8,9 +8,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    card_view:cardCornerRadius="0dp"
-    android:layout_margin="1dp"
-    card_view:cardElevation="0dp"
+    card_view:cardCornerRadius="@dimen/_10sdp"
+    android:layout_margin="@dimen/_1sdp"
+    card_view:cardElevation="@dimen/_3sdp"
     card_view:cardUseCompatPadding="false"
     >
 

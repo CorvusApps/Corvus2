@@ -90,7 +90,7 @@ public class RefCollections extends AppCompatActivity {
         shadeX = findViewById(R.id.shade);
 
         //query for sorting; unlike in home page this will be hardwired for only sort by collection number; and the database ref is already hardcoded for my facebook account which will store the reference collections
-        DatabaseReference sortReference = mDatabase.child("T4Fz6LaUBDeKKDf7VBAu9UyYlzN2")
+        DatabaseReference sortReference = mDatabase.child("nxv6pES4LtafP06zsjP3nzzjTht1")
                 .child("collections");
 
         Query sortQuery = sortReference.orderByChild("id");

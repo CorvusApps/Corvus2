@@ -58,6 +58,8 @@ import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CoinList extends AppCompatActivity {
@@ -140,6 +142,11 @@ public class CoinList extends AppCompatActivity {
         cListuid = getIntent().getStringExtra("coluid");
         txtCListCollUIDX.setText(cListuid);
 
+        //setting the title to the coinlist which is the collection name
+        TextView txtCollectionNameCoinList = findViewById(R.id.txtCoinListCollectionName);
+        String cListColName = getIntent().getStringExtra("title");
+        txtCollectionNameCoinList.setText(cListColName);
+
         // Firebase related
         firebaseAuthCoins = FirebaseAuth.getInstance();
 
@@ -151,6 +158,14 @@ public class CoinList extends AppCompatActivity {
         //Shared preferences for sorting
         sortSharedPrefCoins = getSharedPreferences("SortSetting2", MODE_PRIVATE);
         String mSorting2 = sortSharedPrefCoins.getString("Sort2", "ric"); // where if no settings
+
+        // can concatenate all fields and then search within that hidden field - doubles the size of the db
+        // this is just a starts at query for future reference
+//        String testString = "esp";
+//        Query testQuery = coinDatabase.orderByChild("personage")
+//                .startAt(testString)
+//                .endAt(testString + "\uf8ff");
+
 
         if(mSorting2.equals("ric")) {
 
@@ -170,7 +185,7 @@ public class CoinList extends AppCompatActivity {
 
         if (mSorting2.equals("newest")) {
 
-            sortQueryCoins = coinDatabase.orderByChild("timestamp");
+            sortQueryCoins = coinDatabase.orderByChild("timestampcoin");
             layoutManagerCoins = new LinearLayoutManager(this);
             layoutManagerCoins.setReverseLayout(false);
 
@@ -178,7 +193,8 @@ public class CoinList extends AppCompatActivity {
 
         } else if (mSorting2.equals("personage")) {
 
-            sortQueryCoins = coinDatabase.orderByChild("personage");
+           sortQueryCoins = coinDatabase.orderByChild("personage");
+           // sortQueryCoins = testQuery;
             layoutManagerCoins = new LinearLayoutManager(this);
             layoutManagerCoins.setReverseLayout(false);
 
@@ -603,9 +619,9 @@ public class CoinList extends AppCompatActivity {
                 txtLabelRICX.setVisibility(View.GONE);
                 txtCardRICX.setVisibility(View.GONE);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
         }
 

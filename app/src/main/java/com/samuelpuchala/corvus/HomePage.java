@@ -87,6 +87,7 @@ public class HomePage extends AppCompatActivity {
     private String colUIDY;
     private String colImageLinkY;
 
+
     // creating a dialog with a different name than standard dialog so it can be nested within
     private AlertDialog deleteDialog;
 
@@ -231,16 +232,19 @@ public class HomePage extends AppCompatActivity {
                         //Pulling data from view on card
 
                         TextView colUID = view.findViewById(R.id.crdTxtCollectionUID);
+                        TextView colTitle = view.findViewById(R.id.crdTxtCollectionTitle);
 
                         //get data from views
 
                         colUIDY = colUID.getText().toString();
+                        colTitleY = colTitle.getText().toString();
 
 
                        // no need to pass the image to the CoinList Class but keeping the lines below as example code
                         Intent intent  = new Intent(view.getContext(), CoinList.class);
 
                         intent.putExtra("coluid", colUIDY);
+                        intent.putExtra("title", colTitleY);
                         startActivity(intent);
 
                     }
@@ -277,7 +281,7 @@ public class HomePage extends AppCompatActivity {
 
                         //getting these so we can use downstream in delete and modify methods
                         TextView colUID = view.findViewById(R.id.crdTxtCollectionUID);
-                        colUIDY = colUID.getText().toString();
+                        colUIDY = colUID.getText().toString(); //for pulling coins from right collection
 
                         TextView colImageLink = view.findViewById(R.id.crdTxtCollectionImgLink);
                         colImageLinkY = colImageLink.getText().toString();
@@ -641,6 +645,7 @@ public class HomePage extends AppCompatActivity {
                Intent intent  = new Intent(view.getContext(), CoinList.class);
 
                intent.putExtra("coluid", colUIDY);
+               intent.putExtra("title", colTitleY);
                startActivity(intent);
 
                shadeX.setVisibility(View.INVISIBLE);
@@ -751,7 +756,6 @@ public class HomePage extends AppCompatActivity {
     //Called from the delete button on the expanded collection view
     private void deleteCollection(){
 
-
         //use the uid and imageLink we got from the onLongClick to find and delete the collection; we are in the same activity that generated the uid so don't need to use hidden textViews like we did when creating the collection
 
         Query mQuery = mDatabase.child(firebaseAuthCollections.getCurrentUser().getUid())
@@ -763,9 +767,6 @@ public class HomePage extends AppCompatActivity {
                     ds.getRef().removeValue(); // removes values from firebase
 
                 }
-
-
-
 
                 deleteDialog.dismiss();
                 dialog.dismiss();

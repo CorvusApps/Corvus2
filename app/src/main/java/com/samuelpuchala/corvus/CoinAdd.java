@@ -107,6 +107,10 @@ public class CoinAdd extends AppCompatActivity {
     private int coinRICRec, coinValueRec;
     private String modify; // toggle to whether we are saving a new collection or modifying existing
 
+    // need thsese in modify inside if statements so have to make them instance here; used to make sure 0 values go to firebase if RIC or value are ""
+    int updateRIC2;
+    int updateValue2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -282,10 +286,22 @@ public class CoinAdd extends AppCompatActivity {
 
             // need to convert to string before putting into editText but want int in firbase for sorting
             String coinRICRec2 = String.valueOf(coinRICRec);
-            edtRICX.setText(coinRICRec2);
+            //eliminate 0 entries
+            if (coinRICRec2.equals("0")) {
+
+                edtRICX.setText("");
+            } else {
+
+                edtRICX.setText(coinRICRec2);
+
+            }
 
             String coinValueRec2 = String.valueOf(coinValueRec);
-            edtValueX.setText(coinValueRec2);
+            if (coinValueRec2.equals("0"))  {
+                edtValueX.setText("");
+            } else {
+                edtValueX.setText(coinValueRec2);
+            }
 
 
             // executes only if there is an imageLink coming through to prevent crashing
@@ -540,6 +556,8 @@ public class CoinAdd extends AppCompatActivity {
         dataMap.put("provenance", edtProvenanceX.getText().toString());
         dataMap.put("value", Value3);
         dataMap.put("notes", edtNotesX.getText().toString());
+
+        dataMap.put("timestamp", timestampX);
 
         //////
         dataMap.put("coinuid", coinuidX); // the unique coin UID which we can then use to link back to this coin
@@ -1223,8 +1241,12 @@ public class CoinAdd extends AppCompatActivity {
         final String updateMint = edtMintX.getText().toString();
 
         final String updateRIC = edtRICX.getText().toString();
-        final int updateRIC2 = Integer.parseInt(updateRIC);// getting id to be an int before uploading so sorting work well
-        // no need to do the if logic to see if it's blank because in modify value from firebase has to be something even if that is 0
+        if (updateRIC.equals("")) {
+             updateRIC2 = 0;
+        } else {
+             updateRIC2 = Integer.parseInt(updateRIC);// getting id to be an int before uploading so sorting work well
+        }
+        // to avoid 0 populating the edit text set it to "" if 0 comes down from firebase into modify; now need to put it back to 0 to load up so other if statements don't crash on null value
 
         final String updateRICvar = edtRICvarX.getText().toString();
         final String updateWeight = edtWeightX.getText().toString();
@@ -1236,8 +1258,13 @@ public class CoinAdd extends AppCompatActivity {
         final String updateProvenace = edtProvenanceX.getText().toString();
 
         final String updateValue = edtValueX.getText().toString();
-        final int updateValue2 = Integer.parseInt(updateValue);// getting id to be an int before uploading so sorting work well
-        // no need to do the if logic to see if it's blank because in modify value from firebase has to be something even if that is 0
+        if (updateValue.equals("")) {
+            updateValue2 = 0;
+        } else {
+
+            updateValue2 = Integer.parseInt(updateValue);// getting id to be an int before uploading so sorting work well
+        }
+        // to avoid 0 populating the edit text set it to "" if 0 comes down from firebase into modify; now need to put it back to 0 to load up so other if statements don't crash on null value
 
         final String updateNotes = edtNotesX.getText().toString();
 
@@ -1252,7 +1279,7 @@ public class CoinAdd extends AppCompatActivity {
         Query query = updateRef.orderByChild("coinuid").equalTo(coinUIDRec);
 
         //updating timestamp to be able to sort on last updated
-        final Long timestampX = System.currentTimeMillis() * -1; // make negative for sorting; using timestamp instead is giant pain in the ass as you can't make it a long value easily
+        final Long timestampCoinX = System.currentTimeMillis() * -1; // make negative for sorting; using timestamp instead is giant pain in the ass as you can't make it a long value easily
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -1276,7 +1303,7 @@ public class CoinAdd extends AppCompatActivity {
                     ds.getRef().child("value").setValue(updateValue2);
                     ds.getRef().child("notes").setValue(updateNotes);
 
-                    ds.getRef().child("timestamp").setValue(timestampX);
+                    ds.getRef().child("timestampcoin").setValue(timestampCoinX);
                     ds.getRef().child("imageLink").setValue(imageLink);
                     ds.getRef().child("uid").setValue(imageIdentifier);
 

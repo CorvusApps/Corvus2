@@ -14,7 +14,22 @@
         android:id="@+id/txtCListCollUID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="TextView" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/txtCoinListCollectionName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:backgroundTint="@color/lighttext"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:textSize="@dimen/_12sdp"
+        app:cornerRadius="@dimen/_10sdp"
+        android:text="Augustus Denari Part I: Spanish and Gaulish Mints" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvCoins"

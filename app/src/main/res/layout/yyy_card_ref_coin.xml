@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <com.google.android.material.card.MaterialCardView
 
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,7 +18,7 @@
     android:layout_marginLeft="@dimen/_10sdp"
     card_view:cardUseCompatPadding="false"
     >
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,7 +27,7 @@
         >
 
         <ImageView
-            android:id="@+id/imgCardCoinAdd"
+            android:id="@+id/imgRefCardCoinAdd"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_150sdp"
 
@@ -37,37 +38,37 @@
 
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginRight="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
 
 
             >
 
-                <TextView
-                    android:id="@+id/txtCardPersonage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Septimius Severus"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_15sdp"
-                    android:textColor="@color/darktext"
-                    />
-
-                <TextView
-                    android:id="@+id/txtCardDenomination"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_4sdp"
-                    android:text="AE Sestertius"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_15sdp"
-                    android:textColor="@color/darktext"
-                    />
+            <TextView
+                android:id="@+id/txtRefCardPersonage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Septimius Severus"
+                android:textStyle="bold"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="@color/darktext"
+                />
 
             <TextView
-                android:id="@+id/txtCardMint"
+                android:id="@+id/txtRefCardDenomination"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_4sdp"
+                android:text="AE Sestertius"
+                android:textStyle="bold"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="@color/darktext"
+                />
+
+            <TextView
+                android:id="@+id/txtRefCardMint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_12sdp"
@@ -78,7 +79,7 @@
                 />
 
 
-            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,7 +91,7 @@
             >
 
             <TextView
-                android:id="@+id/txtLabelRIC"
+                android:id="@+id/txtRefLabelRIC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="RIC"
@@ -99,7 +100,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtCardRIC"
+                android:id="@+id/txtRefCardRIC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_3sdp"
@@ -109,7 +110,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtCardRICvar"
+                android:id="@+id/txtRefCardRICvar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="b"
@@ -118,7 +119,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtCardWeight"
+                android:id="@+id/txtRefCardWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_30sdp"
@@ -128,7 +129,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtLabelWeight"
+                android:id="@+id/txtRefLabelWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="g"
@@ -137,7 +138,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtCardDiameter"
+                android:id="@+id/txtRefCardDiameter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_12sdp"
@@ -147,7 +148,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtLabelDiameter"
+                android:id="@+id/txtRefLabelDiameter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="mm"
@@ -155,15 +156,10 @@
                 android:textColor="@color/darktext"
                 />
 
-
-
-
-
-            </LinearLayout>
-
+        </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/loutCoinObvDesc"
+            android:id="@+id/loutRefCoinObvDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
@@ -174,7 +170,7 @@
 
 
             <TextView
-                android:id="@+id/txtObvDesc"
+                android:id="@+id/txtRefObvDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -187,7 +183,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/loutCoinObvLeg"
+            android:id="@+id/loutRefCoinObvLeg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_3sdp"
@@ -198,7 +194,7 @@
 
 
             <TextView
-                android:id="@+id/txtObvLeg"
+                android:id="@+id/txtRefObvLeg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -207,7 +203,6 @@
                 android:textColor="@color/darktext"
                 />
 
-
         </LinearLayout>
 
         <LinearLayout
@@ -218,13 +213,11 @@
             android:layout_marginRight="@dimen/_5sdp"
             >
 
-
             <TextView
-                android:id="@+id/txtRevDesc"
+                android:id="@+id/txtRefRevDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="12"
-
                 android:text="Concordia seated left; patera in right hand; cornucopia in left hand"
                 android:textSize="@dimen/_12sdp"
                 android:textColor="@color/darktext"
@@ -233,44 +226,36 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_weight="1"
                 android:gravity="right">
 
-
-
-
             </LinearLayout>
-
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/loutCoinRevLeg"
+            android:id="@+id/loutRefCoinRevLeg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_3sdp"
             android:layout_marginLeft="@dimen/_5sdp"
             android:layout_marginRight="@dimen/_5sdp"
             android:visibility="gone"
-        >
+            >
 
-
-        <TextView
-            android:id="@+id/txtRevLeg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="COS.III"
-            android:textSize="@dimen/_12sdp"
-            android:textColor="@color/darktext"
-            />
-
+            <TextView
+                android:id="@+id/txtRefRevLeg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="COS.III"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/darktext"
+                />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/loutCoinProvenance"
+            android:id="@+id/loutRefCoinProvenance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
@@ -279,34 +264,30 @@
             android:visibility="gone"
             >
 
-
             <TextView
-                android:id="@+id/txtProvenance"
+                android:id="@+id/txtRefProvenance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textStyle="italic"
                 android:layout_weight="4"
-
                 android:text="CNG Coin Shop (June 2012) bought on a sunny day in fucking agusut"
                 android:textSize="@dimen/_12sdp"
                 android:textColor="@color/darktext"
                 />
 
             <TextView
-                android:id="@+id/txtLabelValue"
+                android:id="@+id/txtRefLabelValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_20sdp"
                 android:textStyle="italic"
                 android:text="$"
-
                 android:textSize="@dimen/_12sdp"
                 android:textColor="@color/darktext"
-
                 />
 
             <TextView
-                android:id="@+id/txtValue"
+                android:id="@+id/txtRefValue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textStyle="italic"
@@ -316,13 +297,10 @@
                 android:textColor="@color/darktext"
                 />
 
-
-
-
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/loutCoinNotes"
+            android:id="@+id/loutRefCoinNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
@@ -332,11 +310,10 @@
             >
 
             <TextView
-                android:id="@+id/txtNotes"
+                android:id="@+id/txtRefNotes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="italic"
-
                 android:text="Lustrous and well struck"
                 android:textSize="@dimen/_12sdp"
                 android:textColor="@color/darktext"
@@ -355,10 +332,8 @@
             >
 
             <TextView
-
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-
                 android:textSize="@dimen/_12sdp"
                 android:textColor="@color/darktext"
                 />
@@ -369,31 +344,25 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_gravity="left"
             android:foregroundGravity="left"
             android:visibility="gone"
             app:srcCompat="@drawable/card_menu" />
 
-
         <TextView
-            android:id="@+id/txtCardCoinUid"
+            android:id="@+id/txtRefCardCoinUid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/txtCardImgLink"
+            android:id="@+id/txtRefCardImgLink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:text="TextView" />
-
-
 
     </LinearLayout>
-    
-    
-    
+
 </com.google.android.material.card.MaterialCardView>

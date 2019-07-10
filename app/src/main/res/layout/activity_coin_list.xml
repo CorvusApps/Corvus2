@@ -20,8 +20,8 @@
         app:rippleColor="@color/colorPrimary"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
 
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginTop="@dimen/_32sdp"
+        android:layout_marginRight="@dimen/_16sdp"
         android:src="@drawable/menu"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -29,8 +29,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/add" />
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:layout_marginRight="@dimen/_16sdp"
+        android:src="@drawable/add"/>
 
 
 

@@ -85,7 +85,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
                     android:hint="ID"
-                    android:background="@color/editText"
+
                     android:textColorHint="@color/darktext"
                     app:hintEnabled="true"
 
@@ -110,7 +110,6 @@
                     android:layout_marginEnd="5dp"
                     android:hint="Collection Name"
 
-                    android:background="@color/editText"
                     android:textColorHint="@color/darktext"
                     app:hintEnabled="true"
                     >
