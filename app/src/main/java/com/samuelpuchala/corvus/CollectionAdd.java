@@ -98,6 +98,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     private ImageView imgCollectionImageX;
     private ImageView imgInfoX;
     private int id3;
+    private View shadeX;
 
 
     // variables to be used in screen measurement methods needed to adjust UI for different screen sizes
@@ -164,6 +165,9 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         modify = "no"; // toggle to whether we are saving a new collection or modifying existing
 
         colUIDYRec = getIntent().getStringExtra("coluid"); //getting this value in the onCreate so it can be passed on coinAdd to coinList
+
+        // custom view to use as a shade behind custom dialogs
+        shadeX = findViewById(R.id.shade);
 
 
         //try to get data from intent if not null
@@ -1178,6 +1182,8 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
     public void faqDialogView() {
 
+        shadeX.setVisibility(View.VISIBLE);
+
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
@@ -1199,6 +1205,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View view) {
 
+                shadeX.setVisibility(View.INVISIBLE);
                 dialog.dismiss();
 
             }

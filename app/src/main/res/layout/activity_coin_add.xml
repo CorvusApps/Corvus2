@@ -33,4 +33,11 @@
 
         android:src="@drawable/save" />
 
+    <View
+        android:id="@+id/shade"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primaryShadow"
+        android:visibility="invisible"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

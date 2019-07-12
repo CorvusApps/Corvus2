@@ -58,8 +58,10 @@ import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class CoinList extends AppCompatActivity {
@@ -82,6 +84,9 @@ public class CoinList extends AppCompatActivity {
     private CoordinatorLayout loutCoinListActLOX; //primarily used for snackbars
 
     private ProgressDialog pd; // universal progress dialog used in this activity
+
+    // custom view to use as a shade behind custom dialogs
+    private View shadeX;
 
     //creating instance variables that can be used to pass info to the coin modify screen
 
@@ -166,6 +171,9 @@ public class CoinList extends AppCompatActivity {
         coinDatabase = FirebaseDatabase.getInstance().getReference().child("my_users").child(firebaseAuthCoins.getCurrentUser().getUid())
                 .child("collections").child(cListuid).child("coins");
         coinDatabase.keepSynced(true);
+
+        // custom view to use as a shade behind custom dialogs
+        shadeX = findViewById(R.id.shade);
 
         // pulling collection itemcount and value from firebase to than pass on to coin add, modify, delete to do operations on and re-upload to Firebase
 
@@ -814,7 +822,8 @@ public class CoinList extends AppCompatActivity {
         }
         public void setValue(int value) {
             TextView txtValueX = (TextView)mView.findViewById(R.id.txtValue);
-            String value2 = String.valueOf(value);
+           // String value2 = String.valueOf(value); // version below formats the number by thousands with ","
+            String value2 = NumberFormat.getNumberInstance(Locale.US).format(value);
             txtValueX.setText(value2);
 
             TextView txtLabelValueX = (TextView)mView.findViewById(R.id.txtLabelValue);
@@ -1019,6 +1028,8 @@ public class CoinList extends AppCompatActivity {
 
     private void faqDialogView() {
 
+        shadeX.setVisibility(View.VISIBLE);
+
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
@@ -1040,6 +1051,7 @@ public class CoinList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                shadeX.setVisibility(View.INVISIBLE);
                 dialog.dismiss();
 
             }

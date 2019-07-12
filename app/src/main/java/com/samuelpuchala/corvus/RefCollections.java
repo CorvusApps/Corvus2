@@ -42,6 +42,8 @@ import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class RefCollections extends AppCompatActivity {
 
@@ -391,6 +393,8 @@ public class RefCollections extends AppCompatActivity {
 
     private void faqDialogView() {
 
+        shadeX.setVisibility(View.VISIBLE);
+
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
@@ -412,6 +416,7 @@ public class RefCollections extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                shadeX.setVisibility(View.INVISIBLE);
                 dialog.dismiss();
 
             }
@@ -509,6 +514,25 @@ public class RefCollections extends AppCompatActivity {
 
                     faqCollectionsSetupX.setVisibility(View.GONE);
                     txtFAQCollectionSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqCoinsSetupX = view.findViewById(R.id.faqCoinsSetup);
+        final TextView txtFAQCoinsSetupX = view.findViewById(R.id.txtFAQCoinsSetup);
+        txtFAQCoinsSetupX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCoinsSetupX.getVisibility() == View.GONE) {
+                    faqCoinsSetupX.setVisibility(View.VISIBLE);
+                    txtFAQCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCoinsSetupX.setVisibility(View.GONE);
+                    txtFAQCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
                 }
 
             }
@@ -668,7 +692,9 @@ public class RefCollections extends AppCompatActivity {
         }
 
         TextView txtColDetailCoinCountX = view.findViewById(R.id.txtColDetailCoinCount);
-        String colCoinCountY3 = String.valueOf(colCoinCountY);
+       //String colCoinCountY3 = String.valueOf(colCoinCountY); version below gets it to good numbers format with ","
+        String colCoinCountY3 = NumberFormat.getNumberInstance(Locale.US).format(colCoinCountY);
+
         txtColDetailCoinCountX.setText(colCoinCountY3);
 
         TextView txtColDetailTitleX = view.findViewById(R.id.txtColDetailTitle);

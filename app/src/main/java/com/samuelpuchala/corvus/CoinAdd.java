@@ -102,6 +102,9 @@ public class CoinAdd extends AppCompatActivity {
 
     private ImageView imgRICvarInfoX; // clickable image to open info on RICvar
 
+    // custom view to use as a shade behind custom dialogs
+    private View shadeX;
+
     //Firebase and Firebase related
     private String imageIdentifier; // the unique image identifier created in the app for Firebase
     private String imageLink; // created by Firebase when image uploaded
@@ -209,6 +212,9 @@ public class CoinAdd extends AppCompatActivity {
         edtNotesX.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
         loutCoinAddActLOX = findViewById(R.id.loutCoinAddActLO); // the layout needed as context by snackbars
+
+        // custom view to use as a shade behind custom dialogs
+        shadeX = findViewById(R.id.shade);
 
         // onclick to get coin from gallery starting with permissions
         imgCoinAddX = findViewById(R.id.imgCoinAdd);
@@ -1070,6 +1076,8 @@ public class CoinAdd extends AppCompatActivity {
 
     public void faqDialogView() {
 
+        shadeX.setVisibility(View.VISIBLE);
+
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
@@ -1091,6 +1099,7 @@ public class CoinAdd extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                shadeX.setVisibility(View.INVISIBLE);
                 dialog.dismiss();
 
             }
@@ -1207,6 +1216,25 @@ public class CoinAdd extends AppCompatActivity {
 
                     faqCoinsSetupX.setVisibility(View.GONE);
                     txtFAQCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqCoinListX = view.findViewById(R.id.faqCoinList2);
+        final TextView txtFAQCoinListX = view.findViewById(R.id.txtFAQCoinList2);
+        txtFAQCoinListX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCoinListX.getVisibility() == View.GONE) {
+                    faqCoinListX.setVisibility(View.VISIBLE);
+                    txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCoinListX.setVisibility(View.GONE);
+                    txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
                 }
 
             }

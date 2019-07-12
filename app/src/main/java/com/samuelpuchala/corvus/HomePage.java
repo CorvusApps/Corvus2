@@ -58,7 +58,10 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Collections;
+import java.util.Locale;
 
 
 public class HomePage extends AppCompatActivity {
@@ -673,12 +676,14 @@ public class HomePage extends AppCompatActivity {
 
         // need to convert to string before putting into editText but want int in firbase for sorting
         TextView txtColDetailItemsX = view.findViewById(R.id.txtColDetailItems);
-        String colItemCountY2 = String.valueOf(colItemCountY);
+        // String colItemCountY2 = String.valueOf(colItemCountY); the version below sets it with "," for thousands
+        String colItemCountY2 = NumberFormat.getNumberInstance(Locale.US).format(colItemCountY);
         txtColDetailItemsX.setText(colItemCountY2);
 
-        // need to convert to string before putting into editText but want int in firbase for sorting
+        // need to convert to string before putting into editText but want int in firebase for sorting
         TextView txtColDetailValueX = view.findViewById(R.id.txtColDetailValue);
-        final String colValueY2 = String.valueOf(colValueY);
+        // final String colValueY2 = String.valueOf(colValueY); ; the version below sets it with "," for thousands
+        final String colValueY2 = NumberFormat.getNumberInstance(Locale.US).format(colValueY);
         txtColDetailValueX.setText(colValueY2);
 
 
@@ -925,6 +930,8 @@ public class HomePage extends AppCompatActivity {
 
     private void faqDialogView() {
 
+        shadeX.setVisibility(View.VISIBLE);
+
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
@@ -946,10 +953,13 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                shadeX.setVisibility(View.INVISIBLE);
                 dialog.dismiss();
 
             }
         });
+
+
 
         //Faq section layouts expandable onClick
 

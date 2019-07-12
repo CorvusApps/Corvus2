@@ -10,40 +10,41 @@
 
     <!-- For FAQ & one time dialogs -->
 
-    <string name="universal_01">You can always access this information from the FAQ available through the drop down menus in most screens.</string>
+    <string name="universal_01">You can access this information from the FAQ available through the drop down menus in most screens.</string>
 
-    <string name="login_01">Your collection will be stored in the cloud to minimize the storage and memory requirements of your device. We need a unique, verifiable ID to authenticate your access.</string>
-    <string name="login_02">Corvus is only accessing your email which is necessary for authentication and your user ID.</string>
+    <string name="login_01">Your collection will be stored in the cloud to minimize the resource requirements of your device. We need a unique, verifiable ID to authenticate your access.</string>
+    <string name="login_02">Corvus is only accessing your email, which is necessary for authentication, and your user ID.</string>
 
     <string name="homepage_01">You need at least one collection to enter coins. You can set up as many as you need.</string>
-    <string name="homepage_02">Currently, Corvus has only this level to split your overall collection into sub-collections.</string>
+    <string name="homepage_02">Currently, Corvus has one level for sub-dividing your overall collection.</string>
     <string name="homepage_03">Click a collection card to access coins in the collection or long-click to view, edit or delete the collection itself.</string>
     <string name="homepage_04">The reference collections accessible from the drop down menu on most screens show how we thought of setting up collections to maximize Corvus.</string>
-    <string name="homepage_05">Currently, Corvus doesn\'t automate identification but you can key-word search both your own and reference collections.</string>
 
     <string name="collectionadd_01">You only need to enter a collection name to set up a collection.</string>
-    <string name="collectionadd_02">You can upload any PNG or JPG picture to represent your collection; best results when cropped square.</string>
+    <string name="collectionadd_02">You can upload any PNG or JPG picture from your device gallery to represent your collection; best results when cropped square.</string>
     <string name="collectionadd_03">We are working on making data input easier including uploading pictures from your computer and batch uploads from excel.</string>
-    <string name="collectionadd_04">You can enter a unique numeric ID for your collection (1-999). You will be able to sort your collections on this ID as well as on other factors such us last update time and collection value.</string>
+    <string name="collectionadd_04">You can enter a unique numeric ID for your collection. You will be able to sort your collections on this ID as well as on other factors such us last update time and collection value.</string>
     <string name="collectionadd_05">Your data is safe. Only you can access your collection and we backup our entire database daily.</string>
 
     <string name="refcollections_01">The reference collections are there to help you attribute and describe coins.</string>
-    <string name="refcollections_02">You can search reference collections in the same way you can search your own collections.</string>
+    <string name="refcollections_02">We are working on search capabilities for Corvus. For now we have divided the reference collection into digestable chunks that follow the RIC and which you can easily scroll through.</string>
     <string name="refcollections_03">The Corvus reference collections have over 10,000 coins all vf+ or better. We continue to upload them to the app daily.</string>
-    <string name="refcollections_04">Yes!! We are working on automating collection sharing. For now you can send us an email letting us know you wish to share and we can add your coins to our reference libraries. We will indicated them as belonging to you or not as per your instructions.</string>
+    <string name="refcollections_04">Yes!! We are working on automating collection sharing. For now you can send us an email letting us know you wish to share and we can add your coins to our reference libraries. We will indicate them as belonging to you or not as per your instructions.</string>
+    <string name="refcollections_05">Coin values are tricky and volatile. For each reference coin we put all the pricing information we know about the coin in the provenance field. Sometimes it is dated and comes in several currencies. We also take a stab at our view of the coin\'s worth today in the value field but that is our opinion only.</string>
 
-    <string name="coinadd_01">You can add as many coins to your collection as you want. For easier viewing consider setting up multiple collections where you can group similar coins.</string>
-    <string name="coinadd_02">Only the personage field is mandatory. We strongly suggest using the attribution field to make it easy to sort your collection</string>
-    <string name="coinadd_03">You can upload any PNG or JPG picture to represent your collection; best results when cropped to a rectangle with the coin edges close to the image edge.</string>
-    <string name="coinadd_04">The fields you do not fill in will not appear at all in your record to make viewing easier </string>
-    <string name="coinadd_05">The RIC number is numeric for sorting purposes. In the RICvar field you can add qualifiers such as a letter (e.g. RIC 197 b) or var or note</string>
-    <string name="coinadd_06">If you wish to add Provincial coins, the legend fields can be toggled to the greek alphabet</string>
+
+    <string name="coinadd_01">You can add as many coins to your collection as you wish. For easier viewing consider setting up multiple collections where you can group similar coins.</string>
+    <string name="coinadd_02">Only the Personage field is mandatory. We strongly suggest using the attribution field to make it easy to sort your collection.</string>
+    <string name="coinadd_03">You can upload any PNG or JPG picture of your coin from your device gallery; best results when cropped to a rectangle with the coin edges close to the image edge.</string>
+    <string name="coinadd_04">The fields you do not fill in will not appear at all in your record to make viewing easier. </string>
+    <string name="coinadd_05">Corvus is currently based on RIC attribution but we are working on adding other references. The RIC number is numeric for sorting purposes. In the RICvar field you can add qualifiers such as a letter (e.g. RIC 197b) or var or note</string>
+    <string name="coinadd_06">Corvus is not yet optimized for Provincial coins. We are working on adding greek alphabet capabilities to the app.</string>
 
     <string name="coinlist_01">Click the floating button at the bottom of the screen to add a coin.</string>
     <string name="coinlist_02">Corvus does not currently support batch additions from a spreadsheet but we are working on it!</string>
     <string name="coinlist_03">Click on a coin-card to show all the information about the coin. Swipe right or left to delete the coin. Longclick to modify the coin record.</string>
-    <string name="coinlist_04">You can sort the coins on the personage, RIC number or last-modified; sort options in the drop down menu.</string>
-    <string name="coinlist_05">You can also search coins accross all your collection; search available in the drop down menu.</string>
+    <string name="coinlist_04">You can sort the coins on the personage, RIC number or last-modified. Sort options are in the drop down menu.</string>
+    <string name="coinlist_05">We are working on adding search capabilities to Corvus.</string>
     <string name="coinlist_06"></string>
 
 

@@ -58,8 +58,10 @@ import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class RefCoinList extends AppCompatActivity {
@@ -82,6 +84,9 @@ public class RefCoinList extends AppCompatActivity {
     private CoordinatorLayout loutRefCoinListActLOX; //primarily used for snackbars
 
     private ProgressDialog pd; // universal progress dialog used in this activity
+
+    // custom view to use as a shade behind custom dialogs
+    private View shadeX;
 
     //creating instance variables that can be used to pass info to the coin modify screen
 
@@ -170,6 +175,9 @@ public class RefCoinList extends AppCompatActivity {
         cardRefToggle = 0; // allows for onclick expansion and deflation of coin cards
 
         loutRefCoinListActLOX = findViewById(R.id.loutRefCoinListActLO); //primarily used for snackbars); //primarily used for snackbars
+
+        // custom view to use as a shade behind custom dialogs
+        shadeX = findViewById(R.id.shade);
 
 // The Code setting out recycler view /////////////////////////////////////////////////////////////////
 // The tutorial had this section of code through to setAdapter in separate on Start Method but for StaggeredGrid that seemed to cause the recycler view to be destroyed and not come back once we moved off the screen works fine here
@@ -479,7 +487,8 @@ public class RefCoinList extends AppCompatActivity {
         }
         public void setValue(int value) {
             TextView txtRefValueX = (TextView)mView.findViewById(R.id.txtRefValue);
-            String value2 = String.valueOf(value);
+           // String value2 = String.valueOf(value);
+            String value2 = NumberFormat.getNumberInstance(Locale.US).format(value);
             txtRefValueX.setText(value2);
 
             TextView txtRefLabelValueX = (TextView)mView.findViewById(R.id.txtRefLabelValue);
@@ -670,6 +679,8 @@ public class RefCoinList extends AppCompatActivity {
 
     private void faqDialogView() {
 
+        shadeX.setVisibility(View.VISIBLE);
+
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
@@ -691,6 +702,7 @@ public class RefCoinList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                shadeX.setVisibility(View.INVISIBLE);
                 dialog.dismiss();
 
             }
