@@ -344,6 +344,10 @@ public class HomePage extends AppCompatActivity {
         rcvCollectionsX.setAdapter(firebaseRecyclerAdapter);
     }
 
+    ///////////////////////// END -------> ON-CREATE ////////////////////////////////////////////////////////////////////
+
+    //////////////////////// START ------> RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
+    /////////////////// includes: viewholder, sort, expoloding card view dialog, functions from dialog //////////////////
 
     // View holder for the recycler view
     public static class ZZZjcCollectionsViewHolder extends RecyclerView.ViewHolder {
@@ -464,18 +468,13 @@ public class HomePage extends AppCompatActivity {
 
         ///////////////////////////////////////////////////////////////////////////////////////
 
+    } ///////////////// End of view holder innner class
 
-    }
+    private void alertDialogSortCollections() {
 
-    // On pressing back from home page given choice to exit app or ignor back command; calls a dialog
-
-    @Override
-    public void onBackPressed() {
-
-
-        //Everything in this method is code for a custom dialog
+        //Everything in this method is code for the universal alert dialog
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
+        View view = inflater.inflate(R.layout.zzz_dialog_sort_collections, null);
 
         dialog = new AlertDialog.Builder(this)
                 .setView(view)
@@ -483,162 +482,84 @@ public class HomePage extends AppCompatActivity {
 
         dialog.show();
 
-        Button btnYesX = view.findViewById(R.id.btnYes);
-        btnYesX.setOnClickListener(new View.OnClickListener() {
+        // Sort radio buttons
+
+        final RadioButton rbSortByCustomNumberX = view.findViewById(R.id.rbSortByCustomNumber);
+        final RadioButton rbSortLastUpdatedX = view.findViewById(R.id.rbSortLastUpdated);
+        final RadioButton rbSortOldestX = view.findViewById(R.id.rbSortOldest);
+        final RadioButton rbSortMostValuableX = view.findViewById(R.id.rbSortMostValuable);
+        final RadioButton rbSortBiggestX = view.findViewById(R.id.rbSortBiggest);
+
+        Button btnSetImageX = view.findViewById(R.id.btnSort);
+        btnSetImageX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                finishAffinity();
-                System.exit(0);
-
-            }
-        });
-
-        Button btnNoX = view.findViewById(R.id.btnNo);
-        btnNoX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-    }
+                if(rbSortByCustomNumberX.isChecked()){
 
 
-    // Main popup menu functionality called when popup menu FAB pressed
-    private void showPopupMenuHomePage(View anchor, boolean isWithIcons, int style) {
-        //init the wrapper with style
-        Context wrapper = new ContextThemeWrapper(this, style);
+                    SharedPreferences.Editor editor = sortSharedPref.edit();
+                    editor.putString("Sort", "alpha");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
 
-        //init the popup
-        PopupMenu popup = new PopupMenu(wrapper, anchor);
+                } else if (rbSortLastUpdatedX.isChecked()) {
 
-        /*  The below code in try catch is responsible to display icons*/
-        if (isWithIcons) {
-            try {
-                Field[] fields = popup.getClass().getDeclaredFields();
-                for (Field field : fields) {
-                    if ("mPopup".equals(field.getName())) {
-                        field.setAccessible(true);
-                        Object menuPopupHelper = field.get(popup);
-                        Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
-                        Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
-                        setForceIcons.invoke(menuPopupHelper, true);
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+                    SharedPreferences.Editor editor = sortSharedPref.edit();
+                    editor.putString("Sort", "newest");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
 
-        //inflate menu
-        popup.getMenuInflater().inflate(R.menu.homepage_menu, popup.getMenu());
+                } else if (rbSortOldestX.isChecked()) {
 
-        //implement click events
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-
-                    case R.id.popMenuSort:
-
-                        alertDialogSortCollections();
+                    SharedPreferences.Editor editor = sortSharedPref.edit();
+                    editor.putString("Sort", "oldest");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
 
 
-                        return true;
+                } else if (rbSortMostValuableX.isChecked()) {
 
-                    case R.id.popMenuRefCollections:
+                    SharedPreferences.Editor editor = sortSharedPref.edit();
+                    editor.putString("Sort", "colvalue");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
 
-                        Intent intent = new Intent(HomePage.this, RefCollections.class);
-                        startActivity(intent);
 
+                } else if (rbSortBiggestX.isChecked()) {
 
-                        return true;
-                    case R.id.popMenuLogout:
+                    SharedPreferences.Editor editor = sortSharedPref.edit();
+                    editor.putString("Sort", "coincount");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
 
-                        //Confirm the user wants to logout and execute
-                        alertDialogLogOut();
+                } else {
 
-                        return true;
-
-                    case R.id.popMenuFAQ:
-
-                        faqDialogView();
-
-                        return true;
+                    noSortCriteriaSnackbar();
 
                 }
 
-                return false;
-            }
-        });
-        popup.show();
-
-    }
-
-    //Dialog that comes up when user chooses logout from the popup menu; strange legacy menu name but standard yes no dialog
-    private void alertDialogLogOut() {
-
-        //Everything in this method is code for a custom dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        dialog.show();
-
-        ImageView imgIconX = view.findViewById(R.id.imgIcon);
-        imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.logout));
-
-        TextView txtTitleX = view.findViewById(R.id.txtTitle);
-        txtTitleX.setText("Logout");
-
-        TextView txtMsgX = view.findViewById(R.id.txtMsg);
-        txtMsgX.setText("Do you really want to Logout from Corvus?");
-
-        Button btnYesX = view.findViewById(R.id.btnYes);
-        btnYesX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                firebaseAuthCollections.signOut();
-                LoginManager.getInstance().logOut();
-                logoutSnackbar();
-                transitionBackToLogin ();
             }
         });
 
-        Button btnNoX = view.findViewById(R.id.btnNo);
-        btnNoX.setOnClickListener(new View.OnClickListener() {
+        Button btnCancelX = view.findViewById(R.id.btnCancel);
+        btnCancelX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 dialog.dismiss();
+
             }
         });
 
-    }
-    //Method called from LogOut to get us back to Login screen
-    private void transitionBackToLogin () {
+    }///////////////// End of sorting
 
-        new CountDownTimer(1000, 500) {
-
-
-            public void onTick(long millisUntilFinished) {
-                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
-            }
-
-            public void onFinish() {
-                Intent intent = new Intent(HomePage.this, Login.class);
-                startActivity(intent);
-                finish();
-            }
-        }.start();
-
-    }
-
+    // This is the collection detail dialog expanding on cardview
     private void collectionDialogView() {
 
         shadeX.setVisibility(View.VISIBLE);
@@ -801,31 +722,6 @@ public class HomePage extends AppCompatActivity {
 
     }
 
-
-
-    private void oneTimeInfoLogin() {
-
-        //Everything in this method is code for a custom dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzzz_otinfo_homepage, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        dialog.show();
-
-        Button btnOKoneTimeHPX = view.findViewById(R.id.btnOKoneTimeHP);
-        btnOKoneTimeHPX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dialog.dismiss();
-
-            }
-        });
-    }
-
     //Called from the delete button on the expanded collection view
     private void deleteCollection(){
 
@@ -877,8 +773,102 @@ public class HomePage extends AppCompatActivity {
 
         }
 
+    }
+
+    private void modifyCollectionActivity() {
+
+        Intent intent = new Intent(HomePage.this, CollectionAdd.class);
+        intent.putExtra("coluid", colUIDY);
+        intent.putExtra("title", colTitleY);
+        intent.putExtra("imageLink", colImageLinkY);
+        intent.putExtra("des", colDesY);
+        intent.putExtra("notes", colNotesY);
+        intent.putExtra("id", colIDY);
+        intent.putExtra("colvalue", colValueY); // passing the string... and don't need to pass item count as doing nothing with that in modify
+        startActivity(intent);
+    }
+
+    //////////////////////// END -------->>> RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
+    /////////////////// includes: viewholder, sort, expoloding card view dialog, functions from dialog //////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> POP-UP ////////////////////////////////////////////////////////////////////
+
+    // Main popup menu functionality called when popup menu FAB pressed
+    private void showPopupMenuHomePage(View anchor, boolean isWithIcons, int style) {
+        //init the wrapper with style
+        Context wrapper = new ContextThemeWrapper(this, style);
+
+        //init the popup
+        PopupMenu popup = new PopupMenu(wrapper, anchor);
+
+        /*  The below code in try catch is responsible to display icons*/
+        if (isWithIcons) {
+            try {
+                Field[] fields = popup.getClass().getDeclaredFields();
+                for (Field field : fields) {
+                    if ("mPopup".equals(field.getName())) {
+                        field.setAccessible(true);
+                        Object menuPopupHelper = field.get(popup);
+                        Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                        Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+                        setForceIcons.invoke(menuPopupHelper, true);
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        //inflate menu
+        popup.getMenuInflater().inflate(R.menu.homepage_menu, popup.getMenu());
+
+        //implement click events
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+
+                    case R.id.popMenuSort:
+
+                        alertDialogSortCollections();
+
+
+                        return true;
+
+                    case R.id.popMenuRefCollections:
+
+                        Intent intent = new Intent(HomePage.this, RefCollections.class);
+                        startActivity(intent);
+
+
+                        return true;
+                    case R.id.popMenuLogout:
+
+                        //Confirm the user wants to logout and execute
+                        alertDialogLogOut();
+
+                        return true;
+
+                    case R.id.popMenuFAQ:
+
+                        faqDialogView();
+
+                        return true;
+
+                }
+
+                return false;
+            }
+        });
+        popup.show();
 
     }
+
+    ///////////////////////// END -------> POP-UP MENU ///////////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> SNACKBARS ////////////////////////////////////////////////////////////
 
     private void logoutSnackbar(){
 
@@ -915,17 +905,63 @@ public class HomePage extends AppCompatActivity {
         textView.setTextColor(getResources().getColor(R.color.lighttext));
     }
 
-    private void modifyCollectionActivity() {
+    private void noSortCriteriaSnackbar() {
 
-        Intent intent = new Intent(HomePage.this, CollectionAdd.class);
-        intent.putExtra("coluid", colUIDY);
-        intent.putExtra("title", colTitleY);
-        intent.putExtra("imageLink", colImageLinkY);
-        intent.putExtra("des", colDesY);
-        intent.putExtra("notes", colNotesY);
-        intent.putExtra("id", colIDY);
-        intent.putExtra("colvalue", colValueY); // passing the string... and don't need to pass item count as doing nothing with that in modify
-        startActivity(intent);
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutHomePageActLOX, "Please select sorting criteria", Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+        textView.setTextColor(getResources().getColor(R.color.lighttext));
+
+    }
+
+    ///////////////////////// END -------> SNACKBARS //////////////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> FAQ AND ONE TIME /////////////////////////////////////////////////////
+
+    // checks this is the app is run first time which we use to decide whether to show the one time info dialogs
+    private boolean isFirstTime()
+    {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+            // first time
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+        }
+        return !ranBefore;
+    }
+
+    private void oneTimeInfoLogin() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzzz_otinfo_homepage, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        Button btnOKoneTimeHPX = view.findViewById(R.id.btnOKoneTimeHP);
+        btnOKoneTimeHPX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
     }
 
     private void faqDialogView() {
@@ -1097,25 +1133,17 @@ public class HomePage extends AppCompatActivity {
         });
 
     }
- // checks this is the app is run first time which we use to decide whether to show the one time info dialogs
-    private boolean isFirstTime()
-    {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        boolean ranBefore = preferences.getBoolean("RanBefore", false);
-        if (!ranBefore) {
-            // first time
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("RanBefore", true);
-            editor.commit();
-        }
-        return !ranBefore;
-    }
 
-    private void alertDialogSortCollections() {
+     //////////////////////// END ------->>> FAQ & ONE TIME ////////////////////////////////////////////////////////////////
 
-        //Everything in this method is code for the universal alert dialog
+    ///////////////////////// START ----->>> LOGOUT AND ON-BACK PRESS /////////////////////////////////////////////////////
+
+    //Dialog that comes up when user chooses logout from the popup menu; strange legacy menu name but standard yes no dialog
+    private void alertDialogLogOut() {
+
+        //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzz_dialog_sort_collections, null);
+        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
 
         dialog = new AlertDialog.Builder(this)
                 .setView(view)
@@ -1123,102 +1151,88 @@ public class HomePage extends AppCompatActivity {
 
         dialog.show();
 
-        // Sort radio buttons
+        ImageView imgIconX = view.findViewById(R.id.imgIcon);
+        imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.logout));
 
-        final RadioButton rbSortByCustomNumberX = view.findViewById(R.id.rbSortByCustomNumber);
-        final RadioButton rbSortLastUpdatedX = view.findViewById(R.id.rbSortLastUpdated);
-        final RadioButton rbSortOldestX = view.findViewById(R.id.rbSortOldest);
-        final RadioButton rbSortMostValuableX = view.findViewById(R.id.rbSortMostValuable);
-        final RadioButton rbSortBiggestX = view.findViewById(R.id.rbSortBiggest);
+        TextView txtTitleX = view.findViewById(R.id.txtTitle);
+        txtTitleX.setText("Logout");
 
-        Button btnSetImageX = view.findViewById(R.id.btnSort);
-        btnSetImageX.setOnClickListener(new View.OnClickListener() {
+        TextView txtMsgX = view.findViewById(R.id.txtMsg);
+        txtMsgX.setText("Do you really want to Logout from Corvus?");
+
+        Button btnYesX = view.findViewById(R.id.btnYes);
+        btnYesX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(rbSortByCustomNumberX.isChecked()){
-
-
-                    SharedPreferences.Editor editor = sortSharedPref.edit();
-                    editor.putString("Sort", "alpha");
-                    editor.apply(); // saves the value
-                    dialog.dismiss();
-                    recreate(); // restart activity to take effect
-
-                } else if (rbSortLastUpdatedX.isChecked()) {
-
-                    SharedPreferences.Editor editor = sortSharedPref.edit();
-                    editor.putString("Sort", "newest");
-                    editor.apply(); // saves the value
-                    dialog.dismiss();
-                    recreate(); // restart activity to take effect
-
-                } else if (rbSortOldestX.isChecked()) {
-
-                    SharedPreferences.Editor editor = sortSharedPref.edit();
-                    editor.putString("Sort", "oldest");
-                    editor.apply(); // saves the value
-                    dialog.dismiss();
-                    recreate(); // restart activity to take effect
-
-
-                } else if (rbSortMostValuableX.isChecked()) {
-
-                    SharedPreferences.Editor editor = sortSharedPref.edit();
-                    editor.putString("Sort", "colvalue");
-                    editor.apply(); // saves the value
-                    dialog.dismiss();
-                    recreate(); // restart activity to take effect
-
-
-                } else if (rbSortBiggestX.isChecked()) {
-
-                    SharedPreferences.Editor editor = sortSharedPref.edit();
-                    editor.putString("Sort", "coincount");
-                    editor.apply(); // saves the value
-                    dialog.dismiss();
-                    recreate(); // restart activity to take effect
-
-                } else {
-
-                    noSortCriteriaSnackbar();
-
-                }
-
-
-
+                firebaseAuthCollections.signOut();
+                LoginManager.getInstance().logOut();
+                logoutSnackbar();
+                transitionBackToLogin ();
             }
         });
 
-
-        Button btnCancelX = view.findViewById(R.id.btnCancel);
-        btnCancelX.setOnClickListener(new View.OnClickListener() {
+        Button btnNoX = view.findViewById(R.id.btnNo);
+        btnNoX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 dialog.dismiss();
-
             }
         });
 
+    }
+    //Method called from LogOut to get us back to Login screen
+    private void transitionBackToLogin () {
+
+        new CountDownTimer(1000, 500) {
+
+
+            public void onTick(long millisUntilFinished) {
+                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+            }
+
+            public void onFinish() {
+                Intent intent = new Intent(HomePage.this, Login.class);
+                startActivity(intent);
+                finish();
+            }
+        }.start();
 
     }
 
-    private void noSortCriteriaSnackbar() {
+    // On pressing back from home page given choice to exit app or ignore back command; calls a dialog
+    @Override
+    public void onBackPressed() {
 
-        Snackbar snackbar;
 
-        snackbar = Snackbar.make(loutHomePageActLOX, "Please select sorting criteria", Snackbar.LENGTH_SHORT);
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
 
-        View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
 
-        snackbar.show();
+        dialog.show();
 
-        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
-        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
-        textView.setTextSize(18);
-        textView.setTextColor(getResources().getColor(R.color.lighttext));
+        Button btnYesX = view.findViewById(R.id.btnYes);
+        btnYesX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                finishAffinity();
+                System.exit(0);
+
+            }
+        });
+
+        Button btnNoX = view.findViewById(R.id.btnNo);
+        btnNoX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
 
     }
 
