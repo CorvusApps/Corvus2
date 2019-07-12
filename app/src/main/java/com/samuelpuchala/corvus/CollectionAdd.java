@@ -51,6 +51,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.transition.Explode;
 import android.view.ContextThemeWrapper;
 import android.view.Display;
@@ -59,6 +60,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -137,15 +139,24 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         //setting onFocusChangeListeners to change UI when EditText is touched and keyboard comes up
         edtCollectionNameX = findViewById(R.id.edtCollectionName);
         edtCollectionNameX.setOnFocusChangeListener(this);
+        edtCollectionNameX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        edtCollectionNameX.setRawInputType(InputType.TYPE_CLASS_TEXT);// this plus textMultiline in XML allows for wraping text but provides a next button on keyboard to tab over
+
 
         edtCollectionDescX = findViewById(R.id.edtCollectionDesc);
         edtCollectionDescX.setOnFocusChangeListener(this);
+        edtCollectionDescX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        edtCollectionDescX.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
         edtCollectionsNotesX = findViewById(R.id.edtCollectionNotes);
         edtCollectionsNotesX.setOnFocusChangeListener(this);
+        edtCollectionsNotesX.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        edtCollectionsNotesX.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
         edtCollectionIDX = findViewById(R.id.edtCollectionID);
         edtCollectionIDX.setOnFocusChangeListener(this);
+        edtCollectionIDX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        edtCollectionIDX.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
         imgInfoX = findViewById(R.id.imgInfo);
         imgInfoX.setOnClickListener(this);
@@ -724,6 +735,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                         public void onFinish() {
                             Intent intent = new Intent(CollectionAdd.this, CoinList.class);
                             intent.putExtra("coluid", coluidX);
+                            intent.putExtra("title", edtCollectionNameX.getText().toString());
                             startActivity(intent);
                             finish();
                         }

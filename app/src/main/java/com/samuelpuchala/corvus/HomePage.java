@@ -80,6 +80,8 @@ public class HomePage extends AppCompatActivity {
     private String colDesY;
     private String colNotesY;
     private int colIDY;
+    private int colItemCountY;
+    private int colValueY;
 
     private Drawable colImageY;
 
@@ -136,6 +138,22 @@ public class HomePage extends AppCompatActivity {
             sortQuery = sortReference.orderByChild("id");
             layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
            // layoutManager.setReverseLayout(false);
+
+        }
+
+        if(mSorting.equals("colvalue")) {
+
+            sortQuery = sortReference.orderByChild("sortcolvalue");
+            layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            // layoutManager.setReverseLayout(false);
+
+        }
+
+        if(mSorting.equals("coincount")) {
+
+            sortQuery = sortReference.orderByChild("sortcoincount");
+            layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            // layoutManager.setReverseLayout(false);
 
         }
 
@@ -214,6 +232,9 @@ public class HomePage extends AppCompatActivity {
                 viewHolder.setColuid(model.getColuid()); //so ridiculous the get and set functions have to be the same name as the variable like coluid = setColuid wtf
                 viewHolder.setImageLink(model.getImageLink());
 
+                viewHolder.setCoincount(model.getCoincount());
+                viewHolder.setColvalue(model.getColvalue());
+
             }
 
             // The Code setting out recycler view /////////////////////////////////////////////////////////////////
@@ -234,17 +255,27 @@ public class HomePage extends AppCompatActivity {
                         TextView colUID = view.findViewById(R.id.crdTxtCollectionUID);
                         TextView colTitle = view.findViewById(R.id.crdTxtCollectionTitle);
 
+                        TextView colCoinCount = view.findViewById(R.id.crdTxtCollectionItemCount); // need to pass these as hidden to coin list so they can be passed to coin add, delete and modify
+                        TextView colColValue = view. findViewById(R.id.crdTxtCollectionValue);
+
                         //get data from views
 
                         colUIDY = colUID.getText().toString();
                         colTitleY = colTitle.getText().toString();
 
+                        String colCoinCountX = colCoinCount.getText().toString();
+                        colItemCountY = Integer.parseInt(colCoinCountX);
 
-                       // no need to pass the image to the CoinList Class but keeping the lines below as example code
+                        String colColValueX = colColValue.getText().toString();
+                        colValueY = Integer.parseInt(colColValueX);
+
+                       // passing collection data to coin list; value and itemcount probably not necessary as can just pull that from FB and that's easier than passing it back and forth which we do with the Title (not efficient)
                         Intent intent  = new Intent(view.getContext(), CoinList.class);
 
                         intent.putExtra("coluid", colUIDY);
                         intent.putExtra("title", colTitleY);
+                        intent.putExtra("colvalue", colValueY);
+                        intent.putExtra("coincount", colItemCountY);
                         startActivity(intent);
 
                     }
@@ -285,6 +316,14 @@ public class HomePage extends AppCompatActivity {
 
                         TextView colImageLink = view.findViewById(R.id.crdTxtCollectionImgLink);
                         colImageLinkY = colImageLink.getText().toString();
+
+                        TextView colCoinCount = view.findViewById(R.id.crdTxtCollectionItemCount); // need to pass these as hidden to coin list so they can be passed to coin add, delete and modify
+                        String colCoinCountX = colCoinCount.getText().toString();
+                        colItemCountY = Integer.parseInt(colCoinCountX);
+
+                        TextView colColValue = view. findViewById(R.id.crdTxtCollectionValue);
+                        String colColValueX = colColValue.getText().toString();
+                        colValueY = Integer.parseInt(colColValueX);
 
                         collectionDialogView();
 
@@ -371,6 +410,22 @@ public class HomePage extends AppCompatActivity {
             TextView crdTxtCollectionIdX = (TextView)mView.findViewById(R.id.crdTxtCollectionID);
             String id2 = String.valueOf(id);
             crdTxtCollectionIdX.setText(id2);
+
+        }
+
+        public void setCoincount(int coincount) {
+
+            TextView crdTxtCollectionItemCountX = (TextView)mView.findViewById(R.id.crdTxtCollectionItemCount);
+            String coincount2 = String.valueOf(coincount);
+            crdTxtCollectionItemCountX.setText(coincount2);
+
+        }
+
+        public void setColvalue(int colvalue) {
+
+            TextView crdTxtCollectionValueX = (TextView)mView.findViewById(R.id.crdTxtCollectionValue);
+            String colvalue2 = String.valueOf(colvalue);
+            crdTxtCollectionValueX.setText(colvalue2);
 
         }
 
@@ -608,15 +663,25 @@ public class HomePage extends AppCompatActivity {
         }
 
 
-        TextView txtColDetailIdX = view.findViewById(R.id.txtColDetailId);
-
         // need to convert to string before putting into editText but want int in firbase for sorting
-
+        TextView txtColDetailIdX = view.findViewById(R.id.txtColDetailId);
         String colIDY2 = String.valueOf(colIDY);
         txtColDetailIdX.setText(colIDY2);
 
         TextView txtColDetailTitleX = view.findViewById(R.id.txtColDetailTitle);
         txtColDetailTitleX.setText(colTitleY);
+
+        // need to convert to string before putting into editText but want int in firbase for sorting
+        TextView txtColDetailItemsX = view.findViewById(R.id.txtColDetailItems);
+        String colItemCountY2 = String.valueOf(colItemCountY);
+        txtColDetailItemsX.setText(colItemCountY2);
+
+        // need to convert to string before putting into editText but want int in firbase for sorting
+        TextView txtColDetailValueX = view.findViewById(R.id.txtColDetailValue);
+        final String colValueY2 = String.valueOf(colValueY);
+        txtColDetailValueX.setText(colValueY2);
+
+
         TextView txtColDetailDesX = view.findViewById(R.id.txtColDetailDesc);
         txtColDetailDesX.setText(colDesY);
 
@@ -646,6 +711,9 @@ public class HomePage extends AppCompatActivity {
 
                intent.putExtra("coluid", colUIDY);
                intent.putExtra("title", colTitleY);
+               intent.putExtra("coincount" , colItemCountY);
+               intent.putExtra("colvalue" , colValueY);
+
                startActivity(intent);
 
                shadeX.setVisibility(View.INVISIBLE);
@@ -851,6 +919,7 @@ public class HomePage extends AppCompatActivity {
         intent.putExtra("des", colDesY);
         intent.putExtra("notes", colNotesY);
         intent.putExtra("id", colIDY);
+        intent.putExtra("colvalue", colValueY); // passing the string... and don't need to pass item count as doing nothing with that in modify
         startActivity(intent);
     }
 
@@ -1085,13 +1154,21 @@ public class HomePage extends AppCompatActivity {
 
                 } else if (rbSortMostValuableX.isChecked()) {
 
-                    Toast.makeText(HomePage.this, "Value", Toast.LENGTH_SHORT).show();
+                    SharedPreferences.Editor editor = sortSharedPref.edit();
+                    editor.putString("Sort", "colvalue");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
 
 
                 } else if (rbSortBiggestX.isChecked()) {
 
+                    SharedPreferences.Editor editor = sortSharedPref.edit();
+                    editor.putString("Sort", "coincount");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
 
-                    Toast.makeText(HomePage.this, "Biggest", Toast.LENGTH_SHORT).show();
                 } else {
 
                     noSortCriteriaSnackbar();

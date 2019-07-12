@@ -37,7 +37,7 @@
         android:focusableInTouchMode="true"
         android:background="@color/colorPrimary"
 
-        android:src="@drawable/vespasiancoin"
+        android:src="@drawable/insertcoin"
 
         />
 

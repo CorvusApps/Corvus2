@@ -45,6 +45,43 @@
                 />
         </com.github.florent37.shapeofview.shapes.ArcView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            >
+
+            <TextView
+                android:id="@+id/crdRefCoinCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:text="0"
+
+                android:textSize="10sp"
+
+                android:textColor="@color/lighttext"
+                />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:text=" Coins"
+
+                android:textSize="10sp"
+
+                android:textColor="@color/lighttext"
+                />
+
+
+
+        </LinearLayout>
+
+
         <TextView
             android:id="@+id/crdRefTxtCollectionTitle"
             android:layout_width="match_parent"
@@ -52,7 +89,7 @@
             android:textStyle="bold"
             android:text="Collection Title"
             android:textSize="14sp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/_2sdp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:textColor="#FFFFFF"
@@ -62,7 +99,7 @@
             android:id="@+id/crdRefTxtCollectionDes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No of items: 10"
+            android:text="Brief description"
             android:textSize="12sp"
             android:layout_marginTop="6dp"
             android:layout_marginLeft="8dp"

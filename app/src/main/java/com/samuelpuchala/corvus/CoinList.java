@@ -105,6 +105,13 @@ public class CoinList extends AppCompatActivity {
     // For passing the collection title to coin add and coin modify so when back from there to coin list there is a title to populate the top
     private String cListColName;
 
+    // for passing the collection item count and value so it can be added to as coins are added, modified or deleted
+    private String coinListItemCount;
+    private int coinListItemCountInt;
+
+    private String coinListColValue;
+    private int coinListColValueInt;
+
 
 
     @Override
@@ -125,6 +132,8 @@ public class CoinList extends AppCompatActivity {
                 Intent intent = new Intent(CoinList.this, CoinAdd.class);
                 intent.putExtra("coluid", cListuid);
                 intent.putExtra("title", cListColName);
+                intent.putExtra("coincount", coinListItemCountInt);
+                intent.putExtra("colvalue", coinListColValueInt);
                 startActivity(intent);
             }
         });
@@ -158,6 +167,46 @@ public class CoinList extends AppCompatActivity {
                 .child("collections").child(cListuid).child("coins");
         coinDatabase.keepSynced(true);
 
+        // pulling collection itemcount and value from firebase to than pass on to coin add, modify, delete to do operations on and re-upload to Firebase
+
+        DatabaseReference itemAndValueCalcRef = FirebaseDatabase.getInstance().getReference().child("my_users").child(firebaseAuthCoins.getCurrentUser().getUid())
+                .child("collections").child(cListuid);
+
+        Query itemAndValueCalcQuery = itemAndValueCalcRef.child("coincount");
+        Query itemAndValueCalcQuery2 = itemAndValueCalcRef.child("colvalue");
+
+        itemAndValueCalcQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                coinListItemCount = dataSnapshot.getValue().toString();
+                coinListItemCountInt = Integer.parseInt(coinListItemCount);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        itemAndValueCalcQuery2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                coinListColValue = dataSnapshot.getValue().toString();
+                coinListColValueInt = Integer.parseInt(coinListColValue);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        ////////////////////////////////////////////itmecount and value end
+
 
         //Shared preferences for sorting
         sortSharedPrefCoins = getSharedPreferences("SortSetting2", MODE_PRIVATE);
@@ -189,7 +238,7 @@ public class CoinList extends AppCompatActivity {
 
         if (mSorting2.equals("newest")) {
 
-            sortQueryCoins = coinDatabase.orderByChild("timestampcoin");
+            sortQueryCoins = coinDatabase.orderByChild("timestamp");
             layoutManagerCoins = new LinearLayoutManager(this);
             layoutManagerCoins.setReverseLayout(false);
 
@@ -416,6 +465,7 @@ public class CoinList extends AppCompatActivity {
         intent.putExtra("coluid", cListuid); // need to pass the collection back to the coinadd
         intent.putExtra("coinuid", coinUIDY);
         intent.putExtra("title", cListColName); // need to pass back to coin add so it can go back to coinlist after coin modified
+        intent.putExtra("colvalue", coinListColValueInt);
 
         intent.putExtra("personage", coinPersonageY);
         intent.putExtra("denomination", coinDenominationY);
@@ -465,6 +515,7 @@ public class CoinList extends AppCompatActivity {
             }
         });
 
+
     }
 
     public void deleteCoin(String deleteImageLink, final DatabaseReference position) {
@@ -480,6 +531,26 @@ public class CoinList extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
 
+                        /// need to get the value of the specific coin to subtract out - like imagelink before the info is gone but get it after pic deleted here//
+
+                        Query deleteCoinValueQuery = position.child("value");
+                        deleteCoinValueQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                String deletedCoinValue = dataSnapshot.getValue().toString();
+                                int deletedCoinValueInt = Integer.parseInt(deletedCoinValue);
+                                coinListColValueInt = coinListColValueInt - deletedCoinValueInt;
+                                // the danger here is that the async operations will have the delete below finish before this and the value won't be deleted.
+                                // may want to fix this on clean up and monitor... working fine on initial tries
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
                         Query mQuery = position;
                         mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -492,8 +563,11 @@ public class CoinList extends AppCompatActivity {
                                 // WIERD ERROR was happening here caused by the FB SDK - apparently a bug - had to downgrade to version 5.0.3 to fix it
 
                                 // update collection timestamp for the deletion - as it is a modification to the collection //////
+                                // also adjust coin number and collection value /////
 
                                 final Long timestampD = System.currentTimeMillis() * -1;
+                                coinListItemCountInt = coinListItemCountInt - 1;
+
                                 String uid = FirebaseAuth.getInstance().getUid();
                                 DatabaseReference collectionDelCoinReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
                                         .child("collections");
@@ -504,9 +578,17 @@ public class CoinList extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                                        int sortCoinCount = -coinListItemCountInt;
+                                        int sortColValue = -coinListColValueInt;
+
                                         for (DataSnapshot ds4: dataSnapshot.getChildren()) {
 
                                             ds4.getRef().child("timestamp").setValue(timestampD);
+                                            ds4.getRef().child("coincount").setValue(coinListItemCountInt);
+                                            ds4.getRef().child("colvalue").setValue(coinListColValueInt);
+
+                                            ds4.getRef().child("sortcoincount").setValue(sortCoinCount);
+                                            ds4.getRef().child("sortcolvalue").setValue(sortColValue);
                                         }
                                     }
 

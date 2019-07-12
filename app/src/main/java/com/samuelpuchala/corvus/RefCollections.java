@@ -57,6 +57,7 @@ public class RefCollections extends AppCompatActivity {
     private String colTitleY;
     private String colDesY;
     private String colNotesY;
+    private int colCoinCountY;
 
     private Drawable colImageY;
 
@@ -130,6 +131,7 @@ public class RefCollections extends AppCompatActivity {
 
                 viewHolder.setColuid(model.getColuid()); //so ridiculous the get and set functions have to be the same name as the variable like coluid = setColuid wtf
                 viewHolder.setImageLink(model.getImageLink());
+                viewHolder.setCoincount(model.getCoincount());
 
                 }
 
@@ -177,9 +179,13 @@ public class RefCollections extends AppCompatActivity {
                         TextView colDes = view.findViewById(R.id.crdRefTxtCollectionDes);
                         ImageView colImage = view.findViewById(R.id.crdRefImgCollectionImage);
                         TextView colNotes = view.findViewById(R.id.crdRefTxtCollectionNotes);
+                        TextView colCoinCount = view.findViewById(R.id.crdRefCoinCount);
 
 
                     //get data from views
+
+                    String colCoinCountY2 = colCoinCount.getText().toString();
+                    colCoinCountY = Integer.parseInt(colCoinCountY2);
 
                     colTitleY = colTitle.getText().toString();
                     colDesY = colDes.getText().toString();
@@ -592,6 +598,14 @@ public class RefCollections extends AppCompatActivity {
 
         }
 
+        public void setCoincount(int coincount) {
+
+            TextView crdRefCoinCountX = (TextView)mView.findViewById(R.id.crdRefCoinCount);
+            String coincount2 = String.valueOf(coincount);
+            crdRefCoinCountX.setText(coincount2);
+
+        }
+
         // these are setting hiddent textviews in cardView which can then passvalues to child views like expanded collectio or delete method
 
         public void setColuid(String coluid) {
@@ -653,6 +667,10 @@ public class RefCollections extends AppCompatActivity {
             imgColDetailImageX.setImageBitmap(colBitmap);
         }
 
+        TextView txtColDetailCoinCountX = view.findViewById(R.id.txtColDetailCoinCount);
+        String colCoinCountY3 = String.valueOf(colCoinCountY);
+        txtColDetailCoinCountX.setText(colCoinCountY3);
+
         TextView txtColDetailTitleX = view.findViewById(R.id.txtColDetailTitle);
         txtColDetailTitleX.setText(colTitleY);
         TextView txtColDetailDesX = view.findViewById(R.id.txtColDetailDesc);
@@ -685,8 +703,6 @@ public class RefCollections extends AppCompatActivity {
                 intent.putExtra("coluid", colUIDY);
                 intent.putExtra("title", colTitleY);
                 startActivity(intent);
-
-                Toast.makeText(RefCollections.this, "Enter coin list", Toast.LENGTH_SHORT).show();
                 shadeX.setVisibility(View.INVISIBLE);
                 dialog.dismiss();
             }
@@ -726,7 +742,6 @@ public class RefCollections extends AppCompatActivity {
             }
         });
     }
-
 
 
     @Override

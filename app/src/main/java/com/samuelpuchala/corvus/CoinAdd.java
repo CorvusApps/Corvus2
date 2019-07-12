@@ -80,6 +80,11 @@ public class CoinAdd extends AppCompatActivity {
     private TextView txtHiddenCoinAddColTitleX;
     private String cAddColTitleX; // collection Title
 
+    // data components for manipulating collection item count and value
+
+    private int cAddItemCountX;
+    private int cAddColValueX;
+
     // UI components and intermediate variables to manipulate them
     private EditText edtPersonageX, edtRICX, edtDenominationX, edtRICvarX, edtWeightX, edtDiamaterX, edtMintX, edtObvDescX
             , edtObvLegendX, edtRevDescX, edtRevLegendX, edtProvenanceX, edtValueX, edtNotesX;
@@ -102,12 +107,13 @@ public class CoinAdd extends AppCompatActivity {
     private String imageLink; // created by Firebase when image uploaded
     private FirebaseAuth coinAddFirebaseAuth;
 
-    //variables to recieve inputs from modify collection method from expanded collectio dialog in homepage
+    //variables to recieve inputs from modify coin method from expanded collectio dialog in homepage
     private String coinUIDRec, coinPersonageRec, coinDenominationRec, coinMintRec, coinRICvarRec, coinWeightRec, coinDiameterRec, coinObvDescRec
             ,coinObvLegRec, coinRevDescRec, coinRevLegRec, coinProvenanceRec, coinNotesRec, coinImageLinkRec;
 
     private String colUIDRec; //col uid we get from coin list versus homepage
     private String colTitleRec; //col title we get from coin list versus homepage
+    private int colValueRec; // col value we get from coin list
     private int coinRICRec, coinValueRec;
     private String modify; // toggle to whether we are saving a new collection or modifying existing
 
@@ -136,6 +142,10 @@ public class CoinAdd extends AppCompatActivity {
         cAddColTitleX = getIntent().getStringExtra("title");
         txtHiddenCoinAddColTitleX.setText(cAddColTitleX);
 
+        // data components for manipulating collection item count and value in coin add function
+
+        cAddItemCountX = getIntent().getIntExtra("coincount", 0);
+        cAddColValueX = getIntent().getIntExtra("colvalue", 0);
 
 
         //Firebase related
@@ -279,6 +289,8 @@ public class CoinAdd extends AppCompatActivity {
             coinNotesRec = getIntent().getStringExtra("notes");
 
             coinImageLinkRec = getIntent().getStringExtra("imageLink");
+
+            colValueRec = getIntent().getIntExtra("colvalue", 0);
 
 
             //populate the input views with existing value
@@ -574,6 +586,12 @@ public class CoinAdd extends AppCompatActivity {
         dataMap.put("coinuid", coinuidX); // the unique coin UID which we can then use to link back to this coin
 
         /////
+
+        // getting adjusted values for itemcount and collection value
+        cAddItemCountX = cAddItemCountX +1;
+        cAddColValueX = cAddColValueX + Value3;
+
+
         db_ref.setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -583,7 +601,7 @@ public class CoinAdd extends AppCompatActivity {
                     pd.dismiss();
                     coinLoadSnackbar();
 
-                    //once coin uploaded update collection timestamp///////////////
+                    //once coin uploaded update collection timestamp, itemcount and vlaue///////////////
                     final Long timestampY = System.currentTimeMillis() * -1;
                     String uid = FirebaseAuth.getInstance().getUid();
                     DatabaseReference collectionReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
@@ -595,9 +613,17 @@ public class CoinAdd extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                            int sortCoinCount = -cAddItemCountX;
+                            int sortColValue = -cAddColValueX;
+
                             for (DataSnapshot ds2: dataSnapshot.getChildren()) {
 
                                 ds2.getRef().child("timestamp").setValue(timestampY);
+                                ds2.getRef().child("coincount").setValue(cAddItemCountX);
+                                ds2.getRef().child("colvalue").setValue(cAddColValueX);
+
+                                ds2.getRef().child("sortcoincount").setValue(sortCoinCount);
+                                ds2.getRef().child("sortcolvalue").setValue(sortColValue);
 
                             }
 
@@ -1321,6 +1347,10 @@ public class CoinAdd extends AppCompatActivity {
         //updating timestamp to be able to sort on last updated
         final Long timestampCoinX = System.currentTimeMillis() * -1; // make negative for sorting; using timestamp instead is giant pain in the ass as you can't make it a long value easily
 
+        //updating collection value to be able to net out any modifications (starting col value we pull in minus the old coinvalue plus updated coin value)
+       colValueRec = colValueRec + updateValue2 - coinValueRec;
+
+
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -1343,7 +1373,7 @@ public class CoinAdd extends AppCompatActivity {
                     ds.getRef().child("value").setValue(updateValue2);
                     ds.getRef().child("notes").setValue(updateNotes);
 
-                    ds.getRef().child("timestampcoin").setValue(timestampCoinX);
+                    ds.getRef().child("timestamp").setValue(timestampCoinX);
                     ds.getRef().child("imageLink").setValue(imageLink);
                     ds.getRef().child("uid").setValue(imageIdentifier);
 
@@ -1359,9 +1389,14 @@ public class CoinAdd extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                            int sortColValue = -colValueRec;
+
                             for (DataSnapshot ds3: dataSnapshot.getChildren()) {
 
                                 ds3.getRef().child("timestamp").setValue(timestampZ);
+                                ds3.getRef().child("colvalue").setValue(colValueRec); // only change coll value don't need item count because in modify not changing number of coins
+
+                                ds3.getRef().child("sortcolvalue").setValue(sortColValue);
                             }
                         }
 

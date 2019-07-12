@@ -7,15 +7,17 @@ public class ZZZjcRefCollections {
     private String imageLink;
     private String notes;
     private String coluid;
+    private int coincount;
 
 
 
-    public ZZZjcRefCollections(String title, String des, String imageLink, String notes, String coluid) {
+    public ZZZjcRefCollections(String title, String des, String imageLink, String notes, String coluid, int coincount) {
         this.title = title;
         this.des = des;
         this.imageLink = imageLink;
         this.notes = notes;
         this.coluid = coluid;
+        this.coincount = coincount;
 
 
     }
@@ -60,7 +62,14 @@ public class ZZZjcRefCollections {
 
     }
 
+    public int getCoincount() {
 
+        return coincount;
+    }
+
+    public void setCoincount (int coincount) {
+        this.coincount = coincount;
+    }
 
     public ZZZjcRefCollections(){
 
