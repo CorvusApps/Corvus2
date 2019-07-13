@@ -354,6 +354,64 @@ public class CoinAdd extends AppCompatActivity {
 
     }
 
+    ///////////////////////// END -------> ON-CREATE ////////////////////////////////////////////////////////////////////
+
+    //////////////////////// START ------> UI METHODS //////////////////////////////////////////////////////////////////
+
+    //onClick set up in XML; gets rid of keyboard when background tapped
+    public void loginLayoutTapped (View view) {
+
+        try { // we need this because if you tap with no keyboard up the app will crash
+
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    //info for RICvar
+
+    private void inputRICvarInfo(){
+
+        //Everything in this method is code for the universal alert dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_alert_universal, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        TextView txtAlertTitleX = view.findViewById(R.id.txtAlertTitle);
+        txtAlertTitleX.setText("Info");
+
+
+        TextView txtAlertMsgX = view.findViewById(R.id.txtAlertMsg);
+        txtAlertMsgX.setText(R.string.coinadd_05); // talks about RICvar; repeated in FAQ
+
+        ImageView imgUniAlertX = view.findViewById(R.id.imgUniAlert);
+        imgUniAlertX.setImageDrawable(getResources().getDrawable(R.drawable.info_white));
+
+        Button btnOKdauX = view.findViewById(R.id.btnOKdau);
+        btnOKdauX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+    }
+
+    ///////////////////////// END -------> UI METHODS ////////////////////////////////////////////////////////////////////
+
+    //////////////////////// START ------> ADD COIN  /////////////////////////////////////////////////////////////////////
+
     //land here from pressing coinSave fab to begin getting the new coin entry in firebase
     private void coinSave() {
 
@@ -399,20 +457,32 @@ public class CoinAdd extends AppCompatActivity {
 
     }
 
-    //land here if press coinSave but modify is set to yes - ie. this is an update and not a new coin add
-    private void beginUpdate() {
+    //land here if trying to save coin without putting in the personage
+    private void alertDialogNoCoinPersonage() {
 
-        //if the coin did not have any image to start with skip delete image to avoid a crash
-        if (coinImageLinkRec.isEmpty() | coinImageLinkRec.equals("")) {
+        //Everything in this method is code for the universal alert dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_alert_universal, null);
 
-            uploadNewImg();
-        } else {
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
 
-            //start by deleting existing pic from storage
-            deletePreviousImage();
-        }
+        dialog.show();
+
+        TextView txtAlertMsgX = view.findViewById(R.id.txtAlertMsg);
+        txtAlertMsgX.setText("You must enter the personage before you save the coin to your collection");
+
+        Button btnOKdauX = view.findViewById(R.id.btnOKdau);
+        btnOKdauX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
     }
-
 
     // land here if press coinSave fab but have no collection picture; gives user options to get picture or go on
     private void alertDialogNoCoinPicture() {
@@ -528,6 +598,7 @@ public class CoinAdd extends AppCompatActivity {
 
     }
 
+
     private void uploadCoin() {
 
         String uid = FirebaseAuth.getInstance().getUid();
@@ -570,7 +641,7 @@ public class CoinAdd extends AppCompatActivity {
 
         dataMap.put("personage", edtPersonageX.getText().toString());
         dataMap.put("imageIdentifier", imageIdentifier);
-        dataMap.put("imageLink", imageLink);        
+        dataMap.put("imageLink", imageLink);
         dataMap.put("id", RIC3);
         dataMap.put("ricvar", edtRICvarX.getText().toString());
         dataMap.put("denomination", edtDenominationX.getText().toString());
@@ -666,25 +737,6 @@ public class CoinAdd extends AppCompatActivity {
 
     }
 
-    private void coinLoadSnackbar() {
-
-        Snackbar snackbar;
-
-        snackbar = Snackbar.make(loutCoinAddActLOX, "Coin uploaded successfully", Snackbar.LENGTH_SHORT);
-
-        View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
-
-        snackbar.show();
-
-
-        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
-        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
-        textView.setTextSize(18);
-        textView.setTextColor(getResources().getColor(R.color.lighttext));
-
-    }
-
     // universal dialog displaying error messages called from different parts of the activity
     private void alertDialogException() {
 
@@ -710,37 +762,8 @@ public class CoinAdd extends AppCompatActivity {
 
             }
         });
-        
+
     }
-
-
-    //land here if trying to save coin without putting in the personage
-    private void alertDialogNoCoinPersonage() {
-
-        //Everything in this method is code for the universal alert dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzz_dialog_alert_universal, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        dialog.show();
-
-        TextView txtAlertMsgX = view.findViewById(R.id.txtAlertMsg);
-        txtAlertMsgX.setText("You must enter the personage before you save the coin to your collection");
-
-        Button btnOKdauX = view.findViewById(R.id.btnOKdau);
-        btnOKdauX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dialog.dismiss();
-
-            }
-        });
-    }
-
 
     //land here from pressing on the coin image view to get new coin picture
     private void getChosenCoinImage() {
@@ -765,6 +788,27 @@ public class CoinAdd extends AppCompatActivity {
             }
         }
     }
+
+    ///////////////////////// END ------->>> ADD COIN /////////////////////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> UPDATE COLLECTION ////////////////////////////////////////////////////////////
+
+
+    //land here if press coinSave but modify is set to yes - ie. this is an update and not a new coin add
+    private void beginUpdate() {
+
+        //if the coin did not have any image to start with skip delete image to avoid a crash
+        if (coinImageLinkRec.isEmpty() | coinImageLinkRec.equals("")) {
+
+            uploadNewImg();
+        } else {
+
+            //start by deleting existing pic from storage
+            deletePreviousImage();
+        }
+    }
+
+
 
     //takes the image we got from the Gallery, manipulates it and sets it to the clickable imageView
     @Override
@@ -836,409 +880,6 @@ public class CoinAdd extends AppCompatActivity {
             }
 
         }
-
-    }
-
-    private void showPopupMenu(View anchor, boolean isWithIcons, int style) {
-        //init the wrapper with style
-        Context wrapper = new ContextThemeWrapper(this, style);
-
-        //init the popup
-        PopupMenu popup = new PopupMenu(wrapper, anchor);
-
-        /*  The below code in try catch is responsible to display icons*/
-        if (isWithIcons) {
-            try {
-                Field[] fields = popup.getClass().getDeclaredFields();
-                for (Field field : fields) {
-                    if ("mPopup".equals(field.getName())) {
-                        field.setAccessible(true);
-                        Object menuPopupHelper = field.get(popup);
-                        Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
-                        Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
-                        setForceIcons.invoke(menuPopupHelper, true);
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        //inflate menu
-        popup.getMenuInflater().inflate(R.menu.actions, popup.getMenu());
-
-        //implement click events
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-
-                    case R.id.popMenuRefCollections:
-
-                        Intent intent = new Intent(CoinAdd.this, RefCollections.class);
-                        startActivity(intent);
-
-
-                        return true;
-
-                    case R.id.popMenuLogout:
-
-                        //Confirm the user wants to logout and execute
-                        alertDialogLogOut();
-
-                        return true;
-
-                    case R.id.popMenuFAQ:
-
-                       faqDialogView();
-
-                        return true;
-
-                }
-
-                return false;
-            }
-        });
-        popup.show();
-
-    }
-
-    private void alertDialogLogOut() {
-
-        //Everything in this method is code for a custom dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        dialog.show();
-
-        ImageView imgIconX = view.findViewById(R.id.imgIcon);
-        imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.logout));
-
-        TextView txtTitleX = view.findViewById(R.id.txtTitle);
-        txtTitleX.setText("Logout");
-
-        TextView txtMsgX = view.findViewById(R.id.txtMsg);
-        txtMsgX.setText("Do you really want to Logout from Corvus?");
-
-        Button btnYesX = view.findViewById(R.id.btnYes);
-        btnYesX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                coinAddFirebaseAuth.signOut();
-                LoginManager.getInstance().logOut();
-                logoutSnackbar();
-                transitionBackToLogin ();
-            }
-        });
-
-        Button btnNoX = view.findViewById(R.id.btnNo);
-        btnNoX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-    }
-
-    private void logoutSnackbar(){
-
-
-        Snackbar snackbar;
-
-        snackbar = Snackbar.make(loutCoinAddActLOX, "Good bye", Snackbar.LENGTH_SHORT);
-
-
-        View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
-
-        snackbar.show();
-
-
-        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
-        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
-        textView.setTextSize(18);
-        textView.setTextColor(getResources().getColor(R.color.lighttext));
-
-    }
-
-    private void transitionBackToLogin () {
-
-        new CountDownTimer(1000, 500) {
-
-
-            public void onTick(long millisUntilFinished) {
-                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
-            }
-
-            public void onFinish() {
-                Intent intent = new Intent(CoinAdd.this, Login.class);
-                startActivity(intent);
-                finish();
-            }
-        }.start();
-
-    }
-
-    //onClick set up in XML; gets rid of keyboard when background tapped
-    public void loginLayoutTapped (View view) {
-
-        try { // we need this because if you tap with no keyboard up the app will crash
-
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-    }
-
-    //info for RICvar
-
-    private void inputRICvarInfo(){
-
-        //Everything in this method is code for the universal alert dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzz_dialog_alert_universal, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        dialog.show();
-
-        TextView txtAlertTitleX = view.findViewById(R.id.txtAlertTitle);
-        txtAlertTitleX.setText("Info");
-
-
-        TextView txtAlertMsgX = view.findViewById(R.id.txtAlertMsg);
-        txtAlertMsgX.setText(R.string.coinadd_05); // talks about RICvar; repeated in FAQ
-
-        ImageView imgUniAlertX = view.findViewById(R.id.imgUniAlert);
-        imgUniAlertX.setImageDrawable(getResources().getDrawable(R.drawable.info_white));
-
-        Button btnOKdauX = view.findViewById(R.id.btnOKdau);
-        btnOKdauX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dialog.dismiss();
-
-            }
-        });
-
-    }
-
-    // One time page information to be shown when user accesses this page for the first time only
-    private void oneTimeInfoCoinAdd() {
-
-        //Everything in this method is code for a custom dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzzz_otinfo_coinadd, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        dialog.show();
-
-        Button btnOKoneTimeHPX = view.findViewById(R.id.btnOKoneTimeCA);
-        btnOKoneTimeHPX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dialog.dismiss();
-
-            }
-        });
-    }
-
-    // checks if the app has been run first time before showing activity
-    private boolean isFirstTime()
-    {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        boolean ranBefore = preferences.getBoolean("RanBefore", false);
-        if (!ranBefore) {
-            // first time
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("RanBefore", true);
-            editor.commit();
-        }
-        return !ranBefore;
-    }
-
-    public void faqDialogView() {
-
-        shadeX.setVisibility(View.VISIBLE);
-
-        //Everything in this method is code for a custom dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-
-        ImageView btnFAQbackX = view.findViewById(R.id.btnFAQback);
-        btnFAQbackX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                shadeX.setVisibility(View.INVISIBLE);
-                dialog.dismiss();
-
-            }
-        });
-
-        //Faq section layouts expandable onClick
-
-        final LinearLayout faqSupportX = view.findViewById(R.id.faqSupport);
-        final TextView txtFAQSupportX = view.findViewById(R.id.txtFAQSupport);
-        txtFAQSupportX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(faqSupportX.getVisibility() == View.GONE) {
-                    faqSupportX.setVisibility(View.VISIBLE);
-                    txtFAQSupportX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
-
-                } else {
-
-                    faqSupportX.setVisibility(View.GONE);
-                    txtFAQSupportX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
-                }
-
-            }
-        });
-
-        final LinearLayout faqLoginLogoutX = view.findViewById(R.id.faqLoginLogout);
-        final TextView txtFAQLoginLogoutX = view.findViewById(R.id.txtFAQLoginLogout);
-        txtFAQLoginLogoutX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(faqLoginLogoutX.getVisibility() == View.GONE) {
-                    faqLoginLogoutX.setVisibility(View.VISIBLE);
-                    txtFAQLoginLogoutX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
-
-                } else {
-
-                    faqLoginLogoutX.setVisibility(View.GONE);
-                    txtFAQLoginLogoutX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
-                }
-
-            }
-        });
-
-        final LinearLayout faqCollectionsX = view.findViewById(R.id.faqCollections);
-        final TextView txtFAQCollectionsX = view.findViewById(R.id.txtFAQCollections);
-        txtFAQCollectionsX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(faqCollectionsX.getVisibility() == View.GONE) {
-                    faqCollectionsX.setVisibility(View.VISIBLE);
-                    txtFAQCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
-
-                } else {
-
-                    faqCollectionsX.setVisibility(View.GONE);
-                    txtFAQCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
-                }
-
-            }
-        });
-
-        final LinearLayout faqReferenceCollectionsX = view.findViewById(R.id.faqRefCollections);
-        final TextView txtFAQReferenceCollectionsX = view.findViewById(R.id.txtFAQReferenceCollections);
-        txtFAQReferenceCollectionsX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(faqReferenceCollectionsX.getVisibility() == View.GONE) {
-                    faqReferenceCollectionsX.setVisibility(View.VISIBLE);
-                    txtFAQReferenceCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
-
-                } else {
-
-                    faqReferenceCollectionsX.setVisibility(View.GONE);
-                    txtFAQReferenceCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
-                }
-
-            }
-        });
-
-        final LinearLayout faqCollectionsSetupX = view.findViewById(R.id.faqCollectionSetup);
-        final TextView txtFAQCollectionSetupX = view.findViewById(R.id.txtFAQCollectionSetup);
-        txtFAQCollectionSetupX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(faqCollectionsSetupX.getVisibility() == View.GONE) {
-                    faqCollectionsSetupX.setVisibility(View.VISIBLE);
-                    txtFAQCollectionSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
-
-                } else {
-
-                    faqCollectionsSetupX.setVisibility(View.GONE);
-                    txtFAQCollectionSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
-                }
-
-            }
-        });
-
-        final LinearLayout faqCoinsSetupX = view.findViewById(R.id.faqCoinsSetup);
-        final TextView txtFAQCoinsSetupX = view.findViewById(R.id.txtFAQCoinsSetup);
-        txtFAQCoinsSetupX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(faqCoinsSetupX.getVisibility() == View.GONE) {
-                    faqCoinsSetupX.setVisibility(View.VISIBLE);
-                    txtFAQCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
-
-                } else {
-
-                    faqCoinsSetupX.setVisibility(View.GONE);
-                    txtFAQCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
-                }
-
-            }
-        });
-
-        final LinearLayout faqCoinListX = view.findViewById(R.id.faqCoinList2);
-        final TextView txtFAQCoinListX = view.findViewById(R.id.txtFAQCoinList2);
-        txtFAQCoinListX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(faqCoinListX.getVisibility() == View.GONE) {
-                    faqCoinListX.setVisibility(View.VISIBLE);
-                    txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
-
-                } else {
-
-                    faqCoinListX.setVisibility(View.GONE);
-                    txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
-                }
-
-            }
-        });
 
     }
 
@@ -1461,6 +1102,396 @@ public class CoinAdd extends AppCompatActivity {
 
             }
         });
+    }
+
+    ///////////////////////// End ------->>> UPDATE COIN ///////////////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> POP-UP ////////////////////////////////////////////////////////////////////
+
+    private void showPopupMenu(View anchor, boolean isWithIcons, int style) {
+        //init the wrapper with style
+        Context wrapper = new ContextThemeWrapper(this, style);
+
+        //init the popup
+        PopupMenu popup = new PopupMenu(wrapper, anchor);
+
+        /*  The below code in try catch is responsible to display icons*/
+        if (isWithIcons) {
+            try {
+                Field[] fields = popup.getClass().getDeclaredFields();
+                for (Field field : fields) {
+                    if ("mPopup".equals(field.getName())) {
+                        field.setAccessible(true);
+                        Object menuPopupHelper = field.get(popup);
+                        Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                        Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+                        setForceIcons.invoke(menuPopupHelper, true);
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        //inflate menu
+        popup.getMenuInflater().inflate(R.menu.actions, popup.getMenu());
+
+        //implement click events
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+
+                    case R.id.popMenuRefCollections:
+
+                        Intent intent = new Intent(CoinAdd.this, RefCollections.class);
+                        startActivity(intent);
+
+
+                        return true;
+
+                    case R.id.popMenuLogout:
+
+                        //Confirm the user wants to logout and execute
+                        alertDialogLogOut();
+
+                        return true;
+
+                    case R.id.popMenuFAQ:
+
+                        faqDialogView();
+
+                        return true;
+
+                }
+
+                return false;
+            }
+        });
+        popup.show();
+
+    }
+
+
+    ///////////////////////// END -------> POP-UP MENU ///////////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> SNACKBARS ////////////////////////////////////////////////////////////
+
+    private void coinLoadSnackbar() {
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutCoinAddActLOX, "Coin uploaded successfully", Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+        textView.setTextColor(getResources().getColor(R.color.lighttext));
+
+    }
+
+    private void logoutSnackbar(){
+
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutCoinAddActLOX, "Good bye", Snackbar.LENGTH_SHORT);
+
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+        textView.setTextColor(getResources().getColor(R.color.lighttext));
+
+    }
+
+
+
+    ///////////////////////// END -------> SNACKBARS //////////////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> FAQ AND ONE TIME /////////////////////////////////////////////////////
+
+    // One time page information to be shown when user accesses this page for the first time only
+    private void oneTimeInfoCoinAdd() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzzz_otinfo_coinadd, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        Button btnOKoneTimeHPX = view.findViewById(R.id.btnOKoneTimeCA);
+        btnOKoneTimeHPX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+    }
+
+    // checks if the app has been run first time before showing activity
+    private boolean isFirstTime()
+    {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+            // first time
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+        }
+        return !ranBefore;
+    }
+
+    public void faqDialogView() {
+
+        shadeX.setVisibility(View.VISIBLE);
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+        ImageView btnFAQbackX = view.findViewById(R.id.btnFAQback);
+        btnFAQbackX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                shadeX.setVisibility(View.INVISIBLE);
+                dialog.dismiss();
+
+            }
+        });
+
+        //Faq section layouts expandable onClick
+
+        final LinearLayout faqSupportX = view.findViewById(R.id.faqSupport);
+        final TextView txtFAQSupportX = view.findViewById(R.id.txtFAQSupport);
+        txtFAQSupportX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqSupportX.getVisibility() == View.GONE) {
+                    faqSupportX.setVisibility(View.VISIBLE);
+                    txtFAQSupportX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqSupportX.setVisibility(View.GONE);
+                    txtFAQSupportX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqLoginLogoutX = view.findViewById(R.id.faqLoginLogout);
+        final TextView txtFAQLoginLogoutX = view.findViewById(R.id.txtFAQLoginLogout);
+        txtFAQLoginLogoutX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqLoginLogoutX.getVisibility() == View.GONE) {
+                    faqLoginLogoutX.setVisibility(View.VISIBLE);
+                    txtFAQLoginLogoutX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqLoginLogoutX.setVisibility(View.GONE);
+                    txtFAQLoginLogoutX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqCollectionsX = view.findViewById(R.id.faqCollections);
+        final TextView txtFAQCollectionsX = view.findViewById(R.id.txtFAQCollections);
+        txtFAQCollectionsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCollectionsX.getVisibility() == View.GONE) {
+                    faqCollectionsX.setVisibility(View.VISIBLE);
+                    txtFAQCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCollectionsX.setVisibility(View.GONE);
+                    txtFAQCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqReferenceCollectionsX = view.findViewById(R.id.faqRefCollections);
+        final TextView txtFAQReferenceCollectionsX = view.findViewById(R.id.txtFAQReferenceCollections);
+        txtFAQReferenceCollectionsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqReferenceCollectionsX.getVisibility() == View.GONE) {
+                    faqReferenceCollectionsX.setVisibility(View.VISIBLE);
+                    txtFAQReferenceCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqReferenceCollectionsX.setVisibility(View.GONE);
+                    txtFAQReferenceCollectionsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqCollectionsSetupX = view.findViewById(R.id.faqCollectionSetup);
+        final TextView txtFAQCollectionSetupX = view.findViewById(R.id.txtFAQCollectionSetup);
+        txtFAQCollectionSetupX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCollectionsSetupX.getVisibility() == View.GONE) {
+                    faqCollectionsSetupX.setVisibility(View.VISIBLE);
+                    txtFAQCollectionSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCollectionsSetupX.setVisibility(View.GONE);
+                    txtFAQCollectionSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqCoinsSetupX = view.findViewById(R.id.faqCoinsSetup);
+        final TextView txtFAQCoinsSetupX = view.findViewById(R.id.txtFAQCoinsSetup);
+        txtFAQCoinsSetupX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCoinsSetupX.getVisibility() == View.GONE) {
+                    faqCoinsSetupX.setVisibility(View.VISIBLE);
+                    txtFAQCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCoinsSetupX.setVisibility(View.GONE);
+                    txtFAQCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqCoinListX = view.findViewById(R.id.faqCoinList2);
+        final TextView txtFAQCoinListX = view.findViewById(R.id.txtFAQCoinList2);
+        txtFAQCoinListX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqCoinListX.getVisibility() == View.GONE) {
+                    faqCoinListX.setVisibility(View.VISIBLE);
+                    txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqCoinListX.setVisibility(View.GONE);
+                    txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+    }
+
+    //////////////////////// END ------->>> FAQ & ONE TIME ////////////////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> LOGOUT AND ON-BACK PRESS /////////////////////////////////////////////////////
+    private void alertDialogLogOut() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        ImageView imgIconX = view.findViewById(R.id.imgIcon);
+        imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.logout));
+
+        TextView txtTitleX = view.findViewById(R.id.txtTitle);
+        txtTitleX.setText("Logout");
+
+        TextView txtMsgX = view.findViewById(R.id.txtMsg);
+        txtMsgX.setText("Do you really want to Logout from Corvus?");
+
+        Button btnYesX = view.findViewById(R.id.btnYes);
+        btnYesX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                coinAddFirebaseAuth.signOut();
+                LoginManager.getInstance().logOut();
+                logoutSnackbar();
+                transitionBackToLogin ();
+            }
+        });
+
+        Button btnNoX = view.findViewById(R.id.btnNo);
+        btnNoX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+    private void transitionBackToLogin () {
+
+        new CountDownTimer(1000, 500) {
+
+
+            public void onTick(long millisUntilFinished) {
+                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+            }
+
+            public void onFinish() {
+                Intent intent = new Intent(CoinAdd.this, Login.class);
+                startActivity(intent);
+                finish();
+            }
+        }.start();
+
     }
 
 }

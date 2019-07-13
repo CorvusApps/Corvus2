@@ -331,7 +331,8 @@ public class CoinList extends AppCompatActivity {
                         TextView txtObvLegX = view.findViewById(R.id.txtObvLeg);
                         TextView txtRevLegX = view.findViewById(R.id.txtRevLeg);
                         TextView txtProvenanceX = view.findViewById(R.id.txtProvenance);
-                        TextView txtValueX = view.findViewById(R.id.txtValue);
+                        //TextView txtValueX = view.findViewById(R.id.txtValue); // need to use the one below which is unformatted because can't turn it integer with comas
+                        TextView txtCardValueUnformattedX = view.findViewById(R.id.txtCardValueUnformatted);
                         TextView txtNotesX = view.findViewById(R.id.txtNotes);
 
                         if (cardToggle != 1) {
@@ -354,7 +355,7 @@ public class CoinList extends AppCompatActivity {
                                 loutCoinRevLegX.setVisibility(View.VISIBLE);
                             }
 
-                            if (txtProvenanceX.getText().toString().isEmpty() && Integer.parseInt(txtValueX.getText().toString()) == 0){
+                            if (txtProvenanceX.getText().toString().isEmpty() && Integer.parseInt(txtCardValueUnformattedX.getText().toString()) == 0){
                             } else {
                                 loutCoinProvenanceX.setVisibility(View.VISIBLE);
                             }
@@ -394,7 +395,8 @@ public class CoinList extends AppCompatActivity {
                         TextView txtRevDescX = view.findViewById(R.id.txtRevDesc);
                         TextView txtRevLegX = view.findViewById(R.id.txtRevLeg);
                         TextView txtProvenanceX = view.findViewById(R.id.txtProvenance);
-                        TextView txtValueX = view.findViewById(R.id.txtValue);
+                        TextView txtValueX = view.findViewById(R.id.txtValue); // not using because need unformated and this now has a coma
+                        TextView txtCardValueUnformattedX = view.findViewById(R.id.txtCardValueUnformatted);
                         TextView txtNotesX = view.findViewById(R.id.txtNotes);
 
                         TextView txtCoinUIDX = view.findViewById(R.id.txtCardCoinUid);
@@ -428,7 +430,7 @@ public class CoinList extends AppCompatActivity {
                         String coinRICYpre = txtRICX.getText().toString();
                         coinRICY = Integer.parseInt(coinRICYpre);
 
-                        String coinValueYpre = txtValueX.getText().toString();
+                        String coinValueYpre = txtCardValueUnformattedX.getText().toString(); // using the hiddend unformatted value because convert back to integer with a coma
                         coinValueY = Integer.parseInt(coinValueYpre);
 
                         modifyCoinActivity();
@@ -464,6 +466,330 @@ public class CoinList extends AppCompatActivity {
         }).attachToRecyclerView(rcvCoinsX);
 
     }
+
+    ///////////////////////// END -------> ON-CREATE ////////////////////////////////////////////////////////////////////
+
+    //////////////////////// START ------> RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
+    /////////////////// includes: viewholder, sort, expoloding card view dialog, functions from dialog //////////////////
+
+    // View holder for the recycler view
+    public static class ZZZjcCoinsViewHolder extends RecyclerView.ViewHolder {
+
+        View mView;
+        public ZZZjcCoinsViewHolder(View itemView) {
+
+            super(itemView);
+            mView = itemView;
+
+            // Custom built onItemClickListener for the recycler view
+            ////////////////////////////////////////////////////////////////////////////////////////
+            //Listen to the video as this is a bit confusing - also added the OnTimeclick listener above to the parameters NOT
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    hpListener.onItemClick(view, getAdapterPosition());
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+
+                    hpListener.onItemLongClick(view, getAdapterPosition());
+
+                    return true;
+                }
+            });
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+
+        }
+
+        //setting all the info from collection add to cardview;some will be hidden and passed on to expanded coin view or other activities
+
+
+        // Recycler view reuses inflaed layouts; so when you click on a card and scroll down that layout is reused and if you clicked it the card 6 or 7 places down will be inflated
+        // So First had to put the set layouts function in the populate view holder method - this way this method gets called for each coins card; then here reset the layouts to gone
+        // that way any inflated cards get snapped back before they are shown
+        public void setLayouts(){
+
+            LinearLayout loutCoinObvDescX = (LinearLayout) mView.findViewById(R.id.loutCoinObvDesc);  // layouts that toggle from GONE to INVISIBLE to expand card
+            LinearLayout loutCoinObvLegX = (LinearLayout) mView.findViewById(R.id.loutCoinObvLeg);
+            LinearLayout loutCoinRevLegX = (LinearLayout) mView.findViewById(R.id.loutCoinRevLeg);
+            LinearLayout loutCoinProvenanceX = (LinearLayout) mView.findViewById(R.id.loutCoinProvenance);
+            LinearLayout loutCoinNotesX = (LinearLayout) mView.findViewById(R.id.loutCoinNotes);
+
+            loutCoinObvDescX.setVisibility(View.GONE);
+            loutCoinObvLegX.setVisibility(View.GONE);
+            loutCoinRevLegX.setVisibility(View.GONE);
+            loutCoinProvenanceX.setVisibility(View.GONE);
+            loutCoinNotesX.setVisibility(View.GONE);
+
+
+        }
+
+        public void setPersonage(String personage){
+
+            TextView txtCardPersonageX = (TextView)mView.findViewById(R.id.txtCardPersonage);
+            txtCardPersonageX.setText(personage);
+
+        }
+
+        public void setDenomination(String denomination){
+
+            TextView txtCardDenominationX = (TextView)mView.findViewById(R.id.txtCardDenomination);
+            txtCardDenominationX.setText(denomination);
+
+        }
+
+        public void setImage(Context ctx, String imageLink){
+
+            ImageView imgCardCoinAddX = (ImageView) mView.findViewById(R.id.imgCardCoinAdd);
+            Picasso.get().load(imageLink).into(imgCardCoinAddX); //tutorial had with which got renamed to get but with took ctx as parameter...
+
+
+        }
+
+        public void setRicvar(String ricvar) {
+            TextView txtCardRICvarX = (TextView)mView.findViewById(R.id.txtCardRICvar);
+            txtCardRICvarX.setText(ricvar);
+
+        }
+
+        public void setId(int id) {
+
+            TextView txtCardRICX = (TextView)mView.findViewById(R.id.txtCardRIC);
+            String id2 = String.valueOf(id);
+            txtCardRICX.setText(id2);
+
+            TextView txtLabelRICX = (TextView)mView.findViewById(R.id.txtLabelRIC);
+            txtLabelRICX.setVisibility(View.VISIBLE);
+            txtCardRICX.setVisibility(View.VISIBLE);
+
+            try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
+                if (id == 0){
+
+                    txtLabelRICX.setVisibility(View.GONE);
+                    txtCardRICX.setVisibility(View.GONE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+        public void setCoinuid(String coinuid) {
+            TextView txtCardCoinUidX = (TextView)mView.findViewById(R.id.txtCardCoinUid);
+            txtCardCoinUidX.setText(coinuid);
+        }
+
+        public void setImageLink(String imageLink) {
+            TextView txtCardImgLinkX = (TextView)mView.findViewById(R.id.txtCardImgLink);
+            txtCardImgLinkX.setText(imageLink);
+        }
+
+        public void setWeight(String weight) {
+            TextView txtCardWeightX = (TextView)mView.findViewById(R.id.txtCardWeight);
+            txtCardWeightX.setText(weight);
+            TextView txtLabelWeightX = (TextView)mView.findViewById(R.id.txtLabelWeight);
+            txtLabelWeightX.setVisibility(View.VISIBLE);
+
+            try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
+                if (weight.isEmpty()) {
+
+                    txtLabelWeightX.setVisibility(View.GONE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        public void setDiameter(String diameter) {
+            TextView txtCardDiameterX = (TextView)mView.findViewById(R.id.txtCardDiameter);
+            txtCardDiameterX.setText(diameter);
+
+            TextView txtLabelDiameterX = (TextView)mView.findViewById(R.id.txtLabelDiameter);
+            txtLabelDiameterX.setVisibility(View.VISIBLE);
+
+            try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
+                if (diameter.isEmpty()) {
+
+                    txtLabelDiameterX.setVisibility(View.GONE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void setMint(String mint) {
+            TextView txtCardMintX = (TextView)mView.findViewById(R.id.txtCardMint);
+            txtCardMintX.setText(mint);
+        }
+
+        public void setObvDesc(String obvdesc) {
+            TextView txtObvDescX = (TextView)mView.findViewById(R.id.txtObvDesc);
+            txtObvDescX.setText(obvdesc);
+        }
+
+        public void setObvLeg(String obvleg) {
+            TextView txtObvLegX = (TextView)mView.findViewById(R.id.txtObvLeg);
+            txtObvLegX.setText(obvleg);
+        }
+
+        public void setRevDesc(String revdesc) {
+            TextView txtRevDescX = (TextView)mView.findViewById(R.id.txtRevDesc);
+            txtRevDescX.setText(revdesc);
+        }
+
+        public void setRevLeg(String revleg) {
+            TextView txtRevLegX = (TextView)mView.findViewById(R.id.txtRevLeg);
+            txtRevLegX.setText(revleg);
+        }
+
+        public void setProvenance(String provenance) {
+            TextView txtProvenanceX = (TextView)mView.findViewById(R.id.txtProvenance);
+            txtProvenanceX.setText(provenance);
+        }
+        public void setValue(int value) {
+            TextView txtValueX = (TextView)mView.findViewById(R.id.txtValue);
+            // String value2 = String.valueOf(value); // version below formats the number by thousands with ","
+            String value2 = NumberFormat.getNumberInstance(Locale.US).format(value);
+            txtValueX.setText(value2);
+
+            //setting up an unformatted value so when the view is picked up later as int it doesn't crap out
+            TextView txtCardValueUnformattedX = (TextView)mView.findViewById(R.id.txtCardValueUnformatted);
+            String value2uf = String.valueOf(value);
+            txtCardValueUnformattedX.setText(value2uf);
+
+            TextView txtLabelValueX = (TextView)mView.findViewById(R.id.txtLabelValue);
+            txtLabelValueX.setVisibility(View.VISIBLE);
+
+            try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
+                if (value == 0){
+
+                    txtLabelValueX.setVisibility(View.GONE);
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        public void setNotes(String notes) {
+            TextView txtNotesX = (TextView)mView.findViewById(R.id.txtNotes);
+            txtNotesX.setText(notes);
+
+        }
+
+        // Custom built onItemClickListener for the recycler view; seems to cover LongClick as well
+        ////////////////////////////////////////////////////////////////////////////////////////
+        //Listen to the video as this is a bit confusing
+
+        private ZZZjcCoinsViewHolder.OnItemClickListener hpListener;
+
+        public interface OnItemClickListener {
+
+            void onItemClick(View view, int position);
+            void onItemLongClick (View view, int position);
+        }
+
+        public void setOnItemClickListener(ZZZjcCoinsViewHolder.OnItemClickListener listener) {
+
+            hpListener = listener;
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+
+    }
+
+    private void alertDialogSortCoins() {
+
+        //Everything in this method is code for the universal alert dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_sort_coin, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        // Sort radio buttons
+
+        final RadioButton rbSortByRICX = view.findViewById(R.id.rbSortByRIC);
+        final RadioButton rbSortLastUpdatedX = view.findViewById(R.id.rbSortLastUpdatedCoin);
+        final RadioButton rbSortPersonageX = view.findViewById(R.id.rbSortPersonage);
+        final RadioButton rbSortMostValuableX = view.findViewById(R.id.rbSortMostValuableCoin);
+
+
+        Button btnSortX = view.findViewById(R.id.btnSortCoins);
+        btnSortX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(rbSortByRICX.isChecked()){
+
+
+                    SharedPreferences.Editor editor = sortSharedPrefCoins.edit();
+                    editor.putString("Sort2", "ric");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
+
+                } else if (rbSortLastUpdatedX.isChecked()) {
+
+                    SharedPreferences.Editor editor = sortSharedPrefCoins.edit();
+                    editor.putString("Sort2", "newest");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
+
+                } else if (rbSortPersonageX.isChecked()) {
+
+                    SharedPreferences.Editor editor = sortSharedPrefCoins.edit();
+                    editor.putString("Sort2", "personage");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
+
+
+                } else if (rbSortMostValuableX.isChecked()) {
+
+                    SharedPreferences.Editor editor = sortSharedPrefCoins.edit();
+                    editor.putString("Sort2", "value");
+                    editor.apply(); // saves the value
+                    dialog.dismiss();
+                    recreate(); // restart activity to take effect
+
+
+                } else {
+
+                    noSortCriteriaSnackbar();
+
+                }
+
+            }
+        });
+
+        Button btnCancelX = view.findViewById(R.id.btnCancelCoinSort);
+        btnCancelX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+    }
+
+
+
 
     // sends the information from the longclicked item to the coinadd class for modification including the coinuidy which will allow it to be saved over the current info
     private void modifyCoinActivity() {
@@ -638,242 +964,12 @@ public class CoinList extends AppCompatActivity {
 
     }
 
-    // View holder for the recycler view
-    public static class ZZZjcCoinsViewHolder extends RecyclerView.ViewHolder {
 
-        View mView;
-        public ZZZjcCoinsViewHolder(View itemView) {
+    //////////////////////// END -------->>> RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
+    /////////////////// includes: viewholder, sort, expoloding card view dialog, functions from dialog //////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            super(itemView);
-            mView = itemView;
-
-            // Custom built onItemClickListener for the recycler view
-            ////////////////////////////////////////////////////////////////////////////////////////
-            //Listen to the video as this is a bit confusing - also added the OnTimeclick listener above to the parameters NOT
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    hpListener.onItemClick(view, getAdapterPosition());
-                }
-            });
-
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-
-                    hpListener.onItemLongClick(view, getAdapterPosition());
-
-                    return true;
-                }
-            });
-
-            ////////////////////////////////////////////////////////////////////////////////////////
-
-        }
-
-        //setting all the info from collection add to cardview;some will be hidden and passed on to expanded coin view or other activities
-
-
-        // Recycler view reuses inflaed layouts; so when you click on a card and scroll down that layout is reused and if you clicked it the card 6 or 7 places down will be inflated
-        // So First had to put the set layouts function in the populate view holder method - this way this method gets called for each coins card; then here reset the layouts to gone
-        // that way any inflated cards get snapped back before they are shown
-        public void setLayouts(){
-
-           LinearLayout loutCoinObvDescX = (LinearLayout) mView.findViewById(R.id.loutCoinObvDesc);  // layouts that toggle from GONE to INVISIBLE to expand card
-            LinearLayout loutCoinObvLegX = (LinearLayout) mView.findViewById(R.id.loutCoinObvLeg);
-            LinearLayout loutCoinRevLegX = (LinearLayout) mView.findViewById(R.id.loutCoinRevLeg);
-            LinearLayout loutCoinProvenanceX = (LinearLayout) mView.findViewById(R.id.loutCoinProvenance);
-            LinearLayout loutCoinNotesX = (LinearLayout) mView.findViewById(R.id.loutCoinNotes);
-
-            loutCoinObvDescX.setVisibility(View.GONE);
-            loutCoinObvLegX.setVisibility(View.GONE);
-            loutCoinRevLegX.setVisibility(View.GONE);
-            loutCoinProvenanceX.setVisibility(View.GONE);
-            loutCoinNotesX.setVisibility(View.GONE);
-
-
-        }
-
-        public void setPersonage(String personage){
-
-            TextView txtCardPersonageX = (TextView)mView.findViewById(R.id.txtCardPersonage);
-            txtCardPersonageX.setText(personage);
-
-        }
-
-        public void setDenomination(String denomination){
-
-            TextView txtCardDenominationX = (TextView)mView.findViewById(R.id.txtCardDenomination);
-            txtCardDenominationX.setText(denomination);
-
-        }
-
-        public void setImage(Context ctx, String imageLink){
-
-            ImageView imgCardCoinAddX = (ImageView) mView.findViewById(R.id.imgCardCoinAdd);
-            Picasso.get().load(imageLink).into(imgCardCoinAddX); //tutorial had with which got renamed to get but with took ctx as parameter...
-
-
-        }
-
-        public void setRicvar(String ricvar) {
-            TextView txtCardRICvarX = (TextView)mView.findViewById(R.id.txtCardRICvar);
-            txtCardRICvarX.setText(ricvar);
-
-        }
-
-        public void setId(int id) {
-
-            TextView txtCardRICX = (TextView)mView.findViewById(R.id.txtCardRIC);
-            String id2 = String.valueOf(id);
-            txtCardRICX.setText(id2);
-
-            TextView txtLabelRICX = (TextView)mView.findViewById(R.id.txtLabelRIC);
-            txtLabelRICX.setVisibility(View.VISIBLE);
-            txtCardRICX.setVisibility(View.VISIBLE);
-
-            try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
-            if (id == 0){
-
-                txtLabelRICX.setVisibility(View.GONE);
-                txtCardRICX.setVisibility(View.GONE);
-            }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-        }
-
-
-        public void setCoinuid(String coinuid) {
-            TextView txtCardCoinUidX = (TextView)mView.findViewById(R.id.txtCardCoinUid);
-            txtCardCoinUidX.setText(coinuid);
-        }
-
-        public void setImageLink(String imageLink) {
-            TextView txtCardImgLinkX = (TextView)mView.findViewById(R.id.txtCardImgLink);
-            txtCardImgLinkX.setText(imageLink);
-        }
-
-        public void setWeight(String weight) {
-            TextView txtCardWeightX = (TextView)mView.findViewById(R.id.txtCardWeight);
-            txtCardWeightX.setText(weight);
-            TextView txtLabelWeightX = (TextView)mView.findViewById(R.id.txtLabelWeight);
-            txtLabelWeightX.setVisibility(View.VISIBLE);
-
-            try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
-            if (weight.isEmpty()) {
-
-                txtLabelWeightX.setVisibility(View.GONE);
-            }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        public void setDiameter(String diameter) {
-            TextView txtCardDiameterX = (TextView)mView.findViewById(R.id.txtCardDiameter);
-            txtCardDiameterX.setText(diameter);
-
-            TextView txtLabelDiameterX = (TextView)mView.findViewById(R.id.txtLabelDiameter);
-            txtLabelDiameterX.setVisibility(View.VISIBLE);
-
-            try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
-            if (diameter.isEmpty()) {
-
-                txtLabelDiameterX.setVisibility(View.GONE);
-            }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        public void setMint(String mint) {
-            TextView txtCardMintX = (TextView)mView.findViewById(R.id.txtCardMint);
-            txtCardMintX.setText(mint);
-        }
-
-        public void setObvDesc(String obvdesc) {
-            TextView txtObvDescX = (TextView)mView.findViewById(R.id.txtObvDesc);
-            txtObvDescX.setText(obvdesc);
-        }
-
-        public void setObvLeg(String obvleg) {
-            TextView txtObvLegX = (TextView)mView.findViewById(R.id.txtObvLeg);
-            txtObvLegX.setText(obvleg);
-        }
-
-        public void setRevDesc(String revdesc) {
-            TextView txtRevDescX = (TextView)mView.findViewById(R.id.txtRevDesc);
-            txtRevDescX.setText(revdesc);
-        }
-
-        public void setRevLeg(String revleg) {
-            TextView txtRevLegX = (TextView)mView.findViewById(R.id.txtRevLeg);
-            txtRevLegX.setText(revleg);
-        }
-
-        public void setProvenance(String provenance) {
-            TextView txtProvenanceX = (TextView)mView.findViewById(R.id.txtProvenance);
-            txtProvenanceX.setText(provenance);
-        }
-        public void setValue(int value) {
-            TextView txtValueX = (TextView)mView.findViewById(R.id.txtValue);
-           // String value2 = String.valueOf(value); // version below formats the number by thousands with ","
-            String value2 = NumberFormat.getNumberInstance(Locale.US).format(value);
-            txtValueX.setText(value2);
-
-            TextView txtLabelValueX = (TextView)mView.findViewById(R.id.txtLabelValue);
-            txtLabelValueX.setVisibility(View.VISIBLE);
-
-            try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
-            if (value == 0){
-
-                txtLabelValueX.setVisibility(View.GONE);
-
-            }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        public void setNotes(String notes) {
-            TextView txtNotesX = (TextView)mView.findViewById(R.id.txtNotes);
-            txtNotesX.setText(notes);
-
-        }
-
-
-
-
-
-
-
-
-        // Custom built onItemClickListener for the recycler view; seems to cover LongClick as well
-        ////////////////////////////////////////////////////////////////////////////////////////
-        //Listen to the video as this is a bit confusing
-
-        private ZZZjcCoinsViewHolder.OnItemClickListener hpListener;
-
-        public interface OnItemClickListener {
-
-            void onItemClick(View view, int position);
-            void onItemLongClick (View view, int position);
-        }
-
-        public void setOnItemClickListener(ZZZjcCoinsViewHolder.OnItemClickListener listener) {
-
-            hpListener = listener;
-        }
-
-        ///////////////////////////////////////////////////////////////////////////////////////
-
-    }
+    ///////////////////////// START ----->>> POP-UP ////////////////////////////////////////////////////////////////////
 
     private void showPopupMenuHomePage(View anchor, boolean isWithIcons, int style) {
         //init the wrapper with style
@@ -912,7 +1008,7 @@ public class CoinList extends AppCompatActivity {
 
                     case R.id.popMenuSort:
 
-                       alertDialogSortCoins();
+                        alertDialogSortCoins();
 
 
                         return true;
@@ -946,68 +1042,9 @@ public class CoinList extends AppCompatActivity {
 
     }
 
-    //Dialog that comes up when user chooses logout from the popup menu; strange legacy menu name but standard yes no dialog
-    private void alertDialogLogOut() {
+    ///////////////////////// END -------> POP-UP MENU ///////////////////////////////////////////////////////////
 
-        //Everything in this method is code for a custom dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        dialog.show();
-
-        ImageView imgIconX = view.findViewById(R.id.imgIcon);
-        imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.logout));
-
-        TextView txtTitleX = view.findViewById(R.id.txtTitle);
-        txtTitleX.setText("Logout");
-
-        TextView txtMsgX = view.findViewById(R.id.txtMsg);
-        txtMsgX.setText("Do you really want to Logout from Corvus?");
-
-        Button btnYesX = view.findViewById(R.id.btnYes);
-        btnYesX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                firebaseAuthCoins.signOut();
-                LoginManager.getInstance().logOut();
-                logoutSnackbar();
-                transitionBackToLogin ();
-            }
-        });
-
-        Button btnNoX = view.findViewById(R.id.btnNo);
-        btnNoX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-    }
-    //Method called from LogOut to get us back to Login screen
-    private void transitionBackToLogin () {
-
-        new CountDownTimer(1000, 500) {
-
-
-            public void onTick(long millisUntilFinished) {
-                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
-            }
-
-            public void onFinish() {
-                Intent intent = new Intent(CoinList.this, Login.class);
-                startActivity(intent);
-                finish();
-            }
-        }.start();
-
-    }
-
+    ///////////////////////// START ----->>> SNACKBARS ////////////////////////////////////////////////////////////
     private void logoutSnackbar(){
 
         Snackbar snackbar;
@@ -1026,6 +1063,83 @@ public class CoinList extends AppCompatActivity {
 
     }
 
+    // called when coin deleted including the picture
+    private void coinDeletedSnackbar() {
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutCoinListActLOX, "Coin record deleted.", Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+        textView.setTextColor(getResources().getColor(R.color.lighttext));
+    }
+
+
+    private void noSortCriteriaSnackbar() {
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutCoinListActLOX, "Please select sorting criteria", Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+        textView.setTextColor(getResources().getColor(R.color.lighttext));
+
+    }
+
+    ///////////////////////// END -------> SNACKBARS //////////////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> FAQ AND ONE TIME /////////////////////////////////////////////////////
+
+    private void oneTimeInfoLogin() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzzz_otinfo_coinlist, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        Button btnOKoneTimeCLX = view.findViewById(R.id.btnOKoneTimeCL);
+        btnOKoneTimeCLX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+    }
+
+    // checks this is the app is run first time which we use to decide whether to show the one time info dialogs
+    private boolean isFirstTime()
+    {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+            // first time
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+        }
+        return !ranBefore;
+    }
     private void faqDialogView() {
 
         shadeX.setVisibility(View.VISIBLE);
@@ -1194,11 +1308,16 @@ public class CoinList extends AppCompatActivity {
 
     }
 
-    private void oneTimeInfoLogin() {
+    //////////////////////// END ------->>> FAQ & ONE TIME ////////////////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> LOGOUT AND ON-BACK PRESS /////////////////////////////////////////////////////
+
+    //Dialog that comes up when user chooses logout from the popup menu; strange legacy menu name but standard yes no dialog
+    private void alertDialogLogOut() {
 
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzzz_otinfo_coinlist, null);
+        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
 
         dialog = new AlertDialog.Builder(this)
                 .setView(view)
@@ -1206,147 +1325,52 @@ public class CoinList extends AppCompatActivity {
 
         dialog.show();
 
-        Button btnOKoneTimeCLX = view.findViewById(R.id.btnOKoneTimeCL);
-        btnOKoneTimeCLX.setOnClickListener(new View.OnClickListener() {
+        ImageView imgIconX = view.findViewById(R.id.imgIcon);
+        imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.logout));
+
+        TextView txtTitleX = view.findViewById(R.id.txtTitle);
+        txtTitleX.setText("Logout");
+
+        TextView txtMsgX = view.findViewById(R.id.txtMsg);
+        txtMsgX.setText("Do you really want to Logout from Corvus?");
+
+        Button btnYesX = view.findViewById(R.id.btnYes);
+        btnYesX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                firebaseAuthCoins.signOut();
+                LoginManager.getInstance().logOut();
+                logoutSnackbar();
+                transitionBackToLogin ();
+            }
+        });
+
+        Button btnNoX = view.findViewById(R.id.btnNo);
+        btnNoX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 dialog.dismiss();
-
-            }
-        });
-    }
-
-    // checks this is the app is run first time which we use to decide whether to show the one time info dialogs
-    private boolean isFirstTime()
-    {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        boolean ranBefore = preferences.getBoolean("RanBefore", false);
-        if (!ranBefore) {
-            // first time
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("RanBefore", true);
-            editor.commit();
-        }
-        return !ranBefore;
-    }
-
-    // called when coin deleted including the picture
-    private void coinDeletedSnackbar() {
-
-        Snackbar snackbar;
-
-        snackbar = Snackbar.make(loutCoinListActLOX, "Coin record deleted.", Snackbar.LENGTH_SHORT);
-
-        View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
-
-        snackbar.show();
-
-        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
-        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
-        textView.setTextSize(18);
-        textView.setTextColor(getResources().getColor(R.color.lighttext));
-    }
-
-    private void alertDialogSortCoins() {
-
-        //Everything in this method is code for the universal alert dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzz_dialog_sort_coin, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        dialog.show();
-
-        // Sort radio buttons
-
-        final RadioButton rbSortByRICX = view.findViewById(R.id.rbSortByRIC);
-        final RadioButton rbSortLastUpdatedX = view.findViewById(R.id.rbSortLastUpdatedCoin);
-        final RadioButton rbSortPersonageX = view.findViewById(R.id.rbSortPersonage);
-        final RadioButton rbSortMostValuableX = view.findViewById(R.id.rbSortMostValuableCoin);
-
-
-        Button btnSortX = view.findViewById(R.id.btnSortCoins);
-        btnSortX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(rbSortByRICX.isChecked()){
-
-
-                    SharedPreferences.Editor editor = sortSharedPrefCoins.edit();
-                    editor.putString("Sort2", "ric");
-                    editor.apply(); // saves the value
-                    dialog.dismiss();
-                    recreate(); // restart activity to take effect
-
-                } else if (rbSortLastUpdatedX.isChecked()) {
-
-                    SharedPreferences.Editor editor = sortSharedPrefCoins.edit();
-                    editor.putString("Sort2", "newest");
-                    editor.apply(); // saves the value
-                    dialog.dismiss();
-                    recreate(); // restart activity to take effect
-
-                } else if (rbSortPersonageX.isChecked()) {
-
-                    SharedPreferences.Editor editor = sortSharedPrefCoins.edit();
-                    editor.putString("Sort2", "personage");
-                    editor.apply(); // saves the value
-                    dialog.dismiss();
-                    recreate(); // restart activity to take effect
-
-
-                } else if (rbSortMostValuableX.isChecked()) {
-
-                    SharedPreferences.Editor editor = sortSharedPrefCoins.edit();
-                    editor.putString("Sort2", "value");
-                    editor.apply(); // saves the value
-                    dialog.dismiss();
-                    recreate(); // restart activity to take effect
-
-
-                } else {
-
-                    noSortCriteriaSnackbar();
-
-                }
-
             }
         });
 
-
-        Button btnCancelX = view.findViewById(R.id.btnCancelCoinSort);
-        btnCancelX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dialog.dismiss();
-
-            }
-        });
-
-
     }
+    //Method called from LogOut to get us back to Login screen
+    private void transitionBackToLogin () {
 
-    private void noSortCriteriaSnackbar() {
+        new CountDownTimer(1000, 500) {
 
-        Snackbar snackbar;
 
-        snackbar = Snackbar.make(loutCoinListActLOX, "Please select sorting criteria", Snackbar.LENGTH_SHORT);
+            public void onTick(long millisUntilFinished) {
+                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+            }
 
-        View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
-
-        snackbar.show();
-
-        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
-        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
-        textView.setTextSize(18);
-        textView.setTextColor(getResources().getColor(R.color.lighttext));
+            public void onFinish() {
+                Intent intent = new Intent(CoinList.this, Login.class);
+                startActivity(intent);
+                finish();
+            }
+        }.start();
 
     }
 
