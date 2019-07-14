@@ -225,23 +225,204 @@ public class RefCollections extends AppCompatActivity {
 
     }
 
-    // checks this is the app is run first time which we use to decide whether to show the one time info dialogs
-    private boolean isFirstTime()
-    {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        boolean ranBefore = preferences.getBoolean("RanBefore", false);
-        if (!ranBefore) {
-            // first time
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("RanBefore", true);
-            editor.commit();
+    ///////////////////////// END -------> ON-CREATE ////////////////////////////////////////////////////////////////////
+
+    //////////////////////// START ------> RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
+    /////////////////// includes: viewholder, sort, expoloding card view dialog, functions from dialog //////////////////
+
+
+    // View holder for the recycler view
+    public static class ZZZjcRefCollectionsViewHolder extends RecyclerView.ViewHolder {
+
+        View mView;
+        public ZZZjcRefCollectionsViewHolder(View itemView) {
+
+            super(itemView);
+            mView = itemView;
+
+            // Custom built onItemClickListener for the recycler view
+            ////////////////////////////////////////////////////////////////////////////////////////
+            //Listen to the video as this is a bit confusing - also added the OnTimeclick listener above to the parameters NOT
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    hpListener.onItemClick(view, getAdapterPosition());
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+
+                    hpListener.onItemLongClick(view, getAdapterPosition());
+
+                    return true;
+                }
+            });
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+
         }
-        return !ranBefore;
+
+        public void setTitle(String title){
+
+            TextView crdRefTxtCollectionTitleX = (TextView)mView.findViewById(R.id.crdRefTxtCollectionTitle);
+            crdRefTxtCollectionTitleX.setText(title);
+
+        }
+
+        public void setDes(String des){
+
+            TextView crdRefTxtCollectionDesX = (TextView)mView.findViewById(R.id.crdRefTxtCollectionDes);
+            crdRefTxtCollectionDesX.setText(des);
+
+        }
+
+        public void setImage(Context ctx, String imageLink){
+
+            ImageView crdRefImgCollectionsImgX = (ImageView) mView.findViewById(R.id.crdRefImgCollectionImage);
+            Picasso.get().load(imageLink).into(crdRefImgCollectionsImgX); //tutorial had with which got renamed to get but with took ctx as parameter...
+
+
+        }
+
+        public void setNotes(String notes) {
+            TextView crdRefTxtCollectionNotesX = (TextView)mView.findViewById(R.id.crdRefTxtCollectionNotes);
+            crdRefTxtCollectionNotesX.setText(notes);
+
+        }
+
+        public void setCoincount(int coincount) {
+
+            TextView crdRefCoinCountX = (TextView)mView.findViewById(R.id.crdRefCoinCount);
+            String coincount2 = String.valueOf(coincount);
+            crdRefCoinCountX.setText(coincount2);
+
+        }
+
+        // these are setting hiddent textviews in cardView which can then passvalues to child views like expanded collectio or delete method
+
+        public void setColuid(String coluid) {
+            TextView crdRefTxtCollectionUIDX = (TextView)mView.findViewById(R.id.crdRefTxtCollectionUID);
+            crdRefTxtCollectionUIDX.setText(coluid);
+        }
+
+        public void setImageLink(String imageLink) {
+            TextView crdRefTxtCollectionImgLinkX = (TextView)mView.findViewById(R.id.crdRefTxtCollectionImgLink);
+            crdRefTxtCollectionImgLinkX.setText(imageLink);
+        }
+
+
+        // Custom built onItemClickListener for the recycler view; seems to cover LongClick as well
+        ////////////////////////////////////////////////////////////////////////////////////////
+        //Listen to the video as this is a bit confusing
+
+        private OnItemClickListener hpListener;
+
+        public interface OnItemClickListener {
+
+            void onItemClick(View view, int position);
+            void onItemLongClick (View view, int position);
+        }
+
+        public void setOnItemClickListener(OnItemClickListener listener) {
+
+            hpListener = listener;
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+
+
+    } /////////////// end of viewHolder
+
+    private void collectionDialogView() {
+
+        shadeX.setVisibility(View.VISIBLE);
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzx_dia_view_ref_collection, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+
+        if (colImageY != null) {
+            ImageView imgColDetailImageX = view.findViewById(R.id.imgColDetailImage);
+            imgColDetailImageX.setImageBitmap(colBitmap);
+        }
+
+        TextView txtColDetailCoinCountX = view.findViewById(R.id.txtColDetailCoinCount);
+       //String colCoinCountY3 = String.valueOf(colCoinCountY); version below gets it to good numbers format with ","
+        String colCoinCountY3 = NumberFormat.getNumberInstance(Locale.US).format(colCoinCountY);
+
+        txtColDetailCoinCountX.setText(colCoinCountY3);
+
+        TextView txtColDetailTitleX = view.findViewById(R.id.txtColDetailTitle);
+        txtColDetailTitleX.setText(colTitleY);
+        TextView txtColDetailDesX = view.findViewById(R.id.txtColDetailDesc);
+        txtColDetailDesX.setText(colDesY);
+
+
+        TextView txtColDetailNotesX = view.findViewById(R.id.txtColDetailNotes);
+        txtColDetailNotesX.setText(colNotesY);
+
+
+        ImageView imgColDetBackX = view.findViewById(R.id.imgColDetBack);
+        imgColDetBackX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                shadeX.setVisibility(View.INVISIBLE);
+                dialog.dismiss();
+
+            }
+
+        });
+
+        ImageView imgColDetEnterX = view.findViewById(R.id.imgColDetEnter);
+        imgColDetEnterX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(view.getContext(), RefCoinList.class);
+//
+                intent.putExtra("coluid", colUIDY);
+                intent.putExtra("title", colTitleY);
+                startActivity(intent);
+                shadeX.setVisibility(View.INVISIBLE);
+                dialog.dismiss();
+            }
+        });
+
+
+
+        //if dismissed in any way like a backbutton resets the view on RefCollections to normal
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                shadeX.setVisibility(View.INVISIBLE);
+            }
+        });
+
     }
 
+    //////////////////////// END -------->>> RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
+    /////////////////// includes: viewholder, sort, expoloding card view dialog, functions from dialog //////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
+    ///////////////////////// START ----->>> POP-UP ////////////////////////////////////////////////////////////////////
 
     // Main popup menu functionality called when popup menu FAB pressed
     private void showPopupMenuRefCols(View anchor, boolean isWithIcons, int style) {
@@ -308,67 +489,9 @@ public class RefCollections extends AppCompatActivity {
 
     }
 
-    //Dialog that comes up when user chooses logout from the popup menu; strange legacy menu name but standard yes no dialog
-    private void alertDialogLogOut() {
+    ///////////////////////// END -------> POP-UP MENU ///////////////////////////////////////////////////////////
 
-        //Everything in this method is code for a custom dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        dialog.show();
-
-        ImageView imgIconX = view.findViewById(R.id.imgIcon);
-        imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.logout));
-
-        TextView txtTitleX = view.findViewById(R.id.txtTitle);
-        txtTitleX.setText("Logout");
-
-        TextView txtMsgX = view.findViewById(R.id.txtMsg);
-        txtMsgX.setText("Do you really want to Logout from Corvus?");
-
-        Button btnYesX = view.findViewById(R.id.btnYes);
-        btnYesX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                firebaseAuthRefCollections.signOut();
-                LoginManager.getInstance().logOut();
-                logoutSnackbar();
-                transitionBackToLogin ();
-            }
-        });
-
-        Button btnNoX = view.findViewById(R.id.btnNo);
-        btnNoX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-    }
-    //Method called from LogOut to get us back to Login screen
-    private void transitionBackToLogin () {
-
-        new CountDownTimer(1000, 500) {
-
-
-            public void onTick(long millisUntilFinished) {
-                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
-            }
-
-            public void onFinish() {
-                Intent intent = new Intent(RefCollections.this, Login.class);
-                startActivity(intent);
-                finish();
-            }
-        }.start();
-
-    }
+    ///////////////////////// START ----->>> SNACKBARS ////////////////////////////////////////////////////////////
 
     private void logoutSnackbar(){
 
@@ -389,6 +512,49 @@ public class RefCollections extends AppCompatActivity {
         textView.setTextSize(18);
         textView.setTextColor(getResources().getColor(R.color.lighttext));
 
+    }
+
+
+
+    ///////////////////////// END -------> SNACKBARS //////////////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> FAQ AND ONE TIME /////////////////////////////////////////////////////
+
+    private void oneTimeInfoLogin() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzzz_otinfo_refcollections, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        Button btnOKoneTimeHPX = view.findViewById(R.id.btnOKoneTimeRC);
+        btnOKoneTimeHPX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+    }
+
+    // checks this is the app is run first time which we use to decide whether to show the one time info dialogs
+    private boolean isFirstTime()
+    {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+            // first time
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+        }
+        return !ranBefore;
     }
 
     private void faqDialogView() {
@@ -559,216 +725,71 @@ public class RefCollections extends AppCompatActivity {
 
     }
 
-    // View holder for the recycler view
-    public static class ZZZjcRefCollectionsViewHolder extends RecyclerView.ViewHolder {
+    //////////////////////// END ------->>> FAQ & ONE TIME ////////////////////////////////////////////////////////////////
 
-        View mView;
-        public ZZZjcRefCollectionsViewHolder(View itemView) {
+    ///////////////////////// START ----->>> LOGOUT AND ON-BACK PRESS /////////////////////////////////////////////////////
 
-            super(itemView);
-            mView = itemView;
-
-            // Custom built onItemClickListener for the recycler view
-            ////////////////////////////////////////////////////////////////////////////////////////
-            //Listen to the video as this is a bit confusing - also added the OnTimeclick listener above to the parameters NOT
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    hpListener.onItemClick(view, getAdapterPosition());
-                }
-            });
-
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-
-                    hpListener.onItemLongClick(view, getAdapterPosition());
-
-                    return true;
-                }
-            });
-
-            ////////////////////////////////////////////////////////////////////////////////////////
-
-        }
-
-        public void setTitle(String title){
-
-            TextView crdRefTxtCollectionTitleX = (TextView)mView.findViewById(R.id.crdRefTxtCollectionTitle);
-            crdRefTxtCollectionTitleX.setText(title);
-
-        }
-
-        public void setDes(String des){
-
-            TextView crdRefTxtCollectionDesX = (TextView)mView.findViewById(R.id.crdRefTxtCollectionDes);
-            crdRefTxtCollectionDesX.setText(des);
-
-        }
-
-        public void setImage(Context ctx, String imageLink){
-
-            ImageView crdRefImgCollectionsImgX = (ImageView) mView.findViewById(R.id.crdRefImgCollectionImage);
-            Picasso.get().load(imageLink).into(crdRefImgCollectionsImgX); //tutorial had with which got renamed to get but with took ctx as parameter...
-
-
-        }
-
-        public void setNotes(String notes) {
-            TextView crdRefTxtCollectionNotesX = (TextView)mView.findViewById(R.id.crdRefTxtCollectionNotes);
-            crdRefTxtCollectionNotesX.setText(notes);
-
-        }
-
-        public void setCoincount(int coincount) {
-
-            TextView crdRefCoinCountX = (TextView)mView.findViewById(R.id.crdRefCoinCount);
-            String coincount2 = String.valueOf(coincount);
-            crdRefCoinCountX.setText(coincount2);
-
-        }
-
-        // these are setting hiddent textviews in cardView which can then passvalues to child views like expanded collectio or delete method
-
-        public void setColuid(String coluid) {
-            TextView crdRefTxtCollectionUIDX = (TextView)mView.findViewById(R.id.crdRefTxtCollectionUID);
-            crdRefTxtCollectionUIDX.setText(coluid);
-        }
-
-        public void setImageLink(String imageLink) {
-            TextView crdRefTxtCollectionImgLinkX = (TextView)mView.findViewById(R.id.crdRefTxtCollectionImgLink);
-            crdRefTxtCollectionImgLinkX.setText(imageLink);
-        }
-
-
-        // Custom built onItemClickListener for the recycler view; seems to cover LongClick as well
-        ////////////////////////////////////////////////////////////////////////////////////////
-        //Listen to the video as this is a bit confusing
-
-        private OnItemClickListener hpListener;
-
-        public interface OnItemClickListener {
-
-            void onItemClick(View view, int position);
-            void onItemLongClick (View view, int position);
-        }
-
-        public void setOnItemClickListener(OnItemClickListener listener) {
-
-            hpListener = listener;
-        }
-
-        ///////////////////////////////////////////////////////////////////////////////////////
-
-
-    }
-
-    private void collectionDialogView() {
-
-        shadeX.setVisibility(View.VISIBLE);
+    //Dialog that comes up when user chooses logout from the popup menu; strange legacy menu name but standard yes no dialog
+    private void alertDialogLogOut() {
 
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzx_dia_view_ref_collection, null);
+        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
 
         dialog = new AlertDialog.Builder(this)
                 .setView(view)
                 .create();
 
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
         dialog.show();
-        dialog.getWindow().setAttributes(lp);
 
+        ImageView imgIconX = view.findViewById(R.id.imgIcon);
+        imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.logout));
 
-        if (colImageY != null) {
-            ImageView imgColDetailImageX = view.findViewById(R.id.imgColDetailImage);
-            imgColDetailImageX.setImageBitmap(colBitmap);
-        }
+        TextView txtTitleX = view.findViewById(R.id.txtTitle);
+        txtTitleX.setText("Logout");
 
-        TextView txtColDetailCoinCountX = view.findViewById(R.id.txtColDetailCoinCount);
-       //String colCoinCountY3 = String.valueOf(colCoinCountY); version below gets it to good numbers format with ","
-        String colCoinCountY3 = NumberFormat.getNumberInstance(Locale.US).format(colCoinCountY);
+        TextView txtMsgX = view.findViewById(R.id.txtMsg);
+        txtMsgX.setText("Do you really want to Logout from Corvus?");
 
-        txtColDetailCoinCountX.setText(colCoinCountY3);
-
-        TextView txtColDetailTitleX = view.findViewById(R.id.txtColDetailTitle);
-        txtColDetailTitleX.setText(colTitleY);
-        TextView txtColDetailDesX = view.findViewById(R.id.txtColDetailDesc);
-        txtColDetailDesX.setText(colDesY);
-
-
-        TextView txtColDetailNotesX = view.findViewById(R.id.txtColDetailNotes);
-        txtColDetailNotesX.setText(colNotesY);
-
-
-        ImageView imgColDetBackX = view.findViewById(R.id.imgColDetBack);
-        imgColDetBackX.setOnClickListener(new View.OnClickListener() {
+        Button btnYesX = view.findViewById(R.id.btnYes);
+        btnYesX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                shadeX.setVisibility(View.INVISIBLE);
-                dialog.dismiss();
-
+                firebaseAuthRefCollections.signOut();
+                LoginManager.getInstance().logOut();
+                logoutSnackbar();
+                transitionBackToLogin ();
             }
-
         });
 
-        ImageView imgColDetEnterX = view.findViewById(R.id.imgColDetEnter);
-        imgColDetEnterX.setOnClickListener(new View.OnClickListener() {
+        Button btnNoX = view.findViewById(R.id.btnNo);
+        btnNoX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
 
-                Intent intent = new Intent(view.getContext(), RefCoinList.class);
-//
-                intent.putExtra("coluid", colUIDY);
-                intent.putExtra("title", colTitleY);
+    }
+    //Method called from LogOut to get us back to Login screen
+    private void transitionBackToLogin () {
+
+        new CountDownTimer(1000, 500) {
+
+
+            public void onTick(long millisUntilFinished) {
+                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+            }
+
+            public void onFinish() {
+                Intent intent = new Intent(RefCollections.this, Login.class);
                 startActivity(intent);
-                shadeX.setVisibility(View.INVISIBLE);
-                dialog.dismiss();
+                finish();
             }
-        });
-
-
-
-        //if dismissed in any way like a backbutton resets the view on RefCollections to normal
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                shadeX.setVisibility(View.INVISIBLE);
-            }
-        });
+        }.start();
 
     }
-
-    private void oneTimeInfoLogin() {
-
-        //Everything in this method is code for a custom dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzzz_otinfo_refcollections, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        dialog.show();
-
-        Button btnOKoneTimeHPX = view.findViewById(R.id.btnOKoneTimeRC);
-        btnOKoneTimeHPX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dialog.dismiss();
-
-            }
-        });
-    }
-
 
     @Override
     public void onBackPressed(){

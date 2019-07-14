@@ -244,7 +244,9 @@ public class RefCoinList extends AppCompatActivity {
                         TextView txtRefObvLegX = view.findViewById(R.id.txtRefObvLeg);
                         TextView txtRefRevLegX = view.findViewById(R.id.txtRefRevLeg);
                         TextView txtRefProvenanceX = view.findViewById(R.id.txtRefProvenance);
-                        TextView txtRefValueX = view.findViewById(R.id.txtRefValue);
+                        //TextView txtRefValueX = view.findViewById(R.id.txtValue); // need to use the one below which is unformatted because can't turn it integer with comas
+                        TextView txtRefCardValueUnformattedX = view.findViewById(R.id.txtRefCardValueUnformatted);
+
                         TextView txtRefNotesX = view.findViewById(R.id.txtRefNotes);
 
                         if (cardRefToggle != 1) {
@@ -267,7 +269,7 @@ public class RefCoinList extends AppCompatActivity {
                                 loutRefCoinRevLegX.setVisibility(View.VISIBLE);
                             }
 
-                            if (txtRefProvenanceX.getText().toString().isEmpty() && Integer.parseInt(txtRefValueX.getText().toString()) == 0){
+                            if (txtRefProvenanceX.getText().toString().isEmpty() && Integer.parseInt(txtRefCardValueUnformattedX.getText().toString()) == 0){
                             } else {
                                 loutRefCoinProvenanceX.setVisibility(View.VISIBLE);
                             }
@@ -302,6 +304,12 @@ public class RefCoinList extends AppCompatActivity {
         // The onclick methods were in the broader recycler view methods - this calls for the adapter on everything
         rcvRefCoinsX.setAdapter(firebaseRecyclerAdapter);
     }
+
+    ///////////////////////// END -------> ON-CREATE ////////////////////////////////////////////////////////////////////
+
+    //////////////////////// START ------> RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
+    /////////////////// includes: viewholder, sort, expoloding card view dialog, functions from dialog //////////////////
+
 
     // View holder for the recycler view
     public static class ZZZjcRefCoinsViewHolder extends RecyclerView.ViewHolder {
@@ -491,6 +499,11 @@ public class RefCoinList extends AppCompatActivity {
             String value2 = NumberFormat.getNumberInstance(Locale.US).format(value);
             txtRefValueX.setText(value2);
 
+            //setting up an unformatted value so when the view is picked up later as int it doesn't crap out
+            TextView txtRefCardValueUnformattedX = (TextView)mView.findViewById(R.id.txtRefCardValueUnformatted);
+            String value2uf = String.valueOf(value);
+            txtRefCardValueUnformattedX.setText(value2uf);
+
             TextView txtRefLabelValueX = (TextView)mView.findViewById(R.id.txtRefLabelValue);
             txtRefLabelValueX.setVisibility(View.VISIBLE);
 
@@ -532,6 +545,12 @@ public class RefCoinList extends AppCompatActivity {
         ///////////////////////////////////////////////////////////////////////////////////////
 
     }
+
+    //////////////////////// END -------->>> RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
+    /////////////////// includes: viewholder, sort, expoloding card view dialog, functions from dialog //////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> POP-UP ////////////////////////////////////////////////////////////////////
 
     private void showPopupMenuRefCols(View anchor, boolean isWithIcons, int style) {
         //init the wrapper with style
@@ -597,67 +616,10 @@ public class RefCoinList extends AppCompatActivity {
 
     }
 
-    //Dialog that comes up when user chooses logout from the popup menu; strange legacy menu name but standard yes no dialog
-    private void alertDialogLogOut() {
+    ///////////////////////// END -------> POP-UP MENU ///////////////////////////////////////////////////////////
 
-        //Everything in this method is code for a custom dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
+    ///////////////////////// START ----->>> SNACKBARS ////////////////////////////////////////////////////////////
 
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        dialog.show();
-
-        ImageView imgIconX = view.findViewById(R.id.imgIcon);
-        imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.logout));
-
-        TextView txtTitleX = view.findViewById(R.id.txtTitle);
-        txtTitleX.setText("Logout");
-
-        TextView txtMsgX = view.findViewById(R.id.txtMsg);
-        txtMsgX.setText("Do you really want to Logout from Corvus?");
-
-        Button btnYesX = view.findViewById(R.id.btnYes);
-        btnYesX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                firebaseAuthRefCoins.signOut();
-                LoginManager.getInstance().logOut();
-                logoutSnackbar();
-                transitionBackToLogin ();
-            }
-        });
-
-        Button btnNoX = view.findViewById(R.id.btnNo);
-        btnNoX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-    }
-    //Method called from LogOut to get us back to Login screen
-    private void transitionBackToLogin () {
-
-        new CountDownTimer(1000, 500) {
-
-
-            public void onTick(long millisUntilFinished) {
-                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
-            }
-
-            public void onFinish() {
-                Intent intent = new Intent(RefCoinList.this, Login.class);
-                startActivity(intent);
-                finish();
-            }
-        }.start();
-
-    }
 
     private void logoutSnackbar(){
 
@@ -675,6 +637,47 @@ public class RefCoinList extends AppCompatActivity {
         textView.setTextSize(18);
         textView.setTextColor(getResources().getColor(R.color.lighttext));
 
+    }
+
+    ///////////////////////// END -------> SNACKBARS //////////////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> FAQ AND ONE TIME /////////////////////////////////////////////////////
+
+    private void oneTimeInfoLogin() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzzz_otinfo_coinlist, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        Button btnOKoneTimeCLX = view.findViewById(R.id.btnOKoneTimeCL);
+        btnOKoneTimeCLX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+    }
+
+    // checks this is the app is run first time which we use to decide whether to show the one time info dialogs
+    private boolean isFirstTime()
+    {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+            // first time
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+        }
+        return !ranBefore;
     }
 
     private void faqDialogView() {
@@ -845,11 +848,16 @@ public class RefCoinList extends AppCompatActivity {
 
     }
 
-    private void oneTimeInfoLogin() {
+    //////////////////////// END ------->>> FAQ & ONE TIME ////////////////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> LOGOUT AND ON-BACK PRESS /////////////////////////////////////////////////////
+    //Dialog that comes up when user chooses logout from the popup menu; strange legacy menu name but standard yes no dialog
+
+    private void alertDialogLogOut() {
 
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzzz_otinfo_coinlist, null);
+        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
 
         dialog = new AlertDialog.Builder(this)
                 .setView(view)
@@ -857,31 +865,54 @@ public class RefCoinList extends AppCompatActivity {
 
         dialog.show();
 
-        Button btnOKoneTimeCLX = view.findViewById(R.id.btnOKoneTimeCL);
-        btnOKoneTimeCLX.setOnClickListener(new View.OnClickListener() {
+        ImageView imgIconX = view.findViewById(R.id.imgIcon);
+        imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.logout));
+
+        TextView txtTitleX = view.findViewById(R.id.txtTitle);
+        txtTitleX.setText("Logout");
+
+        TextView txtMsgX = view.findViewById(R.id.txtMsg);
+        txtMsgX.setText("Do you really want to Logout from Corvus?");
+
+        Button btnYesX = view.findViewById(R.id.btnYes);
+        btnYesX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                dialog.dismiss();
-
+                firebaseAuthRefCoins.signOut();
+                LoginManager.getInstance().logOut();
+                logoutSnackbar();
+                transitionBackToLogin ();
             }
         });
-    }
 
-    // checks this is the app is run first time which we use to decide whether to show the one time info dialogs
-    private boolean isFirstTime()
-    {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        boolean ranBefore = preferences.getBoolean("RanBefore", false);
-        if (!ranBefore) {
-            // first time
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("RanBefore", true);
-            editor.commit();
-        }
-        return !ranBefore;
-    }
+        Button btnNoX = view.findViewById(R.id.btnNo);
+        btnNoX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
 
+    }
+    //Method called from LogOut to get us back to Login screen
+    private void transitionBackToLogin () {
+
+        new CountDownTimer(1000, 500) {
+
+
+            public void onTick(long millisUntilFinished) {
+                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+            }
+
+            public void onFinish() {
+                Intent intent = new Intent(RefCoinList.this, Login.class);
+                startActivity(intent);
+                finish();
+            }
+        }.start();
+
+    }
 
     @Override
     public void onBackPressed() {

@@ -816,11 +816,9 @@ public class CoinList extends AppCompatActivity {
         intent.putExtra("value", coinValueY);
         intent.putExtra("notes", coinNotesY);
 
-
         intent.putExtra("imageLink", coinImageLinkY);
 
         startActivity(intent);
-
 
     }
 
@@ -964,7 +962,6 @@ public class CoinList extends AppCompatActivity {
 
     }
 
-
     //////////////////////// END -------->>> RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
     /////////////////// includes: viewholder, sort, expoloding card view dialog, functions from dialog //////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1045,6 +1042,7 @@ public class CoinList extends AppCompatActivity {
     ///////////////////////// END -------> POP-UP MENU ///////////////////////////////////////////////////////////
 
     ///////////////////////// START ----->>> SNACKBARS ////////////////////////////////////////////////////////////
+
     private void logoutSnackbar(){
 
         Snackbar snackbar;
