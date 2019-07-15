@@ -33,6 +33,15 @@
         android:layout_marginRight="@dimen/_16sdp"
         android:src="@drawable/add"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCoinExcelAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/_64sdp"
+        android:layout_marginRight="@dimen/_16sdp"
+        android:src="@drawable/excel"/>
+
     <View
         android:id="@+id/shade"
         android:layout_width="match_parent"

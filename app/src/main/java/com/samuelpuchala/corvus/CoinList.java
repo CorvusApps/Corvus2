@@ -129,6 +129,19 @@ public class CoinList extends AppCompatActivity {
             oneTimeInfoLogin();
         }
 
+        FloatingActionButton fabCoinExcelAddX = findViewById(R.id.fabCoinExcelAdd);
+        fabCoinExcelAddX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(CoinList.this, Excel.class);
+                intent.putExtra("coluid", cListuid);
+                intent.putExtra("title", cListColName);
+                intent.putExtra("coincount", coinListItemCountInt);
+                intent.putExtra("colvalue", coinListColValueInt);
+                startActivity(intent);
+            }
+        });
 
         FloatingActionButton fabCoinAddX = findViewById(R.id.fabCoinAdd);
         fabCoinAddX.setOnClickListener(new View.OnClickListener() {

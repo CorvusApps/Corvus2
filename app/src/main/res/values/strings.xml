@@ -48,9 +48,9 @@
     <string name="coinlist_06"></string>
 
 
-
     <string name="title_activity_ref_collections">RefCollections</string>
     <string name="title_activity_ref_coin_list">RefCoinList</string>
     <string name="title_activity_coin_add">CoinAdd</string>
+    <string name="title_activity_excel">Excel</string>
 
 </resources>
