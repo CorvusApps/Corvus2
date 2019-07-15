@@ -1,17 +1,28 @@
 package com.samuelpuchala.corvus;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -35,11 +46,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Excel extends AppCompatActivity {
 
     // Data imported from CoinAdd to be used here
     String collectionID;
+
+    // Needed for upload to Firebase
+
+    int RIC3, Value3;
+    int  cAddItemCountX, cAddColValueX;
 
 
     private static final String TAG = "ImportShit";
@@ -68,6 +85,9 @@ public class Excel extends AppCompatActivity {
 
         // Data imported from CoinAdd to be used here
         collectionID = getIntent().getStringExtra("coluid");
+
+        cAddItemCountX = getIntent().getIntExtra("coincount", 0);
+        cAddColValueX = getIntent().getIntExtra("colvalue", 0);
 
         // Toast.makeText(Excel.this, collectionID, Toast.LENGTH_LONG).show();
 
@@ -397,7 +417,7 @@ public class Excel extends AppCompatActivity {
 
             String denomination = uploadData.get(i).getDenomination();
             String diameter = uploadData.get(i).getDiameter();
-            String id = uploadData.get(i).getId();
+            final String id = uploadData.get(i).getId();
             String mint = uploadData.get(i).getMint();
             String notes = uploadData.get(i).getNotes();
             String obvdesc = uploadData.get(i).getObvdesc();
@@ -413,6 +433,101 @@ public class Excel extends AppCompatActivity {
             Log.d(TAG, "printDataToLog: (denomination, diamter, id, mint, notes, obvdesc, obvleg, personage, provenance, revdesc, revleg, ricvar, value, weight): (" + denomination + "," + diameter + ", " + id + ", " + mint + ", " + notes + ", " + obvdesc + ", " + obvleg + ", " + personage + "" +
                     ", " + provenance + ", " + revdesc + ", " + revleg + ", " + ricvar + ", " + value + ", " + weight + ")");
 
+            String uid = FirebaseAuth.getInstance().getUid();
+
+            //////// this and the noted data put below gets the uid key for this snapshot so we can use it later on item click
+            DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
+                    .child("collections").child(collectionID).child("coins");
+            DatabaseReference blankRecordReference = dbReference;
+            DatabaseReference db_ref = blankRecordReference.push();
+            String coinuidX = db_ref.getKey(); // this then is the key for the coin
+            Long timestampX = System.currentTimeMillis() * -1; // make negative for sorting; using timestamp instead is giant pain in the ass as you can't make it a long value easily
+
+            // converting RIC input into integer or setting to zero to avoid crash if left empty
+
+            Float RIC2 = Float.parseFloat(String.valueOf(id));
+            RIC3 = (int)(Math.round(RIC2));// getting id to be an int before uploading so sorting works well
+            Float Value2 = Float.parseFloat(String.valueOf(value));
+            Value3 = (int)(Math.round(Value2));// getting Value to be an int before uploading so sorting works well
+
+            HashMap<String, Object> dataMap = new HashMap<>();
+
+            dataMap.put("personage", personage);
+            dataMap.put("imageIdentifier", "198c3889-465b-410f-8906-c8199611c5af.jpg");
+            dataMap.put("imageLink", "https://firebasestorage.googleapis.com/v0/b/corvus-e98f9.appspot.com/o/myImages%2FcoinImages%2F55b750ee-37ea-4506-8f3d-aa0aaea9414a.jpg?alt=media&token=98a36e67-6b3e-4730-b8b0-87f2e69bc48d");
+            dataMap.put("id", RIC3);
+            dataMap.put("ricvar", ricvar);
+            dataMap.put("denomination", denomination);
+            dataMap.put("weight", weight);
+           // dataMap.put("diameter", diameter); // taking out for now to avoid complexity of dealing with blanks
+
+            dataMap.put("mint", mint);
+            dataMap.put("obvdesc", obvdesc);
+            dataMap.put("obvleg", obvleg);
+            dataMap.put("revdesc", revdesc);
+            dataMap.put("revleg", revleg);
+            dataMap.put("provenance", provenance);
+            dataMap.put("value", Value3);
+            dataMap.put("notes", notes);
+
+            dataMap.put("timestamp", timestampX);
+
+            //////
+            dataMap.put("coinuid", coinuidX); // the unique coin UID which we can then use to link back to this coin
+
+            /////
+
+            // getting adjusted values for itemcount and collection value
+            cAddItemCountX = cAddItemCountX +1;
+            cAddColValueX = cAddColValueX + Value3;
+
+
+            db_ref.setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+
+                    if (task.isSuccessful()) {
+
+                        toastMessage(id + " uploaded");
+
+                        //once coin uploaded update collection timestamp, itemcount and vlaue///////////////
+                        final Long timestampY = System.currentTimeMillis() * -1;
+                        String uid = FirebaseAuth.getInstance().getUid();
+                        DatabaseReference collectionReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
+                                .child("collections");
+
+                        Query colTimeModQuery = collectionReference.orderByChild("coluid").equalTo(collectionID);
+
+                        colTimeModQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                int sortCoinCount = -cAddItemCountX;
+                                int sortColValue = -cAddColValueX;
+
+                                for (DataSnapshot ds2: dataSnapshot.getChildren()) {
+
+                                    ds2.getRef().child("timestamp").setValue(timestampY);
+                                    ds2.getRef().child("coincount").setValue(cAddItemCountX);
+                                    ds2.getRef().child("colvalue").setValue(cAddColValueX);
+
+                                    ds2.getRef().child("sortcoincount").setValue(sortCoinCount);
+                                    ds2.getRef().child("sortcolvalue").setValue(sortColValue);
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+
+                }
+            });
         }
 
     }
