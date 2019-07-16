@@ -798,7 +798,9 @@ public class CoinAdd extends AppCompatActivity {
     private void beginUpdate() {
 
         //if the coin did not have any image to start with skip delete image to avoid a crash
-        if (coinImageLinkRec.isEmpty() | coinImageLinkRec.equals("")) {
+        //the hard coded link is to ensure that on mass upload the place holder pic does not get deleted when one coin is modified since many coins share it
+        if (coinImageLinkRec.isEmpty() | coinImageLinkRec.equals("")
+                | coinImageLinkRec.equals("https://firebasestorage.googleapis.com/v0/b/corvus-e98f9.appspot.com/o/myImages%2FcoinImages%2F5d473542-87e1-4410-bbaf-eec7f48ee22c.jpg?alt=media&token=3f1769ec-4f31-49d2-a229-c472457ec99c")) {
 
             uploadNewImg();
         } else {
@@ -884,6 +886,8 @@ public class CoinAdd extends AppCompatActivity {
     }
 
     private void deletePreviousImage() {
+
+
 
         StorageReference mPictureReference = FirebaseStorage.getInstance().getReferenceFromUrl(coinImageLinkRec);
 

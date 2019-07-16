@@ -867,106 +867,193 @@ public class CoinList extends AppCompatActivity {
 
         // delete the picture from storage after removing the coin record
         try { // putting in try catch because crashing - the if statement does not help - oddly works in collection section
-            if (deleteImageLink != "") {
-                //not executing if the collection does not have an image attached to avoid crashing
-
-                StorageReference mPictureReference = FirebaseStorage.getInstance().getReferenceFromUrl(deleteImageLink);
-
-                mPictureReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            if (deleteImageLink.equals("https://firebasestorage.googleapis.com/v0/b/corvus-e98f9.appspot.com/o/myImages%2FcoinImages%2F5d473542-87e1-4410-bbaf-eec7f48ee22c.jpg?alt=media&token=3f1769ec-4f31-49d2-a229-c472457ec99c")) {
+              // a bit ineffeicient code repeating most of the delete code minus the pic delete if the delete coin has the reference coin link
+                Query deleteCoinValueQuery = position.child("value");
+                deleteCoinValueQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onSuccess(Void aVoid) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        /// need to get the value of the specific coin to subtract out - like imagelink before the info is gone but get it after pic deleted here//
-
-                        Query deleteCoinValueQuery = position.child("value");
-                        deleteCoinValueQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                String deletedCoinValue = dataSnapshot.getValue().toString();
-                                int deletedCoinValueInt = Integer.parseInt(deletedCoinValue);
-                                coinListColValueInt = coinListColValueInt - deletedCoinValueInt;
-                                // the danger here is that the async operations will have the delete below finish before this and the value won't be deleted.
-                                // may want to fix this on clean up and monitor... working fine on initial tries
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-
-                        Query mQuery = position;
-                        mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot ds : dataSnapshot.getChildren()){
-
-                                    ds.getRef().removeValue(); // removes values from firebase
-
-                                }
-                                // WIERD ERROR was happening here caused by the FB SDK - apparently a bug - had to downgrade to version 5.0.3 to fix it
-
-                                // update collection timestamp for the deletion - as it is a modification to the collection //////
-                                // also adjust coin number and collection value /////
-
-                                final Long timestampD = System.currentTimeMillis() * -1;
-                                coinListItemCountInt = coinListItemCountInt - 1;
-
-                                String uid = FirebaseAuth.getInstance().getUid();
-                                DatabaseReference collectionDelCoinReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
-                                        .child("collections");
-
-                                Query colTimeDelCoinQuery = collectionDelCoinReference.orderByChild("coluid").equalTo(cListuid);
-
-                                colTimeDelCoinQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                        int sortCoinCount = -coinListItemCountInt;
-                                        int sortColValue = -coinListColValueInt;
-
-                                        for (DataSnapshot ds4: dataSnapshot.getChildren()) {
-
-                                            ds4.getRef().child("timestamp").setValue(timestampD);
-                                            ds4.getRef().child("coincount").setValue(coinListItemCountInt);
-                                            ds4.getRef().child("colvalue").setValue(coinListColValueInt);
-
-                                            ds4.getRef().child("sortcoincount").setValue(sortCoinCount);
-                                            ds4.getRef().child("sortcolvalue").setValue(sortColValue);
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-
-                                /////////////////////////////////////////////////////////
-
-                                coinDeletedSnackbar();
-                                pd.dismiss();
-
-                                // need an undo or a are you sure logic here
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                Toast.makeText(CoinList.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-
-                            }
-                        });
-
+                        String deletedCoinValue = dataSnapshot.getValue().toString();
+                        int deletedCoinValueInt = Integer.parseInt(deletedCoinValue);
+                        coinListColValueInt = coinListColValueInt - deletedCoinValueInt;
+                        // the danger here is that the async operations will have the delete below finish before this and the value won't be deleted.
+                        // may want to fix this on clean up and monitor... working fine on initial tries
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
 
-                        Toast.makeText(CoinList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
                     }
                 });
+
+                Query mQuery = position;
+                mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()){
+
+                            ds.getRef().removeValue(); // removes values from firebase
+
+                        }
+                        // WIERD ERROR was happening here caused by the FB SDK - apparently a bug - had to downgrade to version 5.0.3 to fix it
+
+                        // update collection timestamp for the deletion - as it is a modification to the collection //////
+                        // also adjust coin number and collection value /////
+
+                        final Long timestampD = System.currentTimeMillis() * -1;
+                        coinListItemCountInt = coinListItemCountInt - 1;
+
+                        String uid = FirebaseAuth.getInstance().getUid();
+                        DatabaseReference collectionDelCoinReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
+                                .child("collections");
+
+                        Query colTimeDelCoinQuery = collectionDelCoinReference.orderByChild("coluid").equalTo(cListuid);
+
+                        colTimeDelCoinQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                int sortCoinCount = -coinListItemCountInt;
+                                int sortColValue = -coinListColValueInt;
+
+                                for (DataSnapshot ds4: dataSnapshot.getChildren()) {
+
+                                    ds4.getRef().child("timestamp").setValue(timestampD);
+                                    ds4.getRef().child("coincount").setValue(coinListItemCountInt);
+                                    ds4.getRef().child("colvalue").setValue(coinListColValueInt);
+
+                                    ds4.getRef().child("sortcoincount").setValue(sortCoinCount);
+                                    ds4.getRef().child("sortcolvalue").setValue(sortColValue);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        /////////////////////////////////////////////////////////
+
+                        coinDeletedSnackbar();
+                        pd.dismiss();
+
+                        // need an undo or a are you sure logic here
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        Toast.makeText(CoinList.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
+            } else { // below same as above but with delete pic because not deleting a coin with a ref pic (from mass upload)
+                if (deleteImageLink != "") {
+                    //not executing if the collection does not have an image attached to avoid crashing
+
+                    StorageReference mPictureReference = FirebaseStorage.getInstance().getReferenceFromUrl(deleteImageLink);
+
+                    mPictureReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            /// need to get the value of the specific coin to subtract out - like imagelink before the info is gone but get it after pic deleted here//
+
+                            Query deleteCoinValueQuery = position.child("value");
+                            deleteCoinValueQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    String deletedCoinValue = dataSnapshot.getValue().toString();
+                                    int deletedCoinValueInt = Integer.parseInt(deletedCoinValue);
+                                    coinListColValueInt = coinListColValueInt - deletedCoinValueInt;
+                                    // the danger here is that the async operations will have the delete below finish before this and the value won't be deleted.
+                                    // may want to fix this on clean up and monitor... working fine on initial tries
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                            Query mQuery = position;
+                            mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                                        ds.getRef().removeValue(); // removes values from firebase
+
+                                    }
+                                    // WIERD ERROR was happening here caused by the FB SDK - apparently a bug - had to downgrade to version 5.0.3 to fix it
+
+                                    // update collection timestamp for the deletion - as it is a modification to the collection //////
+                                    // also adjust coin number and collection value /////
+
+                                    final Long timestampD = System.currentTimeMillis() * -1;
+                                    coinListItemCountInt = coinListItemCountInt - 1;
+
+                                    String uid = FirebaseAuth.getInstance().getUid();
+                                    DatabaseReference collectionDelCoinReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
+                                            .child("collections");
+
+                                    Query colTimeDelCoinQuery = collectionDelCoinReference.orderByChild("coluid").equalTo(cListuid);
+
+                                    colTimeDelCoinQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            int sortCoinCount = -coinListItemCountInt;
+                                            int sortColValue = -coinListColValueInt;
+
+                                            for (DataSnapshot ds4 : dataSnapshot.getChildren()) {
+
+                                                ds4.getRef().child("timestamp").setValue(timestampD);
+                                                ds4.getRef().child("coincount").setValue(coinListItemCountInt);
+                                                ds4.getRef().child("colvalue").setValue(coinListColValueInt);
+
+                                                ds4.getRef().child("sortcoincount").setValue(sortCoinCount);
+                                                ds4.getRef().child("sortcolvalue").setValue(sortColValue);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                    /////////////////////////////////////////////////////////
+
+                                    coinDeletedSnackbar();
+                                    pd.dismiss();
+
+                                    // need an undo or a are you sure logic here
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    Toast.makeText(CoinList.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            Toast.makeText(CoinList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
 
             }
         } catch (Exception e) {
