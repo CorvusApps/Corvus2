@@ -611,7 +611,7 @@ public class CoinList extends AppCompatActivity {
             txtLabelWeightX.setVisibility(View.VISIBLE);
 
             try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
-                if (weight.isEmpty()) {
+                if (weight.isEmpty() | weight.equals("")) {
 
                     txtLabelWeightX.setVisibility(View.GONE);
                 }
@@ -625,13 +625,17 @@ public class CoinList extends AppCompatActivity {
             TextView txtCardDiameterX = (TextView)mView.findViewById(R.id.txtCardDiameter);
             txtCardDiameterX.setText(diameter);
 
-            TextView txtLabelDiameterX = (TextView)mView.findViewById(R.id.txtLabelDiameter);
-            txtLabelDiameterX.setVisibility(View.VISIBLE);
+//            TextView txtLabelDiameterX = (TextView)mView.findViewById(R.id.txtLabelDiameter);
+//            txtLabelDiameterX.setVisibility(View.VISIBLE); // need to set this visible in case previous view set it to Gone even though in XMl it is not gone
 
             try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
-                if (diameter.isEmpty()) {
-
+                if (diameter.isEmpty() | diameter.equals("")) {
+                    TextView txtLabelDiameterX = (TextView)mView.findViewById(R.id.txtLabelDiameter);
                     txtLabelDiameterX.setVisibility(View.GONE);
+                } else {
+
+                    TextView txtLabelDiameterX = (TextView)mView.findViewById(R.id.txtLabelDiameter);
+                    txtLabelDiameterX.setVisibility(View.VISIBLE);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

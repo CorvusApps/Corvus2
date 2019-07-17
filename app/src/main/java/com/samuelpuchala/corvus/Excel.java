@@ -326,13 +326,13 @@ public class Excel extends AppCompatActivity {
 
                         Log.d(TAG, "readExcelData: Data from row: " + cellInfo);
 
-                        sb.append(value + ", ");
+                        sb.append(value + ",,"); // need 2 : or , to not confuse with : or , actually in the text
 
                     }
 
                 }
 
-                sb.append(":");
+                sb.append("::"); // need 2 : or , to not confuse with : or , actually in the text
 
             }
 
@@ -364,13 +364,13 @@ public class Excel extends AppCompatActivity {
         Log.d(TAG, "parseStringBuilder: Started parsing.");
 
         // splits the sb into rows.
-        String[] rows = mStringBuilder.toString().split(":");
+        String[] rows = mStringBuilder.toString().split("::"); // need 2 : or , to not confuse with : or , actually in the text
 
         //Add to the ArrayListrow by row
         for(int i=0; i<rows.length; i++) {
 
             //Split the columns of the rows
-            String[] columns = rows[i].split(",");
+            String[] columns = rows[i].split(",,"); // need 2 : or , to not confuse with : or , actually in the text
 
             //use try catch to make sure there are no "" that try to parse into doubles.
             try{
@@ -456,10 +456,26 @@ public class Excel extends AppCompatActivity {
             dataMap.put("imageIdentifier", "5d473542-87e1-4410-bbaf-eec7f48ee22c.jpg");
             dataMap.put("imageLink", "https://firebasestorage.googleapis.com/v0/b/corvus-e98f9.appspot.com/o/myImages%2FcoinImages%2F5d473542-87e1-4410-bbaf-eec7f48ee22c.jpg?alt=media&token=3f1769ec-4f31-49d2-a229-c472457ec99c");
             dataMap.put("id", RIC3);
-            dataMap.put("ricvar", ricvar);
+
+            if (ricvar.equals("x")) {
+
+            } else {
+                dataMap.put("ricvar", ricvar);
+            }
+
             dataMap.put("denomination", denomination);
-            dataMap.put("weight", weight);
-           // dataMap.put("diameter", diameter); // taking out for now to avoid complexity of dealing with blanks
+
+            if (weight.equals("1.0")) {
+
+            } else {
+                dataMap.put("weight", weight);
+            }
+
+            if (diameter.equals("1.0")) {
+
+            } else {
+                dataMap.put("diameter", diameter);
+            }
 
             dataMap.put("mint", mint);
             dataMap.put("obvdesc", obvdesc);
@@ -468,7 +484,12 @@ public class Excel extends AppCompatActivity {
             dataMap.put("revleg", revleg);
             dataMap.put("provenance", provenance);
             dataMap.put("value", Value3);
-            dataMap.put("notes", notes);
+
+            if (notes.equals("x")) {
+
+            } else {
+                dataMap.put("notes", notes);
+            }
 
             dataMap.put("timestamp", timestampX);
 
