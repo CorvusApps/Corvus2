@@ -11,6 +11,11 @@ import android.os.Bundle;
 
 import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,6 +75,12 @@ public class RefCollections extends AppCompatActivity {
     // custom view to use as a shade behind custom dialogs
     private View shadeX;
 
+    // adMob
+
+    InterstitialAd mInterstitialAd;
+    int mAdvertCounter;
+    private SharedPreferences sharedAdvertCounter;
+
 
 
     @Override
@@ -82,6 +93,64 @@ public class RefCollections extends AppCompatActivity {
         if (isFirstTime()) {
             oneTimeInfoLogin();
         }
+
+
+        //adMob
+        sharedAdvertCounter = getSharedPreferences("adSetting", MODE_PRIVATE);
+        mAdvertCounter = sharedAdvertCounter.getInt("Counter", 0); // where if no settings
+
+
+        MobileAds.initialize(this, "ca-app-pub-1744081621312112~4434333836");
+        mInterstitialAd = new InterstitialAd(RefCollections.this);
+        mInterstitialAd.setAdUnitId(getString(R.string.test_interstitial_ad));
+
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+        Toast.makeText(RefCollections.this, mAdvertCounter + "", Toast.LENGTH_SHORT).show();
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+
+                if (mAdvertCounter > 4) {
+
+                    mInterstitialAd.show();
+                    SharedPreferences.Editor editor = sharedAdvertCounter.edit();
+                    editor.putInt("Counter", 0); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+                    editor.apply(); // saves the value
+                    mAdvertCounter = 0;
+                }
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when the ad is displayed.
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the interstitial ad is closed.
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+        });
+
 
         loutRefCollectionsActLOX = findViewById(R.id.loutRefCollectionsActLO);
         firebaseAuthRefCollections = FirebaseAuth.getInstance();
@@ -103,8 +172,6 @@ public class RefCollections extends AppCompatActivity {
         // rcvCollectionsX.setLayoutManager(new LinearLayoutManager(this));    // different layout options - use 1 of the 3
         // rcvCollectionsX.setLayoutManager(new GridLayoutManager(this, 2));    // different layout options - use 1 of the 3
         rcvRefCollectionsX.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));  // different layout options - use 1 of the 3
-
-
 
 
         //FAB for popup menu
@@ -150,6 +217,50 @@ public class RefCollections extends AppCompatActivity {
                     public void onItemClick(View view, int position) {
                         //Pulling data from view on card
 
+                        //logic for popping up intestitial adds every x clicks on a reference collection
+
+                        mAdvertCounter = sharedAdvertCounter.getInt("Counter", 0); // where if no settings
+                        SharedPreferences.Editor editor = sharedAdvertCounter.edit();
+                        editor.putInt("Counter", mAdvertCounter + 1);
+                        editor.apply(); // saves the value
+
+                        mInterstitialAd.setAdListener(new AdListener() {
+                            @Override
+                            public void onAdLoaded() {
+                                // Code to be executed when an ad finishes loading.
+                            }
+
+                            @Override
+                            public void onAdFailedToLoad(int errorCode) {
+                                // Code to be executed when an ad request fails.
+                            }
+
+                            @Override
+                            public void onAdOpened() {
+                                // Code to be executed when the ad is displayed.
+                                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                            }
+
+                            @Override
+                            public void onAdClicked() {
+                                // Code to be executed when the user clicks on an ad.
+                            }
+
+                            @Override
+                            public void onAdLeftApplication() {
+                                // Code to be executed when the user has left the app.
+                            }
+
+                            @Override
+                            public void onAdClosed() {
+                                // Code to be executed when the interstitial ad is closed.
+                                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                            }
+                        });
+
+                        ////////////////// end of Ad Mob for on click ////////////////////////
+
+
                         TextView colUID = view.findViewById(R.id.crdRefTxtCollectionUID);
                         TextView colTitle = view.findViewById(R.id.crdRefTxtCollectionTitle);
 
@@ -157,7 +268,6 @@ public class RefCollections extends AppCompatActivity {
 
                         colUIDY = colUID.getText().toString();
                         colTitleY = colTitle.getText().toString();
-
 
                         // no need to pass the image to the CoinList Class but keeping the lines below as example code
                         Intent intent = new Intent(view.getContext(), RefCoinList.class);
@@ -170,8 +280,6 @@ public class RefCollections extends AppCompatActivity {
                         startActivity(intent);
 
                     }
-
-
 
                     @Override
                     public void onItemLongClick(View view, int position) {
@@ -797,6 +905,26 @@ public class RefCollections extends AppCompatActivity {
         Intent intent = new Intent(RefCollections.this, HomePage.class);
         startActivity(intent);
         finish();
+
+    }
+
+    //////////////////////// END ------->>> LOGOUT AND ON-BACK PRESS  /////////////////////////////////////////////////////
+
+    ///////////////////////// START ----->>> AD MOB /////////////////////////////////////////////////////
+
+    public void initAdverts() {
+
+        MobileAds.initialize(this, getString(R.string.test_banner_ad));
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.test_interstitial_ad));
+
+        mInterstitialAd.setAdListener(new AdListener());
+
+
+
+
+
 
     }
 

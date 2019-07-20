@@ -14,6 +14,10 @@ import android.os.Bundle;
 
 import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -109,6 +113,12 @@ public class RefCoinList extends AppCompatActivity {
 
     private Query sortRefQueryCoins;
 
+    // adMob
+
+    InterstitialAd mInterstitialAdRefCoinList;
+    int mAdvertCounterRefCoinList;
+    private SharedPreferences sharedAdvertCounterRefCoinList;
+
 
 
     @Override
@@ -120,6 +130,64 @@ public class RefCoinList extends AppCompatActivity {
         if (isFirstTime()) {
             oneTimeInfoLogin();
         }
+
+        //adMob
+        sharedAdvertCounterRefCoinList = getSharedPreferences("adSettingRefCoinList", MODE_PRIVATE);
+        mAdvertCounterRefCoinList = sharedAdvertCounterRefCoinList.getInt("CounterRefCoinList", 0); // where if no settings
+
+
+        MobileAds.initialize(this, "ca-app-pub-1744081621312112~4434333836");
+        mInterstitialAdRefCoinList = new InterstitialAd(RefCoinList.this);
+        mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
+
+        mInterstitialAdRefCoinList.loadAd(new AdRequest.Builder().build());
+
+        Toast.makeText(RefCoinList.this, mAdvertCounterRefCoinList + "", Toast.LENGTH_SHORT).show();
+
+        mInterstitialAdRefCoinList.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+
+                if (mAdvertCounterRefCoinList > 19) {
+
+                    mInterstitialAdRefCoinList.show();
+                    SharedPreferences.Editor editor = sharedAdvertCounterRefCoinList.edit();
+                    editor.putInt("CounterRefCoinList", 0); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+                    editor.apply(); // saves the value
+                    mAdvertCounterRefCoinList = 0;
+                }
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when the ad is displayed.
+                mInterstitialAdRefCoinList.loadAd(new AdRequest.Builder().build());
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+                mInterstitialAdRefCoinList.loadAd(new AdRequest.Builder().build());
+
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the interstitial ad is closed.
+                mInterstitialAdRefCoinList.loadAd(new AdRequest.Builder().build());
+            }
+        });
 
 
 
@@ -289,6 +357,65 @@ public class RefCoinList extends AppCompatActivity {
                             loutRefCoinProvenanceX.setVisibility(View.GONE);
                             loutRefCoinNotesX.setVisibility(View.GONE);
                         }
+
+                        //logic for popping up intestitial adds every x clicks on a reference collection
+
+                        mAdvertCounterRefCoinList = sharedAdvertCounterRefCoinList.getInt("CounterRefCoinList", 0); // where if no settings
+                        SharedPreferences.Editor editor = sharedAdvertCounterRefCoinList.edit();
+                        editor.putInt("CounterRefCoinList", mAdvertCounterRefCoinList + 1);
+                        editor.apply(); // saves the value
+                        mAdvertCounterRefCoinList = mAdvertCounterRefCoinList + 1;
+
+                        if (mAdvertCounterRefCoinList > 19) {
+
+                            mInterstitialAdRefCoinList.show();
+                            editor = sharedAdvertCounterRefCoinList.edit();
+                            editor.putInt("CounterRefCoinList", 0); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+                            editor.apply(); // saves the value
+                            mAdvertCounterRefCoinList = 0;
+
+                            mInterstitialAdRefCoinList.setAdListener(new AdListener() {
+                                @Override
+                                public void onAdLoaded() {
+                                    // Code to be executed when an ad finishes loading.
+
+                                }
+
+                                @Override
+                                public void onAdFailedToLoad(int errorCode) {
+                                    // Code to be executed when an ad request fails.
+                                }
+
+                                @Override
+                                public void onAdOpened() {
+                                    // Code to be executed when the ad is displayed.
+                                    mInterstitialAdRefCoinList.loadAd(new AdRequest.Builder().build());
+                                }
+
+                                @Override
+                                public void onAdClicked() {
+                                    // Code to be executed when the user clicks on an ad.
+                                    mInterstitialAdRefCoinList.loadAd(new AdRequest.Builder().build());
+
+                                }
+
+                                @Override
+                                public void onAdLeftApplication() {
+                                    // Code to be executed when the user has left the app.
+                                }
+
+                                @Override
+                                public void onAdClosed() {
+                                    // Code to be executed when the interstitial ad is closed.
+                                    mInterstitialAdRefCoinList.loadAd(new AdRequest.Builder().build());
+                                }
+                            });
+
+
+                        }
+
+
+                        ///////////////// end of ad Mob on item click ////////////////////
 
                     }
 

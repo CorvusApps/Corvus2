@@ -7,6 +7,10 @@
     <string name="title_activity_home_page">HomePage</string>
     <string name="title_activity_coin_list">CoinList</string>
     <string name="title_activity_test_expanded_collection">TestExpandedCollection</string>
+    <string name="test_banner_ad">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="test_interstitial_ad">ca-app-pub-3940256099942544/1033173712</string>
+
+    <string name="test_reward_ad">ca-app-pub-3940256099942544/5224354917</string>
 
     <!-- For FAQ & one time dialogs -->
 
