@@ -1,4 +1,4 @@
-package com.samuelpuchala.corvus;
+package com.pelotheban.corvus;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -6,9 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -36,13 +33,10 @@ import com.squareup.picasso.Picasso;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.CountDownTimer;
 import android.view.ContextThemeWrapper;
@@ -52,7 +46,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -63,8 +56,6 @@ import android.widget.Toast;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 
@@ -144,20 +135,20 @@ public class CoinList extends AppCompatActivity {
         mAdvertCounterCoinList = sharedAdvertCounterCoinList.getInt("CounterCoinList", 0); // where if no settings
 
 
-        MobileAds.initialize(this, "ca-app-pub-1744081621312112~4434333836");
+        MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
         mInterstitialAdCoinList = new InterstitialAd(CoinList.this);
         mInterstitialAdCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
-
+        //mInterstitialAdCoinList.setAdUnitId(getString(R.string.coinlist_interstitial_ad));
         mInterstitialAdCoinList.loadAd(new AdRequest.Builder().build());
 
-        Toast.makeText(CoinList.this, mAdvertCounterCoinList + "", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(CoinList.this, mAdvertCounterCoinList + "", Toast.LENGTH_SHORT).show();
 
         mInterstitialAdCoinList.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 // Code to be executed when an ad finishes loading.
 
-                if (mAdvertCounterCoinList > 19) {
+                if (mAdvertCounterCoinList > 12) {
 
                     mInterstitialAdCoinList.show();
                     SharedPreferences.Editor editor = sharedAdvertCounterCoinList.edit();

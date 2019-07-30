@@ -1,4 +1,4 @@
-package com.samuelpuchala.corvus;
+package com.pelotheban.corvus;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,7 +13,6 @@ import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,7 +25,6 @@ import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -100,13 +98,14 @@ public class RefCollections extends AppCompatActivity {
         mAdvertCounter = sharedAdvertCounter.getInt("Counter", 0); // where if no settings
 
 
-        MobileAds.initialize(this, "ca-app-pub-1744081621312112~4434333836");
+        MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
         mInterstitialAd = new InterstitialAd(RefCollections.this);
         mInterstitialAd.setAdUnitId(getString(R.string.test_interstitial_ad));
+        //mInterstitialAd.setAdUnitId(getString(R.string.refcollections_interstitial_ad));
 
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
-        Toast.makeText(RefCollections.this, mAdvertCounter + "", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(RefCollections.this, mAdvertCounter + "", Toast.LENGTH_SHORT).show();
 
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
@@ -162,7 +161,7 @@ public class RefCollections extends AppCompatActivity {
         shadeX = findViewById(R.id.shade);
 
         //query for sorting; unlike in home page this will be hardwired for only sort by collection number; and the database ref is already hardcoded for my facebook account which will store the reference collections
-        DatabaseReference sortReference = mDatabase.child("nxv6pES4LtafP06zsjP3nzzjTht1")
+        DatabaseReference sortReference = mDatabase.child("vPlrYZXdGHgRotLma4OVopIRKY02")
                 .child("collections");
 
         Query sortQuery = sortReference.orderByChild("id");

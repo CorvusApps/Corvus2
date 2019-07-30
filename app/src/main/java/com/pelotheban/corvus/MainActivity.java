@@ -1,4 +1,4 @@
-package com.samuelpuchala.corvus;
+package com.pelotheban.corvus;
 
 import android.content.Intent;
 import android.os.Build;
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MobileAds.initialize(this, "ca-app-pub-1744081621312112~4434333836");
+        MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
 
         imgCoverR = findViewById(R.id.imgCover);
         txtPicMaskX = findViewById(R.id.txtPicMask);

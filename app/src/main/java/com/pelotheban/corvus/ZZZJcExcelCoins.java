@@ -1,35 +1,35 @@
-package com.samuelpuchala.corvus;
+package com.pelotheban.corvus;
 
-public class ZZZjcCoins {
+public class ZZZJcExcelCoins {
 
     private String personage;
     private String denomination;
     private String ricvar;
     private String weight;
     private String diameter;
-    private String imageLink;
-    private String coinuid;
-    private int id;
+
+
+    private String id;
     private String mint;
     private String obvdesc;
     private String obvleg;
     private String revdesc;
     private String revleg;
     private String provenance;
-    private int value;
+    private String value;
     private String notes;
 
 
 
 
-    public ZZZjcCoins(String personage, String denomination, String imageLink, String ricvar, String coinuid,
-                            String weight, String diameter, int id, String mint, String obvdesc, String obvleg,
-                      String revdesc, String revleg, String provenance, int value, String notes) {
+    public ZZZJcExcelCoins(String denomination, String diameter, String id,
+                      String mint, String notes, String obvdesc, String obvleg, String personage, String provenance,
+                      String revdesc, String revleg, String ricvar, String value, String weight) {
         this.personage = personage;
         this.denomination = denomination;
-        this.imageLink = imageLink;
+
         this.ricvar = ricvar;
-        this.coinuid = coinuid;
+
         this.weight = weight;
         this.diameter = diameter;
         this.id = id;
@@ -61,14 +61,6 @@ public class ZZZjcCoins {
         this.denomination = denomination;
     }
 
-    public String getImageLink() {
-        return imageLink;
-    }
-
-    public void setImageLink(String imageLink) {
-        this.imageLink = imageLink;
-    }
-
     public String getRicvar() {
         return ricvar;    }
 
@@ -77,13 +69,6 @@ public class ZZZjcCoins {
 
     }
 
-    public String getCoinuid() {
-        return coinuid;    }
-
-    public void setCoinuid(String coinuid) {
-        this.coinuid = coinuid;
-
-    }
     public String getWeight() {
         return weight;    }
 
@@ -99,12 +84,12 @@ public class ZZZjcCoins {
 
     }
 
-    public int getId() {
+    public String getId() {
 
         return id;
     }
 
-    public void setId (int id) {
+    public void setId (String id) {
         this.id = id;
     }
 
@@ -156,10 +141,10 @@ public class ZZZjcCoins {
 
     }
 
-    public int getValue() {
+    public String getValue() {
         return value;    }
 
-    public void setValue(int value) {
+    public void setValue(String value) {
         this.value = value;
 
     }
@@ -172,9 +157,7 @@ public class ZZZjcCoins {
 
     }
 
-
-
-    public ZZZjcCoins(){
+    public ZZZJcExcelCoins(){
 
     }
 

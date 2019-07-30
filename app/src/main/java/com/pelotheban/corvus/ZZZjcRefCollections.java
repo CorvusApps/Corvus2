@@ -1,4 +1,4 @@
-package com.samuelpuchala.corvus;
+package com.pelotheban.corvus;
 
 public class ZZZjcRefCollections {
 

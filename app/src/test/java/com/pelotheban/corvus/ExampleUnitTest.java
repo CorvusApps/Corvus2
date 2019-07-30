@@ -1,4 +1,4 @@
-package com.samuelpuchala.corvus;
+package com.pelotheban.corvus;
 
 import org.junit.Test;
 

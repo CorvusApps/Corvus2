@@ -163,7 +163,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
                         android:nextFocusForward="@+id/edtWeight"
-                        android:maxLength="10"/>
+                        android:maxLength="25"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
