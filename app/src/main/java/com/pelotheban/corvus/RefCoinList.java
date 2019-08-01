@@ -3,6 +3,7 @@ package com.pelotheban.corvus;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -120,7 +121,7 @@ public class RefCoinList extends AppCompatActivity {
         MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
         mInterstitialAdRefCoinList = new InterstitialAd(RefCoinList.this);
         mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
-       // mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.refcoinlist_interstitial_ad));
+       //mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.refcoinlist_interstitial_ad));
 
         mInterstitialAdRefCoinList.loadAd(new AdRequest.Builder().build());
 
@@ -348,7 +349,7 @@ public class RefCoinList extends AppCompatActivity {
                         editor.apply(); // saves the value
                         mAdvertCounterRefCoinList = mAdvertCounterRefCoinList + 1;
 
-                        if (mAdvertCounterRefCoinList > 19) {
+                        if (mAdvertCounterRefCoinList > 12) {
 
                             mInterstitialAdRefCoinList.show();
                             editor = sharedAdvertCounterRefCoinList.edit();
@@ -952,6 +953,14 @@ public class RefCoinList extends AppCompatActivity {
                     txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
                 }
 
+            }
+        });
+
+        //if dismissed in any way like a backbutton resets the view on HomePage to normal
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                shadeX.setVisibility(View.INVISIBLE);
             }
         });
 

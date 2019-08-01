@@ -830,6 +830,14 @@ public class RefCollections extends AppCompatActivity {
             }
         });
 
+        //if dismissed in any way like a backbutton resets the view on HomePage to normal
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                shadeX.setVisibility(View.INVISIBLE);
+            }
+        });
+
     }
 
     //////////////////////// END ------->>> FAQ & ONE TIME ////////////////////////////////////////////////////////////////

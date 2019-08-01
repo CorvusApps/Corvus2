@@ -47,32 +47,35 @@
 
                 <TextView
                     android:id="@+id/txtCardPersonage"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Septimius Severus"
                     android:textStyle="bold"
+                    android:layout_weight="1"
                     android:textSize="@dimen/_15sdp"
                     android:textColor="@color/darktext"
                     />
 
                 <TextView
                     android:id="@+id/txtCardDenomination"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_4sdp"
                     android:text="AE Sestertius"
                     android:textStyle="bold"
+                    android:layout_weight="1"
                     android:textSize="@dimen/_15sdp"
                     android:textColor="@color/darktext"
                     />
 
             <TextView
                 android:id="@+id/txtCardMint"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_12sdp"
                 android:text="Rome"
                 android:textStyle="bold"
+                android:layout_weight="1"
                 android:textSize="@dimen/_15sdp"
                 android:textColor="@color/darktext"
                 />

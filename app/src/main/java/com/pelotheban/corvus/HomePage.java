@@ -961,6 +961,7 @@ public class HomePage extends AppCompatActivity {
 
         shadeX.setVisibility(View.VISIBLE);
 
+
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
@@ -1124,6 +1125,15 @@ public class HomePage extends AppCompatActivity {
 
             }
         });
+
+        //if dismissed in any way like a backbutton resets the view on HomePage to normal
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                shadeX.setVisibility(View.INVISIBLE);
+            }
+        });
+
 
     }
 

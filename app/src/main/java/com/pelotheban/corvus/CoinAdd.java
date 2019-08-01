@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -1426,6 +1427,14 @@ public class CoinAdd extends AppCompatActivity {
                     txtFAQCoinListX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
                 }
 
+            }
+        });
+
+        //if dismissed in any way like a backbutton resets the view on HomePage to normal
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                shadeX.setVisibility(View.INVISIBLE);
             }
         });
 
