@@ -51,7 +51,7 @@ public class Excel extends AppCompatActivity {
 
     // Needed for upload to Firebase
 
-    int RIC3, Value3;
+    int RIC3, Value3, SortRIC3;
     int  cAddItemCountX, cAddColValueX;
 
 
@@ -386,14 +386,16 @@ public class Excel extends AppCompatActivity {
                 String value = columns[12];
                 String weight = columns[13];
 
-                String cellInfo = "(denomination, diamter, id, mint, notes, obvdesc, obvleg, personage, provenance, revdesc, revleg, ricvar, value, weight)" +
+                String sortric = columns[14];
+
+                String cellInfo = "(denomination, diamter, id, mint, notes, obvdesc, obvleg, personage, provenance, revdesc, revleg, ricvar, value, weight, stringric)" +
                         ": (" + denomination + "," + diameter + ", " + id + ", " + mint + ", " + notes + ", " + obvdesc + ", " + obvleg + ", " + personage + "" +
-                        ", " + provenance + ", " + revdesc + ", " + revleg + ", " + ricvar + ", " + value + ", " + weight + ",)";
+                        ", " + provenance + ", " + revdesc + ", " + revleg + ", " + ricvar + ", " + value + ", " + weight + ", " + sortric + ",)";
 
                 Log.d(TAG, "ParseStringBuilder: Data from row: " + cellInfo);
 
                 //add the the uploadData ArrayList
-                uploadData.add(new ZZZJcExcelCoins(denomination, diameter, id, mint, notes,obvdesc, obvleg, personage, provenance, revdesc, revleg, ricvar, value, weight));
+                uploadData.add(new ZZZJcExcelCoins(denomination, diameter, id, mint, notes,obvdesc, obvleg, personage, provenance, revdesc, revleg, ricvar, value, weight, sortric));
 
             }catch (NumberFormatException e){
 
@@ -425,9 +427,10 @@ public class Excel extends AppCompatActivity {
             String ricvar = uploadData.get(i).getRicvar();
             String value = uploadData.get(i).getValue();
             String weight = uploadData.get(i).getWeight();
+            String sortric = uploadData.get(i).getSortric();
 
-            Log.d(TAG, "printDataToLog: (denomination, diamter, id, mint, notes, obvdesc, obvleg, personage, provenance, revdesc, revleg, ricvar, value, weight): (" + denomination + "," + diameter + ", " + id + ", " + mint + ", " + notes + ", " + obvdesc + ", " + obvleg + ", " + personage + "" +
-                    ", " + provenance + ", " + revdesc + ", " + revleg + ", " + ricvar + ", " + value + ", " + weight + ")");
+            Log.d(TAG, "printDataToLog: (denomination, diamter, id, mint, notes, obvdesc, obvleg, personage, provenance, revdesc, revleg, ricvar, value, weight, sortric): (" + denomination + "," + diameter + ", " + id + ", " + mint + ", " + notes + ", " + obvdesc + ", " + obvleg + ", " + personage + "" +
+                    ", " + provenance + ", " + revdesc + ", " + revleg + ", " + ricvar + ", " + value + ", " + weight + ", " + sortric + ")");
 
             String uid = FirebaseAuth.getInstance().getUid();
 
@@ -445,6 +448,9 @@ public class Excel extends AppCompatActivity {
             RIC3 = (int)(Math.round(RIC2));// getting id to be an int before uploading so sorting works well
             Float Value2 = Float.parseFloat(String.valueOf(value));
             Value3 = (int)(Math.round(Value2));// getting Value to be an int before uploading so sorting works well
+            Float SortRIC2 = Float.parseFloat(String.valueOf(sortric));
+            SortRIC3 = (int)(Math.round(SortRIC2));// getting sortRIC to be an int before uploading so sorting works well
+
 
             HashMap<String, Object> dataMap = new HashMap<>();
 
@@ -478,7 +484,13 @@ public class Excel extends AppCompatActivity {
             dataMap.put("obvleg", obvleg);
             dataMap.put("revdesc", revdesc);
             dataMap.put("revleg", revleg);
-            dataMap.put("provenance", provenance);
+
+            if (provenance.equals("x")) {
+
+            } else {
+                dataMap.put("provenance", provenance);
+            }
+
             dataMap.put("value", Value3);
 
             if (notes.equals("x")) {
@@ -488,6 +500,8 @@ public class Excel extends AppCompatActivity {
             }
 
             dataMap.put("timestamp", timestampX);
+
+            dataMap.put("sortric", SortRIC3);
 
             //////
             dataMap.put("coinuid", coinuidX); // the unique coin UID which we can then use to link back to this coin

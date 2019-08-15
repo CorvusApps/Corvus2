@@ -19,12 +19,14 @@ public class ZZZJcExcelCoins {
     private String value;
     private String notes;
 
+    private String sortric;
+
 
 
 
     public ZZZJcExcelCoins(String denomination, String diameter, String id,
                       String mint, String notes, String obvdesc, String obvleg, String personage, String provenance,
-                      String revdesc, String revleg, String ricvar, String value, String weight) {
+                      String revdesc, String revleg, String ricvar, String value, String weight, String sortric) {
         this.personage = personage;
         this.denomination = denomination;
 
@@ -41,6 +43,8 @@ public class ZZZJcExcelCoins {
         this.provenance = provenance;
         this.value = value;
         this.notes = notes;
+
+        this.sortric = sortric;
 
 
     }
@@ -154,6 +158,14 @@ public class ZZZJcExcelCoins {
 
     public void setNotes(String notes) {
         this.notes = notes;
+
+    }
+
+    public String getSortric() {
+        return sortric;    }
+
+    public void setSortric(String sortric) {
+        this.value = sortric;
 
     }
 

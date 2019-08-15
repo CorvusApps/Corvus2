@@ -853,6 +853,8 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             public void onFailure(@NonNull Exception e) {
 
                 Toast.makeText(CollectionAdd.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                // don't stall even if something goes wrong with delete - it will just leave a dangling pic
+                uploadNewImg();
             }
         });
 

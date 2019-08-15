@@ -208,11 +208,11 @@ public class RefCoinList extends AppCompatActivity {
 
         //Shared preferences for sorting
         sortRefSharedPrefCoins = getSharedPreferences("SortSetting3", MODE_PRIVATE);
-        String mSorting2 = sortRefSharedPrefCoins.getString("Sort2", "ric"); // where if no settings
+        String mSorting2 = sortRefSharedPrefCoins.getString("Sort2", "sortric"); // where if no settings - so here in refcoins it defaults to this
 
-        if(mSorting2.equals("ric")) {
+        if(mSorting2.equals("sortric")) {
 
-            sortRefQueryCoins = coinRefDatabase.orderByChild("id");
+            sortRefQueryCoins = coinRefDatabase.orderByChild("sortric");
             layoutManagerCoins = new LinearLayoutManager(this);
             layoutManagerCoins.setReverseLayout(false);
 

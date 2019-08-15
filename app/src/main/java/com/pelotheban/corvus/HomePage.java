@@ -760,6 +760,7 @@ public class HomePage extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
 
+                    collectionDeletedSnackbar();
                     Toast.makeText(HomePage.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });

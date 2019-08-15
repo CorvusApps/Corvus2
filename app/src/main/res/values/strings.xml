@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Corvus2</string>
+    <string name="app_name">Corvus</string>
 
     <string name="facebook_app_id">484097268816754</string>
     <string name="fb_login_protocol_scheme">fb484097268816754</string>

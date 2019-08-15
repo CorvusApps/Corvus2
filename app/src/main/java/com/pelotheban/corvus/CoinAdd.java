@@ -85,7 +85,7 @@ public class CoinAdd extends AppCompatActivity {
 
     // UI components and intermediate variables to manipulate them
     private EditText edtPersonageX, edtRICX, edtDenominationX, edtRICvarX, edtWeightX, edtDiamaterX, edtMintX, edtObvDescX
-            , edtObvLegendX, edtRevDescX, edtRevLegendX, edtProvenanceX, edtValueX, edtNotesX;
+            , edtObvLegendX, edtRevDescX, edtRevLegendX, edtProvenanceX, edtValueX, edtNotesX, edtSortRICX;
     private ImageView imgCoinAddX;
     private CoordinatorLayout loutCoinAddActLOX; // the layout needed as context by snackbars
 
@@ -97,6 +97,7 @@ public class CoinAdd extends AppCompatActivity {
 
     int RIC3; // interim variable used to manipulate the RIC as integer before loading to Firebase
     int Value3; // same as above but for Value
+    int sortRIC3; // same as above but for sortRIC
 
     private ImageView imgRICvarInfoX; // clickable image to open info on RICvar
 
@@ -121,6 +122,7 @@ public class CoinAdd extends AppCompatActivity {
     // need thsese in modify inside if statements so have to make them instance here; used to make sure 0 values go to firebase if RIC or value are ""
     int updateRIC2;
     int updateValue2;
+    int updateSortRIC2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,6 +210,9 @@ public class CoinAdd extends AppCompatActivity {
         edtNotesX = findViewById(R.id.edtNotes);
         edtNotesX.setImeOptions(EditorInfo.IME_ACTION_DONE);
         edtNotesX.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
+        //putting the sortRIC outside of the tabbing logic above because only for admin vs. users
+        edtSortRICX = findViewById(R.id.edtSortRIC);
 
         loutCoinAddActLOX = findViewById(R.id.loutCoinAddActLO); // the layout needed as context by snackbars
 
@@ -635,6 +640,20 @@ public class CoinAdd extends AppCompatActivity {
 
         }
 
+        /// converting sortRIC input into integer or setting to zero to avoid crash if left empty
+
+        if(edtSortRICX.getText().toString().equals("")) {
+
+            sortRIC3 = 0;
+
+        } else {
+
+            String sortRIC2 = edtSortRICX.getText().toString();
+            sortRIC3 = Integer.parseInt(sortRIC2);// getting sortRIC to be an int before uploading so sorting works well
+
+        }
+
+
         HashMap<String, Object> dataMap = new HashMap<>();
 
         dataMap.put("personage", edtPersonageX.getText().toString());
@@ -656,6 +675,8 @@ public class CoinAdd extends AppCompatActivity {
         dataMap.put("notes", edtNotesX.getText().toString());
 
         dataMap.put("timestamp", timestampX);
+
+        dataMap.put("sortric",sortRIC3);
 
         //////
         dataMap.put("coinuid", coinuidX); // the unique coin UID which we can then use to link back to this coin
@@ -808,8 +829,6 @@ public class CoinAdd extends AppCompatActivity {
         }
     }
 
-
-
     //takes the image we got from the Gallery, manipulates it and sets it to the clickable imageView
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -885,8 +904,6 @@ public class CoinAdd extends AppCompatActivity {
 
     private void deletePreviousImage() {
 
-
-
         StorageReference mPictureReference = FirebaseStorage.getInstance().getReferenceFromUrl(coinImageLinkRec);
 
         mPictureReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -902,6 +919,9 @@ public class CoinAdd extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+
+               // going to upload even if old not deleted to avoid getting trapped with a broken image link and no way to fix it
+                uploadNewImg();
 
                 Toast.makeText(CoinAdd.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -1005,6 +1025,16 @@ public class CoinAdd extends AppCompatActivity {
 
         final String updateNotes = edtNotesX.getText().toString();
 
+        final String updateSortRIC = edtSortRICX.getText().toString();
+        if (updateSortRIC.equals("")) {
+            updateSortRIC2 = 0;
+        } else {
+
+            updateSortRIC2 = Integer.parseInt(updateSortRIC);// getting id to be an int before uploading so sorting work well
+        }
+        // to avoid 0 populating the edit text set it to "" if 0 comes down from firebase into modify; now need to put it back to 0 to load up so other if statements don't crash on null value
+
+
 
         //This points to what needs to be updated versus setting up a new upload
 
@@ -1044,6 +1074,8 @@ public class CoinAdd extends AppCompatActivity {
                     ds.getRef().child("value").setValue(updateValue2);
                     ds.getRef().child("notes").setValue(updateNotes);
 
+                    ds.getRef().child("sortric").setValue(updateSortRIC2);
+
                     ds.getRef().child("timestamp").setValue(timestampCoinX);
                     ds.getRef().child("imageLink").setValue(imageLink);
                     ds.getRef().child("uid").setValue(imageIdentifier);
@@ -1068,34 +1100,54 @@ public class CoinAdd extends AppCompatActivity {
                                 ds3.getRef().child("colvalue").setValue(colValueRec); // only change coll value don't need item count because in modify not changing number of coins
 
                                 ds3.getRef().child("sortcolvalue").setValue(sortColValue);
+
+                                pd.dismiss();
+                                coinLoadSnackbar();
+
+
+                                new CountDownTimer(3000, 500) {
+
+                                    public void onTick(long millisUntilFinished) {
+                                        // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+                                    }
+
+                                    public void onFinish() {
+                                        Intent intent = new Intent(CoinAdd.this, CoinList.class);
+                                        intent.putExtra("coluid", colUIDRec);
+                                        intent.putExtra("title", colTitleRec);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }.start();
                             }
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
+                            pd.dismiss();
+                            Toast.makeText(CoinAdd.this, "Upload fail" + databaseError.toString(),Toast.LENGTH_LONG).show();
 
                         }
                     });
 
                     /////////////////////////////////////////////////////////
 
-                    pd.dismiss();
-                    coinLoadSnackbar();
 
-                    new CountDownTimer(3000, 500) {
 
-                        public void onTick(long millisUntilFinished) {
-                            // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
-                        }
-
-                        public void onFinish() {
-                            Intent intent = new Intent(CoinAdd.this, CoinList.class);
-                            intent.putExtra("coluid", colUIDRec);
-                            intent.putExtra("title", colTitleRec);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }.start();
+//                    new CountDownTimer(3000, 500) {
+//
+//                        public void onTick(long millisUntilFinished) {
+//                            // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+//                        }
+//
+//                        public void onFinish() {
+//                            Intent intent = new Intent(CoinAdd.this, CoinList.class);
+//                            intent.putExtra("coluid", colUIDRec);
+//                            intent.putExtra("title", colTitleRec);
+//                            startActivity(intent);
+//                            finish();
+//                        }
+//                    }.start();
                 }
             }
 

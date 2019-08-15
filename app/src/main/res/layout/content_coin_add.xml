@@ -70,7 +70,7 @@
                         android:id="@+id/edtPersonage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="25"
+                        android:maxLength="30"
                         android:inputType="textMultiLine"
                         android:nextFocusForward="@+id/edtDenomination"
 
@@ -357,6 +357,31 @@
             </LinearLayout>
 
             <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Notes">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:inputType="textMultiLine"
+
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_5sdp"
@@ -366,20 +391,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Notes">
+                    android:hint="Sort RIC">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtNotes"
+                        android:id="@+id/edtSortRIC"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
-                        android:inputType="textMultiLine"
+                        android:visibility="visible"
+                        android:inputType="number"
 
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
+
+
+
         </LinearLayout>
 
     </ScrollView>
