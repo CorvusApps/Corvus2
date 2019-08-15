@@ -400,6 +400,13 @@
             android:visibility="gone"
             android:text="TextView" />
 
+        <TextView
+            android:id="@+id/txtCardSortRIC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:text="TextView" />
+
 
 
     </LinearLayout>

@@ -109,14 +109,14 @@ public class CoinAdd extends AppCompatActivity {
     private String imageLink; // created by Firebase when image uploaded
     private FirebaseAuth coinAddFirebaseAuth;
 
-    //variables to recieve inputs from modify coin method from expanded collectio dialog in homepage
+    //variables to recieve inputs from modify coin method from CoinList
     private String coinUIDRec, coinPersonageRec, coinDenominationRec, coinMintRec, coinRICvarRec, coinWeightRec, coinDiameterRec, coinObvDescRec
             ,coinObvLegRec, coinRevDescRec, coinRevLegRec, coinProvenanceRec, coinNotesRec, coinImageLinkRec;
 
     private String colUIDRec; //col uid we get from coin list versus homepage
     private String colTitleRec; //col title we get from coin list versus homepage
     private int colValueRec; // col value we get from coin list
-    private int coinRICRec, coinValueRec;
+    private int coinRICRec, coinValueRec, coinSortRICRec;
     private String modify; // toggle to whether we are saving a new collection or modifying existing
 
     // need thsese in modify inside if statements so have to make them instance here; used to make sure 0 values go to firebase if RIC or value are ""
@@ -297,9 +297,12 @@ public class CoinAdd extends AppCompatActivity {
             coinValueRec = getIntent().getIntExtra("value", 0);
             coinNotesRec = getIntent().getStringExtra("notes");
 
+            coinSortRICRec = getIntent().getIntExtra("sortric", 0);
+
             coinImageLinkRec = getIntent().getStringExtra("imageLink");
 
             colValueRec = getIntent().getIntExtra("colvalue", 0);
+
 
 
             //populate the input views with existing value
@@ -333,6 +336,13 @@ public class CoinAdd extends AppCompatActivity {
                 edtValueX.setText("");
             } else {
                 edtValueX.setText(coinValueRec2);
+            }
+            //will this give us a NULL pointer exception if there is NO value for sort ric?
+            String coinSortRIC2 = String.valueOf(coinSortRICRec);
+            if (coinSortRIC2.equals("0"))  {
+                edtSortRICX.setText("");
+            } else {
+                edtSortRICX.setText(coinSortRIC2);
             }
 
 

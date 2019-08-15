@@ -18,13 +18,14 @@ public class ZZZjcCoins {
     private String provenance;
     private int value;
     private String notes;
+    private int sortric;
 
 
 
 
     public ZZZjcCoins(String personage, String denomination, String imageLink, String ricvar, String coinuid,
                             String weight, String diameter, int id, String mint, String obvdesc, String obvleg,
-                      String revdesc, String revleg, String provenance, int value, String notes) {
+                      String revdesc, String revleg, String provenance, int value, String notes, int sortric) {
         this.personage = personage;
         this.denomination = denomination;
         this.imageLink = imageLink;
@@ -41,6 +42,7 @@ public class ZZZjcCoins {
         this.provenance = provenance;
         this.value = value;
         this.notes = notes;
+        this.sortric = sortric;
 
 
     }
@@ -169,6 +171,14 @@ public class ZZZjcCoins {
 
     public void setNotes(String notes) {
         this.notes = notes;
+
+    }
+
+    public int getSortric() {
+        return sortric;    }
+
+    public void setSortric(int sortric) {
+        this.sortric = sortric;
 
     }
 

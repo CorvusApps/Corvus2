@@ -91,7 +91,7 @@ public class CoinList extends AppCompatActivity {
 
     private String coinPersonageY, coinDenominationY, coinMintY, coinRICvarY, coinWeightY, coinDiameterY, coinObvDescY, coinObvLegY, coinRevDescY
             , coinRevLegY, coinProvenanceY,coinNotesY, coinImageLinkY, coinUIDY;
-    private int coinRICY,  coinValueY;
+    private int coinRICY,  coinValueY, coinSortRICY;
 
     //need to get imageLink before removing the values so can delete it later
     private String deleteImageLink;
@@ -194,6 +194,7 @@ public class CoinList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                //transfers info to Excel class so it can upload to the right collection and update values and counts
                 Intent intent = new Intent(CoinList.this, Excel.class);
                 intent.putExtra("coluid", cListuid);
                 intent.putExtra("title", cListColName);
@@ -373,6 +374,8 @@ public class CoinList extends AppCompatActivity {
                 viewHolder.setValue(model.getValue());
                 viewHolder.setNotes(model.getNotes());
 
+                viewHolder.setSortric(model.getSortric());
+
                 viewHolder.setCoinuid(model.getCoinuid()); //so ridiculous the get and set functions have to be the same name as the variable like coluid = setColuid wtf
                 viewHolder.setImageLink(model.getImageLink());
 
@@ -532,6 +535,8 @@ public class CoinList extends AppCompatActivity {
                         TextView txtCardValueUnformattedX = view.findViewById(R.id.txtCardValueUnformatted);
                         TextView txtNotesX = view.findViewById(R.id.txtNotes);
 
+                        TextView txtCardSortRICX = view.findViewById(R.id.txtCardSortRIC);
+
                         TextView txtCoinUIDX = view.findViewById(R.id.txtCardCoinUid);
                         TextView txtImageLinkX = view.findViewById(R.id.txtCardImgLink);
 
@@ -565,6 +570,9 @@ public class CoinList extends AppCompatActivity {
 
                         String coinValueYpre = txtCardValueUnformattedX.getText().toString(); // using the hiddend unformatted value because convert back to integer with a coma
                         coinValueY = Integer.parseInt(coinValueYpre);
+
+                        String coinSortRICYpre = txtCardSortRICX.getText().toString();
+                        coinSortRICY = Integer.parseInt(coinSortRICYpre);
 
                         modifyCoinActivity();
 
@@ -823,6 +831,16 @@ public class CoinList extends AppCompatActivity {
 
         }
 
+        public void setSortric(int sortric) {
+            TextView txtCardSortRICX = (TextView)mView.findViewById(R.id.txtCardSortRIC);
+            String sortric2 = String.valueOf(sortric);
+
+            txtCardSortRICX.setText(sortric2);
+
+
+
+        }
+
         // Custom built onItemClickListener for the recycler view; seems to cover LongClick as well
         ////////////////////////////////////////////////////////////////////////////////////////
         //Listen to the video as this is a bit confusing
@@ -952,6 +970,8 @@ public class CoinList extends AppCompatActivity {
         intent.putExtra("provenance", coinProvenanceY);
         intent.putExtra("value", coinValueY);
         intent.putExtra("notes", coinNotesY);
+
+        intent.putExtra("sortric", coinSortRICY);
 
         intent.putExtra("imageLink", coinImageLinkY);
 
