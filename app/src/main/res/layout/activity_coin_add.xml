@@ -23,9 +23,76 @@
 
         android:src="@drawable/menu"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnPopUp2CoinAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="0dp"
+
+        app:borderWidth="0dp"
+        android:visibility="visible"
+        android:src="@drawable/collapse_white"/>
+
+
+    <TextView
+        android:id="@+id/txtRefCoinsButton2CoinAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="130dp"
+        android:layout_marginRight="70dp"
+        android:text="Reference Coins"
+        android:gravity="right"
+        android:elevation="10dp"
+        android:visibility="visible"
+        android:textColor="#FFFFFF"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabCoinSave"
+        android:id="@+id/fbtnMiniRefCollections2CoinAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="64dp"
+
+        android:backgroundTint="@color/colorAccentLight"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/ref_collections"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnMiniFAQ2CoinAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="104dp"
+        android:backgroundTint="@color/colorAccentLight"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/faq"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnMiniLogout2CoinAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="144dp"
+
+        android:backgroundTint="@color/colorAccentLight"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/logout"/>
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCoinSave2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"

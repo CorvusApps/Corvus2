@@ -1,5 +1,6 @@
 package com.pelotheban.corvus;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -70,6 +71,11 @@ public class HomePage extends AppCompatActivity {
 
     private FloatingActionButton fbtnPopUpMenuHomePageX;
 
+    // components for new FAB based pop-up menu
+    private FloatingActionButton fbtnPopUp2HomePageX, fbtnMiniSortCollectionX, fbtnMiniRefCollectionsX, fbtnMiniFAQX, fbtnMiniLogoutX;
+    private TextView txtSortButtonX, txtRefCoinsButtonX, txtFAQButtonX, txtLogoutButtonX;
+    private String popupMenuToggle; // need this to know menu state so things like back press and card press buttons do their regular function or toggle the menu
+
     //creating instance variables that can be used to pass info to the collection detail dialog
     private Bitmap colBitmap;
     private String colTitleY;
@@ -100,6 +106,7 @@ public class HomePage extends AppCompatActivity {
     Query sortQuery;
 
     @Override
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
@@ -118,6 +125,29 @@ public class HomePage extends AppCompatActivity {
 
         // custom view to use as a shade behind custom dialogs
         shadeX = findViewById(R.id.shade);
+
+        //setting this up so when we have our FAB popup menu clicking anywhere on the scrreen will turn it off
+        shadeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fbtnPopUpMenuHomePageX.setVisibility(View.VISIBLE);
+                fbtnPopUp2HomePageX.setVisibility(View.GONE);
+                fbtnMiniSortCollectionX.setVisibility(View.GONE);
+                fbtnMiniRefCollectionsX.setVisibility(View.GONE);
+                fbtnMiniFAQX.setVisibility(View.GONE);
+                fbtnMiniLogoutX.setVisibility(View.GONE);
+
+                txtSortButtonX.setVisibility(View.GONE);
+                txtRefCoinsButtonX.setVisibility(View.GONE);
+                txtFAQButtonX.setVisibility(View.GONE);
+                txtLogoutButtonX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+            }
+        });
 
 
         //query for sorting see notes below
@@ -196,10 +226,28 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                showPopupMenuHomePage(view, true, R.style.MyPopupOtherStyle);
+                // showPopupMenuHomePage(view, true, R.style.MyPopupOtherStyle);
+
+                showNewFABbasedMenu();
 
             }
         });
+
+        // FABs and TXTs for new pop up menu components
+
+        popupMenuToggle = "Not";
+
+        fbtnPopUp2HomePageX = findViewById(R.id.fbtnPopUp2HomePage);
+        fbtnMiniSortCollectionX = findViewById(R.id.fbtnMiniSortCollection);
+        fbtnMiniRefCollectionsX = findViewById(R.id.fbtnMiniRefCollections);
+        fbtnMiniFAQX = findViewById(R.id.fbtnMiniFAQ);
+        fbtnMiniLogoutX = findViewById(R.id.fbtnMiniLogout);
+
+        txtSortButtonX = findViewById(R.id.txtSortButton);
+        txtRefCoinsButtonX = findViewById(R.id.txtRefCoinsButton);
+        txtFAQButtonX = findViewById(R.id.txtFAQButton);
+        txtLogoutButtonX = findViewById(R.id.txtLogoutButton);
+
 
         // The Code setting out recycler view /////////////////////////////////////////////////////////////////
         // The tutorial had this section of code through to setAdapter in separate on Start Method but for StaggeredGrid that seemed to cause the recycler view to be destroyed and not come back once we moved off the screen works fine here
@@ -788,6 +836,159 @@ public class HomePage extends AppCompatActivity {
 
     ///////////////////////// START ----->>> POP-UP ////////////////////////////////////////////////////////////////////
 
+    /////////////////// Start-New Pop up Version //////////////////////////////////////////////////////////////////////
+
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
+    private void showNewFABbasedMenu() {
+
+        popupMenuToggle = "pressed";
+
+
+        fbtnPopUpMenuHomePageX.setVisibility(View.GONE);
+        fbtnPopUp2HomePageX.setVisibility(View.VISIBLE);
+        fbtnMiniSortCollectionX.setVisibility(View.VISIBLE);
+        fbtnMiniRefCollectionsX.setVisibility(View.VISIBLE);
+        fbtnMiniFAQX.setVisibility(View.VISIBLE);
+        fbtnMiniLogoutX.setVisibility(View.VISIBLE);
+
+        txtSortButtonX.setVisibility(View.VISIBLE);
+        txtRefCoinsButtonX.setVisibility(View.VISIBLE);
+        txtFAQButtonX.setVisibility(View.VISIBLE);
+        txtLogoutButtonX.setVisibility(View.VISIBLE);
+
+        shadeX.setVisibility(View.VISIBLE);
+
+        fbtnPopUp2HomePageX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fbtnPopUpMenuHomePageX.setVisibility(View.VISIBLE);
+                fbtnPopUp2HomePageX.setVisibility(View.GONE);
+                fbtnMiniSortCollectionX.setVisibility(View.GONE);
+                fbtnMiniRefCollectionsX.setVisibility(View.GONE);
+                fbtnMiniFAQX.setVisibility(View.GONE);
+                fbtnMiniLogoutX.setVisibility(View.GONE);
+
+                txtSortButtonX.setVisibility(View.GONE);
+                txtRefCoinsButtonX.setVisibility(View.GONE);
+                txtFAQButtonX.setVisibility(View.GONE);
+                txtLogoutButtonX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+            }
+        });
+
+        fbtnMiniSortCollectionX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                alertDialogSortCollections();
+
+                fbtnPopUpMenuHomePageX.setVisibility(View.VISIBLE);
+                fbtnPopUp2HomePageX.setVisibility(View.GONE);
+                fbtnMiniSortCollectionX.setVisibility(View.GONE);
+                fbtnMiniRefCollectionsX.setVisibility(View.GONE);
+                fbtnMiniFAQX.setVisibility(View.GONE);
+                fbtnMiniLogoutX.setVisibility(View.GONE);
+
+                txtSortButtonX.setVisibility(View.GONE);
+                txtRefCoinsButtonX.setVisibility(View.GONE);
+                txtFAQButtonX.setVisibility(View.GONE);
+                txtLogoutButtonX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+            }
+        });
+
+        fbtnMiniRefCollectionsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(HomePage.this, RefCollections.class);
+                startActivity(intent);
+                popupMenuToggle = "Not";
+            }
+        });
+
+        fbtnMiniFAQX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fbtnPopUpMenuHomePageX.setVisibility(View.VISIBLE);
+                fbtnPopUp2HomePageX.setVisibility(View.GONE);
+                fbtnMiniSortCollectionX.setVisibility(View.GONE);
+                fbtnMiniRefCollectionsX.setVisibility(View.GONE);
+                fbtnMiniFAQX.setVisibility(View.GONE);
+                fbtnMiniLogoutX.setVisibility(View.GONE);
+
+                txtSortButtonX.setVisibility(View.GONE);
+                txtRefCoinsButtonX.setVisibility(View.GONE);
+                txtFAQButtonX.setVisibility(View.GONE);
+                txtLogoutButtonX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+                faqDialogView();
+
+            }
+        });
+
+        fbtnMiniLogoutX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fbtnPopUpMenuHomePageX.setVisibility(View.VISIBLE);
+                fbtnPopUp2HomePageX.setVisibility(View.GONE);
+                fbtnMiniSortCollectionX.setVisibility(View.GONE);
+                fbtnMiniRefCollectionsX.setVisibility(View.GONE);
+                fbtnMiniFAQX.setVisibility(View.GONE);
+                fbtnMiniLogoutX.setVisibility(View.GONE);
+
+                txtSortButtonX.setVisibility(View.GONE);
+                txtRefCoinsButtonX.setVisibility(View.GONE);
+                txtFAQButtonX.setVisibility(View.GONE);
+                txtLogoutButtonX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+                //Confirm the user wants to logout and execute
+                alertDialogLogOut();
+
+            }
+        });
+
+
+    }
+
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
+    public void homepageLayoutTapped(View view) {
+
+        fbtnPopUpMenuHomePageX.setVisibility(View.VISIBLE);
+        fbtnPopUp2HomePageX.setVisibility(View.GONE);
+        fbtnMiniSortCollectionX.setVisibility(View.GONE);
+        fbtnMiniRefCollectionsX.setVisibility(View.GONE);
+        fbtnMiniFAQX.setVisibility(View.GONE);
+        fbtnMiniLogoutX.setVisibility(View.GONE);
+
+        txtSortButtonX.setVisibility(View.GONE);
+        txtRefCoinsButtonX.setVisibility(View.GONE);
+        txtFAQButtonX.setVisibility(View.GONE);
+        txtLogoutButtonX.setVisibility(View.GONE);
+
+        shadeX.setVisibility(View.GONE);
+        popupMenuToggle = "Not";
+
+    }
+
+    /////////////////// END-New Pop up Version //////////////////////////////////////////////////////////////////////
+
+    /////////////////// Start-OLD Pop up Version //////////////////////////////////////////////////////////////////////
+
     // Main popup menu functionality called when popup menu FAB pressed
     private void showPopupMenuHomePage(View anchor, boolean isWithIcons, int style) {
         //init the wrapper with style
@@ -1206,37 +1407,62 @@ public class HomePage extends AppCompatActivity {
 
     // On pressing back from home page given choice to exit app or ignore back command; calls a dialog
     @Override
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     public void onBackPressed() {
 
+        // popup Menu Toggle
 
-        //Everything in this method is code for a custom dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
 
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
+        if(popupMenuToggle.equals("pressed")) {
 
-        dialog.show();
+            fbtnPopUpMenuHomePageX.setVisibility(View.VISIBLE);
+            fbtnPopUp2HomePageX.setVisibility(View.GONE);
+            fbtnMiniSortCollectionX.setVisibility(View.GONE);
+            fbtnMiniRefCollectionsX.setVisibility(View.GONE);
+            fbtnMiniFAQX.setVisibility(View.GONE);
+            fbtnMiniLogoutX.setVisibility(View.GONE);
 
-        Button btnYesX = view.findViewById(R.id.btnYes);
-        btnYesX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            txtSortButtonX.setVisibility(View.GONE);
+            txtRefCoinsButtonX.setVisibility(View.GONE);
+            txtFAQButtonX.setVisibility(View.GONE);
+            txtLogoutButtonX.setVisibility(View.GONE);
 
-                finishAffinity();
-                System.exit(0);
+            shadeX.setVisibility(View.GONE);
+            popupMenuToggle = "Not";
 
-            }
-        });
+        } else {
 
-        Button btnNoX = view.findViewById(R.id.btnNo);
-        btnNoX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+
+            //Everything in this method is code for a custom dialog
+            LayoutInflater inflater = LayoutInflater.from(this);
+            View view = inflater.inflate(R.layout.zzz_dialog_addpic, null);
+
+            dialog = new AlertDialog.Builder(this)
+                    .setView(view)
+                    .create();
+
+            dialog.show();
+
+            Button btnYesX = view.findViewById(R.id.btnYes);
+            btnYesX.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    finishAffinity();
+                    System.exit(0);
+
+                }
+            });
+
+            Button btnNoX = view.findViewById(R.id.btnNo);
+            btnNoX.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+        }
 
     }
 
