@@ -965,25 +965,25 @@ public class HomePage extends AppCompatActivity {
 
     }
 
-    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
-    public void homepageLayoutTapped(View view) {
-
-        fbtnPopUpMenuHomePageX.setVisibility(View.VISIBLE);
-        fbtnPopUp2HomePageX.setVisibility(View.GONE);
-        fbtnMiniSortCollectionX.setVisibility(View.GONE);
-        fbtnMiniRefCollectionsX.setVisibility(View.GONE);
-        fbtnMiniFAQX.setVisibility(View.GONE);
-        fbtnMiniLogoutX.setVisibility(View.GONE);
-
-        txtSortButtonX.setVisibility(View.GONE);
-        txtRefCoinsButtonX.setVisibility(View.GONE);
-        txtFAQButtonX.setVisibility(View.GONE);
-        txtLogoutButtonX.setVisibility(View.GONE);
-
-        shadeX.setVisibility(View.GONE);
-        popupMenuToggle = "Not";
-
-    }
+//    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
+//    public void homepageLayoutTapped(View view) {
+//
+//        fbtnPopUpMenuHomePageX.setVisibility(View.VISIBLE);
+//        fbtnPopUp2HomePageX.setVisibility(View.GONE);
+//        fbtnMiniSortCollectionX.setVisibility(View.GONE);
+//        fbtnMiniRefCollectionsX.setVisibility(View.GONE);
+//        fbtnMiniFAQX.setVisibility(View.GONE);
+//        fbtnMiniLogoutX.setVisibility(View.GONE);
+//
+//        txtSortButtonX.setVisibility(View.GONE);
+//        txtRefCoinsButtonX.setVisibility(View.GONE);
+//        txtFAQButtonX.setVisibility(View.GONE);
+//        txtLogoutButtonX.setVisibility(View.GONE);
+//
+//        shadeX.setVisibility(View.GONE);
+//        popupMenuToggle = "Not";
+//
+//    }
 
     /////////////////// END-New Pop up Version //////////////////////////////////////////////////////////////////////
 
@@ -1411,7 +1411,6 @@ public class HomePage extends AppCompatActivity {
     public void onBackPressed() {
 
         // popup Menu Toggle
-
 
         if(popupMenuToggle.equals("pressed")) {
 

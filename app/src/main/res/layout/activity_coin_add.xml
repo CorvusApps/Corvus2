@@ -31,26 +31,12 @@
         android:layout_marginTop="0dp"
 
         app:borderWidth="0dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:src="@drawable/collapse_white"/>
 
 
-    <TextView
-        android:id="@+id/txtRefCoinsButton2CoinAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:layout_marginTop="130dp"
-        android:layout_marginRight="70dp"
-        android:text="Reference Coins"
-        android:gravity="right"
-        android:elevation="10dp"
-        android:visibility="visible"
-        android:textColor="#FFFFFF"
-        />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fbtnMiniRefCollections2CoinAdd"
+        android:id="@+id/fbtnMiniRefCollectionsCoinAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
@@ -92,7 +78,7 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabCoinSave2"
+        android:id="@+id/fabCoinSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"

@@ -1,6 +1,7 @@
 package com.pelotheban.corvus;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -83,7 +84,16 @@ public class CoinAdd extends AppCompatActivity {
     private int cAddItemCountX;
     private int cAddColValueX;
 
+    // components for new FAB based pop-up menu
+    private FloatingActionButton fbtnPopUp2CoinAddX, fbtnMiniRefCollectionsCoinAddX, fbtnMiniFAQCoinAddX, fbtnMiniLogoutCoinAddX;
+
+    private String popupMenuToggle; // need this to know menu state so things like back press and card press buttons do their regular function or toggle the menu
+
+
     // UI components and intermediate variables to manipulate them
+
+    private FloatingActionButton fabCoinSaveX, fabCoinPopUpMenuX ;
+
     private EditText edtPersonageX, edtRICX, edtDenominationX, edtRICvarX, edtWeightX, edtDiamaterX, edtMintX, edtObvDescX
             , edtObvLegendX, edtRevDescX, edtRevLegendX, edtProvenanceX, edtValueX, edtNotesX, edtSortRICX;
     private ImageView imgCoinAddX;
@@ -125,6 +135,7 @@ public class CoinAdd extends AppCompatActivity {
     int updateSortRIC2;
 
     @Override
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_add);
@@ -251,22 +262,52 @@ public class CoinAdd extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fabCoinPopUpMenuX = findViewById(R.id.fabCoinPopUpMenu);
+        // FABs and TXTs for new pop up menu components
+
+        popupMenuToggle = "Not";
+
+        fbtnPopUp2CoinAddX = findViewById(R.id.fbtnPopUp2CoinAdd);
+
+        fbtnMiniRefCollectionsCoinAddX = findViewById(R.id.fbtnMiniRefCollectionsCoinAdd);
+        fbtnMiniFAQCoinAddX = findViewById(R.id.fbtnMiniFAQ2CoinAdd);
+        fbtnMiniLogoutCoinAddX = findViewById(R.id.fbtnMiniLogout2CoinAdd);
+
+        fabCoinPopUpMenuX = findViewById(R.id.fabCoinPopUpMenu);
         fabCoinPopUpMenuX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                showPopupMenu(view, true, R.style.MyPopupOtherStyle);
+                //showPopupMenu(view, true, R.style.MyPopupOtherStyle);
+
+                showNewFABbasedMenuCoinAdd();
 
             }
         });
 
-        FloatingActionButton fabCoinSaveX = findViewById(R.id.fabCoinSave);
+        fabCoinSaveX = findViewById(R.id.fabCoinSave);
         fabCoinSaveX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 coinSave();
+            }
+        });
+
+        //setting this up so when we have our FAB popup menu clicking anywhere on the scrreen will turn it off
+        shadeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fabCoinPopUpMenuX.setVisibility(View.VISIBLE);
+                fbtnPopUp2CoinAddX.setVisibility(View.GONE);
+
+                fbtnMiniRefCollectionsCoinAddX.setVisibility(View.GONE);
+                fbtnMiniFAQCoinAddX.setVisibility(View.GONE);
+                fbtnMiniLogoutCoinAddX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
             }
         });
 
@@ -1172,6 +1213,107 @@ public class CoinAdd extends AppCompatActivity {
 
     ///////////////////////// START ----->>> POP-UP ////////////////////////////////////////////////////////////////////
 
+    /////////////////// Start-New Pop up Version //////////////////////////////////////////////////////////////////////
+
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
+    private void showNewFABbasedMenuCoinAdd() {
+
+        popupMenuToggle = "pressed";
+
+
+        fabCoinPopUpMenuX.setVisibility(View.GONE);
+        fabCoinSaveX.setVisibility(View.GONE);
+        fbtnPopUp2CoinAddX.setVisibility(View.VISIBLE);
+
+        fbtnMiniRefCollectionsCoinAddX.setVisibility(View.VISIBLE);
+        fbtnMiniFAQCoinAddX.setVisibility(View.VISIBLE);
+        fbtnMiniLogoutCoinAddX.setVisibility(View.VISIBLE);
+
+        shadeX.setVisibility(View.VISIBLE);
+
+        fbtnPopUp2CoinAddX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fabCoinPopUpMenuX.setVisibility(View.VISIBLE);
+                fabCoinSaveX.setVisibility(View.VISIBLE);
+
+                fbtnPopUp2CoinAddX.setVisibility(View.GONE);
+
+                fbtnMiniRefCollectionsCoinAddX.setVisibility(View.GONE);
+                fbtnMiniFAQCoinAddX.setVisibility(View.GONE);
+                fbtnMiniLogoutCoinAddX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+            }
+        });
+
+
+
+        fbtnMiniRefCollectionsCoinAddX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(CoinAdd.this, RefCollections.class);
+                startActivity(intent);
+                popupMenuToggle = "Not";
+            }
+        });
+
+        fbtnMiniFAQCoinAddX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fabCoinPopUpMenuX.setVisibility(View.VISIBLE);
+                fabCoinSaveX.setVisibility(View.VISIBLE);
+
+                fbtnPopUp2CoinAddX.setVisibility(View.GONE);
+
+                fbtnMiniRefCollectionsCoinAddX.setVisibility(View.GONE);
+                fbtnMiniFAQCoinAddX.setVisibility(View.GONE);
+                fbtnMiniLogoutCoinAddX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+                faqDialogView();
+
+            }
+        });
+
+        fbtnMiniLogoutCoinAddX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fabCoinPopUpMenuX.setVisibility(View.VISIBLE);
+                fabCoinSaveX.setVisibility(View.VISIBLE);
+
+                fbtnPopUp2CoinAddX.setVisibility(View.GONE);
+
+                fbtnMiniRefCollectionsCoinAddX.setVisibility(View.GONE);
+                fbtnMiniFAQCoinAddX.setVisibility(View.GONE);
+                fbtnMiniLogoutCoinAddX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+                //Confirm the user wants to logout and execute
+                alertDialogLogOut();
+
+            }
+        });
+
+
+    }
+
+
+    /////////////////// END-New Pop up Version //////////////////////////////////////////////////////////////////////
+
+    /////////////////// Start-OLD Pop up Version //////////////////////////////////////////////////////////////////////
+
+
     private void showPopupMenu(View anchor, boolean isWithIcons, int style) {
         //init the wrapper with style
         Context wrapper = new ContextThemeWrapper(this, style);
@@ -1565,5 +1707,35 @@ public class CoinAdd extends AppCompatActivity {
         }.start();
 
     }
+
+    @Override
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
+    public void onBackPressed() {
+
+        // popup Menu Toggle
+
+        if (popupMenuToggle.equals("pressed")) {
+
+            fabCoinPopUpMenuX.setVisibility(View.VISIBLE);
+            fabCoinSaveX.setVisibility(View.VISIBLE);
+
+            fbtnPopUp2CoinAddX.setVisibility(View.GONE);
+
+            fbtnMiniRefCollectionsCoinAddX.setVisibility(View.GONE);
+            fbtnMiniFAQCoinAddX.setVisibility(View.GONE);
+            fbtnMiniLogoutCoinAddX.setVisibility(View.GONE);
+
+            shadeX.setVisibility(View.GONE);
+            popupMenuToggle = "Not";
+
+        } else {
+
+//            Intent intent = new Intent(CoinAdd.this, CoinList.class);
+//            startActivity(intent);
+            finish();
+        }
+
+    }
+
 
 }
