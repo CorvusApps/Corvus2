@@ -1,5 +1,6 @@
 package com.pelotheban.corvus;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -71,6 +72,13 @@ public class RefCoinList extends AppCompatActivity {
 
     private ProgressDialog pd; // universal progress dialog used in this activity
 
+    private FloatingActionButton fbtnPopUpMenuRefCoinListX;
+
+    // components for new FAB based pop-up menu
+    private FloatingActionButton fbtnPopUp2RefCoinsX, fbtnMiniMyCollectionsRefCoinsX, fbtnMiniFAQRefCoinsX, fbtnMiniLogoutRefCoinsX;
+    private TextView txtRefCoinsButtonRefCoinsX, txtFAQButtonRefCoinsX, txtLogoutButtonRefCoinsX;
+    private String popupMenuToggle; // need this to know menu state so things like back press and card press buttons do their regular function or toggle the menu
+
     // custom view to use as a shade behind custom dialogs
     private View shadeX;
 
@@ -102,8 +110,8 @@ public class RefCoinList extends AppCompatActivity {
     private SharedPreferences sharedAdvertCounterRefCoinList;
 
 
-
     @Override
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ref_coin_list);
@@ -172,16 +180,31 @@ public class RefCoinList extends AppCompatActivity {
             }
         });
 
+        // FABs and TXTs for new pop up menu components
+
+        popupMenuToggle = "Not";
+
+        fbtnPopUp2RefCoinsX = findViewById(R.id.fbtnPopUp2RefCoins);
+
+        fbtnMiniMyCollectionsRefCoinsX = findViewById(R.id.fbtnMiniMyCollectionsRefCoins);
+        fbtnMiniFAQRefCoinsX = findViewById(R.id.fbtnMiniFAQRefCoins);
+        fbtnMiniLogoutRefCoinsX = findViewById(R.id.fbtnMiniLogoutRefCoins);
+
+        txtRefCoinsButtonRefCoinsX = findViewById(R.id.txtMyCollectionsButtonRefCoins);
+        txtFAQButtonRefCoinsX = findViewById(R.id.txtFAQButtonRefCoins);
+        txtLogoutButtonRefCoinsX = findViewById(R.id.txtLogoutButtonRefCoins);
+
 
 
         //FAB for popup menu
 
-        FloatingActionButton fbtnPopUpMenuRefCoinListX = findViewById(R.id.fbtnPopUpMenuRefCoinList);
+        fbtnPopUpMenuRefCoinListX = findViewById(R.id.fbtnPopUpMenuRefCoinList);
         fbtnPopUpMenuRefCoinListX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                showPopupMenuRefCols(view, true, R.style.MyPopupOtherStyle);
+                //showPopupMenuRefCols(view, true, R.style.MyPopupOtherStyle);
+                showNewFABbasedMenuRefCoins();
 
             }
         });
@@ -229,6 +252,28 @@ public class RefCoinList extends AppCompatActivity {
 
         // custom view to use as a shade behind custom dialogs
         shadeX = findViewById(R.id.shade);
+
+        //setting this up so when we have our FAB popup menu clicking anywhere on the scrreen will turn it off
+        shadeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fbtnPopUpMenuRefCoinListX.setVisibility(View.VISIBLE);
+                fbtnPopUp2RefCoinsX.setVisibility(View.GONE);
+
+                fbtnMiniMyCollectionsRefCoinsX.setVisibility(View.GONE);
+                fbtnMiniFAQRefCoinsX.setVisibility(View.GONE);
+                fbtnMiniLogoutRefCoinsX.setVisibility(View.GONE);
+
+                txtRefCoinsButtonRefCoinsX.setVisibility(View.GONE);
+                txtFAQButtonRefCoinsX.setVisibility(View.GONE);
+                txtLogoutButtonRefCoinsX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+            }
+        });
 
 // The Code setting out recycler view /////////////////////////////////////////////////////////////////
 // The tutorial had this section of code through to setAdapter in separate on Start Method but for StaggeredGrid that seemed to cause the recycler view to be destroyed and not come back once we moved off the screen works fine here
@@ -662,6 +707,111 @@ public class RefCoinList extends AppCompatActivity {
 
     ///////////////////////// START ----->>> POP-UP ////////////////////////////////////////////////////////////////////
 
+    /////////////////// Start-New Pop up Version //////////////////////////////////////////////////////////////////////
+
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
+    private void showNewFABbasedMenuRefCoins() {
+
+        popupMenuToggle = "pressed";
+
+        fbtnPopUpMenuRefCoinListX.setVisibility(View.GONE);
+        fbtnPopUp2RefCoinsX.setVisibility(View.VISIBLE);
+
+        fbtnMiniMyCollectionsRefCoinsX.setVisibility(View.VISIBLE);
+        fbtnMiniFAQRefCoinsX.setVisibility(View.VISIBLE);
+        fbtnMiniLogoutRefCoinsX.setVisibility(View.VISIBLE);
+
+        txtRefCoinsButtonRefCoinsX.setVisibility(View.VISIBLE);
+        txtFAQButtonRefCoinsX.setVisibility(View.VISIBLE);
+        txtLogoutButtonRefCoinsX.setVisibility(View.VISIBLE);
+
+        shadeX.setVisibility(View.VISIBLE);
+
+        fbtnPopUp2RefCoinsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fbtnPopUpMenuRefCoinListX.setVisibility(View.VISIBLE);
+                fbtnPopUp2RefCoinsX.setVisibility(View.GONE);
+
+                fbtnMiniMyCollectionsRefCoinsX.setVisibility(View.GONE);
+                fbtnMiniFAQRefCoinsX.setVisibility(View.GONE);
+                fbtnMiniLogoutRefCoinsX.setVisibility(View.GONE);
+
+                txtRefCoinsButtonRefCoinsX.setVisibility(View.GONE);
+                txtFAQButtonRefCoinsX.setVisibility(View.GONE);
+                txtLogoutButtonRefCoinsX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+            }
+        });
+
+        fbtnMiniMyCollectionsRefCoinsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(RefCoinList.this, HomePage.class);
+                startActivity(intent);
+                popupMenuToggle = "Not";
+            }
+        });
+
+        fbtnMiniFAQRefCoinsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fbtnPopUpMenuRefCoinListX.setVisibility(View.VISIBLE);
+                fbtnPopUp2RefCoinsX.setVisibility(View.GONE);
+
+                fbtnMiniMyCollectionsRefCoinsX.setVisibility(View.GONE);
+                fbtnMiniFAQRefCoinsX.setVisibility(View.GONE);
+                fbtnMiniLogoutRefCoinsX.setVisibility(View.GONE);
+
+                txtRefCoinsButtonRefCoinsX.setVisibility(View.GONE);
+                txtFAQButtonRefCoinsX.setVisibility(View.GONE);
+                txtLogoutButtonRefCoinsX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+                faqDialogView();
+
+            }
+        });
+
+        fbtnMiniLogoutRefCoinsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fbtnPopUpMenuRefCoinListX.setVisibility(View.VISIBLE);
+                fbtnPopUp2RefCoinsX.setVisibility(View.GONE);
+
+                fbtnMiniMyCollectionsRefCoinsX.setVisibility(View.GONE);
+                fbtnMiniFAQRefCoinsX.setVisibility(View.GONE);
+                fbtnMiniLogoutRefCoinsX.setVisibility(View.GONE);
+
+                txtRefCoinsButtonRefCoinsX.setVisibility(View.GONE);
+                txtFAQButtonRefCoinsX.setVisibility(View.GONE);
+                txtLogoutButtonRefCoinsX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+                //Confirm the user wants to logout and execute
+                alertDialogLogOut();
+
+            }
+        });
+
+    }
+
+    /////////////////// END-New Pop up Version //////////////////////////////////////////////////////////////////////
+
+    /////////////////// Start-OLD Pop up Version //////////////////////////////////////////////////////////////////////
+
+
     private void showPopupMenuRefCols(View anchor, boolean isWithIcons, int style) {
         //init the wrapper with style
         Context wrapper = new ContextThemeWrapper(this, style);
@@ -1033,12 +1183,33 @@ public class RefCoinList extends AppCompatActivity {
     }
 
     @Override
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     public void onBackPressed() {
-        super.onBackPressed();
 
-        Intent intent = new Intent(RefCoinList.this, RefCollections.class);
-        startActivity(intent);
-        finish();
+        if (popupMenuToggle.equals("pressed")) {
+
+            fbtnPopUpMenuRefCoinListX.setVisibility(View.VISIBLE);
+            fbtnPopUp2RefCoinsX.setVisibility(View.GONE);
+
+            fbtnMiniMyCollectionsRefCoinsX.setVisibility(View.GONE);
+            fbtnMiniFAQRefCoinsX.setVisibility(View.GONE);
+            fbtnMiniLogoutRefCoinsX.setVisibility(View.GONE);
+
+            txtRefCoinsButtonRefCoinsX.setVisibility(View.GONE);
+            txtFAQButtonRefCoinsX.setVisibility(View.GONE);
+            txtLogoutButtonRefCoinsX.setVisibility(View.GONE);
+
+            shadeX.setVisibility(View.GONE);
+            popupMenuToggle = "Not";
+
+
+        } else {
+
+            Intent intent = new Intent(RefCoinList.this, RefCollections.class);
+            startActivity(intent);
+            finish();
+
+        }
 
     }
 }

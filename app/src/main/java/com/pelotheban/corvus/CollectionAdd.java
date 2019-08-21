@@ -1,6 +1,7 @@
 package com.pelotheban.corvus;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -102,9 +103,16 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     int colIDYRec;
     String modify; // toggle to whether we are saving a new collection or modifying existing
 
+    // components for new FAB based pop-up menu
+    private FloatingActionButton fbtnPopUp2CollectionAddX, fbtnMiniRefCollectionsCollectionAddX, fbtnMiniFAQCollectionAddX, fbtnMiniLogoutCollectionAddX;
+    private TextView txtRefCoinsButtonCollectionAddX, txtFAQButtonCollectionAddX, txtLogoutButtonCollectionAddX;
+    private String popupMenuToggle; // need this to know menu state so things like back press and card press buttons do their regular function or toggle the menu
+
+
 
 
     @Override
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -124,6 +132,20 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         fbtnPopUpMenuX.setOnClickListener(this);
         fbtnSaveCollectionX.setOnClickListener(this);
+
+        // FABs and TXTs for new pop up menu components
+
+        popupMenuToggle = "Not";
+
+        fbtnPopUp2CollectionAddX = findViewById(R.id.fbtnPopUp2CollectionAdd);
+
+        fbtnMiniRefCollectionsCollectionAddX = findViewById(R.id.fbtnMiniRefCollectionsCollectionAdd);
+        fbtnMiniFAQCollectionAddX = findViewById(R.id.fbtnMiniFAQCollectionAdd);
+        fbtnMiniLogoutCollectionAddX = findViewById(R.id.fbtnMiniLogoutCollectionAdd);
+
+        txtRefCoinsButtonCollectionAddX = findViewById(R.id.txtRefCoinsButtonCollectionAdd);
+        txtFAQButtonCollectionAddX = findViewById(R.id.txtFAQButtonCollectionAdd);
+        txtLogoutButtonCollectionAddX = findViewById(R.id.txtLogoutButtonCollectionAdd);
 
         collAddFirebaseAuth = FirebaseAuth.getInstance();
 
@@ -160,6 +182,28 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         // custom view to use as a shade behind custom dialogs
         shadeX = findViewById(R.id.shade);
+
+        //setting this up so when we have our FAB popup menu clicking anywhere on the scrreen will turn it off
+        shadeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fbtnPopUpMenuX.setVisibility(View.VISIBLE);
+                fbtnPopUp2CollectionAddX.setVisibility(View.GONE);
+
+                fbtnMiniRefCollectionsCollectionAddX.setVisibility(View.GONE);
+                fbtnMiniFAQCollectionAddX.setVisibility(View.GONE);
+                fbtnMiniLogoutCollectionAddX.setVisibility(View.GONE);
+
+                txtRefCoinsButtonCollectionAddX.setVisibility(View.GONE);
+                txtFAQButtonCollectionAddX.setVisibility(View.GONE);
+                txtLogoutButtonCollectionAddX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+            }
+        });
 
 
         //try to get data from intent if not null
@@ -373,7 +417,9 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
             case R.id.fbtnPopUpMenu:
 
-                showPopupMenu(view, true, R.style.MyPopupOtherStyle);
+                //showPopupMenu(view, true, R.style.MyPopupOtherStyle);
+
+                showNewFABbasedMenuCollectionAdd();
 
 
                 break;
@@ -990,6 +1036,112 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
     ///////////////////////// START ----->>> POP-UP ////////////////////////////////////////////////////////////////////
 
+    /////////////////// Start-New Pop up Version //////////////////////////////////////////////////////////////////////
+
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
+    private void showNewFABbasedMenuCollectionAdd() {
+
+        popupMenuToggle = "pressed";
+
+        fbtnPopUpMenuX.setVisibility(View.GONE);
+        fbtnPopUp2CollectionAddX.setVisibility(View.VISIBLE);
+
+        fbtnMiniRefCollectionsCollectionAddX.setVisibility(View.VISIBLE);
+        fbtnMiniFAQCollectionAddX.setVisibility(View.VISIBLE);
+        fbtnMiniLogoutCollectionAddX.setVisibility(View.VISIBLE);
+
+        txtRefCoinsButtonCollectionAddX.setVisibility(View.VISIBLE);
+        txtFAQButtonCollectionAddX.setVisibility(View.VISIBLE);
+        txtLogoutButtonCollectionAddX.setVisibility(View.VISIBLE);
+
+        shadeX.setVisibility(View.VISIBLE);
+
+        fbtnPopUp2CollectionAddX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fbtnPopUpMenuX.setVisibility(View.VISIBLE);
+                fbtnPopUp2CollectionAddX.setVisibility(View.GONE);
+
+                fbtnMiniRefCollectionsCollectionAddX.setVisibility(View.GONE);
+                fbtnMiniFAQCollectionAddX.setVisibility(View.GONE);
+                fbtnMiniLogoutCollectionAddX.setVisibility(View.GONE);
+
+                txtRefCoinsButtonCollectionAddX.setVisibility(View.GONE);
+                txtFAQButtonCollectionAddX.setVisibility(View.GONE);
+                txtLogoutButtonCollectionAddX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+            }
+        });
+
+        fbtnMiniRefCollectionsCollectionAddX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(CollectionAdd.this, RefCollections.class);
+                startActivity(intent);
+                popupMenuToggle = "Not";
+            }
+        });
+
+        fbtnMiniFAQCollectionAddX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fbtnPopUpMenuX.setVisibility(View.VISIBLE);
+                fbtnPopUp2CollectionAddX.setVisibility(View.GONE);
+
+                fbtnMiniRefCollectionsCollectionAddX.setVisibility(View.GONE);
+                fbtnMiniFAQCollectionAddX.setVisibility(View.GONE);
+                fbtnMiniLogoutCollectionAddX.setVisibility(View.GONE);
+
+                txtRefCoinsButtonCollectionAddX.setVisibility(View.GONE);
+                txtFAQButtonCollectionAddX.setVisibility(View.GONE);
+                txtLogoutButtonCollectionAddX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+                faqDialogView();
+
+            }
+        });
+
+        fbtnMiniLogoutCollectionAddX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fbtnPopUpMenuX.setVisibility(View.VISIBLE);
+                fbtnPopUp2CollectionAddX.setVisibility(View.GONE);
+
+                fbtnMiniRefCollectionsCollectionAddX.setVisibility(View.GONE);
+                fbtnMiniFAQCollectionAddX.setVisibility(View.GONE);
+                fbtnMiniLogoutCollectionAddX.setVisibility(View.GONE);
+
+                txtRefCoinsButtonCollectionAddX.setVisibility(View.GONE);
+                txtFAQButtonCollectionAddX.setVisibility(View.GONE);
+                txtLogoutButtonCollectionAddX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+                popupMenuToggle = "Not";
+
+                //Confirm the user wants to logout and execute
+                alertDialogLogOut();
+
+            }
+        });
+
+    }
+
+    /////////////////// END-New Pop up Version //////////////////////////////////////////////////////////////////////
+
+    /////////////////// Start-OLD Pop up Version //////////////////////////////////////////////////////////////////////
+
+
+
     private void showPopupMenu(View anchor, boolean isWithIcons, int style) {
         //init the wrapper with style
         Context wrapper = new ContextThemeWrapper(this, style);
@@ -1384,12 +1536,33 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     public void onBackPressed() {
-        super.onBackPressed();
 
-        Intent intent = new Intent(CollectionAdd.this, HomePage.class);
-        startActivity(intent);
-        finish();
+        if (popupMenuToggle.equals("pressed")) {
+
+            fbtnPopUpMenuX.setVisibility(View.VISIBLE);
+            fbtnPopUp2CollectionAddX.setVisibility(View.GONE);
+
+            fbtnMiniRefCollectionsCollectionAddX.setVisibility(View.GONE);
+            fbtnMiniFAQCollectionAddX.setVisibility(View.GONE);
+            fbtnMiniLogoutCollectionAddX.setVisibility(View.GONE);
+
+            txtRefCoinsButtonCollectionAddX.setVisibility(View.GONE);
+            txtFAQButtonCollectionAddX.setVisibility(View.GONE);
+            txtLogoutButtonCollectionAddX.setVisibility(View.GONE);
+
+            shadeX.setVisibility(View.GONE);
+            popupMenuToggle = "Not";
+
+
+        } else {
+
+            Intent intent = new Intent(CollectionAdd.this, HomePage.class);
+            startActivity(intent);
+            finish();
+
+        }
 
     }
 }

@@ -1404,8 +1404,6 @@ public class CoinList extends AppCompatActivity {
 
     /////////////////// Start-OLD Pop up Version //////////////////////////////////////////////////////////////////////
 
-
-
     private void showPopupMenuHomePage(View anchor, boolean isWithIcons, int style) {
         //init the wrapper with style
         Context wrapper = new ContextThemeWrapper(this, style);

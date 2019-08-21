@@ -23,6 +23,99 @@
         android:layout_marginRight="@dimen/_16sdp"
         android:src="@drawable/menu"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnPopUp2RefCoins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="16dp"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/collapse_white"/>
+
+
+    <TextView
+        android:id="@+id/txtMyCollectionsButtonRefCoins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="106dp"
+        android:layout_marginRight="70dp"
+        android:text="My Collections"
+        android:gravity="right"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:textColor="#FFFFFF"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnMiniMyCollectionsRefCoins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="96dp"
+        android:layout_marginRight="24dp"
+        android:backgroundTint="@color/colorAccentLight"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/my_collections"/>
+
+    <TextView
+        android:id="@+id/txtFAQButtonRefCoins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="146dp"
+        android:layout_marginRight="70dp"
+        android:text="FAQ"
+        android:gravity="right"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:textColor="#FFFFFF"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnMiniFAQRefCoins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="136dp"
+        android:layout_marginRight="24dp"
+        android:backgroundTint="@color/colorAccentLight"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/faq"/>
+
+    <TextView
+        android:id="@+id/txtLogoutButtonRefCoins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="186dp"
+        android:layout_marginRight="70dp"
+        android:text="Logout"
+        android:gravity="right"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:textColor="#FFFFFF"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnMiniLogoutRefCoins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="176dp"
+        android:layout_marginRight="24dp"
+        android:backgroundTint="@color/colorAccentLight"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/logout"/>
+
     <View
         android:id="@+id/shade"
         android:layout_width="match_parent"
