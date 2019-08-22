@@ -67,18 +67,19 @@
                 android:layout_gravity="left"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="20dp"
+
                 app:srcCompat="@drawable/info" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="0dp"
+                android:paddingTop="0dp"
+                android:layout_marginTop="-15dp"
                              >
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputLayoutx"
-
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -122,6 +123,52 @@
                         android:inputType="textPersonName" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="0dp"
+                >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutx2"
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:hint="Ref."
+
+                    android:textColorHint="@color/darktext"
+                    app:hintEnabled="true"
+
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtCollectionStandardRef"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="10"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/darktext" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:text="Type in your choice of a standard reference for attribution and sorting. You can reflect other references in the notes. The RIC is the default."
+                    android:layout_marginStart="5dp"
+                    android:textAllCaps="false"
+                    android:textSize="8dp"
+                    android:layout_marginEnd="5dp"
+                    />
 
 
             </LinearLayout>

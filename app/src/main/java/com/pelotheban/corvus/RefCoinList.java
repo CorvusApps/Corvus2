@@ -129,7 +129,7 @@ public class RefCoinList extends AppCompatActivity {
         MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
         mInterstitialAdRefCoinList = new InterstitialAd(RefCoinList.this);
         mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
-       //mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.refcoinlist_interstitial_ad));
+        //mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.refcoinlist_interstitial_ad));
 
         mInterstitialAdRefCoinList.loadAd(new AdRequest.Builder().build());
 

@@ -10,7 +10,7 @@
     android:background="@color/colorPrimary"
     android:columnCount="2"
     android:alignmentMode="alignMargins"
-    android:onClick="homepageLayoutTapped"
+
     tools:showIn="@layout/activity_home_page">
 
     <androidx.recyclerview.widget.RecyclerView

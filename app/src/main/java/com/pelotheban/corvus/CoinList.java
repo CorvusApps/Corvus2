@@ -66,7 +66,7 @@ public class CoinList extends AppCompatActivity {
 
     // UI and data components for transfering collection ID from Homepage through here to AddCoin and ShowCoin activities
     private TextView txtCListCollUIDX;
-    private String cListuid;
+    private String cListuid, cListStandardRef;
 
     // Firebase related
     private FirebaseAuth firebaseAuthCoins;
@@ -223,6 +223,7 @@ public class CoinList extends AppCompatActivity {
                 intent.putExtra("title", cListColName);
                 intent.putExtra("coincount", coinListItemCountInt);
                 intent.putExtra("colvalue", coinListColValueInt);
+                intent.putExtra("standardref", cListStandardRef);
                 startActivity(intent);
             }
         });
@@ -244,6 +245,9 @@ public class CoinList extends AppCompatActivity {
         txtCListCollUIDX = findViewById(R.id.txtCListCollUID);
         cListuid = getIntent().getStringExtra("coluid");
         txtCListCollUIDX.setText(cListuid);
+
+        cListStandardRef = getIntent().getStringExtra("standardref");
+        //Toast.makeText(CoinList.this, cListStandardRef, Toast.LENGTH_LONG).show();
 
         //setting the title to the coinlist which is the collection name
         TextView txtCollectionNameCoinList = findViewById(R.id.txtCoinListCollectionName);
@@ -429,6 +433,12 @@ public class CoinList extends AppCompatActivity {
                 viewHolder.setImageLink(model.getImageLink());
 
                 viewHolder.setLayouts();
+
+                //need to repull the standard ref becuase it does not transfer to the inner class and can't put it in the parameters
+                cListStandardRef = getIntent().getStringExtra("standardref");
+                viewHolder.setStandardRef(cListStandardRef); // then need to throw it to the viewholder here can do it with params
+
+                viewHolder.setRICLabel(model.getId(), model.getRicvar());
             }
 
 
@@ -716,7 +726,25 @@ public class CoinList extends AppCompatActivity {
             loutCoinRevLegX.setVisibility(View.GONE);
             loutCoinProvenanceX.setVisibility(View.GONE);
             loutCoinNotesX.setVisibility(View.GONE);
+        }
 
+        public void setStandardRef (String cListStandardRef){
+
+            TextView txtLabelRICX = (TextView)mView.findViewById(R.id.txtLabelRIC);
+            txtLabelRICX.setText(cListStandardRef); // need to bring this in from viewholder vs. developing in here from static variable
+
+        }
+
+        // getting rid of RIC label only if both RIC and RIC var empty so something like Unlisted or Ves281 still get RIC in front
+        public void setRICLabel (int id, String ricvar){
+
+            TextView txtLabelRICX = (TextView)mView.findViewById(R.id.txtLabelRIC);
+            txtLabelRICX.setVisibility(View.VISIBLE);
+
+            if (id == 0 && ricvar.equals("")) {
+                txtLabelRICX.setVisibility(View.GONE);
+
+            }
 
         }
 
@@ -742,31 +770,28 @@ public class CoinList extends AppCompatActivity {
 
         }
 
-        public void setRicvar(String ricvar) {
-            TextView txtCardRICvarX = (TextView)mView.findViewById(R.id.txtCardRICvar);
-            txtCardRICvarX.setText(ricvar);
-
-        }
-
         public void setId(int id) {
 
             TextView txtCardRICX = (TextView)mView.findViewById(R.id.txtCardRIC);
             String id2 = String.valueOf(id);
             txtCardRICX.setText(id2);
 
-            TextView txtLabelRICX = (TextView)mView.findViewById(R.id.txtLabelRIC);
-            txtLabelRICX.setVisibility(View.VISIBLE);
             txtCardRICX.setVisibility(View.VISIBLE);
 
             try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all
                 if (id == 0){
 
-                    txtLabelRICX.setVisibility(View.GONE);
                     txtCardRICX.setVisibility(View.GONE);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+        }
+
+        public void setRicvar(String ricvar) {
+            TextView txtCardRICvarX = (TextView)mView.findViewById(R.id.txtCardRICvar);
+            txtCardRICvarX.setText(ricvar);
 
         }
 
@@ -1023,6 +1048,7 @@ public class CoinList extends AppCompatActivity {
         intent.putExtra("sortric", coinSortRICY);
 
         intent.putExtra("imageLink", coinImageLinkY);
+        intent.putExtra("standardref", cListStandardRef);
 
         startActivity(intent);
 

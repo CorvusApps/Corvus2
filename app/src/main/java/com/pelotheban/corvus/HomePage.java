@@ -81,6 +81,7 @@ public class HomePage extends AppCompatActivity {
     private String colTitleY;
     private String colDesY;
     private String colNotesY;
+    private String colStandardRefY;
     private int colIDY;
     private int colItemCountY;
     private int colValueY;
@@ -279,6 +280,8 @@ public class HomePage extends AppCompatActivity {
                 viewHolder.setCoincount(model.getCoincount());
                 viewHolder.setColvalue(model.getColvalue());
 
+                viewHolder.setStandardref(model.getStandardref());
+
             }
 
             // The Code setting out recycler view /////////////////////////////////////////////////////////////////
@@ -300,12 +303,15 @@ public class HomePage extends AppCompatActivity {
                         TextView colTitle = view.findViewById(R.id.crdTxtCollectionTitle);
 
                         TextView colCoinCount = view.findViewById(R.id.crdTxtCollectionItemCount); // need to pass these as hidden to coin list so they can be passed to coin add, delete and modify
-                        TextView colColValue = view. findViewById(R.id.crdTxtCollectionValue);
+                        TextView colColValue = view.findViewById(R.id.crdTxtCollectionValue);
+
+                        TextView colStandardRef = view.findViewById(R.id.crdTxtStandardRef);
 
                         //get data from views
 
                         colUIDY = colUID.getText().toString();
                         colTitleY = colTitle.getText().toString();
+                        colStandardRefY = colStandardRef.getText().toString();
 
                         String colCoinCountX = colCoinCount.getText().toString();
                         colItemCountY = Integer.parseInt(colCoinCountX);
@@ -320,6 +326,7 @@ public class HomePage extends AppCompatActivity {
                         intent.putExtra("title", colTitleY);
                         intent.putExtra("colvalue", colValueY);
                         intent.putExtra("coincount", colItemCountY);
+                        intent.putExtra("standardref", colStandardRefY);
                         startActivity(intent);
 
                     }
@@ -360,6 +367,9 @@ public class HomePage extends AppCompatActivity {
 
                         TextView colImageLink = view.findViewById(R.id.crdTxtCollectionImgLink);
                         colImageLinkY = colImageLink.getText().toString();
+
+                        TextView colStandardRef = view.findViewById(R.id.crdTxtStandardRef);
+                        colStandardRefY = colStandardRef.getText().toString();
 
                         TextView colCoinCount = view.findViewById(R.id.crdTxtCollectionItemCount); // need to pass these as hidden to coin list so they can be passed to coin add, delete and modify
                         String colCoinCountX = colCoinCount.getText().toString();
@@ -489,6 +499,11 @@ public class HomePage extends AppCompatActivity {
             crdTxtCollectionImgLinkX.setText(imageLink);
         }
 
+        public void setStandardref(String standardref) {
+            TextView crdTxtCollectionStandardRefX = (TextView)mView.findViewById(R.id.crdTxtStandardRef);
+            crdTxtCollectionStandardRefX.setText(standardref);
+        }
+
 
         // Custom built onItemClickListener for the recycler view; seems to cover LongClick as well
         ////////////////////////////////////////////////////////////////////////////////////////
@@ -603,6 +618,8 @@ public class HomePage extends AppCompatActivity {
     // This is the collection detail dialog expanding on cardview
     private void collectionDialogView() {
 
+        // all the values established on longclick from the recycler view transfer here somehow without putting them in parameters
+
         shadeX.setVisibility(View.VISIBLE);
 
         //Everything in this method is code for a custom dialog
@@ -669,6 +686,7 @@ public class HomePage extends AppCompatActivity {
 
         });
 
+        // enter coin list and send a bunch of collection info to go with it
         ImageView imgColDetEnterX = view.findViewById(R.id.imgColDetEnter);
         imgColDetEnterX.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -678,6 +696,7 @@ public class HomePage extends AppCompatActivity {
 
                intent.putExtra("coluid", colUIDY);
                intent.putExtra("title", colTitleY);
+               intent.putExtra("standardref", colStandardRefY);
                intent.putExtra("coincount" , colItemCountY);
                intent.putExtra("colvalue" , colValueY);
 
@@ -827,6 +846,7 @@ public class HomePage extends AppCompatActivity {
         intent.putExtra("notes", colNotesY);
         intent.putExtra("id", colIDY);
         intent.putExtra("colvalue", colValueY); // passing the string... and don't need to pass item count as doing nothing with that in modify
+        intent.putExtra("standardref", colStandardRefY);
         startActivity(intent);
     }
 
@@ -964,26 +984,6 @@ public class HomePage extends AppCompatActivity {
 
 
     }
-
-//    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
-//    public void homepageLayoutTapped(View view) {
-//
-//        fbtnPopUpMenuHomePageX.setVisibility(View.VISIBLE);
-//        fbtnPopUp2HomePageX.setVisibility(View.GONE);
-//        fbtnMiniSortCollectionX.setVisibility(View.GONE);
-//        fbtnMiniRefCollectionsX.setVisibility(View.GONE);
-//        fbtnMiniFAQX.setVisibility(View.GONE);
-//        fbtnMiniLogoutX.setVisibility(View.GONE);
-//
-//        txtSortButtonX.setVisibility(View.GONE);
-//        txtRefCoinsButtonX.setVisibility(View.GONE);
-//        txtFAQButtonX.setVisibility(View.GONE);
-//        txtLogoutButtonX.setVisibility(View.GONE);
-//
-//        shadeX.setVisibility(View.GONE);
-//        popupMenuToggle = "Not";
-//
-//    }
 
     /////////////////// END-New Pop up Version //////////////////////////////////////////////////////////////////////
 

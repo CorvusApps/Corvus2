@@ -84,7 +84,8 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     private Bitmap recievedCollectionImageBitmap;
     private String imageIdentifier;
     private String imageLink;
-    private EditText edtCollectionNameX, edtCollectionDescX, edtCollectionsNotesX, edtCollectionIDX;
+    private EditText edtCollectionNameX, edtCollectionDescX, edtCollectionsNotesX, edtCollectionIDX, edtCollectionStandardRefX;
+    private String standardRef2; // need it for method ensuring some value goes in for standard ref irrespective of input
     private AlertDialog dialog;
     private String exceptions;
     private ProgressDialog pd;
@@ -92,14 +93,15 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
     private ImageView imgInfoX;
     private int id3;
     private View shadeX;
+    private String updateStandardRef;
 
 
     // variables to be used in screen measurement methods needed to adjust UI for different screen sizes
     int height2;
     int fabheight2;
 
-    //variables to recieve inputs from modify collection method from expanded collectio dialog in homepage
-    String colUIDYRec, colTitleRec, colImageLinkRec, colDesRec, colNotesRec;
+    //variables to recieve inputs from modify collection method from expanded collection dialog in homepage
+    String colUIDYRec, colTitleRec, colImageLinkRec, colDesRec, colNotesRec, colStandardRefRec;
     int colIDYRec;
     String modify; // toggle to whether we are saving a new collection or modifying existing
 
@@ -173,6 +175,15 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         edtCollectionIDX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         edtCollectionIDX.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
+        edtCollectionStandardRefX = findViewById(R.id.edtCollectionStandardRef);
+        edtCollectionStandardRefX.setText("RIC"); // pre-populating the field to make it easier for the user
+        edtCollectionStandardRefX.setOnFocusChangeListener(this);
+        edtCollectionStandardRefX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        edtCollectionStandardRefX.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
+
+        standardRef2 = "RIC";
+
         imgInfoX = findViewById(R.id.imgInfo);
         imgInfoX.setOnClickListener(this);
 
@@ -219,6 +230,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             colImageLinkRec = getIntent().getStringExtra("imageLink");
             colNotesRec = getIntent().getStringExtra("notes");
             colIDYRec = getIntent().getIntExtra("id", 0);
+            colStandardRefRec = getIntent().getStringExtra("standardref");
             //"coluid" set up in onCreate because needed both in Add and Modify
 
 
@@ -226,6 +238,12 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             edtCollectionNameX.setText(colTitleRec);
             edtCollectionDescX.setText(colDesRec);
             edtCollectionsNotesX.setText(colNotesRec);
+
+            if (colStandardRefRec.equals("")){
+                edtCollectionStandardRefX.setText("RIC");
+            } else {
+                edtCollectionStandardRefX.setText(colStandardRefRec);
+            }
 
             // need to convert to string before putting into editText but want int in firbase for sorting
             String colIDYRec2 = String.valueOf(colIDYRec);
@@ -696,6 +714,15 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         }
 
+        if(edtCollectionStandardRefX.getText().toString().equals("")){
+
+            standardRef2 = "RIC";
+        } else {
+
+            standardRef2 = edtCollectionStandardRefX.getText().toString();
+
+        }
+
         HashMap<String, Object> dataMap = new HashMap<>();
 
         dataMap.put("title", edtCollectionNameX.getText().toString());
@@ -708,7 +735,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         dataMap.put("coincount", itemCount);
         dataMap.put("colvalue", collectionValue);
 
-
+        dataMap.put("standardref", standardRef2);
 
         //////
         dataMap.put("coluid", coluidX);
@@ -734,6 +761,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                             Intent intent = new Intent(CollectionAdd.this, CoinList.class);
                             intent.putExtra("coluid", coluidX);
                             intent.putExtra("title", edtCollectionNameX.getText().toString());
+                            intent.putExtra("standardref", standardRef2);
                             startActivity(intent);
                             finish();
                         }
@@ -974,6 +1002,16 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         final String updateNotes = edtCollectionsNotesX.getText().toString();
         final String updateID = edtCollectionIDX.getText().toString();
 
+        final String updateStandardRef2 = edtCollectionStandardRefX.getText().toString();
+        if(updateStandardRef2.equals("")) {
+
+            updateStandardRef = "RIC";
+
+        } else {
+
+            updateStandardRef = updateStandardRef2;
+        }
+
         final int updateID2 = Integer.parseInt(updateID);// getting id to be an int before uploading so sorting work well
                                                          // no need to do the if logic to see if it's blank because in modify value from firebase has to be something even if that is 0
 
@@ -1001,6 +1039,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                     ds.getRef().child("uid").setValue(imageIdentifier);
                     ds.getRef().child("timestamp").setValue(timestampX);
                     ds.getRef().child("id").setValue(updateID2);
+                    ds.getRef().child("standardref").setValue(updateStandardRef);
 
 
                     pd.dismiss();

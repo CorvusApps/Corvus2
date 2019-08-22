@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
@@ -54,11 +55,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,6 +83,8 @@ public class CoinAdd extends AppCompatActivity {
     private TextView txtHiddenCoinAddColTitleX;
     private String cAddColTitleX; // collection Title
 
+    private String cAddStandardrefX; // standard ref passed from coinlist
+
     // data components for manipulating collection item count and value
 
     private int cAddItemCountX;
@@ -96,6 +102,7 @@ public class CoinAdd extends AppCompatActivity {
 
     private EditText edtPersonageX, edtRICX, edtDenominationX, edtRICvarX, edtWeightX, edtDiamaterX, edtMintX, edtObvDescX
             , edtObvLegendX, edtRevDescX, edtRevLegendX, edtProvenanceX, edtValueX, edtNotesX, edtSortRICX;
+
     private ImageView imgCoinAddX;
     private CoordinatorLayout loutCoinAddActLOX; // the layout needed as context by snackbars
 
@@ -156,6 +163,9 @@ public class CoinAdd extends AppCompatActivity {
         cAddColTitleX = getIntent().getStringExtra("title");
         txtHiddenCoinAddColTitleX.setText(cAddColTitleX);
 
+        cAddStandardrefX = getIntent().getStringExtra("standardref");
+        Toast.makeText(CoinAdd.this, cAddStandardrefX,Toast.LENGTH_LONG).show();
+
         // data components for manipulating collection item count and value in coin add function
 
         cAddItemCountX = getIntent().getIntExtra("coincount", 0);
@@ -169,6 +179,7 @@ public class CoinAdd extends AppCompatActivity {
         edtPersonageX = findViewById(R.id.edtPersonage);
         edtPersonageX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         edtPersonageX.setRawInputType(InputType.TYPE_CLASS_TEXT);// this plus textMultiline in XML allows for wraping text but provides a next button on keyboard to tab over
+
 
         edtDenominationX = findViewById(R.id.edtDenomination);
         edtDenominationX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
@@ -795,6 +806,7 @@ public class CoinAdd extends AppCompatActivity {
                             Intent intent = new Intent(CoinAdd.this, CoinList.class);
                             intent.putExtra("coluid", cAdduidX);
                             intent.putExtra("title", cAddColTitleX);
+                            intent.putExtra("standardref", cAddStandardrefX);
                             startActivity(intent);
                             finish();
                         }

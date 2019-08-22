@@ -59,6 +59,8 @@
                 android:layout_marginTop="@dimen/_25sdp"
                 android:layout_marginRight="@dimen/_5sdp">
 
+
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -66,12 +68,15 @@
                     android:layout_weight="2"
                     android:hint="Personage">
 
+
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtPersonage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLength="30"
                         android:inputType="textMultiLine"
+
                         android:nextFocusForward="@+id/edtDenomination"
 
                         />
