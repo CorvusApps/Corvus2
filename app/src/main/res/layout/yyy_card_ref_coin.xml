@@ -98,6 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="RIC"
+                android:layout_marginRight="@dimen/_3sdp"
                 android:textSize="@dimen/_12sdp"
                 android:textColor="@color/darktext"
                 />
@@ -106,7 +107,7 @@
                 android:id="@+id/txtRefCardRIC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_3sdp"
+
                 android:text="195"
                 android:textSize="@dimen/_12sdp"
                 android:textColor="@color/darktext"

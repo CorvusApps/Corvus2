@@ -307,6 +307,8 @@ public class RefCoinList extends AppCompatActivity {
                 viewHolder.setImageLink(model.getImageLink());
 
                 viewHolder.setLayouts();
+
+                viewHolder.setRICLabel(model.getId(), model.getRicvar());
             }
 
             // The Code setting out recycler view /////////////////////////////////////////////////////////////////
@@ -520,7 +522,18 @@ public class RefCoinList extends AppCompatActivity {
             loutRefCoinRevLegX.setVisibility(View.GONE);
             loutRefCoinProvenanceX.setVisibility(View.GONE);
             loutRefCoinNotesX.setVisibility(View.GONE);
+        }
 
+        // getting rid of RIC label only if both RIC and RIC var empty so something like Unlisted or Ves281 still get RIC in front
+        public void setRICLabel (int id, String ricvar){
+
+            TextView txtRefLabelRICX = (TextView)mView.findViewById(R.id.txtRefLabelRIC);
+            txtRefLabelRICX.setVisibility(View.VISIBLE);
+
+            if (id == 0 && ricvar.equals("")) {
+                txtRefLabelRICX.setVisibility(View.GONE);
+
+            }
 
         }
 
@@ -558,14 +571,12 @@ public class RefCoinList extends AppCompatActivity {
             String id2 = String.valueOf(id);
             txtRefCardRICX.setText(id2);
 
-            TextView txtRefLabelRICX = (TextView)mView.findViewById(R.id.txtRefLabelRIC);
-            txtRefLabelRICX.setVisibility(View.VISIBLE);
             txtRefCardRICX.setVisibility(View.VISIBLE);
 
             try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all ifs
                 if (id == 0){
 
-                    txtRefLabelRICX.setVisibility(View.GONE);
+
                     txtRefCardRICX.setVisibility(View.GONE);
                 }
             } catch (Exception e) {

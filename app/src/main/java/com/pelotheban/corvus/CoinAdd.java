@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -102,6 +103,8 @@ public class CoinAdd extends AppCompatActivity {
 
     private EditText edtPersonageX, edtRICX, edtDenominationX, edtRICvarX, edtWeightX, edtDiamaterX, edtMintX, edtObvDescX
             , edtObvLegendX, edtRevDescX, edtRevLegendX, edtProvenanceX, edtValueX, edtNotesX, edtSortRICX;
+
+    private TextInputLayout txtLOedtRICX, txtLOedtRICvarX; // need these to programatically set hint for the edt nested in them
 
     private ImageView imgCoinAddX;
     private CoordinatorLayout loutCoinAddActLOX; // the layout needed as context by snackbars
@@ -189,9 +192,15 @@ public class CoinAdd extends AppCompatActivity {
         edtRICX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         edtRICX.setRawInputType(InputType.TYPE_CLASS_NUMBER);
 
+        txtLOedtRICX = findViewById(R.id.txtLOedtID);
+        txtLOedtRICX.setHint(cAddStandardrefX + "#");
+
         edtRICvarX = findViewById(R.id.edtRICvar);
         edtRICvarX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         edtRICvarX.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
+        txtLOedtRICvarX = findViewById(R.id.txtLOedtRICvar);
+        txtLOedtRICvarX.setHint(cAddStandardrefX + "var");
 
         edtWeightX = findViewById(R.id.edtWeight);
         edtWeightX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
@@ -1178,6 +1187,7 @@ public class CoinAdd extends AppCompatActivity {
                                         Intent intent = new Intent(CoinAdd.this, CoinList.class);
                                         intent.putExtra("coluid", colUIDRec);
                                         intent.putExtra("title", colTitleRec);
+                                        intent.putExtra("standardref", cAddStandardrefX);
                                         startActivity(intent);
                                         finish();
                                     }
