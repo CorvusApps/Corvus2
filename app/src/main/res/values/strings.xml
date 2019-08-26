@@ -36,6 +36,8 @@
     <string name="collectionadd_03">We are working on making data input easier including uploading pictures from your computer and batch uploads from excel.</string>
     <string name="collectionadd_04">You can enter a unique numeric ID for your collection. You will be able to sort your collections on this ID as well as on other factors such us last update time and collection value.</string>
     <string name="collectionadd_05">Your data is safe. Only you can access your collection and we backup our entire database daily.</string>
+    <string name="collectionadd_06">You can enter one standard reference (for example the RIC, RSC, RPC, ERIC, etc.) You will able to sort your coins on that reference number. You can add other attribution references in the Notes section as you wish.</string>
+
 
     <string name="refcollections_01">The reference collections are there to help you attribute and describe coins.</string>
     <string name="refcollections_02">We are working on search capabilities for Corvus. For now we have divided the reference collection into digestable chunks that follow the RIC and which you can easily scroll through.</string>
@@ -48,7 +50,7 @@
     <string name="coinadd_02">Only the Personage field is mandatory. We strongly suggest using the attribution field to make it easy to sort your collection.</string>
     <string name="coinadd_03">You can upload any PNG or JPG picture of your coin from your device gallery; best results when cropped to a rectangle with the coin edges close to the image edge.</string>
     <string name="coinadd_04">The fields you do not fill in will not appear at all in your record to make viewing easier. </string>
-    <string name="coinadd_05">Corvus is currently based on RIC attribution but we are working on adding other references. The RIC number is numeric for sorting purposes. In the RICvar field you can add qualifiers such as a letter (e.g. RIC 197b) or var or note</string>
+    <string name="coinadd_05">Corvus allows you to sort your coins on the standard reference number which must be numeric. In the [Reference]var field you can put in qualifiers such as letters, variants, etc.</string>
     <string name="coinadd_06">Corvus is not yet optimized for Provincial coins. We are working on adding greek alphabet capabilities to the app.</string>
 
     <string name="coinlist_01">Click the floating button at the bottom of the screen to add a coin.</string>

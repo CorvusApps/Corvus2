@@ -167,7 +167,7 @@ public class CoinAdd extends AppCompatActivity {
         txtHiddenCoinAddColTitleX.setText(cAddColTitleX);
 
         cAddStandardrefX = getIntent().getStringExtra("standardref");
-        Toast.makeText(CoinAdd.this, cAddStandardrefX,Toast.LENGTH_LONG).show();
+
 
         // data components for manipulating collection item count and value in coin add function
 
