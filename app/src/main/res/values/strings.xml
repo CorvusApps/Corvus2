@@ -15,8 +15,6 @@
     <string name="refcoinlist_interstitial_ad">ca-app-pub-1744081621312112/9481745995</string>
 
 
-
-
     <string name="test_reward_ad">ca-app-pub-3940256099942544/5224354917</string>
 
     <!-- For FAQ & one time dialogs -->
@@ -66,23 +64,5 @@
     <string name="title_activity_coin_add">CoinAdd</string>
     <string name="title_activity_excel">Excel</string>
 
-    <!-- For Personage spinner -->
-    
-    <string-array name="personage_list">
-
-        <item>Augustus</item>
-        <item>Tiberius</item>
-        <item>Caligula</item>
-        <item>Claudius</item>
-        <item>Nero</item>
-        <item>Clodius Macer</item>
-        <item>Galba</item>
-        <item>Otho</item>
-        <item>Vitellius</item>
-        <item>Vespasian</item>
-        <item>Titus</item>
-
-
-    </string-array>
 
 </resources>

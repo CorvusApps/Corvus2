@@ -107,7 +107,6 @@ public class RefCollections extends AppCompatActivity {
         mInterstitialAd = new InterstitialAd(RefCollections.this);
         mInterstitialAd.setAdUnitId(getString(R.string.test_interstitial_ad));
         //mInterstitialAd.setAdUnitId(getString(R.string.refcollections_interstitial_ad));
-
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
        // Toast.makeText(RefCollections.this, mAdvertCounter + "", Toast.LENGTH_SHORT).show();

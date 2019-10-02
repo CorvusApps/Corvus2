@@ -306,16 +306,6 @@ public class Excel extends AppCompatActivity {
 
                     //handles if there are to many columns on the excel sheet.
 
-                    if(c>14){
-
-                        Log.e(TAG, "readExcelData: ERROR. Excel File Format is incorrect! " );
-
-                        toastMessage("ERROR: Excel File Format is incorrect!");
-
-                        break;
-
-                    }else{
-
                         String value = getCellAsString(row, c, formulaEvaluator);
 
                         String cellInfo = "r:" + r + "; c:" + c + "; v:" + value;
@@ -324,7 +314,7 @@ public class Excel extends AppCompatActivity {
 
                         sb.append(value + ",,"); // need 2 : or , to not confuse with : or , actually in the text
 
-                    }
+
 
                 }
 

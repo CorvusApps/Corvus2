@@ -92,8 +92,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         setContentView(R.layout.activity_login);
        // printKeyHash();
 
@@ -158,6 +156,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
         if (currentUser != null){
+
+            Toast.makeText(Login.this, currentUser.toString(), Toast.LENGTH_LONG).show();
 
             Intent intent = new Intent(Login.this, HomePage.class);
             startActivity(intent);

@@ -758,10 +758,12 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
                         }
 
                         public void onFinish() {
-                            Intent intent = new Intent(CollectionAdd.this, CoinList.class);
-                            intent.putExtra("coluid", coluidX);
-                            intent.putExtra("title", edtCollectionNameX.getText().toString());
-                            intent.putExtra("standardref", standardRef2);
+                            Intent intent = new Intent(CollectionAdd.this, HomePage.class);
+
+//                            Intent intent = new Intent(CollectionAdd.this, CoinList.class);
+//                            intent.putExtra("coluid", coluidX);
+//                            intent.putExtra("title", edtCollectionNameX.getText().toString());
+//                            intent.putExtra("standardref", standardRef2);
                             startActivity(intent);
                             finish();
                         }

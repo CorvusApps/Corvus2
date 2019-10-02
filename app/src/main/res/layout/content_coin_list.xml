@@ -32,6 +32,15 @@
         app:cornerRadius="@dimen/_10sdp"
         android:text="Augustus Denari Part I: Spanish and Gaulish Mints" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgFirstCoin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/startcoin" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvCoins"
         android:layout_width="match_parent"

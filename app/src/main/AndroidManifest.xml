@@ -17,37 +17,38 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".CoinMagnify"></activity>
         <activity
-            android:name="com.pelotheban.corvus.Excel"
+            android:name=".Excel"
             android:label="@string/title_activity_excel"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.pelotheban.corvus.CoinAdd"
+            android:name=".CoinAdd"
             android:label="@string/title_activity_coin_add"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.pelotheban.corvus.RefCoinList"
+            android:name=".RefCoinList"
             android:label="@string/title_activity_ref_coin_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.pelotheban.corvus.RefCollections"
+            android:name=".RefCollections"
             android:label="@string/title_activity_ref_collections"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.pelotheban.corvus.CoinList"
+            android:name=".CoinList"
             android:label="@string/title_activity_coin_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.pelotheban.corvus.HomePage"
+            android:name=".HomePage"
             android:label="@string/title_activity_home_page"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.pelotheban.corvus.CollectionAdd"
+            android:name=".CollectionAdd"
             android:label="@string/title_activity_collection_add"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -56,19 +57,18 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-1744081621312112~4434333836"/>
+            android:value="ca-app-pub-1744081621312112~4434333836" />
 
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
-            android:name="com.pelotheban.corvus.Login"
+            android:name=".Login"
             android:screenOrientation="portrait" />
-        <activity android:name="com.pelotheban.corvus.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

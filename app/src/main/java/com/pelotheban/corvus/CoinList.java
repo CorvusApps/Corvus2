@@ -82,6 +82,10 @@ public class CoinList extends AppCompatActivity {
 
     private ProgressDialog pd; // universal progress dialog used in this activity
 
+    private ImageView imgFirstCoinX;
+    private SharedPreferences sharedFirstCoin;
+    private int firstCoinToggle;
+
     FloatingActionButton fabCoinExcelAddX, fabCoinAddX, fbtnPopUpMenuCoinListX;
 
     // custom view to use as a shade behind custom dialogs
@@ -214,10 +218,43 @@ public class CoinList extends AppCompatActivity {
             }
         });
 
+        imgFirstCoinX = findViewById(R.id.imgFirstCoin);
+
+        sharedFirstCoin = getSharedPreferences("startFirstCoin", MODE_PRIVATE);
+        firstCoinToggle = sharedFirstCoin.getInt("FirstCoin", 0);
+        if (firstCoinToggle > 0) {
+
+            imgFirstCoinX.setVisibility(View.GONE);
+
+
+        }
+
+        imgFirstCoinX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                firstCoinToggle = sharedFirstCoin.getInt("FirstCoin", 0); // where if no settings
+                SharedPreferences.Editor editorFC = sharedFirstCoin.edit();
+                editorFC.putInt("FirstCoin", firstCoinToggle + 1);
+                editorFC.apply(); // saves the value
+                firstCoinToggle = firstCoinToggle + 1;
+
+                fabCoinAddX.performClick();
+
+            }
+        });
+
         fabCoinAddX = findViewById(R.id.fabCoinAdd);
         fabCoinAddX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                firstCoinToggle = sharedFirstCoin.getInt("FirstCoin", 0); // where if no settings
+                SharedPreferences.Editor editorFC = sharedFirstCoin.edit();
+                editorFC.putInt("FirstCoin", firstCoinToggle + 1);
+                editorFC.apply(); // saves the value
+                firstCoinToggle = firstCoinToggle + 1;
+
                 Intent intent = new Intent(CoinList.this, CoinAdd.class);
                 intent.putExtra("coluid", cListuid);
                 intent.putExtra("title", cListColName);
@@ -741,9 +778,13 @@ public class CoinList extends AppCompatActivity {
             TextView txtLabelRICX = (TextView)mView.findViewById(R.id.txtLabelRIC);
             txtLabelRICX.setVisibility(View.VISIBLE);
 
+            try {
             if (id == 0 && ricvar.equals("")) {
                 txtLabelRICX.setVisibility(View.GONE);
 
+            }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
         }
@@ -762,11 +803,21 @@ public class CoinList extends AppCompatActivity {
 
         }
 
-        public void setImage(Context ctx, String imageLink){
+        public void setImage(Context ctx, final String imageLink){
 
             ImageView imgCardCoinAddX = (ImageView) mView.findViewById(R.id.imgCardCoinAdd);
             Picasso.get().load(imageLink).into(imgCardCoinAddX); //tutorial had with which got renamed to get but with took ctx as parameter...
+            imgCardCoinAddX.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    Intent intent = new Intent(itemView.getContext(), CoinMagnify.class);
+
+                    intent.putExtra("imagelink", imageLink);
+
+                    itemView.getContext().startActivity(intent);
+                }
+            });
 
         }
 
@@ -1062,7 +1113,13 @@ public class CoinList extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                //set default value for image link which will be overwritten below if not NULL
+                deleteImageLink = "https://firebasestorage.googleapis.com/v0/b/corvus-e98f9.appspot.com/o/myImages%2FcoinImages%2F5d473542-87e1-4410-bbaf-eec7f48ee22c.jpg?alt=media&token=3f1769ec-4f31-49d2-a229-c472457ec99c";
+                try {
                 deleteImageLink = dataSnapshot.getValue().toString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 //calling a method with deleteImageLink as a parameter forces the query to complete before moving on
                 deleteCoin(deleteImageLink, position);
