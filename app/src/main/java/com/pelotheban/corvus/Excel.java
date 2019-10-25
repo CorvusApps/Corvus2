@@ -49,9 +49,7 @@ import java.util.HashMap;
 
 public class Excel extends AppCompatActivity {
 
-    //Variables related to downloading the excel template
 
-    String excellURL;
 
     // Data imported from CoinAdd to be used here
     String collectionID;
@@ -87,32 +85,7 @@ public class Excel extends AppCompatActivity {
         setContentView(R.layout.activity_excel);
 
 
-        ///////////////// BEGIN - Variables and methods related to downloading the excel template
 
-        excellURL = "https://corvusapps.com/excel-input-file-download/";
-
-        // permissions for excel file download (messy code because this file download section from different tutorial than the excel section so set up a bit different to get to permissions in this
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-                    PackageManager.PERMISSION_DENIED) {
-                //permission denied request it
-                String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                // show pop up for runtime permission
-                requestPermissions(permissions, 2000);
-
-
-            } else {
-                // permission already granted perform download
-                startDowloading();
-            }
-        } else {
-
-            // system os is less than marshmallow perform dowloand
-
-            startDowloading();
-        }
 
 
         // Data imported from CoinAdd to be used here
@@ -309,22 +282,6 @@ public class Excel extends AppCompatActivity {
 
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_LONG).show();
             }
-        } else {
-
-            if (requestCode == 2000) {
-
-                if(grantResults.length >0 && grantResults[0] ==
-                        PackageManager.PERMISSION_GRANTED){
-
-                    startDowloading();
-
-                } else {
-
-                    Toast.makeText(this, "Permission denied", Toast.LENGTH_LONG).show();
-                }
-
-            }
-
         }
     }
 
@@ -694,26 +651,6 @@ public class Excel extends AppCompatActivity {
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
 
     }
-
-    ///// Begin excel file downloading functions
-
-    private void startDowloading () {
-
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(excellURL));
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
-        request.setTitle("Downloae");  // set title is download notification
-        request.setDescription("Dowloading file...");
-        request.allowScanningByMediaScanner();
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "" + "corvusTemplate.xlsm");
-
-        // get download service and engue file
-        DownloadManager manager = (DownloadManager)getSystemService(Context.DOWNLOAD_SERVICE);
-        manager.enqueue(request);
-
-    }
-
-
 
 
 }

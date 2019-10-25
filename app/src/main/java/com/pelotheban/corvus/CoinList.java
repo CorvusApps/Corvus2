@@ -1,14 +1,19 @@
 package com.pelotheban.corvus;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.facebook.login.LoginManager;
@@ -41,6 +46,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -67,6 +73,9 @@ public class CoinList extends AppCompatActivity {
     // UI and data components for transfering collection ID from Homepage through here to AddCoin and ShowCoin activities
     private TextView txtCListCollUIDX;
     private String cListuid, cListStandardRef;
+
+    //Variables related to downloading the excel template
+    String excellURL;
 
     // Firebase related
     private FirebaseAuth firebaseAuthCoins;
@@ -205,6 +214,10 @@ public class CoinList extends AppCompatActivity {
             }
         });
 
+        //Variables and methods related to downloading the excel template
+
+        excellURL = "https://corvusapps.com/excel-input-file-download/";
+
         GridTestToggle = 2; //2 means grid
 
         fabCoinExcelAddX = findViewById(R.id.fabCoinExcelAdd);
@@ -212,13 +225,8 @@ public class CoinList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //transfers info to Excel class so it can upload to the right collection and update values and counts
-                Intent intent = new Intent(CoinList.this, Excel.class);
-                intent.putExtra("coluid", cListuid);
-                intent.putExtra("title", cListColName);
-                intent.putExtra("coincount", coinListItemCountInt);
-                intent.putExtra("colvalue", coinListColValueInt);
-                startActivity(intent);
+                excelDialog();
+
             }
         });
 
@@ -1569,7 +1577,7 @@ public class CoinList extends AppCompatActivity {
 
     ///////////////////////// END -------> POP-UP MENU ///////////////////////////////////////////////////////////
 
-    ///////////////////////// START ----->>> SNACKBARS ////////////////////////////////////////////////////////////
+    ///////////////////////// START ----->>> SNACKBARS AND DIALOGS////////////////////////////////////////////////
 
     private void logoutSnackbar(){
 
@@ -1626,7 +1634,139 @@ public class CoinList extends AppCompatActivity {
 
     }
 
-    ///////////////////////// END -------> SNACKBARS //////////////////////////////////////////////////////////////
+    private void excelDialog() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_excel, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        Button btnExcelVideoX = view.findViewById(R.id.btnExcelVideo);
+        btnExcelVideoX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(CoinList.this, "Watching the video", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+
+            }
+        });
+
+        Button btnDLTemplateX = view.findViewById(R.id.btnDLTemplate);
+        btnDLTemplateX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                downloadTemplateStart();
+                //put in dialog here that says template downloaded - get it to your comp and fill in as per instruction - watch video if not sure
+                dialog.dismiss();
+
+            }
+        });
+
+        Button btnULTemplateX = view.findViewById(R.id.btnULTemplate);
+        btnULTemplateX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //transfers info to Excel class so it can upload to the right collection and update values and counts
+                Intent intent = new Intent(CoinList.this, Excel.class);
+                intent.putExtra("coluid", cListuid);
+                intent.putExtra("title", cListColName);
+                intent.putExtra("coincount", coinListItemCountInt);
+                intent.putExtra("colvalue", coinListColValueInt);
+                startActivity(intent);
+
+                dialog.dismiss();
+
+            }
+        });
+
+        Button btnCancelX = view.findViewById(R.id.btnCancel);
+        btnCancelX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+    }
+
+    // excel download stuff flowing from the dialog above
+
+    private void downloadTemplateStart(){
+
+        // permissions for excel file download (messy code because this file download section from different tutorial than the excel section so set up a bit different to get to permissions in this
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_DENIED) {
+                //permission denied request it
+                String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                // show pop up for runtime permission
+                requestPermissions(permissions, 2000);
+
+
+            } else {
+                // permission already granted perform download
+                startDowloading();
+            }
+        } else {
+
+            // system os is less than marshmallow perform dowloand
+
+            startDowloading();
+        }
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 2000) {
+
+                if(grantResults.length >0 && grantResults[0] ==
+                        PackageManager.PERMISSION_GRANTED){
+
+                    startDowloading();
+
+                } else {
+
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_LONG).show();
+                }
+
+        }
+
+    }
+
+    private void startDowloading () {
+
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(excellURL));
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+        request.setTitle("Downloae");  // set title is download notification
+        request.setDescription("Dowloading file...");
+        request.allowScanningByMediaScanner();
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "" + "corvusTemplateNew.xlsm");
+
+        // get download service and engue file
+        DownloadManager manager = (DownloadManager)getSystemService(Context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
+
+    }
+
+
+    ///////////////////////// END -------> SNACKBARS AND DIALOGS ///////////////////////////////////////////
 
     ///////////////////////// START ----->>> FAQ AND ONE TIME /////////////////////////////////////////////////////
 
