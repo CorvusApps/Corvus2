@@ -157,7 +157,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         if (currentUser != null){
 
-            Toast.makeText(Login.this, currentUser.toString(), Toast.LENGTH_LONG).show();
+           // Toast.makeText(Login.this, currentUser.toString(), Toast.LENGTH_LONG).show();
 
             Intent intent = new Intent(Login.this, HomePage.class);
             startActivity(intent);

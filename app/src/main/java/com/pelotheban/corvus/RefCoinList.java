@@ -551,11 +551,21 @@ public class RefCoinList extends AppCompatActivity {
 
         }
 
-        public void setImage(Context ctx, String imageLink){
+        public void setImage(Context ctx, final String imageLink){
 
             ImageView imgRefCardCoinAddX = (ImageView) mView.findViewById(R.id.imgRefCardCoinAdd);
             Picasso.get().load(imageLink).into(imgRefCardCoinAddX); //tutorial had with which got renamed to get but with took ctx as parameter...
+            imgRefCardCoinAddX.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    Intent intent = new Intent(itemView.getContext(), RefCoinMagnify.class);
+
+                    intent.putExtra("imagelink", imageLink);
+
+                    itemView.getContext().startActivity(intent);
+                }
+            });
 
         }
 

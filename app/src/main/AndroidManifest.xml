@@ -17,7 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".CoinMagnify"></activity>
+        <activity
+            android:name=".RefCoinMagnify"
+            android:screenOrientation="landscape" />
+
+        <activity
+            android:name=".CoinMagnify"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".Excel"
             android:label="@string/title_activity_excel"

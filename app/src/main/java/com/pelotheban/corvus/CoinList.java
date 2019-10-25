@@ -86,6 +86,8 @@ public class CoinList extends AppCompatActivity {
     private SharedPreferences sharedFirstCoin;
     private int firstCoinToggle;
 
+    private int GridTestToggle;
+
     FloatingActionButton fabCoinExcelAddX, fabCoinAddX, fbtnPopUpMenuCoinListX;
 
     // custom view to use as a shade behind custom dialogs
@@ -202,6 +204,8 @@ public class CoinList extends AppCompatActivity {
                 mInterstitialAdCoinList.loadAd(new AdRequest.Builder().build());
             }
         });
+
+        GridTestToggle = 2; //2 means grid
 
         fabCoinExcelAddX = findViewById(R.id.fabCoinExcelAdd);
         fabCoinExcelAddX.setOnClickListener(new View.OnClickListener() {
@@ -758,11 +762,16 @@ public class CoinList extends AppCompatActivity {
             LinearLayout loutCoinProvenanceX = (LinearLayout) mView.findViewById(R.id.loutCoinProvenance);
             LinearLayout loutCoinNotesX = (LinearLayout) mView.findViewById(R.id.loutCoinNotes);
 
+            LinearLayout loutCoinFirstLineX = (LinearLayout) mView.findViewById(R.id.loutCoinFirstLine);
+            LinearLayout loutCoinSecondLineX = (LinearLayout) mView.findViewById(R.id.loutCoinSecondLine);
+
             loutCoinObvDescX.setVisibility(View.GONE);
             loutCoinObvLegX.setVisibility(View.GONE);
             loutCoinRevLegX.setVisibility(View.GONE);
             loutCoinProvenanceX.setVisibility(View.GONE);
             loutCoinNotesX.setVisibility(View.GONE);
+
+
         }
 
         public void setStandardRef (String cListStandardRef){
