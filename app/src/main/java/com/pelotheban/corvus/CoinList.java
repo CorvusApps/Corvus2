@@ -1651,7 +1651,8 @@ public class CoinList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(CoinList.this, "Watching the video", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CoinList.this, ExcelVideo.class);
+                startActivity(intent);
                 dialog.dismiss();
 
             }

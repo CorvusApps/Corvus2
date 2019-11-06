@@ -69,6 +69,7 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:multidex:1.0.1'
+    implementation files('libs\\YouTubeAndroidPlayerApi.jar')
 
 }
 
