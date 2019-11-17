@@ -431,6 +431,8 @@ public class Excel extends AppCompatActivity {
             String weight = uploadData.get(i).getWeight();
             String sortric = uploadData.get(i).getSortric();
 
+            final int coinCounter = i +1; //coin counter for toast
+
             Log.d(TAG, "printDataToLog: (denomination, diamter, id, mint, notes, obvdesc, obvleg, personage, provenance, revdesc, revleg, ricvar, value, weight, sortric): (" + denomination + "," + diameter + ", " + id + ", " + mint + ", " + notes + ", " + obvdesc + ", " + obvleg + ", " + personage + "" +
                     ", " + provenance + ", " + revdesc + ", " + revleg + ", " + ricvar + ", " + value + ", " + weight + ", " + sortric + ")");
 
@@ -459,7 +461,12 @@ public class Excel extends AppCompatActivity {
             dataMap.put("personage", personage);
             dataMap.put("imageIdentifier", "5d473542-87e1-4410-bbaf-eec7f48ee22c.jpg");
             dataMap.put("imageLink", "https://firebasestorage.googleapis.com/v0/b/corvus-e98f9.appspot.com/o/myImages%2FcoinImages%2F5d473542-87e1-4410-bbaf-eec7f48ee22c.jpg?alt=media&token=3f1769ec-4f31-49d2-a229-c472457ec99c");
-            dataMap.put("id", RIC3);
+
+            if (RIC3 == 1){
+
+            } else {
+                dataMap.put("id", RIC3);
+            }
 
             if (ricvar.equals("x")) {
 
@@ -467,7 +474,13 @@ public class Excel extends AppCompatActivity {
                 dataMap.put("ricvar", ricvar);
             }
 
-            dataMap.put("denomination", denomination);
+            if (denomination.equals("x")) {
+
+            } else {
+
+                dataMap.put("denomination", denomination);
+
+            }
 
             if (weight.equals("1.0")) {
 
@@ -481,11 +494,35 @@ public class Excel extends AppCompatActivity {
                 dataMap.put("diameter", diameter);
             }
 
-            dataMap.put("mint", mint);
-            dataMap.put("obvdesc", obvdesc);
-            dataMap.put("obvleg", obvleg);
-            dataMap.put("revdesc", revdesc);
-            dataMap.put("revleg", revleg);
+            if (mint.equals("x")) {
+
+            } else {
+                dataMap.put("mint", mint);
+            }
+
+            if (obvdesc.equals("x")) {
+
+            } else {
+                dataMap.put("obvdesc", obvdesc);
+            }
+
+            if (obvleg.equals("x")){
+
+            } else {
+                dataMap.put("obvleg", obvleg);
+            }
+
+            if (revdesc.equals("x")) {
+
+            } else {
+                dataMap.put("revdesc", revdesc);
+            }
+
+            if (revleg.equals("x")) {
+
+            } else {
+                dataMap.put("revleg", revleg);
+            }
 
             if (provenance.equals("x")) {
 
@@ -493,7 +530,11 @@ public class Excel extends AppCompatActivity {
                 dataMap.put("provenance", provenance);
             }
 
-            dataMap.put("value", Value3);
+            if (Value3 == 1) {
+
+            } else {
+                dataMap.put("value", Value3);
+            }
 
             if (notes.equals("x")) {
 
@@ -521,7 +562,11 @@ public class Excel extends AppCompatActivity {
 
                     if (task.isSuccessful()) {
 
-                        toastMessage(id + " uploaded");
+//                        Float RICtoast = Float.parseFloat(String.valueOf(id));
+//                        int RICtoast2 = (int)(Math.round(RICtoast));// getting id to be an int before toasting to get rid of decimal
+                        // toasting the coin number not RIC as before as not everyone will have populated RIC
+                        String RICtoast3 = "Coin: " + coinCounter + " uploaded to Corvus";
+                        toastMessage(RICtoast3);
 
                         //once coin uploaded update collection timestamp, itemcount and vlaue///////////////
                         final Long timestampY = System.currentTimeMillis() * -1;
