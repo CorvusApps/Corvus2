@@ -63,6 +63,7 @@
     <string name="title_activity_ref_coin_list">RefCoinList</string>
     <string name="title_activity_coin_add">CoinAdd</string>
     <string name="title_activity_excel">Excel</string>
+    <string name="title_activity_ref_collections_dir">RefCollectionsDir</string>
 
 
 </resources>

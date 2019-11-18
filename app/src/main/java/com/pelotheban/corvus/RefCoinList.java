@@ -1226,7 +1226,7 @@ public class RefCoinList extends AppCompatActivity {
 
         } else {
 
-            Intent intent = new Intent(RefCoinList.this, RefCollections.class);
+            Intent intent = new Intent(RefCoinList.this, RefCollectionsDir.class);
             startActivity(intent);
             finish();
 

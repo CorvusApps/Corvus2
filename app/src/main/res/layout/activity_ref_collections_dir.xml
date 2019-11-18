@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loutCoinAddActLO"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RefCollectionsDir">
+
+
+    <include layout="@layout/content_ref_collections_dir" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnPopUpMenuRefColsDir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:outlineProvider="none"
+        app:rippleColor="@color/colorPrimary"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="0dp"
+        android:src="@drawable/menu"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnPopUp2RefCollectionsDir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="0dp"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/collapse_white"/>
+
+
+    <TextView
+        android:id="@+id/txtMyCollectionsButtonRefCollectionsDir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="90dp"
+        android:layout_marginRight="54dp"
+        android:text="My Collections"
+        android:gravity="right"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:textColor="#FFFFFF"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnMiniMyCollectionsRefCollectionsDir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="80dp"
+        android:layout_marginRight="8dp"
+        android:backgroundTint="@color/colorAccentLight"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/my_collections"/>
+
+    <TextView
+        android:id="@+id/txtFAQButtonRefCollectionsDir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="130dp"
+        android:layout_marginRight="54dp"
+        android:text="FAQ"
+        android:gravity="right"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:textColor="#FFFFFF"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnMiniFAQRefCollectionsDir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="120dp"
+        android:layout_marginRight="8dp"
+        android:backgroundTint="@color/colorAccentLight"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/faq"/>
+
+    <TextView
+        android:id="@+id/txtLogoutButtonRefCollectionsDir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="170dp"
+        android:layout_marginRight="54dp"
+        android:text="Logout"
+        android:gravity="right"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:textColor="#FFFFFF"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtnMiniLogoutRefCollectionsDir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="160dp"
+        android:layout_marginRight="8dp"
+        android:backgroundTint="@color/colorAccentLight"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/logout"/>
+
+    <View
+        android:id="@+id/shade"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primaryShadow"
+        android:visibility="invisible"/>
+
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

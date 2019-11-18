@@ -927,7 +927,7 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(HomePage.this, RefCollections.class);
+                Intent intent = new Intent(HomePage.this, RefCollectionsDir.class);
                 startActivity(intent);
                 popupMenuToggle = "Not";
             }
@@ -1034,7 +1034,7 @@ public class HomePage extends AppCompatActivity {
 
                     case R.id.popMenuRefCollections:
 
-                        Intent intent = new Intent(HomePage.this, RefCollections.class);
+                        Intent intent = new Intent(HomePage.this, RefCollectionsDir.class);
                         startActivity(intent);
 
 

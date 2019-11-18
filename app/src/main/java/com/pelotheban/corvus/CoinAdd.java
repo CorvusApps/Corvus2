@@ -1278,7 +1278,7 @@ public class CoinAdd extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(CoinAdd.this, RefCollections.class);
+                Intent intent = new Intent(CoinAdd.this, RefCollectionsDir.class);
                 startActivity(intent);
                 popupMenuToggle = "Not";
             }
@@ -1373,7 +1373,7 @@ public class CoinAdd extends AppCompatActivity {
 
                     case R.id.popMenuRefCollections:
 
-                        Intent intent = new Intent(CoinAdd.this, RefCollections.class);
+                        Intent intent = new Intent(CoinAdd.this, RefCollectionsDir.class);
                         startActivity(intent);
 
 

@@ -1122,7 +1122,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(CollectionAdd.this, RefCollections.class);
+                Intent intent = new Intent(CollectionAdd.this, RefCollectionsDir.class);
                 startActivity(intent);
                 popupMenuToggle = "Not";
             }
@@ -1220,7 +1220,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
                     case R.id.popMenuRefCollections:
 
-                        Intent intent = new Intent(CollectionAdd.this, RefCollections.class);
+                        Intent intent = new Intent(CollectionAdd.this, RefCollectionsDir.class);
                         startActivity(intent);
 
 
