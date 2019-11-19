@@ -463,6 +463,7 @@ public class Excel extends AppCompatActivity {
             dataMap.put("imageLink", "https://firebasestorage.googleapis.com/v0/b/corvus-e98f9.appspot.com/o/myImages%2FcoinImages%2F5d473542-87e1-4410-bbaf-eec7f48ee22c.jpg?alt=media&token=3f1769ec-4f31-49d2-a229-c472457ec99c");
 
             if (RIC3 == 1){
+                dataMap.put("id", 0);
 
             } else {
                 dataMap.put("id", RIC3);
@@ -470,11 +471,15 @@ public class Excel extends AppCompatActivity {
 
             if (ricvar.equals("x")) {
 
+                dataMap.put("ricvar", "");
+
             } else {
                 dataMap.put("ricvar", ricvar);
             }
 
             if (denomination.equals("x")) {
+
+                dataMap.put("denomination", "");
 
             } else {
 
@@ -483,60 +488,70 @@ public class Excel extends AppCompatActivity {
             }
 
             if (weight.equals("1.0")) {
+                dataMap.put("weight", "");
 
             } else {
                 dataMap.put("weight", weight);
             }
 
             if (diameter.equals("1.0")) {
+                dataMap.put("diameter", "");
 
             } else {
                 dataMap.put("diameter", diameter);
             }
 
             if (mint.equals("x")) {
+                dataMap.put("mint", "");
 
             } else {
                 dataMap.put("mint", mint);
             }
 
             if (obvdesc.equals("x")) {
+                dataMap.put("obvdesc", "");
 
             } else {
                 dataMap.put("obvdesc", obvdesc);
             }
 
             if (obvleg.equals("x")){
+                dataMap.put("obvleg", "");
 
             } else {
                 dataMap.put("obvleg", obvleg);
             }
 
             if (revdesc.equals("x")) {
+                dataMap.put("revdesc", "");
 
             } else {
                 dataMap.put("revdesc", revdesc);
             }
 
             if (revleg.equals("x")) {
+                dataMap.put("revleg", "");
 
             } else {
                 dataMap.put("revleg", revleg);
             }
 
             if (provenance.equals("x")) {
+                dataMap.put("provenance", "");
 
             } else {
                 dataMap.put("provenance", provenance);
             }
 
             if (Value3 == 1) {
+                dataMap.put("value", 0);
 
             } else {
                 dataMap.put("value", Value3);
             }
 
             if (notes.equals("x")) {
+                dataMap.put("notes", "");
 
             } else {
                 dataMap.put("notes", notes);
