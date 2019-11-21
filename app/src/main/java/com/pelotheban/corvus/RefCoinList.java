@@ -1224,9 +1224,9 @@ public class RefCoinList extends AppCompatActivity {
             popupMenuToggle = "Not";
 
 
-        } else {
+        }else {
 
-            Intent intent = new Intent(RefCoinList.this, RefCollectionsDir.class);
+            Intent intent = new Intent(RefCoinList.this, RefCollections.class);
             startActivity(intent);
             finish();
 

@@ -928,6 +928,21 @@ public class HomePage extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(HomePage.this, RefCollectionsDir.class);
+
+                fbtnPopUpMenuHomePageX.setVisibility(View.VISIBLE);
+                fbtnPopUp2HomePageX.setVisibility(View.GONE);
+                fbtnMiniSortCollectionX.setVisibility(View.GONE);
+                fbtnMiniRefCollectionsX.setVisibility(View.GONE);
+                fbtnMiniFAQX.setVisibility(View.GONE);
+                fbtnMiniLogoutX.setVisibility(View.GONE);
+
+                txtSortButtonX.setVisibility(View.GONE);
+                txtRefCoinsButtonX.setVisibility(View.GONE);
+                txtFAQButtonX.setVisibility(View.GONE);
+                txtLogoutButtonX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
                 startActivity(intent);
                 popupMenuToggle = "Not";
             }

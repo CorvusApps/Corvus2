@@ -1279,8 +1279,21 @@ public class CoinAdd extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(CoinAdd.this, RefCollectionsDir.class);
+
+                fabCoinPopUpMenuX.setVisibility(View.VISIBLE);
+                fabCoinSaveX.setVisibility(View.VISIBLE);
+
+                fbtnPopUp2CoinAddX.setVisibility(View.GONE);
+
+                fbtnMiniRefCollectionsCoinAddX.setVisibility(View.GONE);
+                fbtnMiniFAQCoinAddX.setVisibility(View.GONE);
+                fbtnMiniLogoutCoinAddX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
                 startActivity(intent);
+
                 popupMenuToggle = "Not";
+
             }
         });
 

@@ -1444,6 +1444,21 @@ public class CoinList extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(CoinList.this, RefCollectionsDir.class);
+
+                fbtnPopUpMenuCoinListX.setVisibility(View.VISIBLE);
+                fbtnPopUp2CoinListX.setVisibility(View.GONE);
+                fbtnMiniSortCollectionCoinListX.setVisibility(View.GONE);
+                fbtnMiniRefCollectionsCoinListX.setVisibility(View.GONE);
+                fbtnMiniFAQCoinListX.setVisibility(View.GONE);
+                fbtnMiniLogoutCoinListX.setVisibility(View.GONE);
+
+                txtSortButtonCoinListX.setVisibility(View.GONE);
+                txtRefCoinsButtonCoinListX.setVisibility(View.GONE);
+                txtFAQButtonCoinListX.setVisibility(View.GONE);
+                txtLogoutButtonCoinListX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
                 startActivity(intent);
                 popupMenuToggle = "Not";
             }

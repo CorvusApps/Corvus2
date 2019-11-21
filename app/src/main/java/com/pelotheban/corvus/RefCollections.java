@@ -58,6 +58,10 @@ public class RefCollections extends AppCompatActivity {
     private RecyclerView rcvRefCollectionsX;
     private DatabaseReference mDatabase;
 
+    // information from collection directory to limit which collections we show - goes into sort function
+    private int era;
+    private Query sortQuery;
+
     // components for new FAB based pop-up menu
     private FloatingActionButton fbtnPopUp2RefCollectionsX, fbtnMiniMyCollectionsRefCollectionsX, fbtnMiniFAQRefCollectionsX, fbtnMiniLogoutRefCollectionsX;
     private TextView txtRefCoinsButtonRefCollectionsX, txtFAQButtonRefCollectionsX, txtLogoutButtonRefCollectionsX;
@@ -93,9 +97,9 @@ public class RefCollections extends AppCompatActivity {
 
         //To be shown first time only as intro info
 
-        if (isFirstTime()) {
-            oneTimeInfoLogin();
-        }
+//        if (isFirstTime()) {
+//            oneTimeInfoLogin();
+//        }
 
 
         //adMob
@@ -178,6 +182,10 @@ public class RefCollections extends AppCompatActivity {
         // custom view to use as a shade behind custom dialogs
         shadeX = findViewById(R.id.shade);
 
+        // information from collection directory to limit which collections we show - goes into sort function
+        era = getIntent().getIntExtra("era",0);
+
+
         //setting this up so when we have our FAB popup menu clicking anywhere on the scrreen will turn it off
         shadeX.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,7 +212,24 @@ public class RefCollections extends AppCompatActivity {
         DatabaseReference sortReference = mDatabase.child("vPlrYZXdGHgRotLma4OVopIRKY02")
                 .child("collections");
 
-        Query sortQuery = sortReference.orderByChild("id");
+        // setting up query to be dependent on selection in RefCollectionDir - which is limiting collections to an era
+
+        if (era == 1) {
+
+            sortQuery = sortReference.orderByChild("id").startAt(1).endAt(13999);
+
+        } else if (era == 2){
+
+            sortQuery = sortReference.orderByChild("id").startAt(14000).endAt(23999);
+
+        } else if (era == 3){
+
+            sortQuery = sortReference.orderByChild("id").startAt(24000).endAt(28999);
+        } else {
+
+            sortQuery = sortReference.orderByChild("id");
+
+        }
 
         rcvRefCollectionsX = findViewById(R.id.rcvRefCollections);
         rcvRefCollectionsX.setHasFixedSize(true); //Not sure this applies or why it is here
@@ -1071,10 +1096,9 @@ public class RefCollections extends AppCompatActivity {
             shadeX.setVisibility(View.GONE);
             popupMenuToggle = "Not";
 
-
         } else {
 
-            Intent intent = new Intent(RefCollections.this, HomePage.class);
+            Intent intent = new Intent(RefCollections.this, RefCollectionsDir.class);
             startActivity(intent);
             finish();
 

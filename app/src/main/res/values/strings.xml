@@ -41,7 +41,7 @@
     <string name="refcollections_02">We are working on search capabilities for Corvus. For now we have divided the reference collection into digestable chunks that follow the RIC and which you can easily scroll through.</string>
     <string name="refcollections_03">The Corvus reference collections have over 10,000 coins all vf+ or better. We continue to upload them to the app daily.</string>
     <string name="refcollections_04">Yes!! We are working on automating collection sharing. For now you can send us an email letting us know you wish to share and we can add your coins to our reference libraries. We will indicate them as belonging to you or not as per your instructions.</string>
-    <string name="refcollections_05">Coin values are tricky and volatile. For each reference coin we put all the pricing information we know about the coin in the provenance field. Sometimes it is dated and comes in several currencies. We also take a stab at our view of the coin\'s worth today in the value field but that is our opinion only.</string>
+    <string name="refcollections_05">Coin values are tricky and volatile. For each reference coin we put all the pricing information we know about the actual coin in the provenance field. Sometimes it is dated and comes in several currencies. We also take a stab at our view of the coin\'s worth today in the value field but that is our opinion only.</string>
 
 
     <string name="coinadd_01">You can add as many coins to your collection as you wish. For easier viewing consider setting up multiple collections where you can group similar coins.</string>

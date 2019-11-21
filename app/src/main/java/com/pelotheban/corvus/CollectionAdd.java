@@ -1123,6 +1123,20 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
             public void onClick(View v) {
 
                 Intent intent = new Intent(CollectionAdd.this, RefCollectionsDir.class);
+
+                fbtnPopUpMenuX.setVisibility(View.VISIBLE);
+                fbtnPopUp2CollectionAddX.setVisibility(View.GONE);
+
+                fbtnMiniRefCollectionsCollectionAddX.setVisibility(View.GONE);
+                fbtnMiniFAQCollectionAddX.setVisibility(View.GONE);
+                fbtnMiniLogoutCollectionAddX.setVisibility(View.GONE);
+
+                txtRefCoinsButtonCollectionAddX.setVisibility(View.GONE);
+                txtFAQButtonCollectionAddX.setVisibility(View.GONE);
+                txtLogoutButtonCollectionAddX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
                 startActivity(intent);
                 popupMenuToggle = "Not";
             }

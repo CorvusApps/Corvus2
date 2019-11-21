@@ -51,8 +51,6 @@
                 android:background="@color/colorPrimaryDark"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:elevation="5dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/sestvitellius"
 
@@ -101,8 +99,6 @@
                     android:background="@color/colorPrimaryDark"
                     android:backgroundTint="@color/colorPrimaryDark"
                     android:elevation="5dp"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/sestnerva"
 
@@ -160,8 +156,6 @@
                     android:background="@color/colorPrimaryDark"
                     android:backgroundTint="@color/colorPrimaryDark"
                     android:elevation="5dp"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/sestcaracalla"
 
@@ -210,8 +204,6 @@
                     android:background="@color/colorPrimaryDark"
                     android:backgroundTint="@color/colorPrimaryDark"
                     android:elevation="5dp"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/sestphilip"
 
