@@ -475,6 +475,25 @@ public class RefCollectionsDir extends AppCompatActivity implements View.OnClick
             }
         });
 
+        final LinearLayout faqMassCoinsSetupX = view.findViewById(R.id.faqMassCoinsSetup);
+        final TextView txtFAQMassCoinsSetupX = view.findViewById(R.id.txtFAQMassCoinsSetup);
+        txtFAQMassCoinsSetupX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqMassCoinsSetupX.getVisibility() == View.GONE) {
+                    faqMassCoinsSetupX.setVisibility(View.VISIBLE);
+                    txtFAQMassCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqMassCoinsSetupX.setVisibility(View.GONE);
+                    txtFAQMassCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
         final LinearLayout faqCoinListX = view.findViewById(R.id.faqCoinList2);
         final TextView txtFAQCoinListX = view.findViewById(R.id.txtFAQCoinList2);
         txtFAQCoinListX.setOnClickListener(new View.OnClickListener() {
