@@ -216,7 +216,7 @@ public class CoinList extends AppCompatActivity {
 
         //Variables and methods related to downloading the excel template
 
-        excellURL = "https://corvusapps.com/excel-input-file-download/";
+        excellURL = "https://corvusapps.files.wordpress.com/2019/11/corvustemplateuv.xlsm";
 
         GridTestToggle = 2; //2 means grid
 
@@ -483,6 +483,9 @@ public class CoinList extends AppCompatActivity {
 
                 viewHolder.setLayouts();
 
+
+                viewHolder.setReplicateButton();
+
                 //need to repull the standard ref becuase it does not transfer to the inner class and can't put it in the parameters
                 cListStandardRef = getIntent().getStringExtra("standardref");
                 viewHolder.setStandardRef(cListStandardRef); // then need to throw it to the viewholder here can do it with params
@@ -579,9 +582,47 @@ public class CoinList extends AppCompatActivity {
                         TextView txtCardValueUnformattedX = view.findViewById(R.id.txtCardValueUnformatted);
                         TextView txtNotesX = view.findViewById(R.id.txtNotes);
 
+
+
                         if (cardToggle != 1) {
 
                             cardToggle = 1;
+
+                            //bring out replicate function once clicked once
+                            TextView txtCardReplicateBtnX = view.findViewById(R.id.txtCardReplicateBtn);
+                            txtCardReplicateBtnX.setVisibility(View.VISIBLE);
+
+                            txtCardReplicateBtnX.setOnClickListener(new View.OnClickListener() {
+
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(CoinList.this, CoinAdd.class);
+                                    //intent.putExtra("coluid", cListuid); May need to get col ID through the model even that may not work
+
+                                    intent.putExtra("coluid", cListuid);
+                                    intent.putExtra("title", cListColName);
+                                    intent.putExtra("coincount", coinListItemCountInt);
+                                    intent.putExtra("colvalue", coinListColValueInt);
+                                    intent.putExtra("standardref", cListStandardRef);
+
+                                    intent.putExtra("personage", coinPersonageY);
+                                    intent.putExtra("denomination", coinDenominationY);
+                                    intent.putExtra("mint", coinMintY);
+                                    intent.putExtra("ricvar", coinRICvarY);
+                                    intent.putExtra("obvdesc", coinObvDescY);
+                                    intent.putExtra("obvleg", coinObvLegY);
+                                    intent.putExtra("revdesc", coinRevDescY);
+                                    intent.putExtra("revleg", coinRevLegY);
+                                    intent.putExtra("notes", coinNotesY);
+
+                                    intent.putExtra("id",coinRICY);
+                                    intent.putExtra("sortric", coinSortRICY);
+
+                                    intent.putExtra("replicate", "yes");
+
+                                    startActivity(intent);
+                                }
+                            });
 
                             // checking to see if there are values in the various fields before inflating them
                             if (txtObvDescX.getText().toString().isEmpty()) {
@@ -773,11 +814,14 @@ public class CoinList extends AppCompatActivity {
             LinearLayout loutCoinFirstLineX = (LinearLayout) mView.findViewById(R.id.loutCoinFirstLine);
             LinearLayout loutCoinSecondLineX = (LinearLayout) mView.findViewById(R.id.loutCoinSecondLine);
 
+            TextView txtCardReplicateBtnX = (TextView) mView.findViewById(R.id.txtCardReplicateBtn);
+
             loutCoinObvDescX.setVisibility(View.GONE);
             loutCoinObvLegX.setVisibility(View.GONE);
             loutCoinRevLegX.setVisibility(View.GONE);
             loutCoinProvenanceX.setVisibility(View.GONE);
             loutCoinNotesX.setVisibility(View.GONE);
+            txtCardReplicateBtnX.setVisibility(View.GONE);
 
 
         }
@@ -806,6 +850,7 @@ public class CoinList extends AppCompatActivity {
 
         }
 
+        // can pass other coin parameters to this method and use that to set up a button that replicates the coin and transfers a bunch of data accross
         public void setPersonage(String personage){
 
             TextView txtCardPersonageX = (TextView)mView.findViewById(R.id.txtCardPersonage);
@@ -831,7 +876,6 @@ public class CoinList extends AppCompatActivity {
                     Intent intent = new Intent(itemView.getContext(), CoinMagnify.class);
 
                     intent.putExtra("imagelink", imageLink);
-
                     itemView.getContext().startActivity(intent);
                 }
             });
@@ -979,7 +1023,38 @@ public class CoinList extends AppCompatActivity {
 
             txtCardSortRICX.setText(sortric2);
 
+        }
 
+        /// setting up stuff for replicating the coins
+
+
+
+        public void setReplicateButton() {
+
+//            TextView txtCardReplicateBtnX = (TextView)mView.findViewById(R.id.txtCardReplicateBtn);
+//            TextView txtCardPersonageX = (TextView)mView.findViewById(R.id.txtCardPersonage);
+//
+//            FirebaseAuth repFirebaseAuth = FirebaseAuth.getInstance();
+//            DatabaseReference repRef = FirebaseDatabase.getInstance().getReference().child("my_users").child(repFirebaseAuth.getCurrentUser().getUid())
+//                    .child("collections");
+//
+//            String repColUID = repRef.getKey();
+//            final String stCardPersonage = repColUID;
+//
+//            //final String stCardPersonage = txtCardPersonageX.getText().toString();
+//
+//            txtCardReplicateBtnX.setOnClickListener(new View.OnClickListener() {
+//
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(itemView.getContext(), CoinAdd.class);
+//                    //intent.putExtra("coluid", cListuid); May need to get col ID through the model even that may not work
+//
+//                    intent.putExtra("personage", stCardPersonage);
+//
+//                    itemView.getContext().startActivity(intent);
+//                }
+//            });
 
         }
 
@@ -1769,7 +1844,7 @@ public class CoinList extends AppCompatActivity {
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(excellURL));
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
-        request.setTitle("Downloae");  // set title is download notification
+        request.setTitle("Download");  // set title is download notification
         request.setDescription("Dowloading file...");
         request.allowScanningByMediaScanner();
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
@@ -1778,6 +1853,25 @@ public class CoinList extends AppCompatActivity {
         // get download service and engue file
         DownloadManager manager = (DownloadManager)getSystemService(Context.DOWNLOAD_SERVICE);
         manager.enqueue(request);
+        dlExcelFileSnackbar();
+
+    }
+
+    private void dlExcelFileSnackbar() {
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutCoinListActLOX, "File corvusTemplateNew.xlsm has been dowloaded to your downloads directory", Snackbar.LENGTH_LONG);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+        textView.setTextColor(getResources().getColor(R.color.lighttext));
 
     }
 

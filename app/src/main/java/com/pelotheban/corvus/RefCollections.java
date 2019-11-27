@@ -342,6 +342,7 @@ public class RefCollections extends AppCompatActivity {
 //                        intent.putExtra("image", bytes); // put bitmap image as array of bytes
                         intent.putExtra("coluid", colUIDY);
                         intent.putExtra("title", colTitleY);
+                        intent.putExtra("era", era);
                         startActivity(intent);
 
                     }

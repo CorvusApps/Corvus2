@@ -23,6 +23,8 @@ public class ZZZjcCoins {
 
 
 
+
+
     public ZZZjcCoins(String personage, String denomination, String imageLink, String ricvar, String coinuid,
                             String weight, String diameter, int id, String mint, String obvdesc, String obvleg,
                       String revdesc, String revleg, String provenance, int value, String notes, int sortric) {
@@ -49,6 +51,7 @@ public class ZZZjcCoins {
 
     public String getPersonage() {
         return personage;
+
     }
 
     public void setPersonage(String personage) {
@@ -181,7 +184,6 @@ public class ZZZjcCoins {
         this.sortric = sortric;
 
     }
-
 
 
     public ZZZjcCoins(){

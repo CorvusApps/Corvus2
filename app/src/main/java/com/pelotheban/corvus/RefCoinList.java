@@ -54,9 +54,10 @@ import java.util.Locale;
 public class RefCoinList extends AppCompatActivity {
 
 
-    // UI and data components for transfering collection ID from Homepage through here to AddCoin and ShowCoin activities
+    // UI and data components for transfering collection ID from Homepage through here to AddCoin and ShowCoin activities - as well as getting back to right RefCollections sort
     private TextView txtRefCListCollUIDX;
     private String cRefListuid;
+    private int era;
 
     // Firebase related
     private FirebaseAuth firebaseAuthRefCoins;
@@ -209,10 +210,11 @@ public class RefCoinList extends AppCompatActivity {
             }
         });
 
-        // UI and data components for transfering collection ID from Homepage through here to AddCoin and ShowCoin activities
+        // UI and data components for transfering collection ID from Homepage through here to AddCoin and ShowCoin activities - as well as getting back to the right RefCollections
         txtRefCListCollUIDX = findViewById(R.id.txtRefCListCollUID);
         cRefListuid = getIntent().getStringExtra("coluid");
         txtRefCListCollUIDX.setText(cRefListuid);
+        era = getIntent().getIntExtra("era", 0);
 
         //setting the title to the coinlist which is the collection name
         TextView txtRefCollectionNameCoinList = findViewById(R.id.txtRefCoinListCollectionName);
@@ -1227,6 +1229,7 @@ public class RefCoinList extends AppCompatActivity {
         }else {
 
             Intent intent = new Intent(RefCoinList.this, RefCollections.class);
+            intent.putExtra("era", era);
             startActivity(intent);
             finish();
 
