@@ -333,9 +333,10 @@ public class CoinAdd extends AppCompatActivity {
 
         //try to get data from intent if not null
         Bundle intent = getIntent().getExtras();
-        if (getIntent().getStringExtra("personage") != null){
+        if (getIntent().getStringExtra("personage") != null && getIntent().getStringExtra("replicate") == null){
             // we can come into this class from either add collection (home page) or modify collection (expanded collection window)
             // this code will be executed if we came in from modify and thus with push Extras; but because will have intent from Homepage need to be specific for coin intent
+            // now also we can come in here through the duplicate button from CoinList which will also generate an intent with personage but that should go to coinadd method - so adding the second if statment for the duplicate toggle
 
             //get and store data
 
@@ -424,6 +425,76 @@ public class CoinAdd extends AppCompatActivity {
             // toggles to this being modification input vs. new collection
             modify = "yes";
 
+        } else if (getIntent().getStringExtra("personage") != null && getIntent().getStringExtra("replicate").equals("yes")) {
+
+            Toast.makeText(this, "replicating", Toast.LENGTH_LONG).show();
+
+            // This prepopulates the fields if the replicate toggle is yes but doesn't send to modify methods so should proceed the same way to coin add when button is pressed as if nothing prepopulated
+            colUIDRec =  getIntent().getStringExtra("coluid"); // need collection because coming in from coinlist not home page
+
+            colTitleRec = getIntent().getStringExtra("title");
+
+            coinPersonageRec = getIntent().getStringExtra("personage");
+            coinDenominationRec = getIntent().getStringExtra("denomination");
+            coinMintRec = getIntent().getStringExtra("mint");
+            coinRICvarRec = getIntent().getStringExtra("ricvar");
+            coinRICRec = getIntent().getIntExtra("id", 0);
+
+            coinObvDescRec = getIntent().getStringExtra("obvdesc");
+            coinObvLegRec = getIntent().getStringExtra("obvleg");
+            coinRevDescRec = getIntent().getStringExtra("revdesc");
+            coinRevLegRec = getIntent().getStringExtra("revleg");
+
+            coinNotesRec = getIntent().getStringExtra("notes");
+
+            coinSortRICRec = getIntent().getIntExtra("sortric", 0);
+
+
+
+            colValueRec = getIntent().getIntExtra("colvalue", 0);
+
+
+
+            //populate the input views with existing value
+            edtPersonageX.setText(coinPersonageRec);
+            edtDenominationX.setText(coinDenominationRec);
+            edtMintX.setText(coinMintRec);
+            edtRICvarX.setText(coinRICvarRec);
+
+            edtObvDescX.setText(coinObvDescRec);
+            edtObvLegendX.setText(coinObvLegRec);
+            edtRevLegendX.setText(coinRevLegRec);
+            edtRevDescX.setText(coinRevDescRec);
+
+            edtNotesX.setText(coinNotesRec);
+
+            // need to convert to string before putting into editText but want int in firbase for sorting
+            String coinRICRec2 = String.valueOf(coinRICRec);
+            //eliminate 0 entries
+            if (coinRICRec2.equals("0")) {
+
+                edtRICX.setText("");
+            } else {
+
+                edtRICX.setText(coinRICRec2);
+
+            }
+
+            String coinValueRec2 = String.valueOf(coinValueRec);
+            if (coinValueRec2.equals("0"))  {
+                edtValueX.setText("");
+            } else {
+                edtValueX.setText(coinValueRec2);
+            }
+            //will this give us a NULL pointer exception if there is NO value for sort ric?
+            String coinSortRIC2 = String.valueOf(coinSortRICRec);
+            if (coinSortRIC2.equals("0"))  {
+                edtSortRICX.setText("");
+            } else {
+                edtSortRICX.setText(coinSortRIC2);
+            }
+
+
         }
 
     }
@@ -509,9 +580,9 @@ public class CoinAdd extends AppCompatActivity {
 
             if (modify.equals("no")) {
 
-                //executes this if this is a new collection
+                //executes this if this is a new coin
 
-                // allows the collection to be uploaded without the pic while making sure pic uploaded first if there to first generate the imageLink
+                // allows the coin to be uploaded without the pic while making sure pic uploaded first if there to first generate the imageLink
                 if (coinBitmap == null) {
 
                     alertDialogNoCoinPicture();
@@ -882,7 +953,7 @@ public class CoinAdd extends AppCompatActivity {
 
     ///////////////////////// END ------->>> ADD COIN /////////////////////////////////////////////////////////////////////
 
-    ///////////////////////// START ----->>> UPDATE COLLECTION ////////////////////////////////////////////////////////////
+    ///////////////////////// START ----->>> UPDATE COIN ////////////////////////////////////////////////////////////
 
 
     //land here if press coinSave but modify is set to yes - ie. this is an update and not a new coin add

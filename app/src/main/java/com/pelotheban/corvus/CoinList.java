@@ -582,6 +582,46 @@ public class CoinList extends AppCompatActivity {
                         TextView txtCardValueUnformattedX = view.findViewById(R.id.txtCardValueUnformatted);
                         TextView txtNotesX = view.findViewById(R.id.txtNotes);
 
+                        //Doing this here to feed replicate as needed but can skip the items already initialized above (e.g. obvleg)
+
+                        //Pulling views from the card
+                        TextView txtPersonageX = view.findViewById(R.id.txtCardPersonage);
+                        TextView txtDenominationX = view.findViewById(R.id.txtCardDenomination);
+                        TextView txtMintX = view.findViewById(R.id.txtCardMint);
+                        TextView txtRICX = view.findViewById(R.id.txtCardRIC);
+                        TextView txtRICvarX = view.findViewById(R.id.txtCardRICvar);
+
+
+                        TextView txtRevDescX = view.findViewById(R.id.txtRevDesc);
+
+
+                        TextView txtCardSortRICX = view.findViewById(R.id.txtCardSortRIC);
+
+
+                        //get data from views
+
+                        coinPersonageY = txtPersonageX.getText().toString();
+                        coinDenominationY = txtDenominationX.getText().toString();
+                        coinMintY = txtMintX.getText().toString();
+
+                        coinRICvarY = txtRICvarX.getText().toString();
+
+                        coinObvDescY = txtObvDescX.getText().toString();
+                        coinObvLegY = txtObvLegX.getText().toString();
+                        coinRevLegY = txtRevLegX.getText().toString();
+                        coinRevDescY = txtRevDescX.getText().toString();
+
+
+                        coinNotesY = txtNotesX.getText().toString();
+
+
+                        //the RIC and Value have to be converted to an int before being put to coinadd class
+                        String coinRICYpre = txtRICX.getText().toString();
+                        coinRICY = Integer.parseInt(coinRICYpre);
+
+                        String coinSortRICYpre = txtCardSortRICX.getText().toString();
+                        coinSortRICY = Integer.parseInt(coinSortRICYpre);
+
 
 
                         if (cardToggle != 1) {
@@ -595,7 +635,7 @@ public class CoinList extends AppCompatActivity {
                             txtCardReplicateBtnX.setOnClickListener(new View.OnClickListener() {
 
                                 @Override
-                                public void onClick(View v) {
+                                public void onClick(View view) {
                                     Intent intent = new Intent(CoinList.this, CoinAdd.class);
                                     //intent.putExtra("coluid", cListuid); May need to get col ID through the model even that may not work
 
@@ -604,6 +644,9 @@ public class CoinList extends AppCompatActivity {
                                     intent.putExtra("coincount", coinListItemCountInt);
                                     intent.putExtra("colvalue", coinListColValueInt);
                                     intent.putExtra("standardref", cListStandardRef);
+
+
+
 
                                     intent.putExtra("personage", coinPersonageY);
                                     intent.putExtra("denomination", coinDenominationY);
