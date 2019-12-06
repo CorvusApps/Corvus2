@@ -349,9 +349,76 @@ public class RefCoinList extends AppCompatActivity {
 
                         TextView txtRefNotesX = view.findViewById(R.id.txtRefNotes);
 
+                        //Bellow getting more views from card to feed replicate as needed but can skip the items already initialized above (e.g. obvleg)
+
+                        //Pulling views from the card
+                        TextView txtRefPersonageX = view.findViewById(R.id.txtRefCardPersonage);
+                        TextView txtRefDenominationX = view.findViewById(R.id.txtRefCardDenomination);
+                        TextView txtRefMintX = view.findViewById(R.id.txtRefCardMint);
+                        TextView txtRefRICX = view.findViewById(R.id.txtRefCardRIC);
+                        TextView txtRefRICvarX = view.findViewById(R.id.txtRefCardRICvar);
+
+                        TextView txtRefRevDescX = view.findViewById(R.id.txtRefRevDesc);
+
+                        //get data from views to feed replicate
+
+                        coinPersonageY = txtRefPersonageX.getText().toString();
+                        coinDenominationY = txtRefDenominationX.getText().toString();
+                        coinMintY = txtRefMintX.getText().toString();
+
+                        coinRICvarY = txtRefRICvarX.getText().toString();
+
+                        coinObvDescY = txtRefObvDescX.getText().toString();
+                        coinObvLegY = txtRefObvLegX.getText().toString();
+                        coinRevLegY = txtRefRevLegX.getText().toString();
+                        coinRevDescY = txtRefRevDescX.getText().toString();
+
+                        coinNotesY = txtRefNotesX.getText().toString();
+
+                        //the RIC and Value have to be converted to an int before being put to coinadd class
+                        String coinRICYpre = txtRefRICX.getText().toString();
+                        coinRICY = Integer.parseInt(coinRICYpre);
+
                         if (cardRefToggle != 1) {
 
                             cardRefToggle = 1;
+
+                            //bring out replicate function once the card is clicked the first time
+                            TextView txtCardRefReplicateBtnX = view.findViewById(R.id.txtRefCardReplicateBtn);
+                            txtCardRefReplicateBtnX.setVisibility(View.VISIBLE);
+
+                            txtCardRefReplicateBtnX.setOnClickListener(new View.OnClickListener() {
+
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(RefCoinList.this, ReplicationColList.class);
+                                    //intent.putExtra("coluid", cListuid); May need to get col ID through the model even that may not work
+
+//                                    //we don't have any of this stuff coming from RefCoin List but will need to grab it from the ListView so keeping here as reminder
+//                                    intent.putExtra("coluid", cListuid);
+//                                    intent.putExtra("title", cListColName);
+//                                    intent.putExtra("coincount", coinListItemCountInt);
+//                                    intent.putExtra("colvalue", coinListColValueInt);
+//                                    intent.putExtra("standardref", cListStandardRef);
+
+                                    intent.putExtra("personage", coinPersonageY);
+                                    intent.putExtra("denomination", coinDenominationY);
+                                    intent.putExtra("mint", coinMintY);
+                                    intent.putExtra("ricvar", coinRICvarY);
+                                    intent.putExtra("obvdesc", coinObvDescY);
+                                    intent.putExtra("obvleg", coinObvLegY);
+                                    intent.putExtra("revdesc", coinRevDescY);
+                                    intent.putExtra("revleg", coinRevLegY);
+                                    intent.putExtra("notes", coinNotesY);
+
+                                    intent.putExtra("id",coinRICY);
+
+
+                                    intent.putExtra("replicate", "yes");
+
+                                    startActivity(intent);
+                                }
+                            });
 
                             // checking to see if there are values in the various fields before inflating them
                             if (txtRefObvDescX.getText().toString().isEmpty()) {
@@ -519,11 +586,15 @@ public class RefCoinList extends AppCompatActivity {
             LinearLayout loutRefCoinProvenanceX = (LinearLayout) mView.findViewById(R.id.loutRefCoinProvenance);
             LinearLayout loutRefCoinNotesX = (LinearLayout) mView.findViewById(R.id.loutRefCoinNotes);
 
+            TextView txtRefCardReplicateBtnX = (TextView) mView.findViewById(R.id.txtRefCardReplicateBtn);
+
             loutRefCoinObvDescX.setVisibility(View.GONE);
             loutRefCoinObvLegX.setVisibility(View.GONE);
             loutRefCoinRevLegX.setVisibility(View.GONE);
             loutRefCoinProvenanceX.setVisibility(View.GONE);
             loutRefCoinNotesX.setVisibility(View.GONE);
+
+            txtRefCardReplicateBtnX.setVisibility(View.GONE);
         }
 
         // getting rid of RIC label only if both RIC and RIC var empty so something like Unlisted or Ves281 still get RIC in front

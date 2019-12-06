@@ -18,10 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ReplicationColList"></activity>
         <activity
             android:name=".RefCollectionsDir"
             android:label="@string/title_activity_ref_collections_dir"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RefCollectionsMenu" />
         <activity
             android:name=".ExcelVideo"

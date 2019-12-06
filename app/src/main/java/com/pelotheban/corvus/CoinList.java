@@ -582,7 +582,7 @@ public class CoinList extends AppCompatActivity {
                         TextView txtCardValueUnformattedX = view.findViewById(R.id.txtCardValueUnformatted);
                         TextView txtNotesX = view.findViewById(R.id.txtNotes);
 
-                        //Doing this here to feed replicate as needed but can skip the items already initialized above (e.g. obvleg)
+                        //Bellow getting more views from card to feed replicate as needed but can skip the items already initialized above (e.g. obvleg)
 
                         //Pulling views from the card
                         TextView txtPersonageX = view.findViewById(R.id.txtCardPersonage);
@@ -591,14 +591,11 @@ public class CoinList extends AppCompatActivity {
                         TextView txtRICX = view.findViewById(R.id.txtCardRIC);
                         TextView txtRICvarX = view.findViewById(R.id.txtCardRICvar);
 
-
                         TextView txtRevDescX = view.findViewById(R.id.txtRevDesc);
-
 
                         TextView txtCardSortRICX = view.findViewById(R.id.txtCardSortRIC);
 
-
-                        //get data from views
+                        //get data from views to feed replicate
 
                         coinPersonageY = txtPersonageX.getText().toString();
                         coinDenominationY = txtDenominationX.getText().toString();
@@ -611,9 +608,7 @@ public class CoinList extends AppCompatActivity {
                         coinRevLegY = txtRevLegX.getText().toString();
                         coinRevDescY = txtRevDescX.getText().toString();
 
-
                         coinNotesY = txtNotesX.getText().toString();
-
 
                         //the RIC and Value have to be converted to an int before being put to coinadd class
                         String coinRICYpre = txtRICX.getText().toString();
@@ -628,7 +623,7 @@ public class CoinList extends AppCompatActivity {
 
                             cardToggle = 1;
 
-                            //bring out replicate function once clicked once
+                            //bring out replicate function once the card is clicked the first time
                             TextView txtCardReplicateBtnX = view.findViewById(R.id.txtCardReplicateBtn);
                             txtCardReplicateBtnX.setVisibility(View.VISIBLE);
 
@@ -644,9 +639,6 @@ public class CoinList extends AppCompatActivity {
                                     intent.putExtra("coincount", coinListItemCountInt);
                                     intent.putExtra("colvalue", coinListColValueInt);
                                     intent.putExtra("standardref", cListStandardRef);
-
-
-
 
                                     intent.putExtra("personage", coinPersonageY);
                                     intent.putExtra("denomination", coinDenominationY);

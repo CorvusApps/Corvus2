@@ -216,15 +216,15 @@ public class RefCollections extends AppCompatActivity {
 
         if (era == 1) {
 
-            sortQuery = sortReference.orderByChild("id").startAt(1).endAt(13999);
+            sortQuery = sortReference.orderByChild("id").startAt(1).endAt(12999);
 
         } else if (era == 2){
 
-            sortQuery = sortReference.orderByChild("id").startAt(14000).endAt(23999);
+            sortQuery = sortReference.orderByChild("id").startAt(13000).endAt(23999);
 
         } else if (era == 3){
 
-            sortQuery = sortReference.orderByChild("id").startAt(24000).endAt(28999);
+            sortQuery = sortReference.orderByChild("id").startAt(24000).endAt(30999);
         } else {
 
             sortQuery = sortReference.orderByChild("id");

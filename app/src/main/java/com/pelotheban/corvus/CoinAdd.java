@@ -136,6 +136,7 @@ public class CoinAdd extends AppCompatActivity {
     private String colUIDRec; //col uid we get from coin list versus homepage
     private String colTitleRec; //col title we get from coin list versus homepage
     private int colValueRec; // col value we get from coin list
+    private int coinCountRec;
     private int coinRICRec, coinValueRec, coinSortRICRec;
     private String modify; // toggle to whether we are saving a new collection or modifying existing
 
@@ -366,7 +367,6 @@ public class CoinAdd extends AppCompatActivity {
             colValueRec = getIntent().getIntExtra("colvalue", 0);
 
 
-
             //populate the input views with existing value
             edtPersonageX.setText(coinPersonageRec);
             edtDenominationX.setText(coinDenominationRec);
@@ -427,7 +427,7 @@ public class CoinAdd extends AppCompatActivity {
 
         } else if (getIntent().getStringExtra("personage") != null && getIntent().getStringExtra("replicate").equals("yes")) {
 
-            Toast.makeText(this, "replicating", Toast.LENGTH_LONG).show();
+           // Toast.makeText(this, "replicating", Toast.LENGTH_LONG).show();
 
             // This prepopulates the fields if the replicate toggle is yes but doesn't send to modify methods so should proceed the same way to coin add when button is pressed as if nothing prepopulated
             colUIDRec =  getIntent().getStringExtra("coluid"); // need collection because coming in from coinlist not home page
@@ -449,10 +449,10 @@ public class CoinAdd extends AppCompatActivity {
 
             coinSortRICRec = getIntent().getIntExtra("sortric", 0);
 
-
-
             colValueRec = getIntent().getIntExtra("colvalue", 0);
+            coinCountRec = getIntent().getIntExtra("coincount", 0);
 
+           // Toast.makeText(CoinAdd.this, "CA" + colValueRec, Toast.LENGTH_LONG).show();
 
 
             //populate the input views with existing value
@@ -828,6 +828,8 @@ public class CoinAdd extends AppCompatActivity {
         // getting adjusted values for itemcount and collection value
         cAddItemCountX = cAddItemCountX +1;
         cAddColValueX = cAddColValueX + Value3;
+
+        Toast.makeText(CoinAdd.this, "value " + cAddColValueX + " count " + cAddItemCountX, Toast.LENGTH_LONG).show();
 
 
         db_ref.setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
