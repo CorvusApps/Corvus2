@@ -32,9 +32,6 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
 
     private DatabaseReference repDbRef;
 
-    Query targetCollectionsValueX;
-    Query targetCollectionsCountX;
-
     private ListView lvReplicateCoinCollectionsX;
     private ArrayList<String> collections;
     private ArrayList<String> targetCollectionIDs;
@@ -45,11 +42,12 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
     private String coinPersonageY, coinDenominationY, coinMintY, coinRICvarY, coinObvDescY, coinObvLegY, coinRevDescY, coinRevLegY, coinNotesY;
     private int coinRICY;
 
-    private String targetCollectionIDx;
+    private Query targetCollectionsValueX, targetCollectionsCountX, targetCollectionStRefX, targetCollectionTitleX;
 
-    String targetCollectionIDsB;
+    private String targetCollectionValueB, targetCollectionCountB, targetCollectionIDsB;
 
     private int targetCollectionValueInt, targetCollectionCountInt;
+    private String targetCollectionStRef, targetCollectionTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +144,7 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                String targetCollectionValueB = dataSnapshot.getValue().toString();
+                targetCollectionValueB = dataSnapshot.getValue().toString();
                 targetCollectionValueInt = Integer.parseInt(targetCollectionValueB);
                 // Toast.makeText(ReplicationColList.this, targetCollectionValueInt + "", Toast.LENGTH_LONG).show();
 
@@ -155,37 +153,69 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
 
-                        String targetCollectionCountB = dataSnapshot2.getValue().toString();
+                        targetCollectionCountB = dataSnapshot2.getValue().toString();
                         targetCollectionCountInt = Integer.parseInt(targetCollectionCountB);
 
-                        // put this inside the ondata change because for some reason data not flowing outside despite same code in Coinlist working (get query and then intent.putextra outside of the query)
-                        // problem is that now we also need itemcount and standard ref and so need seperate queries but info needs to go to put extras outside
-                        Intent intent = new Intent(ReplicationColList.this, CoinAdd.class);
-                        intent.putExtra("coluid", targetCollectionIDsB);
+                        targetCollectionStRefX = repDbRef.child(targetCollectionIDsB).child("standardref");
+                        targetCollectionStRefX.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot3) {
+
+                                targetCollectionStRef =  dataSnapshot3.getValue().toString();
+
+                                targetCollectionTitleX = repDbRef.child(targetCollectionIDsB).child("title");
+                                targetCollectionTitleX.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot4) {
+
+                                        targetCollectionTitle =  dataSnapshot4.getValue().toString();
+
+                                        // put this inside the ondata change because for some reason data not flowing outside despite same code in Coinlist working (get query and then intent.putextra outside of the query)
+                                        // problem is that now we also need itemcount and standard ref and so need seperate queries but info needs to go to put extras outside
+                                        Intent intent = new Intent(ReplicationColList.this, CoinAdd.class);
+                                        intent.putExtra("coluid", targetCollectionIDsB);
+
+                                        intent.putExtra("personage", coinPersonageY);
+                                        intent.putExtra("denomination", coinDenominationY);
+                                        intent.putExtra("mint", coinMintY);
+                                        intent.putExtra("ricvar", coinRICvarY);
+                                        intent.putExtra("obvdesc", coinObvDescY);
+                                        intent.putExtra("obvleg", coinObvLegY);
+                                        intent.putExtra("revdesc", coinRevDescY);
+                                        intent.putExtra("revleg", coinRevLegY);
+                                        intent.putExtra("notes", coinNotesY);
+
+                                        intent.putExtra("id",coinRICY);
+
+                                        intent.putExtra("colvalue", targetCollectionValueInt);
+                                        intent.putExtra("coincount", targetCollectionCountInt);
+                                        intent.putExtra("standardref", targetCollectionStRef);
+                                        intent.putExtra("title", targetCollectionTitle);
+                                        // Toast.makeText(ReplicationColList.this, "value = " + targetCollectionValueInt + " count" + targetCollectionCountInt, Toast.LENGTH_LONG).show();
+
+                                        intent.putExtra("replicate", "yes");
+
+                                        startActivity(intent);
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
 
 
 
-                        intent.putExtra("personage", coinPersonageY);
-                        intent.putExtra("denomination", coinDenominationY);
-                        intent.putExtra("mint", coinMintY);
-                        intent.putExtra("ricvar", coinRICvarY);
-                        intent.putExtra("obvdesc", coinObvDescY);
-                        intent.putExtra("obvleg", coinObvLegY);
-                        intent.putExtra("revdesc", coinRevDescY);
-                        intent.putExtra("revleg", coinRevLegY);
-                        intent.putExtra("notes", coinNotesY);
+                            }
 
-                        intent.putExtra("id",coinRICY);
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        intent.putExtra("colvalue", targetCollectionValueInt);
-                        intent.putExtra("coincount", targetCollectionCountInt);
-                        // Toast.makeText(ReplicationColList.this, "value = " + targetCollectionValueInt + " count" + targetCollectionCountInt, Toast.LENGTH_LONG).show();
+                            }
+                        });
 
 
-
-                        intent.putExtra("replicate", "yes");
-
-                        startActivity(intent);
 
 
                     }
