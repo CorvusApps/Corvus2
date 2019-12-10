@@ -149,9 +149,9 @@ public class RefCollectionsDir extends AppCompatActivity implements View.OnClick
 
             case R.id.crdImgCrisis:
 
-//                Intent intent4 = new Intent(RefCollectionsDir.this, RefCollections.class);
-//                intent4.putExtra("era", 4);
-//                startActivity(intent4);
+                Intent intent4 = new Intent(RefCollectionsDir.this, RefCollections.class);
+                intent4.putExtra("era", 4);
+                startActivity(intent4);
 
                 break;
         }

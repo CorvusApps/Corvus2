@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.os.Environment;
 import android.util.Log;
@@ -28,6 +30,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
@@ -78,14 +81,15 @@ public class Excel extends AppCompatActivity {
     ArrayList<ZZZJcExcelCoins> uploadData;
     ListView lvInternalStorage;
 
+    private CoordinatorLayout loutExcelActLOX; //primarily used for snackbars
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_excel);
 
-
-
+        loutExcelActLOX = findViewById(R.id.loutExcelActLO);
 
 
         // Data imported from CoinAdd to be used here

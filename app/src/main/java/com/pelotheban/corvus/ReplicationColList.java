@@ -27,10 +27,10 @@ import java.util.ArrayList;
 
 public class ReplicationColList extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private TextView txtRepCListCollUIDX;
-
 
     private DatabaseReference repDbRef;
+
+    //ListView elements
 
     private ListView lvReplicateCoinCollectionsX;
     private ArrayList<String> collections;
@@ -39,9 +39,12 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
 
     private ArrayAdapter<String> arrayAdapter;
 
+    // Holders for info to get and pass on to the CoinAdd - come from the reference card
+
     private String coinPersonageY, coinDenominationY, coinMintY, coinRICvarY, coinObvDescY, coinObvLegY, coinRevDescY, coinRevLegY, coinNotesY;
     private int coinRICY;
 
+    // Collection information for the TARGET collection that needs to go into the coin add - so need to query it since starting in ref-collections
     private Query targetCollectionsValueX, targetCollectionsCountX, targetCollectionStRefX, targetCollectionTitleX;
 
     private String targetCollectionValueB, targetCollectionCountB, targetCollectionIDsB;
@@ -53,6 +56,8 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_replication_col_list);
+
+        // Holders for info to get and pass on to the CoinAdd - come from the reference card - these get passed on from the ref-collection card
 
         coinPersonageY = getIntent().getStringExtra("personage");
         coinDenominationY = getIntent().getStringExtra("denomination");
@@ -66,8 +71,8 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
 
         coinRICY = getIntent().getIntExtra("id", 0);
 
-        txtRepCListCollUIDX = findViewById(R.id.txtRepCListCollUID);
 
+        // the dbreference for the target collection - draws on the user. just then needs the specific collection input from list view set up right below
 
         repDbRef = FirebaseDatabase.getInstance().getReference().child("my_users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("collections");
@@ -88,15 +93,17 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
+                // array with the keys of the listview collections which can be accessed
                 targetCollectionIDs.add(dataSnapshot.getKey());
 
-                String interimValue = dataSnapshot.child("colvalue").getValue().toString();
-                //int interimValueInt = Integer.parseInt(interimValue);
-                targetCollectionValue.add(interimValue);
+//                //legacy code which didn't work to brink colvalue over - leaving just in case but blanking out to confirm all ok witout
+//                String interimValue = dataSnapshot.child("colvalue").getValue().toString();
+//                //int interimValueInt = Integer.parseInt(interimValue);
+//                targetCollectionValue.add(interimValue);
 
 
-                String collection = dataSnapshot.child("title").getValue().toString();
-                collections.add(collection);
+//                String collection = dataSnapshot.child("title").getValue().toString();
+//                collections.add(collection);
 
 
                 arrayAdapter.notifyDataSetChanged();
@@ -131,13 +138,15 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//        Intent intent = new Intent(ReplicationColList.this, CoinAdd.class);
+
 
         DatabaseReference targetCollectionIDsX = repDbRef.child(targetCollectionIDs.get(position));
         targetCollectionIDsB = targetCollectionIDsX.getKey();
-//        intent.putExtra("coluid", targetCollectionIDsB);
 
 
+        // Nesting querries for all the things we need for the TARGET collection because for some reason can't use the outputs that come out
+        //    on DataChange back up from the addLisetener method... but work in deeper nests. So nesting them all and then intenting out to
+        //  coinAdd class from the deepest nest
         targetCollectionsValueX = repDbRef.child(targetCollectionIDsB).child("colvalue");
 
         targetCollectionsValueX.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -191,7 +200,6 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
                                         intent.putExtra("coincount", targetCollectionCountInt);
                                         intent.putExtra("standardref", targetCollectionStRef);
                                         intent.putExtra("title", targetCollectionTitle);
-                                        // Toast.makeText(ReplicationColList.this, "value = " + targetCollectionValueInt + " count" + targetCollectionCountInt, Toast.LENGTH_LONG).show();
 
                                         intent.putExtra("replicate", "yes");
 
@@ -205,8 +213,6 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
                                     }
                                 });
 
-
-
                             }
 
                             @Override
@@ -214,9 +220,6 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
 
                             }
                         });
-
-
-
 
                     }
 
@@ -226,8 +229,6 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
                     }
                 });
 
-
-
             }
 
             @Override
@@ -235,27 +236,6 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
 
             }
         });
-
-
-//        intent.putExtra("personage", coinPersonageY);
-//        intent.putExtra("denomination", coinDenominationY);
-//        intent.putExtra("mint", coinMintY);
-//        intent.putExtra("ricvar", coinRICvarY);
-//        intent.putExtra("obvdesc", coinObvDescY);
-//        intent.putExtra("obvleg", coinObvLegY);
-//        intent.putExtra("revdesc", coinRevDescY);
-//        intent.putExtra("revleg", coinRevLegY);
-//        intent.putExtra("notes", coinNotesY);
-//
-//        intent.putExtra("id",coinRICY);
-//
-//        intent.putExtra("colvalue", targetCollectionValueInt);
-//        //Toast.makeText(ReplicationColList.this, targetCollectionValueInt + "", Toast.LENGTH_LONG).show();
-//
-//
-//        intent.putExtra("replicate", "yes");
-//
-//        startActivity(intent);
 
     }
 }

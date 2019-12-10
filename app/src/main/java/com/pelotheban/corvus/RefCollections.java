@@ -227,7 +227,7 @@ public class RefCollections extends AppCompatActivity {
             sortQuery = sortReference.orderByChild("id").startAt(24000).endAt(30999);
         } else {
 
-            sortQuery = sortReference.orderByChild("id");
+            sortQuery = sortReference.orderByChild("id").startAt(31000);
 
         }
 
