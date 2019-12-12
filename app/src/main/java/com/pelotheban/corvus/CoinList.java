@@ -216,7 +216,7 @@ public class CoinList extends AppCompatActivity {
 
         //Variables and methods related to downloading the excel template
 
-        excellURL = "https://corvusapps.files.wordpress.com/2019/11/corvustemplateuv.xlsm";
+        excellURL = "https://corvusapps.files.wordpress.com/2019/12/corvustemplateuv.xlsm";
 
         GridTestToggle = 2; //2 means grid
 
@@ -2112,6 +2112,25 @@ public class CoinList extends AppCompatActivity {
 
                     faqMassCoinsSetupX.setVisibility(View.GONE);
                     txtFAQMassCoinsSetupX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
+        final LinearLayout faqReplicateCoinsX = view.findViewById(R.id.faqReplicateCoins);
+        final TextView txtFAQReplicateCoinsX = view.findViewById(R.id.txtFAQReplicateCoins);
+        txtFAQReplicateCoinsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqReplicateCoinsX.getVisibility() == View.GONE) {
+                    faqReplicateCoinsX.setVisibility(View.VISIBLE);
+                    txtFAQReplicateCoinsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqReplicateCoinsX.setVisibility(View.GONE);
+                    txtFAQReplicateCoinsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
                 }
 
             }

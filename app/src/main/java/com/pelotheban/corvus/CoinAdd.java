@@ -1735,6 +1735,25 @@ public class CoinAdd extends AppCompatActivity {
             }
         });
 
+        final LinearLayout faqReplicateCoinsX = view.findViewById(R.id.faqReplicateCoins);
+        final TextView txtFAQReplicateCoinsX = view.findViewById(R.id.txtFAQReplicateCoins);
+        txtFAQReplicateCoinsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(faqReplicateCoinsX.getVisibility() == View.GONE) {
+                    faqReplicateCoinsX.setVisibility(View.VISIBLE);
+                    txtFAQReplicateCoinsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.collapse, 0);
+
+                } else {
+
+                    faqReplicateCoinsX.setVisibility(View.GONE);
+                    txtFAQReplicateCoinsX.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.expand, 0);
+                }
+
+            }
+        });
+
         final LinearLayout faqCoinListX = view.findViewById(R.id.faqCoinList2);
         final TextView txtFAQCoinListX = view.findViewById(R.id.txtFAQCoinList2);
         txtFAQCoinListX.setOnClickListener(new View.OnClickListener() {

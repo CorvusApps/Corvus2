@@ -55,7 +55,7 @@
         android:paddingLeft="0dp"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
-        android:text="    Log in with Facebook"
+        android:text="Log in with Facebook"
         android:textAllCaps="false"
         android:textColor="@color/cardview_light_background"
         android:textSize="11sp"

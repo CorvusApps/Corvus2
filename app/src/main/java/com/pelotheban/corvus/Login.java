@@ -242,6 +242,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         txtShieldX.setAlpha(1f);
         pbFBLoginX.setAlpha(1f);
+        btnFBLoginOverlayX.setVisibility(View.INVISIBLE);
 
         firebaseAuth.signInWithCredential(credential).addOnFailureListener(new OnFailureListener() {
             @Override
