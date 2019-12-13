@@ -51,8 +51,8 @@
     <string name="coinadd_05">Corvus allows you to sort your coins on the standard reference number which must be numeric. In the [Reference]var field you can put in qualifiers such as letters, variants, etc.</string>
     <string name="coinadd_06">Corvus is not yet optimized for Provincial coins. We are working on adding greek alphabet capabilities to the app.</string>
 
-    <string name="coinlist_01">Click the floating button at the bottom of the screen to add a coin.</string>
-    <string name="coinlist_02">Corvus does not currently support batch additions from a spreadsheet but we are working on it!</string>
+    <string name="coinlist_01">Click the floating button at the bottom of the screen to add a single coin. You can also replicate an existing coin from your collection or from a CORVUS reference collection. See the REPLICATE FAQ.</string>
+    <string name="coinlist_02">You can mass upload coin information from a spreadsheet except for images which have to be added manually to each record after. See the MASS UPLOAD FAQ below</string>
     <string name="coinlist_03">Click on a coin-card to show all the information about the coin. Swipe right or left to delete the coin. Longclick to modify the coin record.</string>
     <string name="coinlist_04">You can sort the coins on the personage, RIC number or last-modified. Sort options are in the drop down menu.</string>
     <string name="coinlist_05">We are working on adding search capabilities to Corvus.</string>

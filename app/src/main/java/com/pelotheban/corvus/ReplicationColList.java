@@ -102,8 +102,8 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
 //                targetCollectionValue.add(interimValue);
 
 
-//                String collection = dataSnapshot.child("title").getValue().toString();
-//                collections.add(collection);
+                String collection = dataSnapshot.child("title").getValue().toString();
+                collections.add(collection);
 
 
                 arrayAdapter.notifyDataSetChanged();
