@@ -19,7 +19,7 @@
 
     <!-- For FAQ & one time dialogs -->
 
-    <string name="universal_01">You can access this information from the FAQ available through the drop down menus in most screens.</string>
+    <string name="universal_01">You can access detailed information from the FAQ available through the drop down menus in most screens.</string>
 
     <string name="login_01">Your collection will be stored in the cloud to minimize the resource requirements of your device. We need a unique, verifiable ID to authenticate your access.</string>
     <string name="login_02">Corvus is only accessing your email, which is necessary for authentication, and your user ID.</string>

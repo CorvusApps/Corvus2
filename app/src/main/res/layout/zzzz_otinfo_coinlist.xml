@@ -120,7 +120,7 @@
                     android:layout_marginTop="0dp"
                     android:textColor="@color/darktext"
 
-                    android:text="@string/coinlist_01"
+                    android:text="Click the plus button to add an individual coin"
                     android:textSize="14sp"
                     android:paddingLeft="14dp"
                     android:paddingRight="8dp"
@@ -140,7 +140,7 @@
                     android:paddingTop="12dp"
                     android:paddingBottom="8dp"
                     android:elevation="0dp"
-                    android:text="@string/coinlist_02"
+                    android:text="Click the excel button to mass-upload coins"
 
                     />
                 <TextView
@@ -154,7 +154,7 @@
                     android:paddingTop="12dp"
                     android:paddingBottom="8dp"
                     android:elevation="0dp"
-                    android:text="@string/coinlist_03"
+                    android:text="You can also replicate coins from the Reference Library into your collectoin"
 
                     />
                 <TextView
@@ -168,7 +168,7 @@
                     android:paddingTop="12dp"
                     android:paddingBottom="8dp"
                     android:elevation="0dp"
-                    android:text="@string/coinlist_04"
+                    android:text="Long-click on completed coin records to edit them again. Swipe to the side to delete a record"
 
                     />
 

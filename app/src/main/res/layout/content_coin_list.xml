@@ -39,6 +39,7 @@
         android:layout_marginLeft="@dimen/_8sdp"
         android:layout_marginRight="@dimen/_8sdp"
         android:scaleType="fitXY"
+        android:visibility="gone"
         app:srcCompat="@drawable/startcoin" />
 
     <androidx.recyclerview.widget.RecyclerView

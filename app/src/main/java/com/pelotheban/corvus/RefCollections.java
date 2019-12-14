@@ -800,25 +800,26 @@ public class RefCollections extends AppCompatActivity {
 
     private void oneTimeInfoLogin() {
 
+        // taking this out as we're presenting in ref collection Dir now
         //Everything in this method is code for a custom dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzzz_otinfo_refcollections, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        dialog.show();
-
-        Button btnOKoneTimeHPX = view.findViewById(R.id.btnOKoneTimeRC);
-        btnOKoneTimeHPX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dialog.dismiss();
-
-            }
-        });
+//        LayoutInflater inflater = LayoutInflater.from(this);
+//        View view = inflater.inflate(R.layout.zzzz_otinfo_refcollections, null);
+//
+//        dialog = new AlertDialog.Builder(this)
+//                .setView(view)
+//                .create();
+//
+//        dialog.show();
+//
+//        Button btnOKoneTimeHPX = view.findViewById(R.id.btnOKoneTimeRC);
+//        btnOKoneTimeHPX.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                dialog.dismiss();
+//
+//            }
+//        });
     }
 
     // checks this is the app is run first time which we use to decide whether to show the one time info dialogs

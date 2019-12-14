@@ -999,25 +999,27 @@ public class RefCoinList extends AppCompatActivity {
 
     private void oneTimeInfoLogin() {
 
+        // taking this out for now as it's overkill and if we want to bring it back need to actually develop one for refcoin list
+
         //Everything in this method is code for a custom dialog
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.zzzz_otinfo_coinlist, null);
-
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-
-        dialog.show();
-
-        Button btnOKoneTimeCLX = view.findViewById(R.id.btnOKoneTimeCL);
-        btnOKoneTimeCLX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dialog.dismiss();
-
-            }
-        });
+//        LayoutInflater inflater = LayoutInflater.from(this);
+//        View view = inflater.inflate(R.layout.zzzz_otinfo_coinlist, null);
+//
+//        dialog = new AlertDialog.Builder(this)
+//                .setView(view)
+//                .create();
+//
+//        dialog.show();
+//
+//        Button btnOKoneTimeCLX = view.findViewById(R.id.btnOKoneTimeCL);
+//        btnOKoneTimeCLX.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                dialog.dismiss();
+//
+//            }
+//        });
     }
 
     // checks this is the app is run first time which we use to decide whether to show the one time info dialogs

@@ -94,34 +94,20 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/txtMsg"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:textColor="@color/darktext"
 
-                    android:text="@string/coinadd_01"
-                    android:textSize="14sp"
-                    android:paddingLeft="14dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="8dp"
-                    android:elevation="0dp"
-                    />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
                     android:textColor="@color/darktext"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/_16sdp"
                     android:paddingLeft="14dp"
                     android:paddingRight="8dp"
                     android:paddingTop="12dp"
                     android:paddingBottom="8dp"
                     android:elevation="0dp"
-                    android:text="@string/coinadd_02"
+                    android:text="Only the Personage field is mandatory"
 
                     />
                 <TextView
@@ -129,13 +115,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
                     android:textColor="#FC0E0D0D"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/_16sdp"
                     android:paddingLeft="14dp"
                     android:paddingRight="8dp"
                     android:paddingTop="12dp"
                     android:paddingBottom="8dp"
                     android:elevation="0dp"
-                    android:text="@string/coinadd_03"
+                    android:text="You can upload any image from your gallery"
 
                     />
                 <TextView
@@ -143,30 +129,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
                     android:textColor="@color/darktext"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/_16sdp"
                     android:paddingLeft="16dp"
                     android:paddingRight="8dp"
                     android:paddingTop="12dp"
                     android:paddingBottom="8dp"
                     android:elevation="0dp"
-                    android:text="@string/coinadd_04"
+                    android:text="Remember you can also replicate coins or use the excel mass upload function to get your coin records into Corvus"
 
                     />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:textColor="@color/darktext"
-                    android:textSize="14sp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="8dp"
-                    android:elevation="0dp"
-                    android:text="@string/coinadd_06"
 
-                    />
 
                 <TextView
                     android:layout_width="match_parent"

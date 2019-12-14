@@ -103,8 +103,8 @@
                     android:layout_marginTop="0dp"
                     android:textColor="@color/darktext"
 
-                    android:text="@string/refcollections_01"
-                    android:textSize="14sp"
+                    android:text="Use the reference library to attribute and value your coins"
+                    android:textSize="@dimen/_16sdp"
                     android:paddingLeft="14dp"
                     android:paddingRight="8dp"
                     android:paddingTop="12dp"
@@ -117,13 +117,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
                     android:textColor="@color/darktext"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/_16sdp"
                     android:paddingLeft="14dp"
                     android:paddingRight="8dp"
                     android:paddingTop="12dp"
                     android:paddingBottom="8dp"
                     android:elevation="0dp"
-                    android:text="@string/refcollections_02"
+                    android:text="Replicate coins you want in your own collection"
 
                     />
                 <TextView
@@ -131,13 +131,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
                     android:textColor="@color/darktext"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/_16sdp"
                     android:paddingLeft="14dp"
                     android:paddingRight="8dp"
                     android:paddingTop="12dp"
                     android:paddingBottom="8dp"
                     android:elevation="0dp"
-                    android:text="@string/refcollections_03"
+                    android:text="We continue to upload coins to the library daily"
 
                     />
 
