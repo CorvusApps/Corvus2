@@ -163,8 +163,8 @@ public class CoinList extends AppCompatActivity {
 
         MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
         mInterstitialAdCoinList = new InterstitialAd(CoinList.this);
-        mInterstitialAdCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
-        //mInterstitialAdCoinList.setAdUnitId(getString(R.string.coinlist_interstitial_ad));
+        //mInterstitialAdCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
+        mInterstitialAdCoinList.setAdUnitId(getString(R.string.coinlist_interstitial_ad));
         mInterstitialAdCoinList.loadAd(new AdRequest.Builder().build());
 
        // Toast.makeText(CoinList.this, mAdvertCounterCoinList + "", Toast.LENGTH_SHORT).show();

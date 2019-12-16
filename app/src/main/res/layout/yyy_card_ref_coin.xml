@@ -374,6 +374,14 @@
             android:visibility="gone"
             android:text="TextView" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDuplicates"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="wrap_content"
+            android:text="View other examples"
+            android:visibility="gone"
+            />
+
         <TextView
             android:id="@+id/txtRefCardReplicateBtn"
             android:layout_width="match_parent"

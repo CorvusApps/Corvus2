@@ -109,8 +109,8 @@ public class RefCollections extends AppCompatActivity {
 
         MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
         mInterstitialAd = new InterstitialAd(RefCollections.this);
-        mInterstitialAd.setAdUnitId(getString(R.string.test_interstitial_ad));
-        //mInterstitialAd.setAdUnitId(getString(R.string.refcollections_interstitial_ad));
+        //mInterstitialAd.setAdUnitId(getString(R.string.test_interstitial_ad));
+        mInterstitialAd.setAdUnitId(getString(R.string.refcollections_interstitial_ad));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
        // Toast.makeText(RefCollections.this, mAdvertCounter + "", Toast.LENGTH_SHORT).show();
@@ -227,7 +227,8 @@ public class RefCollections extends AppCompatActivity {
             sortQuery = sortReference.orderByChild("id").startAt(24000).endAt(30999);
         } else {
 
-            sortQuery = sortReference.orderByChild("id").startAt(31000);
+            sortQuery = sortReference.orderByChild("id").startAt(31000).endAt(59999);
+
 
         }
 

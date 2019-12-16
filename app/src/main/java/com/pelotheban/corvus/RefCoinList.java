@@ -17,6 +17,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -129,8 +130,8 @@ public class RefCoinList extends AppCompatActivity {
 
         MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
         mInterstitialAdRefCoinList = new InterstitialAd(RefCoinList.this);
-        mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
-        //mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.refcoinlist_interstitial_ad));
+        //mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
+        mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.refcoinlist_interstitial_ad));
 
         mInterstitialAdRefCoinList.loadAd(new AdRequest.Builder().build());
 
@@ -387,6 +388,9 @@ public class RefCoinList extends AppCompatActivity {
                             TextView txtCardRefReplicateBtnX = view.findViewById(R.id.txtRefCardReplicateBtn);
                             txtCardRefReplicateBtnX.setVisibility(View.VISIBLE);
 
+                            MaterialButton btnDuplicatesX = view.findViewById(R.id.btnDuplicates);
+                            btnDuplicatesX.setVisibility(View.VISIBLE);
+
                             txtCardRefReplicateBtnX.setOnClickListener(new View.OnClickListener() {
 
                                 @Override
@@ -417,6 +421,18 @@ public class RefCoinList extends AppCompatActivity {
                                     intent.putExtra("replicate", "yes");
 
                                     startActivity(intent);
+                                }
+                            });
+
+                            btnDuplicatesX.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    Intent intendDup = new Intent(RefCoinList.this, RefDupCoinList.class);
+
+
+                                    startActivity(intendDup);
+
                                 }
                             });
 

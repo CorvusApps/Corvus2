@@ -18,7 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ReplicationColList"></activity>
+        <activity
+            android:name=".RefDupCoinList"
+            android:label="@string/title_activity_ref_dup_coin_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".ReplicationColList" />
         <activity
             android:name=".RefCollectionsDir"
             android:label="@string/title_activity_ref_collections_dir"

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".RefDupCoinList"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    tools:showIn="@layout/activity_coin_list">
+
+    <TextView
+        android:id="@+id/txtDupCollUID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="TextView" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/txtDupCoinType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:backgroundTint="@color/lighttext"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:textSize="@dimen/_12sdp"
+        android:textAllCaps="false"
+        app:cornerRadius="@dimen/_10sdp"
+        android:text="RIC" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvDupCoins"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:scrollbars="vertical"
+        >
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>
