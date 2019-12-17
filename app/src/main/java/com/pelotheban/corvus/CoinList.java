@@ -91,7 +91,7 @@ public class CoinList extends AppCompatActivity {
 
     private ProgressDialog pd; // universal progress dialog used in this activity
 
-    private ImageView imgFirstCoinX;
+
     private SharedPreferences sharedFirstCoin;
     private int firstCoinToggle;
 
@@ -163,8 +163,8 @@ public class CoinList extends AppCompatActivity {
 
         MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
         mInterstitialAdCoinList = new InterstitialAd(CoinList.this);
-        //mInterstitialAdCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
-        mInterstitialAdCoinList.setAdUnitId(getString(R.string.coinlist_interstitial_ad));
+        mInterstitialAdCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
+        //mInterstitialAdCoinList.setAdUnitId(getString(R.string.coinlist_interstitial_ad));
         mInterstitialAdCoinList.loadAd(new AdRequest.Builder().build());
 
        // Toast.makeText(CoinList.this, mAdvertCounterCoinList + "", Toast.LENGTH_SHORT).show();
@@ -230,31 +230,16 @@ public class CoinList extends AppCompatActivity {
             }
         });
 
-        imgFirstCoinX = findViewById(R.id.imgFirstCoin);
+
 
         sharedFirstCoin = getSharedPreferences("startFirstCoin", MODE_PRIVATE);
         firstCoinToggle = sharedFirstCoin.getInt("FirstCoin", 0);
         if (firstCoinToggle > 0) {
 
-            imgFirstCoinX.setVisibility(View.GONE);
+
 
 
         }
-
-        imgFirstCoinX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                firstCoinToggle = sharedFirstCoin.getInt("FirstCoin", 0); // where if no settings
-                SharedPreferences.Editor editorFC = sharedFirstCoin.edit();
-                editorFC.putInt("FirstCoin", firstCoinToggle + 1);
-                editorFC.apply(); // saves the value
-                firstCoinToggle = firstCoinToggle + 1;
-
-                fabCoinAddX.performClick();
-
-            }
-        });
 
         fabCoinAddX = findViewById(R.id.fabCoinAdd);
         fabCoinAddX.setOnClickListener(new View.OnClickListener() {

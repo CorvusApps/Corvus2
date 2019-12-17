@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <com.google.android.material.card.MaterialCardView
 
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -27,7 +26,7 @@
         >
 
         <ImageView
-            android:id="@+id/imgRefCardCoinAdd"
+            android:id="@+id/imgDupRefCardCoinAdd"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_150sdp"
 
@@ -47,7 +46,7 @@
             >
 
             <TextView
-                android:id="@+id/txtRefCardPersonage"
+                android:id="@+id/txtDupRefCardPersonage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Septimius Severus"
@@ -58,7 +57,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtRefCardDenomination"
+                android:id="@+id/txtDupRefCardDenomination"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_4sdp"
@@ -70,7 +69,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtRefCardMint"
+                android:id="@+id/txtDupRefCardMint"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_12sdp"
@@ -94,7 +93,7 @@
             >
 
             <TextView
-                android:id="@+id/txtRefLabelRIC"
+                android:id="@+id/txtDupRefLabelRIC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="RIC"
@@ -104,7 +103,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtRefCardRIC"
+                android:id="@+id/txtDupRefCardRIC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -114,7 +113,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtRefCardRICvar"
+                android:id="@+id/txtDupRefCardRICvar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="b"
@@ -123,7 +122,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtRefCardWeight"
+                android:id="@+id/txtDupRefCardWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_30sdp"
@@ -133,7 +132,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtRefLabelWeight"
+                android:id="@+id/txtDupRefLabelWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="g"
@@ -142,7 +141,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtRefCardDiameter"
+                android:id="@+id/txtDupRefCardDiameter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_12sdp"
@@ -152,7 +151,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtRefLabelDiameter"
+                android:id="@+id/txtDupRefLabelDiameter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="mm"
@@ -163,7 +162,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/loutRefCoinObvDesc"
+            android:id="@+id/loutDupRefCoinObvDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
@@ -174,7 +173,7 @@
 
 
             <TextView
-                android:id="@+id/txtRefObvDesc"
+                android:id="@+id/txtDupRefObvDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -187,7 +186,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/loutRefCoinObvLeg"
+            android:id="@+id/loutDupRefCoinObvLeg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_3sdp"
@@ -198,7 +197,7 @@
 
 
             <TextView
-                android:id="@+id/txtRefObvLeg"
+                android:id="@+id/txtDupRefObvLeg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -218,7 +217,7 @@
             >
 
             <TextView
-                android:id="@+id/txtRefRevDesc"
+                android:id="@+id/txtDupRefRevDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="12"
@@ -238,7 +237,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/loutRefCoinRevLeg"
+            android:id="@+id/loutDupRefCoinRevLeg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_3sdp"
@@ -248,7 +247,7 @@
             >
 
             <TextView
-                android:id="@+id/txtRefRevLeg"
+                android:id="@+id/txtDupRefRevLeg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="COS.III"
@@ -259,7 +258,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/loutRefCoinProvenance"
+            android:id="@+id/loutDupRefCoinProvenance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
@@ -269,7 +268,7 @@
             >
 
             <TextView
-                android:id="@+id/txtRefProvenance"
+                android:id="@+id/txtDupRefProvenance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textStyle="italic"
@@ -280,7 +279,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtRefLabelValue"
+                android:id="@+id/txtDupRefLabelValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_20sdp"
@@ -291,7 +290,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtRefValue"
+                android:id="@+id/txtDupRefValue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textStyle="italic"
@@ -304,7 +303,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/loutRefCoinNotes"
+            android:id="@+id/loutDupRefCoinNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
@@ -314,7 +313,7 @@
             >
 
             <TextView
-                android:id="@+id/txtRefNotes"
+                android:id="@+id/txtDupRefNotes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="italic"
@@ -354,56 +353,32 @@
             app:srcCompat="@drawable/card_menu" />
 
         <TextView
-            android:id="@+id/txtRefCardCoinUid"
+            android:id="@+id/txtDupRefCardCoinUid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/txtRefCardImgLink"
+            android:id="@+id/txtDupRefCardImgLink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/txtRefCardValueUnformatted"
+            android:id="@+id/txtDupRefCardValueUnformatted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/txtRefCardSortric"
+            android:id="@+id/txtDupRefCardSortric"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:text="TextView" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnDuplicates"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="wrap_content"
-            android:text="View other examples"
-            android:visibility="gone"
-            />
-
-        <TextView
-            android:id="@+id/txtRefCardReplicateBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
-
-            android:text="Replicate coin"
-            android:textAllCaps="true"
-            android:gravity="center"
-            android:visibility="gone"
-            android:textColor="@color/lighttext"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-
 
     </LinearLayout>
 

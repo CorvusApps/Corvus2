@@ -91,25 +91,37 @@ public class RefCoinList extends AppCompatActivity {
     private Drawable coinImageY;
 
     private String coinPersonageY, coinDenominationY, coinMintY, coinRICvarY, coinWeightY, coinDiameterY, coinObvDescY, coinObvLegY, coinRevDescY
-            , coinRevLegY, coinProvenanceY,coinNotesY, coinImageLinkY, coinUIDY;
-    private int coinRICY,  coinValueY;
+            , coinRevLegY, coinProvenanceY, coinNotesY, coinImageLinkY, coinUIDY, coinSortRicY;
+    private int coinRICY,  coinValueY, coinSortRicYint;
 
     //need to get imageLink before removing the values so can delete it later
     //TODO - verify and delete this whole group
     private String deleteImageLink;
 
     //For Sorting
-    //TODO - verify and delete this whole group
+    //TODO - verify and delete this whole group NEED THE LAYOUT MANAGER
     private LinearLayoutManager layoutManagerCoins;
     private SharedPreferences sortRefSharedPrefCoins;
 
     private Query sortRefQueryCoins;
+
+    // card elements for on-click functionality
+
+    LinearLayout loutRefCoinObvDescX;
+
+    TextView txtRefObvDescX;
+
+    // in-card buttons for replicate and duplicate examples
+    TextView txtCardRefReplicateBtnX;
+    MaterialButton btnDuplicatesX;
 
     // adMob
 
     InterstitialAd mInterstitialAdRefCoinList;
     int mAdvertCounterRefCoinList;
     private SharedPreferences sharedAdvertCounterRefCoinList;
+
+
 
 
     @Override
@@ -130,8 +142,8 @@ public class RefCoinList extends AppCompatActivity {
 
         MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
         mInterstitialAdRefCoinList = new InterstitialAd(RefCoinList.this);
-        //mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
-        mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.refcoinlist_interstitial_ad));
+        mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
+        //mInterstitialAdRefCoinList.setAdUnitId(getString(R.string.refcoinlist_interstitial_ad));
 
         mInterstitialAdRefCoinList.loadAd(new AdRequest.Builder().build());
 
@@ -238,7 +250,7 @@ public class RefCoinList extends AppCompatActivity {
 
         if(mSorting2.equals("sortric")) {
 
-            sortRefQueryCoins = coinRefDatabase.orderByChild("sortric");
+            sortRefQueryCoins = coinRefDatabase.orderByChild("sortric").endAt(999999999);
             layoutManagerCoins = new LinearLayoutManager(this);
             layoutManagerCoins.setReverseLayout(false);
 
@@ -312,6 +324,8 @@ public class RefCoinList extends AppCompatActivity {
                 viewHolder.setLayouts();
 
                 viewHolder.setRICLabel(model.getId(), model.getRicvar());
+
+                viewHolder.setSortric(model.getSortric());
             }
 
             // The Code setting out recycler view /////////////////////////////////////////////////////////////////
@@ -335,13 +349,15 @@ public class RefCoinList extends AppCompatActivity {
                     @Override
                     public void onItemClick(View view, int position) {
 
-                        LinearLayout loutRefCoinObvDescX = view.findViewById(R.id.loutRefCoinObvDesc);  // layouts that toggle from GONE to INVISIBLE to expand card
+                          // layouts that toggle from GONE to INVISIBLE to expand card
+                        loutRefCoinObvDescX = view.findViewById(R.id.loutRefCoinObvDesc);
                         LinearLayout loutRefCoinObvLegX = view.findViewById(R.id.loutRefCoinObvLeg);
                         LinearLayout loutRefCoinRevLegX = view.findViewById(R.id.loutRefCoinRevLeg);
                         LinearLayout loutRefCoinProvenanceX = view.findViewById(R.id.loutRefCoinProvenance);
                         LinearLayout loutRefCoinNotesX = view.findViewById(R.id.loutRefCoinNotes);
 
-                        TextView txtRefObvDescX = view.findViewById(R.id.txtRefObvDesc);
+
+                        txtRefObvDescX = view.findViewById(R.id.txtRefObvDesc);
                         TextView txtRefObvLegX = view.findViewById(R.id.txtRefObvLeg);
                         TextView txtRefRevLegX = view.findViewById(R.id.txtRefRevLeg);
                         TextView txtRefProvenanceX = view.findViewById(R.id.txtRefProvenance);
@@ -361,6 +377,9 @@ public class RefCoinList extends AppCompatActivity {
 
                         TextView txtRefRevDescX = view.findViewById(R.id.txtRefRevDesc);
 
+                        // To feed duplicate
+                        TextView txtRefCardSortricX = view.findViewById(R.id.txtRefCardSortric);
+
                         //get data from views to feed replicate
 
                         coinPersonageY = txtRefPersonageX.getText().toString();
@@ -376,19 +395,28 @@ public class RefCoinList extends AppCompatActivity {
 
                         coinNotesY = txtRefNotesX.getText().toString();
 
+                        //get data from views to duplicates (some gets pulled in from replicate as well)
+                        //keeping sortric as string and then manipulating it below OR in duplicates
+
+                        coinSortRicY = txtRefCardSortricX.getText().toString();
+                        coinSortRicYint = Integer.parseInt(coinSortRicY);
+
+
                         //the RIC and Value have to be converted to an int before being put to coinadd class
-                        String coinRICYpre = txtRefRICX.getText().toString();
+                        final String coinRICYpre = txtRefRICX.getText().toString();
                         coinRICY = Integer.parseInt(coinRICYpre);
 
                         if (cardRefToggle != 1) {
 
                             cardRefToggle = 1;
 
+
+
                             //bring out replicate function once the card is clicked the first time
-                            TextView txtCardRefReplicateBtnX = view.findViewById(R.id.txtRefCardReplicateBtn);
+                            txtCardRefReplicateBtnX = view.findViewById(R.id.txtRefCardReplicateBtn);
                             txtCardRefReplicateBtnX.setVisibility(View.VISIBLE);
 
-                            MaterialButton btnDuplicatesX = view.findViewById(R.id.btnDuplicates);
+                            btnDuplicatesX = view.findViewById(R.id.btnDuplicates);
                             btnDuplicatesX.setVisibility(View.VISIBLE);
 
                             txtCardRefReplicateBtnX.setOnClickListener(new View.OnClickListener() {
@@ -428,19 +456,26 @@ public class RefCoinList extends AppCompatActivity {
                                 @Override
                                 public void onClick(View view) {
 
-                                    Intent intendDup = new Intent(RefCoinList.this, RefDupCoinList.class);
+                                    //Toast.makeText(RefCoinList.this, coinPersonageY + coinRICY + " " + coinSortRicYint, Toast.LENGTH_LONG).show();
 
+                                    Intent intent = new Intent(RefCoinList.this, RefDupCoinList.class);
 
-                                    startActivity(intendDup);
+                                    intent.putExtra("personage", coinPersonageY);
+                                    intent.putExtra("id",coinRICY); // integer
+                                    intent.putExtra("sortric", coinSortRicYint); //integer
+                                    intent.putExtra("coluid", cRefListuid);
+                                    intent.putExtra("ricvar", coinRICvarY);
+
+                                    startActivity(intent);
 
                                 }
                             });
 
                             // checking to see if there are values in the various fields before inflating them
-                            if (txtRefObvDescX.getText().toString().isEmpty()) {
-                            } else {
+//                            if (txtRefObvDescX.getText().toString().isEmpty()) {
+//                            } else {
                                 loutRefCoinObvDescX.setVisibility(View.VISIBLE);
-                            }
+//                            }
 
                             if(txtRefObvLegX.getText().toString().isEmpty()) {
                             }else {
@@ -471,6 +506,10 @@ public class RefCoinList extends AppCompatActivity {
                             loutRefCoinRevLegX.setVisibility(View.GONE);
                             loutRefCoinProvenanceX.setVisibility(View.GONE);
                             loutRefCoinNotesX.setVisibility(View.GONE);
+
+                            txtCardRefReplicateBtnX.setVisibility(View.GONE);
+                            btnDuplicatesX.setVisibility(View.GONE);
+
                         }
 
                         //logic for popping up intestitial adds every x clicks on a reference collection
@@ -604,6 +643,8 @@ public class RefCoinList extends AppCompatActivity {
 
             TextView txtRefCardReplicateBtnX = (TextView) mView.findViewById(R.id.txtRefCardReplicateBtn);
 
+            Button btnDuplicateX = (Button) mView.findViewById(R.id.btnDuplicates);
+
             loutRefCoinObvDescX.setVisibility(View.GONE);
             loutRefCoinObvLegX.setVisibility(View.GONE);
             loutRefCoinRevLegX.setVisibility(View.GONE);
@@ -611,6 +652,8 @@ public class RefCoinList extends AppCompatActivity {
             loutRefCoinNotesX.setVisibility(View.GONE);
 
             txtRefCardReplicateBtnX.setVisibility(View.GONE);
+
+            btnDuplicateX.setVisibility(View.GONE);
         }
 
         // getting rid of RIC label only if both RIC and RIC var empty so something like Unlisted or Ves281 still get RIC in front
@@ -787,6 +830,16 @@ public class RefCoinList extends AppCompatActivity {
         public void setNotes(String notes) {
             TextView txtRefNotesX = (TextView)mView.findViewById(R.id.txtRefNotes);
             txtRefNotesX.setText(notes);
+
+        }
+
+        public void setSortric(int sortric) {
+
+            TextView txtRefCardSortRicX = (TextView)mView.findViewById(R.id.txtRefCardSortric);
+            String sortric2 = String.valueOf(sortric);
+            txtRefCardSortRicX.setText(sortric2);
+
+
 
         }
 
