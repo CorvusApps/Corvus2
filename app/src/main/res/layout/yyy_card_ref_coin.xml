@@ -381,13 +381,39 @@
             android:visibility="gone"
             android:text="TextView" />
 
+
+    <LinearLayout
+
+        android:id="@+id/loutDupAndRep"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:visibility="visible"
+        >
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDuplicates"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_weight="1"
             android:text="View other examples"
-            android:visibility="gone"
+
+            android:layout_marginRight="@dimen/_3sdp"
             />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnReplicate"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_weight="1"
+            android:text="Replicate this coin"
+
+            android:layout_marginLeft="@dimen/_3sdp"
+            />
+
+    </LinearLayout>
 
         <TextView
             android:id="@+id/txtRefCardReplicateBtn"

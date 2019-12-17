@@ -17,27 +17,156 @@
         android:visibility="gone"
         android:text="TextView" />
 
-    <com.google.android.material.button.MaterialButton
+    <LinearLayout
+
+        android:id="@+id/loutMainCoin"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:layout_marginLeft="@dimen/_1sdp"
+        android:layout_marginRight="@dimen/_1sdp"
+        android:visibility="visible"
+        android:background="@color/colorPrimary"
+        >
+
+    <TextView
         android:id="@+id/txtDupCoinType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
-        android:backgroundTint="@color/lighttext"
+
         android:layout_marginTop="3dp"
         android:layout_marginLeft="@dimen/_8sdp"
         android:layout_marginRight="@dimen/_8sdp"
         android:textSize="@dimen/_12sdp"
         android:textAllCaps="false"
-        app:cornerRadius="@dimen/_10sdp"
+        android:gravity="center"
+
         android:text="RIC" />
+
+
+        <ImageView
+            android:id="@+id/imgRefCardCoinAdd"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150sdp"
+
+            android:src="@drawable/insertcoin"
+            android:layout_marginTop="0dp"
+
+            />
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/loutRefCoinObvDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:visibility="visible"
+            >
+
+            <TextView
+                android:id="@+id/txtRefObvDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Laureate head right"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/darktext"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/loutRefCoinObvLeg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:visibility="visible"
+            >
+
+            <TextView
+                android:id="@+id/txtRefObvLeg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IMP.CAES.VESP.COS.III"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/darktext"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            >
+
+            <TextView
+                android:id="@+id/txtRefRevDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="12"
+                android:text="Concordia seated left; patera in right hand; cornucopia in left hand"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/darktext"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right">
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/loutRefCoinRevLeg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:visibility="visible"
+            >
+
+            <TextView
+                android:id="@+id/txtRefRevLeg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="COS.III"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/darktext"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_4sdp"
+            android:background="@color/colorAccent"
+            />
+
+    </LinearLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvDupRefCoins"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
         android:scrollbars="vertical"
         >
 

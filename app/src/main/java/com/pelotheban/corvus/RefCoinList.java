@@ -114,6 +114,7 @@ public class RefCoinList extends AppCompatActivity {
     // in-card buttons for replicate and duplicate examples
     TextView txtCardRefReplicateBtnX;
     MaterialButton btnDuplicatesX;
+    LinearLayout loutDupAndRepX;
 
     // adMob
 
@@ -416,6 +417,9 @@ public class RefCoinList extends AppCompatActivity {
                             txtCardRefReplicateBtnX = view.findViewById(R.id.txtRefCardReplicateBtn);
                             txtCardRefReplicateBtnX.setVisibility(View.VISIBLE);
 
+                            loutDupAndRepX = view.findViewById(R.id.loutDupAndRep);
+                            loutDupAndRepX.setVisibility(View.VISIBLE);
+
                             btnDuplicatesX = view.findViewById(R.id.btnDuplicates);
                             btnDuplicatesX.setVisibility(View.VISIBLE);
 
@@ -508,7 +512,7 @@ public class RefCoinList extends AppCompatActivity {
                             loutRefCoinNotesX.setVisibility(View.GONE);
 
                             txtCardRefReplicateBtnX.setVisibility(View.GONE);
-                            btnDuplicatesX.setVisibility(View.GONE);
+                            loutDupAndRepX.setVisibility(View.GONE);
 
                         }
 
@@ -643,7 +647,7 @@ public class RefCoinList extends AppCompatActivity {
 
             TextView txtRefCardReplicateBtnX = (TextView) mView.findViewById(R.id.txtRefCardReplicateBtn);
 
-            Button btnDuplicateX = (Button) mView.findViewById(R.id.btnDuplicates);
+            LinearLayout loutDupAndRepX = (LinearLayout) mView.findViewById(R.id.loutDupAndRep);
 
             loutRefCoinObvDescX.setVisibility(View.GONE);
             loutRefCoinObvLegX.setVisibility(View.GONE);
@@ -653,7 +657,7 @@ public class RefCoinList extends AppCompatActivity {
 
             txtRefCardReplicateBtnX.setVisibility(View.GONE);
 
-            btnDuplicateX.setVisibility(View.GONE);
+            loutDupAndRepX.setVisibility(View.GONE);
         }
 
         // getting rid of RIC label only if both RIC and RIC var empty so something like Unlisted or Ves281 still get RIC in front
