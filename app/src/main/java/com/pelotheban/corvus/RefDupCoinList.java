@@ -181,6 +181,29 @@ public class RefDupCoinList extends AppCompatActivity {
         String cListDupRefRICvar = getIntent().getStringExtra("ricvar");
         txtDupCoinTypeX.setText(cListDupRefPersonage + " RIC " + cListDupRefRIC + cListDupRefRICvar);
 
+        //setting rest of the static source coin
+
+        TextView txtDubBaseObvDescX = findViewById(R.id.txtDupBaseObvDesc);
+        TextView txtDubBaseObvLegX = findViewById(R.id.txtDupBaseObvLeg);
+        TextView txtDubBaseRevDescX = findViewById(R.id.txtDupBaseRevDesc);
+        TextView txtDubBaseRevLegX = findViewById(R.id.txtDupBaseRevLeg);
+
+        ImageView imgDupBaseCoinX = findViewById(R.id.imgDupBaseCoin);
+
+        String DubBaseObvDesc = getIntent().getStringExtra("obvdesc");
+        String DubBaseObvLeg = getIntent().getStringExtra("obvleg");
+        String DubBaseRevDesc = getIntent().getStringExtra("revdesc");
+        String DubBaseRevLeg = getIntent().getStringExtra("revleg");
+
+        String DubBaseImage = getIntent().getStringExtra("imageLink");
+
+        txtDubBaseObvDescX.setText(DubBaseObvDesc);
+        txtDubBaseObvLegX.setText(DubBaseObvLeg);
+        txtDubBaseRevDescX.setText(DubBaseRevDesc);
+        txtDubBaseRevLegX.setText(DubBaseRevLeg);
+
+        Picasso.get().load(DubBaseImage).into(imgDupBaseCoinX); //tutorial had with which got renamed to get but with took ctx as parameter...
+
 
         // Firebase related
         firebaseAuthDupRefCoins = FirebaseAuth.getInstance();
@@ -189,9 +212,9 @@ public class RefDupCoinList extends AppCompatActivity {
                 .child("collections").child(cDupRefListuid).child("coins");
         coinDupRefDatabase.keepSynced(true);
 
+        int dupSortric = ccListDupRefSortric + 1000000000;
 
-
-        sortDupRefQueryCoins = coinDupRefDatabase.orderByChild("sortric").equalTo(ccListDupRefSortric);
+        sortDupRefQueryCoins = coinDupRefDatabase.orderByChild("sortric").equalTo(dupSortric);
         layoutManagerDupCoins = new LinearLayoutManager(this);
         layoutManagerDupCoins.setReverseLayout(false);
 
@@ -268,127 +291,127 @@ public class RefDupCoinList extends AppCompatActivity {
 
                     // inflates card from recycler view to see fields not visible in base view
                     @Override
-                    public void onItemClick(View view, int position) {
+                    public void onItemClick(View view, int position) {  // taking away all the expandability for dups - keeping here just in case
 
-                        // layouts that toggle from GONE to INVISIBLE to expand card
-                        LinearLayout loutDupRefCoinObvDescX = view.findViewById(R.id.loutDupRefCoinObvDesc);
-                        LinearLayout loutDupRefCoinObvLegX = view.findViewById(R.id.loutDupRefCoinObvLeg);
-                        LinearLayout loutDupRefCoinRevLegX = view.findViewById(R.id.loutDupRefCoinRevLeg);
-                        LinearLayout loutDupRefCoinProvenanceX = view.findViewById(R.id.loutDupRefCoinProvenance);
-                        LinearLayout loutDupRefCoinNotesX = view.findViewById(R.id.loutDupRefCoinNotes);
-
-
-                        TextView txtDupRefObvDescX = view.findViewById(R.id.txtDupRefObvDesc);
-                        TextView txtDupRefObvLegX = view.findViewById(R.id.txtDupRefObvLeg);
-                        TextView txtDupRefRevLegX = view.findViewById(R.id.txtDupRefRevLeg);
-                        TextView txtDupRefProvenanceX = view.findViewById(R.id.txtDupRefProvenance);
-                        //TextView txtRefValueX = view.findViewById(R.id.txtValue); // need to use the one below which is unformatted because can't turn it integer with comas
-                        TextView txtDupRefCardValueUnformattedX = view.findViewById(R.id.txtDupRefCardValueUnformatted);
-
-                        TextView txtDupRefNotesX = view.findViewById(R.id.txtDupRefNotes);
-
-
-                        if (cardDupRefToggle != 1) {
-
-                            cardDupRefToggle = 1;
-
-
-
-
-
-                            // checking to see if there are values in the various fields before inflating them
-//                            if (txtRefObvDescX.getText().toString().isEmpty()) {
-//                            } else {
-                            loutDupRefCoinObvDescX.setVisibility(View.VISIBLE);
+//                        // layouts that toggle from GONE to INVISIBLE to expand card
+//                        LinearLayout loutDupRefCoinObvDescX = view.findViewById(R.id.loutDupRefCoinObvDesc);
+//                        LinearLayout loutDupRefCoinObvLegX = view.findViewById(R.id.loutDupRefCoinObvLeg);
+//                        LinearLayout loutDupRefCoinRevLegX = view.findViewById(R.id.loutDupRefCoinRevLeg);
+//                        LinearLayout loutDupRefCoinProvenanceX = view.findViewById(R.id.loutDupRefCoinProvenance);
+//                        LinearLayout loutDupRefCoinNotesX = view.findViewById(R.id.loutDupRefCoinNotes);
+//
+//
+//                        TextView txtDupRefObvDescX = view.findViewById(R.id.txtDupRefObvDesc);
+//                        TextView txtDupRefObvLegX = view.findViewById(R.id.txtDupRefObvLeg);
+//                        TextView txtDupRefRevLegX = view.findViewById(R.id.txtDupRefRevLeg);
+//                        TextView txtDupRefProvenanceX = view.findViewById(R.id.txtDupRefProvenance);
+//                        //TextView txtRefValueX = view.findViewById(R.id.txtValue); // need to use the one below which is unformatted because can't turn it integer with comas
+//                        TextView txtDupRefCardValueUnformattedX = view.findViewById(R.id.txtDupRefCardValueUnformatted);
+//
+//                        TextView txtDupRefNotesX = view.findViewById(R.id.txtDupRefNotes);
+//
+//
+//                        if (cardDupRefToggle != 1) {
+//
+//                            cardDupRefToggle = 1;
+//
+//
+//
+//
+//
+//                            // checking to see if there are values in the various fields before inflating them
+////                            if (txtRefObvDescX.getText().toString().isEmpty()) {
+////                            } else {
+//                            loutDupRefCoinObvDescX.setVisibility(View.VISIBLE);
+////                            }
+//
+//                            if(txtDupRefObvLegX.getText().toString().isEmpty()) {
+//                            }else {
+//                                loutDupRefCoinObvLegX.setVisibility(View.VISIBLE);
 //                            }
-
-                            if(txtDupRefObvLegX.getText().toString().isEmpty()) {
-                            }else {
-                                loutDupRefCoinObvLegX.setVisibility(View.VISIBLE);
-                            }
-
-                            if (txtDupRefRevLegX.getText().toString().isEmpty()){
-                            } else {
-                                loutDupRefCoinRevLegX.setVisibility(View.VISIBLE);
-                            }
-
-                            if (txtDupRefProvenanceX.getText().toString().isEmpty() && Integer.parseInt(txtDupRefCardValueUnformattedX.getText().toString()) == 0){
-                            } else {
-                                loutDupRefCoinProvenanceX.setVisibility(View.VISIBLE);
-                            }
-
-                            if (txtDupRefNotesX.getText().toString().isEmpty()) {
-                            } else {
-                                loutDupRefCoinNotesX.setVisibility(View.VISIBLE);
-                            }
-
-                        } else if (cardDupRefToggle == 1){
-
-                            cardDupRefToggle = 0;
-
-                            loutDupRefCoinObvDescX.setVisibility(View.GONE);
-                            loutDupRefCoinObvLegX.setVisibility(View.GONE);
-                            loutDupRefCoinRevLegX.setVisibility(View.GONE);
-                            loutDupRefCoinProvenanceX.setVisibility(View.GONE);
-                            loutDupRefCoinNotesX.setVisibility(View.GONE);
-
-                        }
-
-                        //logic for popping up intestitial adds every x clicks on a reference collection
-
-                        mAdvertCounterDupRefCoinList = sharedAdvertCounterDupRefCoinList.getInt("CounterDupRefCoinList", 0); // where if no settings
-                        SharedPreferences.Editor editor = sharedAdvertCounterDupRefCoinList.edit();
-                        editor.putInt("CounterDupRefCoinList", mAdvertCounterDupRefCoinList + 1);
-                        editor.apply(); // saves the value
-                        mAdvertCounterDupRefCoinList = mAdvertCounterDupRefCoinList + 1;
-
-                        if (mAdvertCounterDupRefCoinList > 12) {
-
-                            mInterstitialAdDupRefCoinList.show();
-                            editor = sharedAdvertCounterDupRefCoinList.edit();
-                            editor.putInt("CounterDupRefCoinList", 0); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
-                            editor.apply(); // saves the value
-                            mAdvertCounterDupRefCoinList = 0;
-
-                            mInterstitialAdDupRefCoinList.setAdListener(new AdListener() {
-                                @Override
-                                public void onAdLoaded() {
-                                    // Code to be executed when an ad finishes loading.
-
-                                }
-
-                                @Override
-                                public void onAdFailedToLoad(int errorCode) {
-                                    // Code to be executed when an ad request fails.
-                                }
-
-                                @Override
-                                public void onAdOpened() {
-                                    // Code to be executed when the ad is displayed.
-                                    mInterstitialAdDupRefCoinList.loadAd(new AdRequest.Builder().build());
-                                }
-
-                                @Override
-                                public void onAdClicked() {
-                                    // Code to be executed when the user clicks on an ad.
-                                    mInterstitialAdDupRefCoinList.loadAd(new AdRequest.Builder().build());
-
-                                }
-
-                                @Override
-                                public void onAdLeftApplication() {
-                                    // Code to be executed when the user has left the app.
-                                }
-
-                                @Override
-                                public void onAdClosed() {
-                                    // Code to be executed when the interstitial ad is closed.
-                                    mInterstitialAdDupRefCoinList.loadAd(new AdRequest.Builder().build());
-                                }
-                            });
-
-
-                        }
+//
+//                            if (txtDupRefRevLegX.getText().toString().isEmpty()){
+//                            } else {
+//                                loutDupRefCoinRevLegX.setVisibility(View.VISIBLE);
+//                            }
+//
+//                            if (txtDupRefProvenanceX.getText().toString().isEmpty() && Integer.parseInt(txtDupRefCardValueUnformattedX.getText().toString()) == 0){
+//                            } else {
+//                                loutDupRefCoinProvenanceX.setVisibility(View.VISIBLE);
+//                            }
+//
+//                            if (txtDupRefNotesX.getText().toString().isEmpty()) {
+//                            } else {
+//                                loutDupRefCoinNotesX.setVisibility(View.VISIBLE);
+//                            }
+//
+//                        } else if (cardDupRefToggle == 1){
+//
+//                            cardDupRefToggle = 0;
+//
+//                            loutDupRefCoinObvDescX.setVisibility(View.GONE);
+//                            loutDupRefCoinObvLegX.setVisibility(View.GONE);
+//                            loutDupRefCoinRevLegX.setVisibility(View.GONE);
+//                            loutDupRefCoinProvenanceX.setVisibility(View.GONE);
+//                            loutDupRefCoinNotesX.setVisibility(View.GONE);
+//
+//                        }
+//
+//                        //logic for popping up intestitial adds every x clicks on a reference collection
+//
+//                        mAdvertCounterDupRefCoinList = sharedAdvertCounterDupRefCoinList.getInt("CounterDupRefCoinList", 0); // where if no settings
+//                        SharedPreferences.Editor editor = sharedAdvertCounterDupRefCoinList.edit();
+//                        editor.putInt("CounterDupRefCoinList", mAdvertCounterDupRefCoinList + 1);
+//                        editor.apply(); // saves the value
+//                        mAdvertCounterDupRefCoinList = mAdvertCounterDupRefCoinList + 1;
+//
+//                        if (mAdvertCounterDupRefCoinList > 12) {
+//
+//                            mInterstitialAdDupRefCoinList.show();
+//                            editor = sharedAdvertCounterDupRefCoinList.edit();
+//                            editor.putInt("CounterDupRefCoinList", 0); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+//                            editor.apply(); // saves the value
+//                            mAdvertCounterDupRefCoinList = 0;
+//
+//                            mInterstitialAdDupRefCoinList.setAdListener(new AdListener() {
+//                                @Override
+//                                public void onAdLoaded() {
+//                                    // Code to be executed when an ad finishes loading.
+//
+//                                }
+//
+//                                @Override
+//                                public void onAdFailedToLoad(int errorCode) {
+//                                    // Code to be executed when an ad request fails.
+//                                }
+//
+//                                @Override
+//                                public void onAdOpened() {
+//                                    // Code to be executed when the ad is displayed.
+//                                    mInterstitialAdDupRefCoinList.loadAd(new AdRequest.Builder().build());
+//                                }
+//
+//                                @Override
+//                                public void onAdClicked() {
+//                                    // Code to be executed when the user clicks on an ad.
+//                                    mInterstitialAdDupRefCoinList.loadAd(new AdRequest.Builder().build());
+//
+//                                }
+//
+//                                @Override
+//                                public void onAdLeftApplication() {
+//                                    // Code to be executed when the user has left the app.
+//                                }
+//
+//                                @Override
+//                                public void onAdClosed() {
+//                                    // Code to be executed when the interstitial ad is closed.
+//                                    mInterstitialAdDupRefCoinList.loadAd(new AdRequest.Builder().build());
+//                                }
+//                            });
+//
+//
+//                        }
 
                         ///////////////// end of ad Mob on item click ////////////////////
 
@@ -466,7 +489,7 @@ public class RefDupCoinList extends AppCompatActivity {
             loutDupRefCoinObvDescX.setVisibility(View.GONE);
             loutDupRefCoinObvLegX.setVisibility(View.GONE);
             loutDupRefCoinRevLegX.setVisibility(View.GONE);
-            loutDupRefCoinProvenanceX.setVisibility(View.GONE);
+           // loutDupRefCoinProvenanceX.setVisibility(View.GONE); // starting with this visible for dups
             loutDupRefCoinNotesX.setVisibility(View.GONE);
         }
 
@@ -474,7 +497,7 @@ public class RefDupCoinList extends AppCompatActivity {
         public void setRICLabel (int id, String ricvar){
 
             TextView txtDupRefLabelRICX = (TextView)mView.findViewById(R.id.txtDupRefLabelRIC);
-            txtDupRefLabelRICX.setVisibility(View.VISIBLE);
+            //txtDupRefLabelRICX.setVisibility(View.VISIBLE);
 
             if (id == 0 && ricvar.equals("")) {
                 txtDupRefLabelRICX.setVisibility(View.GONE);
@@ -527,7 +550,7 @@ public class RefDupCoinList extends AppCompatActivity {
             String id2 = String.valueOf(id);
             txtDupRefCardRICX.setText(id2);
 
-            txtDupRefCardRICX.setVisibility(View.VISIBLE);
+           // txtDupRefCardRICX.setVisibility(View.VISIBLE);
 
             try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all ifs
                 if (id == 0){

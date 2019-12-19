@@ -24,31 +24,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_3sdp"
-        android:layout_marginLeft="@dimen/_1sdp"
-        android:layout_marginRight="@dimen/_1sdp"
+
         android:visibility="visible"
         android:background="@color/colorPrimary"
         >
 
-    <TextView
-        android:id="@+id/txtDupCoinType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"
+         <TextView
+            android:id="@+id/txtDupCoinType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:background="@color/lighttext"
+            android:layout_marginTop="3dp"
 
-        android:layout_marginTop="3dp"
-        android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginRight="@dimen/_8sdp"
-        android:textSize="@dimen/_12sdp"
-        android:textAllCaps="false"
-        android:gravity="center"
+            android:textSize="@dimen/_12sdp"
+            android:textAllCaps="false"
+            android:gravity="center"
 
-        android:text="RIC" />
+            android:text="RIC" />
+
+        <LinearLayout
+            android:id="@+id/loutDupBaseImg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            android:visibility="visible"
+            android:background="@color/lighttext"
+            >
 
 
         <ImageView
-            android:id="@+id/imgRefCardCoinAdd"
+            android:id="@+id/imgDupBaseCoin"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_150sdp"
 
@@ -57,45 +65,46 @@
 
             />
 
-
+        </LinearLayout>
 
 
 
         <LinearLayout
-            android:id="@+id/loutRefCoinObvDesc"
+            android:id="@+id/loutDupBaseObvDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_1sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginRight="@dimen/_5sdp"
             android:visibility="visible"
+
             >
 
             <TextView
-                android:id="@+id/txtRefObvDesc"
+                android:id="@+id/txtDupBaseObvDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Laureate head right"
-                android:textSize="@dimen/_12sdp"
                 android:textColor="@color/darktext"
-                />
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/loutRefCoinObvLeg"
+            android:id="@+id/loutDupBaseObvLeg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_1sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginRight="@dimen/_5sdp"
             android:visibility="visible"
             >
 
             <TextView
-                android:id="@+id/txtRefObvLeg"
+                android:id="@+id/txtDupBaseObvLeg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="IMP.CAES.VESP.COS.III"
@@ -109,18 +118,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginRight="@dimen/_5sdp"
             >
 
             <TextView
-                android:id="@+id/txtRefRevDesc"
+                android:id="@+id/txtDupBaseRevDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="12"
                 android:text="Concordia seated left; patera in right hand; cornucopia in left hand"
                 android:textSize="@dimen/_12sdp"
                 android:textColor="@color/darktext"
+                android:textStyle="bold"
                 />
 
             <LinearLayout
@@ -134,17 +144,17 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/loutRefCoinRevLeg"
+            android:id="@+id/loutDupBaseRevLeg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_1sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginRight="@dimen/_5sdp"
             android:visibility="visible"
             >
 
             <TextView
-                android:id="@+id/txtRefRevLeg"
+                android:id="@+id/txtDupBaseRevLeg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="COS.III"

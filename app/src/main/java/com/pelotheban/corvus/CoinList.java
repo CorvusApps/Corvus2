@@ -137,6 +137,10 @@ public class CoinList extends AppCompatActivity {
     private String coinListColValue;
     private int coinListColValueInt;
 
+    //for replicate function
+    TextView txtCardReplicateBtnX;
+
+
     // adMob
 
     InterstitialAd mInterstitialAdCoinList;
@@ -469,7 +473,7 @@ public class CoinList extends AppCompatActivity {
                 viewHolder.setLayouts();
 
 
-                viewHolder.setReplicateButton();
+               // viewHolder.setReplicateButton();
 
                 //need to repull the standard ref becuase it does not transfer to the inner class and can't put it in the parameters
                 cListStandardRef = getIntent().getStringExtra("standardref");
@@ -609,7 +613,7 @@ public class CoinList extends AppCompatActivity {
                             cardToggle = 1;
 
                             //bring out replicate function once the card is clicked the first time
-                            TextView txtCardReplicateBtnX = view.findViewById(R.id.txtCardReplicateBtn);
+                            txtCardReplicateBtnX = view.findViewById(R.id.txtCardReplicateBtn);
                             txtCardReplicateBtnX.setVisibility(View.VISIBLE);
 
                             txtCardReplicateBtnX.setOnClickListener(new View.OnClickListener() {
@@ -679,6 +683,11 @@ public class CoinList extends AppCompatActivity {
                             loutCoinRevLegX.setVisibility(View.GONE);
                             loutCoinProvenanceX.setVisibility(View.GONE);
                             loutCoinNotesX.setVisibility(View.GONE);
+
+                            txtCardReplicateBtnX = view.findViewById(R.id.txtCardReplicateBtn);
+                            txtCardReplicateBtnX.setVisibility(View.GONE);
+
+
 
                         }
 

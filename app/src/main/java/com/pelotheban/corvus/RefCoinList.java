@@ -378,6 +378,8 @@ public class RefCoinList extends AppCompatActivity {
 
                         TextView txtRefRevDescX = view.findViewById(R.id.txtRefRevDesc);
 
+                        TextView txtRefCardImgLinkX = view.findViewById(R.id.txtRefCardImgLink);
+
                         // To feed duplicate
                         TextView txtRefCardSortricX = view.findViewById(R.id.txtRefCardSortric);
 
@@ -401,6 +403,9 @@ public class RefCoinList extends AppCompatActivity {
 
                         coinSortRicY = txtRefCardSortricX.getText().toString();
                         coinSortRicYint = Integer.parseInt(coinSortRicY);
+
+                        coinImageLinkY = txtRefCardImgLinkX.getText().toString();
+
 
 
                         //the RIC and Value have to be converted to an int before being put to coinadd class
@@ -469,6 +474,15 @@ public class RefCoinList extends AppCompatActivity {
                                     intent.putExtra("sortric", coinSortRicYint); //integer
                                     intent.putExtra("coluid", cRefListuid);
                                     intent.putExtra("ricvar", coinRICvarY);
+
+                                    // extra stuff for static source coin
+
+                                    intent.putExtra("obvdesc", coinObvDescY);
+                                    intent.putExtra("obvleg", coinObvLegY);
+                                    intent.putExtra("revdesc", coinRevDescY);
+                                    intent.putExtra("revleg", coinRevLegY);
+
+                                    intent.putExtra("imageLink", coinImageLinkY);
 
                                     startActivity(intent);
 
@@ -691,6 +705,10 @@ public class RefCoinList extends AppCompatActivity {
 
             ImageView imgRefCardCoinAddX = (ImageView) mView.findViewById(R.id.imgRefCardCoinAdd);
             Picasso.get().load(imageLink).into(imgRefCardCoinAddX); //tutorial had with which got renamed to get but with took ctx as parameter...
+
+            TextView txtRefCardImgLinkX = (TextView) mView.findViewById(R.id.txtRefCardImgLink);
+            txtRefCardImgLinkX.setText(imageLink); // This will provide the image link to card view so it can be passed to duplicate screen for base coin
+
             imgRefCardCoinAddX.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

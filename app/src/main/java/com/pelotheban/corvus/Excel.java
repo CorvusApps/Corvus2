@@ -456,8 +456,9 @@ public class Excel extends AppCompatActivity {
             RIC3 = (int)(Math.round(RIC2));// getting id to be an int before uploading so sorting works well
             Float Value2 = Float.parseFloat(String.valueOf(value));
             Value3 = (int)(Math.round(Value2));// getting Value to be an int before uploading so sorting works well
-            Float SortRIC2 = Float.parseFloat(String.valueOf(sortric));
+            double SortRIC2 = Double.parseDouble(String.valueOf(sortric));
             SortRIC3 = (int)(Math.round(SortRIC2));// getting sortRIC to be an int before uploading so sorting works well
+            // needed to go to double from float because the 1B sortric numbers were crashing the int
 
 
             HashMap<String, Object> dataMap = new HashMap<>();

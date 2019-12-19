@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_5sdp"
             android:layout_marginRight="@dimen/_5sdp"
+            android:visibility="gone"
 
 
             >
@@ -100,13 +101,14 @@
                 android:layout_marginRight="@dimen/_3sdp"
                 android:textSize="@dimen/_12sdp"
                 android:textColor="@color/darktext"
+                android:visibility="gone"
                 />
 
             <TextView
                 android:id="@+id/txtDupRefCardRIC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:visibility="gone"
                 android:text="195"
                 android:textSize="@dimen/_12sdp"
                 android:textColor="@color/darktext"
@@ -118,6 +120,7 @@
                 android:layout_height="wrap_content"
                 android:text="b"
                 android:textSize="@dimen/_12sdp"
+                android:visibility="gone"
                 android:textColor="@color/darktext"
                 />
 
@@ -125,7 +128,7 @@
                 android:id="@+id/txtDupRefCardWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_marginLeft="0dp"
                 android:text="999"
                 android:textSize="@dimen/_12sdp"
                 android:textColor="@color/darktext"
@@ -214,6 +217,7 @@
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginLeft="@dimen/_5sdp"
             android:layout_marginRight="@dimen/_5sdp"
+            android:visibility="gone"
             >
 
             <TextView
@@ -264,7 +268,7 @@
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginLeft="@dimen/_5sdp"
             android:layout_marginRight="@dimen/_5sdp"
-            android:visibility="gone"
+            android:visibility="visible"
             >
 
             <TextView
