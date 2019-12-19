@@ -1284,6 +1284,30 @@ public class CoinList extends AppCompatActivity {
                     }
                 });
 
+                // getting the sortric of the deleted coin and if its a dup (ie over 1B) then add back the coin count
+                // adding back the coin count before deleting it with the query below - need to add here because below the record is deleted and can no longer query the sortric
+                Query dupCoinCountQuery = position.child("sortric");
+                dupCoinCountQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        String deletedCoinSortric = dataSnapshot.getValue().toString();
+                        int deletedCoinSortricInt = Integer.parseInt(deletedCoinSortric);
+
+                        if (deletedCoinSortricInt > 1000000000) {
+                            coinListItemCountInt = coinListItemCountInt + 1;
+
+                        }
+                        // the danger here is that the async operations will have the delete below finish before this and the value won't be deleted.
+                        // may want to fix this on clean up and monitor... working fine on initial tries
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
                 Query mQuery = position;
                 mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -1299,7 +1323,9 @@ public class CoinList extends AppCompatActivity {
                         // also adjust coin number and collection value /////
 
                         final Long timestampD = System.currentTimeMillis() * -1;
-                        coinListItemCountInt = coinListItemCountInt - 1;
+                        coinListItemCountInt = coinListItemCountInt - 1; // this is coming from a query on the collection...
+
+
 
                         String uid = FirebaseAuth.getInstance().getUid();
                         DatabaseReference collectionDelCoinReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
@@ -1330,6 +1356,8 @@ public class CoinList extends AppCompatActivity {
 
                             }
                         });
+
+
 
                         /////////////////////////////////////////////////////////
 

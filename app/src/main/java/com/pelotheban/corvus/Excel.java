@@ -437,6 +437,9 @@ public class Excel extends AppCompatActivity {
 
             final int coinCounter = i +1; //coin counter for toast
 
+
+
+
             Log.d(TAG, "printDataToLog: (denomination, diamter, id, mint, notes, obvdesc, obvleg, personage, provenance, revdesc, revleg, ricvar, value, weight, sortric): (" + denomination + "," + diameter + ", " + id + ", " + mint + ", " + notes + ", " + obvdesc + ", " + obvleg + ", " + personage + "" +
                     ", " + provenance + ", " + revdesc + ", " + revleg + ", " + ricvar + ", " + value + ", " + weight + ", " + sortric + ")");
 
@@ -572,7 +575,10 @@ public class Excel extends AppCompatActivity {
             /////
 
             // getting adjusted values for itemcount and collection value
-            cAddItemCountX = cAddItemCountX +1;
+            if (SortRIC3 < 1000000000) {
+                cAddItemCountX = cAddItemCountX + 1;
+            }
+
             cAddColValueX = cAddColValueX + Value3;
 
 

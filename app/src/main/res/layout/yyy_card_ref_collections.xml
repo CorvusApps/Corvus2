@@ -70,7 +70,43 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="italic"
-                android:text=" Coins"
+                android:text=" Coin Types"
+
+                android:textSize="10sp"
+
+                android:textColor="@color/lighttext"
+                />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            >
+
+            <TextView
+                android:id="@+id/crdRefCoinCountall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:text="0"
+
+                android:textSize="10sp"
+
+                android:textColor="@color/lighttext"
+                />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:text=" Total Coins"
 
                 android:textSize="10sp"
 

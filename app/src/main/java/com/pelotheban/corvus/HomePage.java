@@ -84,6 +84,7 @@ public class HomePage extends AppCompatActivity {
     private String colStandardRefY;
     private int colIDY;
     private int colItemCountY;
+
     private int colValueY;
 
     private Drawable colImageY;

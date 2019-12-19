@@ -73,6 +73,7 @@ public class RefCollections extends AppCompatActivity {
     private String colDesY;
     private String colNotesY;
     private int colCoinCountY;
+    private int colCoinCountallY;
 
     private Drawable colImageY;
 
@@ -267,6 +268,7 @@ public class RefCollections extends AppCompatActivity {
                 viewHolder.setColuid(model.getColuid()); //so ridiculous the get and set functions have to be the same name as the variable like coluid = setColuid wtf
                 viewHolder.setImageLink(model.getImageLink());
                 viewHolder.setCoincount(model.getCoincount());
+                viewHolder.setCoincountall(model.getCoincountall());
 
                 }
 
@@ -357,12 +359,16 @@ public class RefCollections extends AppCompatActivity {
                         ImageView colImage = view.findViewById(R.id.crdRefImgCollectionImage);
                         TextView colNotes = view.findViewById(R.id.crdRefTxtCollectionNotes);
                         TextView colCoinCount = view.findViewById(R.id.crdRefCoinCount);
+                        TextView colCoinCountall = view.findViewById(R.id.crdRefCoinCountall);
 
 
                     //get data from views
 
                     String colCoinCountY2 = colCoinCount.getText().toString();
                     colCoinCountY = Integer.parseInt(colCoinCountY2);
+
+                    String colCoinCountallY2 = colCoinCountall.getText().toString();
+                    colCoinCountallY = Integer.parseInt(colCoinCountallY2);
 
                     colTitleY = colTitle.getText().toString();
                     colDesY = colDes.getText().toString();
@@ -477,6 +483,14 @@ public class RefCollections extends AppCompatActivity {
 
         }
 
+        public void setCoincountall(int coincountall) {
+
+            TextView crdRefCoinCountallX = (TextView)mView.findViewById(R.id.crdRefCoinCountall);
+            String coincountall2 = String.valueOf(coincountall);
+            crdRefCoinCountallX.setText(coincountall2);
+
+        }
+
         // these are setting hiddent textviews in cardView which can then passvalues to child views like expanded collectio or delete method
 
         public void setColuid(String coluid) {
@@ -541,8 +555,12 @@ public class RefCollections extends AppCompatActivity {
         TextView txtColDetailCoinCountX = view.findViewById(R.id.txtColDetailCoinCount);
        //String colCoinCountY3 = String.valueOf(colCoinCountY); version below gets it to good numbers format with ","
         String colCoinCountY3 = NumberFormat.getNumberInstance(Locale.US).format(colCoinCountY);
-
         txtColDetailCoinCountX.setText(colCoinCountY3);
+
+        TextView txtColDetailCoinCountallX = view.findViewById(R.id.txtColDetailCoinCountall);
+        //String colCoinCountY3 = String.valueOf(colCoinCountY); version below gets it to good numbers format with ","
+        String colCoinCountallY3 = NumberFormat.getNumberInstance(Locale.US).format(colCoinCountallY);
+        txtColDetailCoinCountallX.setText(colCoinCountallY3);
 
         TextView txtColDetailTitleX = view.findViewById(R.id.txtColDetailTitle);
         txtColDetailTitleX.setText(colTitleY);

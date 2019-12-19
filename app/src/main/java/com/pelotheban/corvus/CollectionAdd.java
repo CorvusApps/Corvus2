@@ -699,6 +699,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
 
         //Starting amounts for collection size and value against which we will add and subtract with each con add, delete or modification
         int itemCount = 0;
+        int itemCountAll = 0;
         int collectionValue = 0;
 
         //////
@@ -733,6 +734,7 @@ public class CollectionAdd extends AppCompatActivity implements View.OnClickList
         dataMap.put("timestamp", timestampX);
         dataMap.put("id", id3);
         dataMap.put("coincount", itemCount);
+        dataMap.put("coincountall", itemCountAll);
         dataMap.put("colvalue", collectionValue);
 
         dataMap.put("standardref", standardRef2);

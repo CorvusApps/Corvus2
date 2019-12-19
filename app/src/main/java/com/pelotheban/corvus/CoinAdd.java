@@ -337,7 +337,7 @@ public class CoinAdd extends AppCompatActivity {
         if (getIntent().getStringExtra("personage") != null && getIntent().getStringExtra("replicate") == null){
             // we can come into this class from either add collection (home page) or modify collection (expanded collection window)
             // this code will be executed if we came in from modify and thus with push Extras; but because will have intent from Homepage need to be specific for coin intent
-            // now also we can come in here through the duplicate button from CoinList which will also generate an intent with personage but that should go to coinadd method - so adding the second if statment for the duplicate toggle
+            // now also we can come in here through the replicate button from CoinList which will also generate an intent with personage but that should go to coinadd method - so adding the second if statment for the duplicate toggle
 
             //get and store data
 
@@ -575,6 +575,7 @@ public class CoinAdd extends AppCompatActivity {
         } else {
 
             if (modify.equals("no")) {
+
 
                 //executes this if this is a new coin
 
@@ -823,6 +824,12 @@ public class CoinAdd extends AppCompatActivity {
 
         // getting adjusted values for itemcount and collection value
         cAddItemCountX = cAddItemCountX +1;
+
+        if (sortRIC3 > 1000000000) {
+            cAddItemCountX = cAddItemCountX -1;
+
+        }
+
         cAddColValueX = cAddColValueX + Value3;
 
         db_ref.setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
