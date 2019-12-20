@@ -60,7 +60,7 @@ public class Excel extends AppCompatActivity {
     // Needed for upload to Firebase
 
     int RIC3, Value3, SortRIC3;
-    int  cAddItemCountX, cAddColValueX;
+    int  cAddItemCountX, cAddItemCountallX, cAddColValueX;
 
 
     private static final String TAG = "ImportShit";
@@ -92,10 +92,11 @@ public class Excel extends AppCompatActivity {
         loutExcelActLOX = findViewById(R.id.loutExcelActLO);
 
 
-        // Data imported from CoinAdd to be used here
+        // Data imported from CoinList to be used here
         collectionID = getIntent().getStringExtra("coluid");
 
         cAddItemCountX = getIntent().getIntExtra("coincount", 0);
+        cAddItemCountallX = getIntent().getIntExtra("coincountall", 0);
         cAddColValueX = getIntent().getIntExtra("colvalue", 0);
 
         // Toast.makeText(Excel.this, collectionID, Toast.LENGTH_LONG).show();
@@ -579,6 +580,8 @@ public class Excel extends AppCompatActivity {
                 cAddItemCountX = cAddItemCountX + 1;
             }
 
+            cAddItemCountallX = cAddItemCountallX + 1;
+
             cAddColValueX = cAddColValueX + Value3;
 
 
@@ -613,6 +616,7 @@ public class Excel extends AppCompatActivity {
 
                                     ds2.getRef().child("timestamp").setValue(timestampY);
                                     ds2.getRef().child("coincount").setValue(cAddItemCountX);
+                                    ds2.getRef().child("coincountall").setValue(cAddItemCountallX);
                                     ds2.getRef().child("colvalue").setValue(cAddColValueX);
 
                                     ds2.getRef().child("sortcoincount").setValue(sortCoinCount);

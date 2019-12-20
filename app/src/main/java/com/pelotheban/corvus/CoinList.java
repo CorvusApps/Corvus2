@@ -134,6 +134,9 @@ public class CoinList extends AppCompatActivity {
     private String coinListItemCount;
     private int coinListItemCountInt;
 
+    private String coinListItemCountall;
+    private int coinListItemCountallInt;
+
     private String coinListColValue;
     private int coinListColValueInt;
 
@@ -260,6 +263,7 @@ public class CoinList extends AppCompatActivity {
                 intent.putExtra("coluid", cListuid);
                 intent.putExtra("title", cListColName);
                 intent.putExtra("coincount", coinListItemCountInt);
+                intent.putExtra("coincountall", coinListItemCountallInt);
                 intent.putExtra("colvalue", coinListColValueInt);
                 intent.putExtra("standardref", cListStandardRef);
                 startActivity(intent);
@@ -340,12 +344,13 @@ public class CoinList extends AppCompatActivity {
             }
         });
 
-        // pulling collection itemcount and value from firebase to than pass on to coin add, modify, delete to do operations on and re-upload to Firebase
+        // pulling collection itemcount and value from firebase to than pass on to coin add, excel, modify, delete to do operations on and re-upload to Firebase
 
         DatabaseReference itemAndValueCalcRef = FirebaseDatabase.getInstance().getReference().child("my_users").child(firebaseAuthCoins.getCurrentUser().getUid())
                 .child("collections").child(cListuid);
 
         Query itemAndValueCalcQuery = itemAndValueCalcRef.child("coincount");
+        Query itemAndValueCalcQuery3 = itemAndValueCalcRef.child("coincountall");
         Query itemAndValueCalcQuery2 = itemAndValueCalcRef.child("colvalue");
 
         itemAndValueCalcQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -354,6 +359,21 @@ public class CoinList extends AppCompatActivity {
 
                 coinListItemCount = dataSnapshot.getValue().toString();
                 coinListItemCountInt = Integer.parseInt(coinListItemCount);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        itemAndValueCalcQuery3.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                coinListItemCountall = dataSnapshot.getValue().toString();
+                coinListItemCountallInt = Integer.parseInt(coinListItemCountall);
 
             }
 
@@ -626,6 +646,7 @@ public class CoinList extends AppCompatActivity {
                                     intent.putExtra("coluid", cListuid);
                                     intent.putExtra("title", cListColName);
                                     intent.putExtra("coincount", coinListItemCountInt);
+                                    intent.putExtra("coincountall", coinListItemCountallInt);
                                     intent.putExtra("colvalue", coinListColValueInt);
                                     intent.putExtra("standardref", cListStandardRef);
 
@@ -1298,6 +1319,8 @@ public class CoinList extends AppCompatActivity {
                             coinListItemCountInt = coinListItemCountInt + 1;
 
                         }
+
+
                         // the danger here is that the async operations will have the delete below finish before this and the value won't be deleted.
                         // may want to fix this on clean up and monitor... working fine on initial tries
                     }
@@ -1324,6 +1347,7 @@ public class CoinList extends AppCompatActivity {
 
                         final Long timestampD = System.currentTimeMillis() * -1;
                         coinListItemCountInt = coinListItemCountInt - 1; // this is coming from a query on the collection...
+                        coinListItemCountallInt = coinListItemCountallInt -1;
 
 
 
@@ -1344,6 +1368,7 @@ public class CoinList extends AppCompatActivity {
 
                                     ds4.getRef().child("timestamp").setValue(timestampD);
                                     ds4.getRef().child("coincount").setValue(coinListItemCountInt);
+                                    ds4.getRef().child("coincountall").setValue(coinListItemCountallInt);
                                     ds4.getRef().child("colvalue").setValue(coinListColValueInt);
 
                                     ds4.getRef().child("sortcoincount").setValue(sortCoinCount);
@@ -1431,6 +1456,34 @@ public class CoinList extends AppCompatActivity {
             }
         });
 
+        // getting the sortric of the deleted coin and if its a dup (ie over 1B) then add back the coin count
+        // adding back the coin count before deleting it with the query below - need to add here because below the record is deleted and can no longer query the sortric
+        Query dupCoinCountQuery = position.child("sortric");
+        dupCoinCountQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                String deletedCoinSortric = dataSnapshot.getValue().toString();
+                int deletedCoinSortricInt = Integer.parseInt(deletedCoinSortric);
+
+                if (deletedCoinSortricInt > 1000000000) {
+                    coinListItemCountInt = coinListItemCountInt + 1;
+
+                }
+
+
+                // the danger here is that the async operations will have the delete below finish before this and the value won't be deleted.
+                // may want to fix this on clean up and monitor... working fine on initial tries
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
         Query mQuery = position;
         mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -1447,6 +1500,8 @@ public class CoinList extends AppCompatActivity {
 
                 final Long timestampD = System.currentTimeMillis() * -1;
                 coinListItemCountInt = coinListItemCountInt - 1;
+
+                coinListItemCountallInt = coinListItemCountallInt - 1;
 
                 String uid = FirebaseAuth.getInstance().getUid();
                 DatabaseReference collectionDelCoinReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid)
@@ -1465,6 +1520,7 @@ public class CoinList extends AppCompatActivity {
 
                             ds4.getRef().child("timestamp").setValue(timestampD);
                             ds4.getRef().child("coincount").setValue(coinListItemCountInt);
+                            ds4.getRef().child("coincountall").setValue(coinListItemCountallInt);
                             ds4.getRef().child("colvalue").setValue(coinListColValueInt);
 
                             ds4.getRef().child("sortcoincount").setValue(sortCoinCount);
@@ -1827,6 +1883,7 @@ public class CoinList extends AppCompatActivity {
                 intent.putExtra("coluid", cListuid);
                 intent.putExtra("title", cListColName);
                 intent.putExtra("coincount", coinListItemCountInt);
+                intent.putExtra("coincountall", coinListItemCountallInt);
                 intent.putExtra("colvalue", coinListColValueInt);
                 startActivity(intent);
 

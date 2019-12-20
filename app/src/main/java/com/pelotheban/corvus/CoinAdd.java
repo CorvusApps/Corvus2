@@ -89,6 +89,7 @@ public class CoinAdd extends AppCompatActivity {
     // data components for manipulating collection item count and value
 
     private int cAddItemCountX;
+    private int cAddItemCountallX;
     private int cAddColValueX;
 
     // components for new FAB based pop-up menu
@@ -136,7 +137,7 @@ public class CoinAdd extends AppCompatActivity {
     private String colUIDRec; //col uid we get from coin list versus homepage
     private String colTitleRec; //col title we get from coin list versus homepage
     private int colValueRec; // col value we get from coin list
-    private int coinCountRec;
+    private int coinCountRec, coinCountallRec;
     private int coinRICRec, coinValueRec, coinSortRICRec;
     private String modify; // toggle to whether we are saving a new collection or modifying existing
 
@@ -173,6 +174,7 @@ public class CoinAdd extends AppCompatActivity {
         // data components for manipulating collection item count and value in coin add function
 
         cAddItemCountX = getIntent().getIntExtra("coincount", 0);
+        cAddItemCountallX = getIntent().getIntExtra("coincountall",0);
         cAddColValueX = getIntent().getIntExtra("colvalue", 0);
 
 
@@ -449,7 +451,9 @@ public class CoinAdd extends AppCompatActivity {
             coinSortRICRec = getIntent().getIntExtra("sortric", 0);
 
             colValueRec = getIntent().getIntExtra("colvalue", 0);
-            coinCountRec = getIntent().getIntExtra("coincount", 0);
+            cAddItemCountX = getIntent().getIntExtra("coincount", 0);
+            cAddItemCountallX = getIntent().getIntExtra("coincountall", 0);
+
 
             //populate the input views with existing value
             edtPersonageX.setText(coinPersonageRec);
@@ -743,6 +747,9 @@ public class CoinAdd extends AppCompatActivity {
 
     private void uploadCoin() {
 
+
+
+
         String uid = FirebaseAuth.getInstance().getUid();
 
         //////// this and the noted data put below gets the uid key for this snapshot so we can use it later on item click
@@ -824,11 +831,13 @@ public class CoinAdd extends AppCompatActivity {
 
         // getting adjusted values for itemcount and collection value
         cAddItemCountX = cAddItemCountX +1;
-
         if (sortRIC3 > 1000000000) {
             cAddItemCountX = cAddItemCountX -1;
 
         }
+
+        cAddItemCountallX = cAddItemCountallX +1;
+
 
         cAddColValueX = cAddColValueX + Value3;
 
@@ -860,6 +869,8 @@ public class CoinAdd extends AppCompatActivity {
 
                                 ds2.getRef().child("timestamp").setValue(timestampY);
                                 ds2.getRef().child("coincount").setValue(cAddItemCountX);
+                                ds2.getRef().child("coincountall").setValue(cAddItemCountallX);
+
                                 ds2.getRef().child("colvalue").setValue(cAddColValueX);
 
                                 ds2.getRef().child("sortcoincount").setValue(sortCoinCount);

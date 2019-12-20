@@ -45,11 +45,11 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
     private int coinRICY;
 
     // Collection information for the TARGET collection that needs to go into the coin add - so need to query it since starting in ref-collections
-    private Query targetCollectionsValueX, targetCollectionsCountX, targetCollectionStRefX, targetCollectionTitleX;
+    private Query targetCollectionsValueX, targetCollectionsCountX, targetCollectionsCountallX, targetCollectionStRefX, targetCollectionTitleX;
 
-    private String targetCollectionValueB, targetCollectionCountB, targetCollectionIDsB;
+    private String targetCollectionValueB, targetCollectionCountB, targetCollectionCountallB, targetCollectionIDsB;
 
-    private int targetCollectionValueInt, targetCollectionCountInt;
+    private int targetCollectionValueInt, targetCollectionCountInt, targetCollectionCountallInt;
     private String targetCollectionStRef, targetCollectionTitle;
 
     @Override
@@ -179,31 +179,51 @@ public class ReplicationColList extends AppCompatActivity implements AdapterView
 
                                         targetCollectionTitle =  dataSnapshot4.getValue().toString();
 
-                                        // put this inside the ondata change because for some reason data not flowing outside despite same code in Coinlist working (get query and then intent.putextra outside of the query)
-                                        // problem is that now we also need itemcount and standard ref and so need seperate queries but info needs to go to put extras outside
-                                        Intent intent = new Intent(ReplicationColList.this, CoinAdd.class);
-                                        intent.putExtra("coluid", targetCollectionIDsB);
+                                        targetCollectionsCountallX = repDbRef.child(targetCollectionIDsB).child("coincountall");
+                                        targetCollectionsCountallX.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot5) {
 
-                                        intent.putExtra("personage", coinPersonageY);
-                                        intent.putExtra("denomination", coinDenominationY);
-                                        intent.putExtra("mint", coinMintY);
-                                        intent.putExtra("ricvar", coinRICvarY);
-                                        intent.putExtra("obvdesc", coinObvDescY);
-                                        intent.putExtra("obvleg", coinObvLegY);
-                                        intent.putExtra("revdesc", coinRevDescY);
-                                        intent.putExtra("revleg", coinRevLegY);
-                                        intent.putExtra("notes", coinNotesY);
+                                                targetCollectionCountallB = dataSnapshot5.getValue().toString();
+                                                targetCollectionCountallInt = Integer.parseInt(targetCollectionCountallB);
 
-                                        intent.putExtra("id",coinRICY);
 
-                                        intent.putExtra("colvalue", targetCollectionValueInt);
-                                        intent.putExtra("coincount", targetCollectionCountInt);
-                                        intent.putExtra("standardref", targetCollectionStRef);
-                                        intent.putExtra("title", targetCollectionTitle);
+                                                // put this inside the ondata change because for some reason data not flowing outside despite same code in Coinlist working (get query and then intent.putextra outside of the query)
+                                                // problem is that now we also need itemcount and standard ref and so need seperate queries but info needs to go to put extras outside
+                                                Intent intent = new Intent(ReplicationColList.this, CoinAdd.class);
+                                                intent.putExtra("coluid", targetCollectionIDsB);
 
-                                        intent.putExtra("replicate", "yes");
+                                                intent.putExtra("personage", coinPersonageY);
+                                                intent.putExtra("denomination", coinDenominationY);
+                                                intent.putExtra("mint", coinMintY);
+                                                intent.putExtra("ricvar", coinRICvarY);
+                                                intent.putExtra("obvdesc", coinObvDescY);
+                                                intent.putExtra("obvleg", coinObvLegY);
+                                                intent.putExtra("revdesc", coinRevDescY);
+                                                intent.putExtra("revleg", coinRevLegY);
+                                                intent.putExtra("notes", coinNotesY);
 
-                                        startActivity(intent);
+                                                intent.putExtra("id",coinRICY);
+
+                                                intent.putExtra("colvalue", targetCollectionValueInt);
+                                                intent.putExtra("coincount", targetCollectionCountInt);
+                                                intent.putExtra("coincountall", targetCollectionCountallInt);
+                                                intent.putExtra("standardref", targetCollectionStRef);
+                                                intent.putExtra("title", targetCollectionTitle);
+
+                                                intent.putExtra("replicate", "yes");
+
+                                                startActivity(intent);
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+
+
 
                                     }
 

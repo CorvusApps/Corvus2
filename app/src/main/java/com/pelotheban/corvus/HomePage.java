@@ -84,6 +84,7 @@ public class HomePage extends AppCompatActivity {
     private String colStandardRefY;
     private int colIDY;
     private int colItemCountY;
+    private int colItemCountallY;
 
     private int colValueY;
 
@@ -279,6 +280,7 @@ public class HomePage extends AppCompatActivity {
                 viewHolder.setImageLink(model.getImageLink());
 
                 viewHolder.setCoincount(model.getCoincount());
+                viewHolder.setCoincountall(model.getCoincountall());
                 viewHolder.setColvalue(model.getColvalue());
 
                 viewHolder.setStandardref(model.getStandardref());
@@ -304,6 +306,8 @@ public class HomePage extends AppCompatActivity {
                         TextView colTitle = view.findViewById(R.id.crdTxtCollectionTitle);
 
                         TextView colCoinCount = view.findViewById(R.id.crdTxtCollectionItemCount); // need to pass these as hidden to coin list so they can be passed to coin add, delete and modify
+                        TextView colCoinCountall = view.findViewById(R.id.crdTxtCollectionItemCountall);
+
                         TextView colColValue = view.findViewById(R.id.crdTxtCollectionValue);
 
                         TextView colStandardRef = view.findViewById(R.id.crdTxtStandardRef);
@@ -317,6 +321,9 @@ public class HomePage extends AppCompatActivity {
                         String colCoinCountX = colCoinCount.getText().toString();
                         colItemCountY = Integer.parseInt(colCoinCountX);
 
+                        String colCoinCountallX = colCoinCountall.getText().toString();
+                        colItemCountallY = Integer.parseInt(colCoinCountallX);
+
                         String colColValueX = colColValue.getText().toString();
                         colValueY = Integer.parseInt(colColValueX);
 
@@ -327,6 +334,7 @@ public class HomePage extends AppCompatActivity {
                         intent.putExtra("title", colTitleY);
                         intent.putExtra("colvalue", colValueY);
                         intent.putExtra("coincount", colItemCountY);
+                        intent.putExtra("coincountall", colItemCountallY);
                         intent.putExtra("standardref", colStandardRefY);
                         startActivity(intent);
 
@@ -375,6 +383,10 @@ public class HomePage extends AppCompatActivity {
                         TextView colCoinCount = view.findViewById(R.id.crdTxtCollectionItemCount); // need to pass these as hidden to coin list so they can be passed to coin add, delete and modify
                         String colCoinCountX = colCoinCount.getText().toString();
                         colItemCountY = Integer.parseInt(colCoinCountX);
+
+                        TextView colCoinCountall = view.findViewById(R.id.crdTxtCollectionItemCountall); // need to pass these as hidden to coin list so they can be passed to coin add, delete and modify
+                        String colCoinCountallX = colCoinCountall.getText().toString();
+                        colItemCountallY = Integer.parseInt(colCoinCountallX);
 
                         TextView colColValue = view. findViewById(R.id.crdTxtCollectionValue);
                         String colColValueX = colColValue.getText().toString();
@@ -477,6 +489,14 @@ public class HomePage extends AppCompatActivity {
             TextView crdTxtCollectionItemCountX = (TextView)mView.findViewById(R.id.crdTxtCollectionItemCount);
             String coincount2 = String.valueOf(coincount);
             crdTxtCollectionItemCountX.setText(coincount2);
+
+        }
+
+        public void setCoincountall(int coincountall) {
+
+            TextView crdTxtCollectionItemCountallX = (TextView)mView.findViewById(R.id.crdTxtCollectionItemCountall);
+            String coincountall2 = String.valueOf(coincountall);
+            crdTxtCollectionItemCountallX.setText(coincountall2);
 
         }
 
@@ -660,6 +680,11 @@ public class HomePage extends AppCompatActivity {
         String colItemCountY2 = NumberFormat.getNumberInstance(Locale.US).format(colItemCountY);
         txtColDetailItemsX.setText(colItemCountY2);
 
+        TextView txtColDetailItemsallX = view.findViewById(R.id.txtColDetailItemsall);
+        // String colItemCountY2 = String.valueOf(colItemCountY); the version below sets it with "," for thousands
+        String colItemCountallY2 = NumberFormat.getNumberInstance(Locale.US).format(colItemCountallY);
+        txtColDetailItemsallX.setText(colItemCountallY2);
+
         // need to convert to string before putting into editText but want int in firebase for sorting
         TextView txtColDetailValueX = view.findViewById(R.id.txtColDetailValue);
         // final String colValueY2 = String.valueOf(colValueY); ; the version below sets it with "," for thousands
@@ -699,6 +724,7 @@ public class HomePage extends AppCompatActivity {
                intent.putExtra("title", colTitleY);
                intent.putExtra("standardref", colStandardRefY);
                intent.putExtra("coincount" , colItemCountY);
+               intent.putExtra("coincountall", colItemCountallY);
                intent.putExtra("colvalue" , colValueY);
 
                startActivity(intent);
