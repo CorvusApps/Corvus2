@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -112,8 +114,8 @@ public class RefCoinList extends AppCompatActivity {
     TextView txtRefObvDescX;
 
     // in-card buttons for replicate and duplicate examples
-    TextView txtCardRefReplicateBtnX;
-    MaterialButton btnDuplicatesX;
+    //TextView txtCardRefReplicateBtnX; no longer using this but keeping for now
+    MaterialButton btnDuplicatesX , btnReplicateX;
     LinearLayout loutDupAndRepX;
 
     // adMob
@@ -412,28 +414,36 @@ public class RefCoinList extends AppCompatActivity {
                         final String coinRICYpre = txtRefRICX.getText().toString();
                         coinRICY = Integer.parseInt(coinRICYpre);
 
-                        if (cardRefToggle != 1) {
 
-                            cardRefToggle = 1;
-
+                        if (coinObvDescY.equals("BREAKER")) {
 
 
-                            //bring out replicate function once the card is clicked the first time
-                            txtCardRefReplicateBtnX = view.findViewById(R.id.txtRefCardReplicateBtn);
-                            txtCardRefReplicateBtnX.setVisibility(View.VISIBLE);
+                        } else {
 
-                            loutDupAndRepX = view.findViewById(R.id.loutDupAndRep);
-                            loutDupAndRepX.setVisibility(View.VISIBLE);
+                            if (cardRefToggle != 1) {
 
-                            btnDuplicatesX = view.findViewById(R.id.btnDuplicates);
-                            btnDuplicatesX.setVisibility(View.VISIBLE);
+                                cardRefToggle = 1;
 
-                            txtCardRefReplicateBtnX.setOnClickListener(new View.OnClickListener() {
 
-                                @Override
-                                public void onClick(View view) {
-                                    Intent intent = new Intent(RefCoinList.this, ReplicationColList.class);
-                                    //intent.putExtra("coluid", cListuid); May need to get col ID through the model even that may not work
+                                //bring out replicate function once the card is clicked the first time
+                                // txtCardRefReplicateBtnX = view.findViewById(R.id.txtRefCardReplicateBtn);
+                                // txtCardRefReplicateBtnX.setVisibility(View.VISIBLE); // This is the old button which should go away replaced by buttons below
+
+                                loutDupAndRepX = view.findViewById(R.id.loutDupAndRep);
+                                loutDupAndRepX.setVisibility(View.VISIBLE);
+
+                                btnDuplicatesX = view.findViewById(R.id.btnDuplicates);
+                                btnDuplicatesX.setVisibility(View.VISIBLE);
+
+                                btnReplicateX = view.findViewById(R.id.btnReplicate);
+                                btnReplicateX.setVisibility(View.VISIBLE);
+
+                                btnReplicateX.setOnClickListener(new View.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(RefCoinList.this, ReplicationColList.class);
+                                        //intent.putExtra("coluid", cListuid); May need to get col ID through the model even that may not work
 
 //                                    //we don't have any of this stuff coming from RefCoin List but will need to grab it from the ListView so keeping here as reminder
 //                                    intent.putExtra("coluid", cListuid);
@@ -442,92 +452,93 @@ public class RefCoinList extends AppCompatActivity {
 //                                    intent.putExtra("colvalue", coinListColValueInt);
 //                                    intent.putExtra("standardref", cListStandardRef);
 
-                                    intent.putExtra("personage", coinPersonageY);
-                                    intent.putExtra("denomination", coinDenominationY);
-                                    intent.putExtra("mint", coinMintY);
-                                    intent.putExtra("ricvar", coinRICvarY);
-                                    intent.putExtra("obvdesc", coinObvDescY);
-                                    intent.putExtra("obvleg", coinObvLegY);
-                                    intent.putExtra("revdesc", coinRevDescY);
-                                    intent.putExtra("revleg", coinRevLegY);
-                                    intent.putExtra("notes", coinNotesY);
+                                        intent.putExtra("personage", coinPersonageY);
+                                        intent.putExtra("denomination", coinDenominationY);
+                                        intent.putExtra("mint", coinMintY);
+                                        intent.putExtra("ricvar", coinRICvarY);
+                                        intent.putExtra("obvdesc", coinObvDescY);
+                                        intent.putExtra("obvleg", coinObvLegY);
+                                        intent.putExtra("revdesc", coinRevDescY);
+                                        intent.putExtra("revleg", coinRevLegY);
+                                        intent.putExtra("notes", coinNotesY);
 
-                                    intent.putExtra("id",coinRICY);
+                                        intent.putExtra("id", coinRICY);
 
 
-                                    intent.putExtra("replicate", "yes");
+                                        intent.putExtra("replicate", "yes");
 
-                                    startActivity(intent);
-                                }
-                            });
+                                        startActivity(intent);
+                                    }
+                                });
 
-                            btnDuplicatesX.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
+                                btnDuplicatesX.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
 
-                                    //Toast.makeText(RefCoinList.this, coinPersonageY + coinRICY + " " + coinSortRicYint, Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(RefCoinList.this, coinPersonageY + coinRICY + " " + coinSortRicYint, Toast.LENGTH_LONG).show();
 
-                                    Intent intent = new Intent(RefCoinList.this, RefDupCoinList.class);
+                                        Intent intent = new Intent(RefCoinList.this, RefDupCoinList.class);
 
-                                    intent.putExtra("personage", coinPersonageY);
-                                    intent.putExtra("id",coinRICY); // integer
-                                    intent.putExtra("sortric", coinSortRicYint); //integer
-                                    intent.putExtra("coluid", cRefListuid);
-                                    intent.putExtra("ricvar", coinRICvarY);
+                                        intent.putExtra("personage", coinPersonageY);
+                                        intent.putExtra("id", coinRICY); // integer
+                                        intent.putExtra("sortric", coinSortRicYint); //integer
+                                        intent.putExtra("coluid", cRefListuid);
+                                        intent.putExtra("ricvar", coinRICvarY);
 
-                                    // extra stuff for static source coin
+                                        // extra stuff for static source coin
 
-                                    intent.putExtra("obvdesc", coinObvDescY);
-                                    intent.putExtra("obvleg", coinObvLegY);
-                                    intent.putExtra("revdesc", coinRevDescY);
-                                    intent.putExtra("revleg", coinRevLegY);
+                                        intent.putExtra("obvdesc", coinObvDescY);
+                                        intent.putExtra("obvleg", coinObvLegY);
+                                        intent.putExtra("revdesc", coinRevDescY);
+                                        intent.putExtra("revleg", coinRevLegY);
 
-                                    intent.putExtra("imageLink", coinImageLinkY);
+                                        intent.putExtra("imageLink", coinImageLinkY);
 
-                                    startActivity(intent);
+                                        startActivity(intent);
 
-                                }
-                            });
+                                    }
+                                });
 
-                            // checking to see if there are values in the various fields before inflating them
+                                // checking to see if there are values in the various fields before inflating them
 //                            if (txtRefObvDescX.getText().toString().isEmpty()) {
 //                            } else {
                                 loutRefCoinObvDescX.setVisibility(View.VISIBLE);
 //                            }
 
-                            if(txtRefObvLegX.getText().toString().isEmpty()) {
-                            }else {
-                                loutRefCoinObvLegX.setVisibility(View.VISIBLE);
+                                if (txtRefObvLegX.getText().toString().isEmpty()) {
+                                } else {
+                                    loutRefCoinObvLegX.setVisibility(View.VISIBLE);
+                                }
+
+                                if (txtRefRevLegX.getText().toString().isEmpty()) {
+                                } else {
+                                    loutRefCoinRevLegX.setVisibility(View.VISIBLE);
+                                }
+
+                                if (txtRefProvenanceX.getText().toString().isEmpty() && Integer.parseInt(txtRefCardValueUnformattedX.getText().toString()) == 0) {
+                                } else {
+                                    loutRefCoinProvenanceX.setVisibility(View.VISIBLE);
+                                }
+
+                                if (txtRefNotesX.getText().toString().isEmpty()) {
+                                } else {
+                                    loutRefCoinNotesX.setVisibility(View.VISIBLE);
+                                }
+
+                            } else if (cardRefToggle == 1) {
+
+                                cardRefToggle = 0;
+
+                                loutRefCoinObvDescX.setVisibility(View.GONE);
+                                loutRefCoinObvLegX.setVisibility(View.GONE);
+                                loutRefCoinRevLegX.setVisibility(View.GONE);
+                                loutRefCoinProvenanceX.setVisibility(View.GONE);
+                                loutRefCoinNotesX.setVisibility(View.GONE);
+
+                                btnReplicateX.setVisibility(View.GONE);
+                                loutDupAndRepX.setVisibility(View.GONE);
+
                             }
-
-                            if (txtRefRevLegX.getText().toString().isEmpty()){
-                            } else {
-                                loutRefCoinRevLegX.setVisibility(View.VISIBLE);
-                            }
-
-                            if (txtRefProvenanceX.getText().toString().isEmpty() && Integer.parseInt(txtRefCardValueUnformattedX.getText().toString()) == 0){
-                            } else {
-                                loutRefCoinProvenanceX.setVisibility(View.VISIBLE);
-                            }
-
-                            if (txtRefNotesX.getText().toString().isEmpty()) {
-                            } else {
-                                loutRefCoinNotesX.setVisibility(View.VISIBLE);
-                            }
-
-                        } else if (cardRefToggle == 1){
-
-                            cardRefToggle = 0;
-
-                            loutRefCoinObvDescX.setVisibility(View.GONE);
-                            loutRefCoinObvLegX.setVisibility(View.GONE);
-                            loutRefCoinRevLegX.setVisibility(View.GONE);
-                            loutRefCoinProvenanceX.setVisibility(View.GONE);
-                            loutRefCoinNotesX.setVisibility(View.GONE);
-
-                            txtCardRefReplicateBtnX.setVisibility(View.GONE);
-                            loutDupAndRepX.setVisibility(View.GONE);
-
                         }
 
                         //logic for popping up intestitial adds every x clicks on a reference collection
@@ -802,6 +813,30 @@ public class RefCoinList extends AppCompatActivity {
         public void setObvDesc(String obvdesc) {
             TextView txtRefObvDescX = (TextView)mView.findViewById(R.id.txtRefObvDesc);
             txtRefObvDescX.setText(obvdesc);
+
+            if (obvdesc.equals("BREAKER")) {
+
+                ImageView imgRefCardCoinAddX = mView.findViewById(R.id.imgRefCardCoinAdd);
+                imgRefCardCoinAddX.setVisibility(View.GONE);
+
+                LinearLayout loutRefCoinFirstLineX = mView.findViewById(R.id.loutRefCoinFirstLine);
+                loutRefCoinFirstLineX.setVisibility(View.GONE);
+
+                LinearLayout loutRefCoinSecondLineX = mView.findViewById(R.id.loutRefCoinSecondLine);
+                loutRefCoinSecondLineX.setVisibility(View.GONE);
+
+                LinearLayout loutRefCoinRevDescX = mView.findViewById(R.id.loutRefCoinMain);
+                loutRefCoinRevDescX.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
+                TextView txtRefRevDescX = mView.findViewById(R.id.txtRefRevDesc);
+                txtRefRevDescX.setTextColor(Color.parseColor("#D81B60"));
+                txtRefRevDescX.setTextSize(20);
+                txtRefRevDescX.setTypeface(null, Typeface.BOLD_ITALIC);
+
+            }
+
+
+
         }
 
         public void setObvLeg(String obvleg) {

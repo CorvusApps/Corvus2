@@ -19,6 +19,7 @@
     >
     
     <LinearLayout
+        android:id="@+id/loutCoinMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -218,6 +219,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/loutCoinRevDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"

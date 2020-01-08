@@ -20,6 +20,7 @@
     >
 
     <LinearLayout
+        android:id="@+id/loutRefCoinMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -38,6 +39,7 @@
 
 
         <LinearLayout
+            android:id="@+id/loutRefCoinFirstLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_5sdp"
@@ -85,6 +87,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/loutRefCoinSecondLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_3sdp"

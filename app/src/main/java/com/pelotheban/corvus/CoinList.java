@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -349,6 +351,7 @@ public class CoinList extends AppCompatActivity {
         DatabaseReference itemAndValueCalcRef = FirebaseDatabase.getInstance().getReference().child("my_users").child(firebaseAuthCoins.getCurrentUser().getUid())
                 .child("collections").child(cListuid);
 
+        //For production need to get rid of coincount all piece so it doesn't crash and users don't need it -only required to set up duplicates in reference db
         Query itemAndValueCalcQuery = itemAndValueCalcRef.child("coincount");
         Query itemAndValueCalcQuery3 = itemAndValueCalcRef.child("coincountall");
         Query itemAndValueCalcQuery2 = itemAndValueCalcRef.child("colvalue");
@@ -1014,6 +1017,34 @@ public class CoinList extends AppCompatActivity {
         public void setObvDesc(String obvdesc) {
             TextView txtObvDescX = (TextView)mView.findViewById(R.id.txtObvDesc);
             txtObvDescX.setText(obvdesc);
+
+            try { // for some reason this was throwing up a null point exception on delete so put it in try and that solves it including right coin count and value totals
+
+            if (obvdesc.equals("BREAKER")) {
+
+                ImageView imgCardCoinAddX = mView.findViewById(R.id.imgCardCoinAdd);
+                imgCardCoinAddX.setVisibility(View.GONE);
+
+                LinearLayout loutCoinFirstLineX = mView.findViewById(R.id.loutCoinFirstLine);
+                loutCoinFirstLineX.setVisibility(View.GONE);
+
+                LinearLayout loutCoinSecondLineX = mView.findViewById(R.id.loutCoinSecondLine);
+                loutCoinSecondLineX.setVisibility(View.GONE);
+
+                LinearLayout loutCoinRevDescX = mView.findViewById(R.id.loutCoinMain);
+                loutCoinRevDescX.setBackgroundColor(Color.parseColor("#D81B60"));
+
+                TextView txtRevDescX = mView.findViewById(R.id.txtRevDesc);
+                txtRevDescX.setTextColor(Color.parseColor("#FFFFFF"));
+                txtRevDescX.setTextSize(20);
+                txtRevDescX.setTypeface(null, Typeface.BOLD_ITALIC);
+
+            }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
 
         public void setObvLeg(String obvleg) {
