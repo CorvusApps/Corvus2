@@ -829,17 +829,26 @@ public class CoinAdd extends AppCompatActivity {
 
         /////
 
-        // getting adjusted values for itemcount and collection value
-        cAddItemCountX = cAddItemCountX +1;
-        if (sortRIC3 > 1000000000) {
-            cAddItemCountX = cAddItemCountX -1;
+        // getting adjusted values for itemcount and collection value (nullifying add for itemcount if a dup AND nullifying all count adds if it is a breaker
+
+        String BreakerCheck = edtObvDescX.getText().toString();
+
+        if (BreakerCheck.equals("BREAKER")) {
+
+        } else {
+
+            cAddItemCountX = cAddItemCountX + 1;
+            if (sortRIC3 > 1000000000) {
+                cAddItemCountX = cAddItemCountX - 1;
+
+            }
+
+            cAddItemCountallX = cAddItemCountallX + 1;
+
+
+            cAddColValueX = cAddColValueX + Value3;
 
         }
-
-        cAddItemCountallX = cAddItemCountallX +1;
-
-
-        cAddColValueX = cAddColValueX + Value3;
 
         db_ref.setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

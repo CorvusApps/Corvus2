@@ -3,6 +3,7 @@ package com.pelotheban.corvus;
 import android.Manifest;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -724,6 +725,17 @@ public class Excel extends AppCompatActivity {
     private void toastMessage(String message){
 
         Toast.makeText(this,message, Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(Excel.this, CoinList.class);
+        intent.putExtra("coluid", collectionID);
+        startActivity(intent);
+        finish();
 
     }
 

@@ -1336,14 +1336,44 @@ public class CoinList extends AppCompatActivity {
                     }
                 });
 
+                // getting the obbdesc of the coin and checking if breaker. if breaker adding back + 1 to both countall and item count so there is no impact from the deletion
+                // adding back the coin count before deleting it with the query below - need to add here because below the record is deleted and can no longer query the sortric
+
+                Query breakerCoinCountQuery = position.child("obvdesc");
+                breakerCoinCountQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                        String deletedCoinObvDesc = dataSnapshot.getValue().toString();
+
+
+                        if (deletedCoinObvDesc.equals("BREAKER")) {
+                            coinListItemCountallInt = coinListItemCountallInt + 1;
+                            coinListItemCountInt = coinListItemCountInt + 1;
+
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
                 // getting the sortric of the deleted coin and if its a dup (ie over 1B) then add back the coin count
                 // adding back the coin count before deleting it with the query below - need to add here because below the record is deleted and can no longer query the sortric
+
                 Query dupCoinCountQuery = position.child("sortric");
                 dupCoinCountQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         String deletedCoinSortric = dataSnapshot.getValue().toString();
+
+
                         int deletedCoinSortricInt = Integer.parseInt(deletedCoinSortric);
 
                         if (deletedCoinSortricInt > 1000000000) {
@@ -1416,7 +1446,6 @@ public class CoinList extends AppCompatActivity {
 
 
                         /////////////////////////////////////////////////////////
-
                         coinDeletedSnackbar();
                         pd.dismiss();
 
@@ -1479,6 +1508,30 @@ public class CoinList extends AppCompatActivity {
                 coinListColValueInt = coinListColValueInt - deletedCoinValueInt;
                 // the danger here is that the async operations will have the delete below finish before this and the value won't be deleted.
                 // may want to fix this on clean up and monitor... working fine on initial tries
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        Query breakerCoinCountQuery = position.child("obvdesc");
+        breakerCoinCountQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                String deletedCoinObvDesc = dataSnapshot.getValue().toString();
+                Toast.makeText(CoinList.this, deletedCoinObvDesc, Toast.LENGTH_LONG).show();
+
+                if (deletedCoinObvDesc.equals("BREAKER")) {
+                    coinListItemCountallInt = coinListItemCountallInt + 1;
+                    coinListItemCountInt = coinListItemCountInt + 1;
+
+                    Toast.makeText(CoinList.this, deletedCoinObvDesc, Toast.LENGTH_LONG).show();
+
+                }
             }
 
             @Override
