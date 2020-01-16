@@ -16,7 +16,7 @@
         android:layout_gravity="top|end"
         android:outlineProvider="none"
         app:rippleColor="@color/colorPrimary"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        android:backgroundTint="#FFFFFF"
 
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"

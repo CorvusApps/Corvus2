@@ -173,7 +173,7 @@ public class CoinList extends AppCompatActivity {
         MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
         mInterstitialAdCoinList = new InterstitialAd(CoinList.this);
         mInterstitialAdCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
-        //mInterstitialAdCoinList.setAdUnitId(getString(R.string.coinlist_interstitial_ad));
+       // mInterstitialAdCoinList.setAdUnitId(getString(R.string.coinlist_interstitial_ad));
         mInterstitialAdCoinList.loadAd(new AdRequest.Builder().build());
 
        // Toast.makeText(CoinList.this, mAdvertCounterCoinList + "", Toast.LENGTH_SHORT).show();
@@ -989,8 +989,7 @@ public class CoinList extends AppCompatActivity {
         }
 
         public void setDiameter(String diameter) {
-            TextView txtCardDiameterX = (TextView)mView.findViewById(R.id.txtCardDiameter);
-            txtCardDiameterX.setText(diameter);
+
 
 //            TextView txtLabelDiameterX = (TextView)mView.findViewById(R.id.txtLabelDiameter);
 //            txtLabelDiameterX.setVisibility(View.VISIBLE); // need to set this visible in case previous view set it to Gone even though in XMl it is not gone
@@ -999,10 +998,16 @@ public class CoinList extends AppCompatActivity {
                 if (diameter.isEmpty() | diameter.equals("")) {
                     TextView txtLabelDiameterX = (TextView)mView.findViewById(R.id.txtLabelDiameter);
                     txtLabelDiameterX.setVisibility(View.GONE);
+                    TextView txtCardDiameterX = (TextView)mView.findViewById(R.id.txtCardDiameter);
+                    txtCardDiameterX.setText(""); // not sure why this is needed but without it some empty fields get a number from a different coin eventhough nothing Firebase and label goes away
                 } else {
 
                     TextView txtLabelDiameterX = (TextView)mView.findViewById(R.id.txtLabelDiameter);
                     txtLabelDiameterX.setVisibility(View.VISIBLE);
+                    TextView txtCardDiameterX = (TextView)mView.findViewById(R.id.txtCardDiameter);
+                    float floatdiameter = Float.parseFloat(diameter);
+                    int intdiameter = Math.round (floatdiameter);
+                    txtCardDiameterX.setText (String.valueOf(intdiameter));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1523,7 +1528,7 @@ public class CoinList extends AppCompatActivity {
 
 
                 String deletedCoinObvDesc = dataSnapshot.getValue().toString();
-                Toast.makeText(CoinList.this, deletedCoinObvDesc, Toast.LENGTH_LONG).show();
+               // Toast.makeText(CoinList.this, deletedCoinObvDesc, Toast.LENGTH_LONG).show();
 
                 if (deletedCoinObvDesc.equals("BREAKER")) {
                     coinListItemCountallInt = coinListItemCountallInt + 1;

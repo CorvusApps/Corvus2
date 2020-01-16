@@ -148,7 +148,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_12sdp"
-                android:text="10"
+                android:text=""
                 android:textSize="@dimen/_12sdp"
                 android:textColor="@color/darktext"
                 />
@@ -313,7 +313,7 @@
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginLeft="@dimen/_5sdp"
             android:layout_marginRight="@dimen/_5sdp"
-            android:visibility="gone"
+            android:visibility="visible"
             >
 
             <TextView

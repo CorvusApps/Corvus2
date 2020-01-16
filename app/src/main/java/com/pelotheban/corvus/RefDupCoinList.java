@@ -178,8 +178,15 @@ public class RefDupCoinList extends AppCompatActivity {
         TextView txtDupCoinTypeX = findViewById(R.id.txtDupCoinType);
         String cListDupRefPersonage = getIntent().getStringExtra("personage");
         int cListDupRefRIC = getIntent().getIntExtra("id", 0);
-        String cListDupRefRICvar = getIntent().getStringExtra("ricvar");
-        txtDupCoinTypeX.setText(cListDupRefPersonage + " RIC " + cListDupRefRIC + cListDupRefRICvar);
+        if (cListDupRefRIC != 0) {
+            String cListDupRefRICvar = getIntent().getStringExtra("ricvar");
+            txtDupCoinTypeX.setText(cListDupRefPersonage + " RIC " + cListDupRefRIC + cListDupRefRICvar);
+        } else {
+
+            String cListDupRefRICvar = getIntent().getStringExtra("ricvar");
+            txtDupCoinTypeX.setText(cListDupRefPersonage + " RIC " + cListDupRefRICvar);
+
+        }
 
         //setting rest of the static source coin
 
@@ -592,16 +599,23 @@ public class RefDupCoinList extends AppCompatActivity {
         }
 
         public void setDiameter(String diameter) {
-            TextView txtDupRefCardDiameterX = (TextView)mView.findViewById(R.id.txtDupRefCardDiameter);
-            txtDupRefCardDiameterX.setText(diameter);
 
             TextView txtDupRefLabelDiameterX = (TextView)mView.findViewById(R.id.txtDupRefLabelDiameter);
             txtDupRefLabelDiameterX.setVisibility(View.VISIBLE);
+
 
             try{ // wierd null poing exception on swipe delete only and only diameter but doing try catch for all ifs
                 if (diameter.isEmpty()) {
 
                     txtDupRefLabelDiameterX.setVisibility(View.GONE);
+                    TextView txtDupRefCardDiameterX = (TextView)mView.findViewById(R.id.txtDupRefCardDiameter);
+                    txtDupRefCardDiameterX.setText("");
+                } else {
+                    TextView txtDupRefCardDiameterX = (TextView)mView.findViewById(R.id.txtDupRefCardDiameter);
+                    float floatdiameter = Float.parseFloat(diameter);
+                    int intdiameter = Math.round (floatdiameter);
+                    txtDupRefCardDiameterX.setText(String.valueOf(intdiameter));
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();

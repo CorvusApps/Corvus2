@@ -789,8 +789,7 @@ public class RefCoinList extends AppCompatActivity {
         }
 
         public void setDiameter(String diameter) {
-            TextView txtRefCardDiameterX = (TextView)mView.findViewById(R.id.txtRefCardDiameter);
-            txtRefCardDiameterX.setText(diameter);
+
 
             TextView txtRefLabelDiameterX = (TextView)mView.findViewById(R.id.txtRefLabelDiameter);
             txtRefLabelDiameterX.setVisibility(View.VISIBLE);
@@ -799,6 +798,15 @@ public class RefCoinList extends AppCompatActivity {
                 if (diameter.isEmpty()) {
 
                     txtRefLabelDiameterX.setVisibility(View.GONE);
+                    TextView txtRefCardDiameterX = (TextView)mView.findViewById(R.id.txtRefCardDiameter);
+                    txtRefCardDiameterX.setText("");
+                } else {
+
+                    TextView txtRefCardDiameterX = (TextView)mView.findViewById(R.id.txtRefCardDiameter);
+                    float floatdiameter = Float.parseFloat(diameter);
+                    int intdiameter = Math.round (floatdiameter);
+                    txtRefCardDiameterX.setText(String.valueOf(intdiameter));
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
