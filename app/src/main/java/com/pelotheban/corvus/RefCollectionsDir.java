@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.facebook.login.LoginManager;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -34,8 +35,9 @@ public class RefCollectionsDir extends AppCompatActivity implements View.OnClick
     private FirebaseAuth firebaseAuthRefCollections;
     private CoordinatorLayout loutRefCollectionsActDirLOX;
 
-    // private MaterialCardView crdTwelveCaesarsX, crdGoldenAgeX, crdSeveransX, crdCrisisX;
+    // Buttons to collections
     private ImageView imgVitelliusX, imgNervaX, imgCaracallaX, imgPhilipX;
+    private MaterialButton txtTwelveCaesarsX, txtGoldenAgeX, txtSeveransX, txtCrisisX;
 
     // components for new FAB based pop-up menu
     private FloatingActionButton fbtnPopUp2RefCollectionsDirX, fbtnMiniMyCollectionsRefCollectionsDirX, fbtnMiniFAQRefCollectionsDirX, fbtnMiniLogoutRefCollectionsDirX, fbtnPopUpMenuRefColsDirX;
@@ -78,14 +80,26 @@ public class RefCollectionsDir extends AppCompatActivity implements View.OnClick
         imgVitelliusX = findViewById(R.id.crdImgTwelveCaesars);
         imgVitelliusX.setOnClickListener(this);
 
+        txtTwelveCaesarsX = findViewById(R.id.txtTwelveCaesars);
+        txtTwelveCaesarsX.setOnClickListener(this);
+
         imgNervaX = findViewById(R.id.crdImgGoldenAge);
         imgNervaX.setOnClickListener(this);
+
+        txtGoldenAgeX = findViewById(R.id.txtGoldenAge);
+        txtGoldenAgeX.setOnClickListener(this);
 
         imgCaracallaX = findViewById(R.id.crdImgSeverans);
         imgCaracallaX.setOnClickListener(this);
 
+        txtSeveransX = findViewById(R.id.txtSeverans);
+        txtSeveransX.setOnClickListener(this);
+
         imgPhilipX = findViewById(R.id.crdImgCrisis);
         imgPhilipX.setOnClickListener(this);
+
+        txtCrisisX = findViewById(R.id.txtCrisis);
+        txtCrisisX.setOnClickListener(this);
 
         // FABs and TXTs for new pop up menu components
 
@@ -131,11 +145,23 @@ public class RefCollectionsDir extends AppCompatActivity implements View.OnClick
 
                 break;
 
+            case R.id.txtTwelveCaesars:
+
+                imgVitelliusX.performClick();
+
+                break;
+
             case R.id.crdImgGoldenAge:
 
                 Intent intent2 = new Intent(RefCollectionsDir.this, RefCollections.class);
                 intent2.putExtra("era", 2);
                 startActivity(intent2);
+
+                break;
+
+            case R.id.txtGoldenAge:
+
+                imgNervaX.performClick();
 
                 break;
 
@@ -147,11 +173,23 @@ public class RefCollectionsDir extends AppCompatActivity implements View.OnClick
 
                 break;
 
+            case R.id.txtSeverans:
+
+                imgCaracallaX.performClick();
+
+                break;
+
             case R.id.crdImgCrisis:
 
                 Intent intent4 = new Intent(RefCollectionsDir.this, RefCollections.class);
                 intent4.putExtra("era", 4);
                 startActivity(intent4);
+
+                break;
+
+            case R.id.txtCrisis:
+
+                imgPhilipX.performClick();
 
                 break;
         }

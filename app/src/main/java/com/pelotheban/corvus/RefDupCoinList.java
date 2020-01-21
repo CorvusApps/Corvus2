@@ -492,12 +492,17 @@ public class RefDupCoinList extends AppCompatActivity {
             LinearLayout loutDupRefCoinProvenanceX = (LinearLayout) mView.findViewById(R.id.loutDupRefCoinProvenance);
             LinearLayout loutDupRefCoinNotesX = (LinearLayout) mView.findViewById(R.id.loutDupRefCoinNotes);
 
+            LinearLayout loutDupRefCardFirstLineX = (LinearLayout) mView.findViewById(R.id.loutDupRefCardFirstLine);
+
 
             loutDupRefCoinObvDescX.setVisibility(View.GONE);
             loutDupRefCoinObvLegX.setVisibility(View.GONE);
             loutDupRefCoinRevLegX.setVisibility(View.GONE);
-           // loutDupRefCoinProvenanceX.setVisibility(View.GONE); // starting with this visible for dups
-            loutDupRefCoinNotesX.setVisibility(View.GONE);
+           // loutDupRefCoinProvenanceX.setVisibility(View.GONE); // starting with this and notes visible for dups
+            //loutDupRefCoinNotesX.setVisibility(View.GONE);
+
+           // loutDupRefCardFirstLineX.setVisibility(View.GONE);
+
         }
 
         // getting rid of RIC label only if both RIC and RIC var empty so something like Unlisted or Ves281 still get RIC in front
@@ -591,10 +596,16 @@ public class RefDupCoinList extends AppCompatActivity {
                 if (weight.isEmpty()) {
 
                     txtDupRefLabelWeightX.setVisibility(View.GONE);
+                } else {
+
+                    LinearLayout loutDupRefCardFirstLineX = (LinearLayout) mView.findViewById(R.id.loutDupRefCardFirstLine);
+                    loutDupRefCardFirstLineX.setVisibility(View.VISIBLE);
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
 
         }
 
@@ -615,6 +626,10 @@ public class RefDupCoinList extends AppCompatActivity {
                     float floatdiameter = Float.parseFloat(diameter);
                     int intdiameter = Math.round (floatdiameter);
                     txtDupRefCardDiameterX.setText(String.valueOf(intdiameter));
+
+                    LinearLayout loutDupRefCardFirstLineX = (LinearLayout) mView.findViewById(R.id.loutDupRefCardFirstLine);
+                    loutDupRefCardFirstLineX.setVisibility(View.VISIBLE);
+
 
                 }
             } catch (Exception e) {
@@ -680,6 +695,12 @@ public class RefDupCoinList extends AppCompatActivity {
         public void setNotes(String notes) {
             TextView txtDupRefNotesX = (TextView)mView.findViewById(R.id.txtDupRefNotes);
             txtDupRefNotesX.setText(notes);
+
+            if (notes.equals("")) {
+                LinearLayout loutDupRefCoinNotesX = (LinearLayout)mView.findViewById(R.id.loutDupRefCoinNotes);
+                loutDupRefCoinNotesX.setVisibility(View.GONE);
+
+            }
 
         }
 

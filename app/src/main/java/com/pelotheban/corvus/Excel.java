@@ -56,7 +56,7 @@ public class Excel extends AppCompatActivity {
 
 
     // Data imported from CoinList to be used here
-    String collectionID, cListColName;
+    String collectionID, cListColName, cListStandardRef;
 
     // Needed for upload to Firebase
 
@@ -100,6 +100,8 @@ public class Excel extends AppCompatActivity {
         cAddItemCountX = getIntent().getIntExtra("coincount", 0);
         cAddItemCountallX = getIntent().getIntExtra("coincountall", 0);
         cAddColValueX = getIntent().getIntExtra("colvalue", 0);
+
+        cListStandardRef = getIntent().getStringExtra("standardref");
 
         // Toast.makeText(Excel.this, collectionID, Toast.LENGTH_LONG).show();
 
@@ -736,6 +738,7 @@ public class Excel extends AppCompatActivity {
         Intent intent = new Intent(Excel.this, CoinList.class);
         intent.putExtra("coluid", collectionID);
         intent.putExtra("title", cListColName);
+        intent.putExtra("standardref", cListStandardRef);
         startActivity(intent);
         finish();
 

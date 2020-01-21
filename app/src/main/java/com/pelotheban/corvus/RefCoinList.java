@@ -683,6 +683,9 @@ public class RefCoinList extends AppCompatActivity {
             txtRefCardReplicateBtnX.setVisibility(View.GONE);
 
             loutDupAndRepX.setVisibility(View.GONE);
+
+
+
         }
 
         // getting rid of RIC label only if both RIC and RIC var empty so something like Unlisted or Ves281 still get RIC in front
@@ -819,31 +822,56 @@ public class RefCoinList extends AppCompatActivity {
         }
 
         public void setObvDesc(String obvdesc) {
-            TextView txtRefObvDescX = (TextView)mView.findViewById(R.id.txtRefObvDesc);
+
+
+            TextView txtRefObvDescX = (TextView) mView.findViewById(R.id.txtRefObvDesc);
             txtRefObvDescX.setText(obvdesc);
 
-            if (obvdesc.equals("BREAKER")) {
+            try {
 
-                ImageView imgRefCardCoinAddX = mView.findViewById(R.id.imgRefCardCoinAdd);
-                imgRefCardCoinAddX.setVisibility(View.GONE);
+               if (obvdesc.equals("BREAKER")) {
 
-                LinearLayout loutRefCoinFirstLineX = mView.findViewById(R.id.loutRefCoinFirstLine);
-                loutRefCoinFirstLineX.setVisibility(View.GONE);
+                    ImageView imgRefCardCoinAddX = mView.findViewById(R.id.imgRefCardCoinAdd);
+                    imgRefCardCoinAddX.setVisibility(View.GONE);
 
-                LinearLayout loutRefCoinSecondLineX = mView.findViewById(R.id.loutRefCoinSecondLine);
-                loutRefCoinSecondLineX.setVisibility(View.GONE);
+                    LinearLayout loutRefCoinFirstLineX = mView.findViewById(R.id.loutRefCoinFirstLine);
+                    loutRefCoinFirstLineX.setVisibility(View.GONE);
 
-                LinearLayout loutRefCoinRevDescX = mView.findViewById(R.id.loutRefCoinMain);
-                loutRefCoinRevDescX.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    LinearLayout loutRefCoinSecondLineX = mView.findViewById(R.id.loutRefCoinSecondLine);
+                    loutRefCoinSecondLineX.setVisibility(View.GONE);
 
-                TextView txtRefRevDescX = mView.findViewById(R.id.txtRefRevDesc);
-                txtRefRevDescX.setTextColor(Color.parseColor("#D81B60"));
-                txtRefRevDescX.setTextSize(20);
-                txtRefRevDescX.setTypeface(null, Typeface.BOLD_ITALIC);
+                    LinearLayout loutRefCoinRevDescX = mView.findViewById(R.id.loutRefCoinMain);
+                    loutRefCoinRevDescX.setBackgroundColor(Color.parseColor("#FFFFFF"));
 
+                    TextView txtRefRevDescX = mView.findViewById(R.id.txtRefRevDesc);
+                    txtRefRevDescX.setTextColor(Color.parseColor("#D81B60"));
+                    txtRefRevDescX.setTextSize(20);
+                    txtRefRevDescX.setTypeface(null, Typeface.BOLD_ITALIC);
+
+                } else {
+
+                   ImageView imgRefCardCoinAddX = mView.findViewById(R.id.imgRefCardCoinAdd);
+                   imgRefCardCoinAddX.setVisibility(View.VISIBLE);
+
+                   LinearLayout loutRefCoinFirstLineX = mView.findViewById(R.id.loutRefCoinFirstLine);
+                   loutRefCoinFirstLineX.setVisibility(View.VISIBLE);
+
+                   LinearLayout loutRefCoinSecondLineX = mView.findViewById(R.id.loutRefCoinSecondLine);
+                   loutRefCoinSecondLineX.setVisibility(View.VISIBLE);
+
+                   LinearLayout loutRefCoinRevDescX = mView.findViewById(R.id.loutRefCoinMain);
+                   loutRefCoinRevDescX.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
+                   TextView txtRefRevDescX = mView.findViewById(R.id.txtRefRevDesc);
+                   txtRefRevDescX.setTextColor(Color.parseColor("#FC0E0D0D"));
+                   txtRefRevDescX.setTextSize(15);
+                   txtRefRevDescX.setTypeface(null, Typeface.NORMAL);
+
+               }
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-
 
         }
 
