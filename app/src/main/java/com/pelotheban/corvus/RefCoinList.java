@@ -36,6 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.CountDownTimer;
 import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -841,11 +842,12 @@ public class RefCoinList extends AppCompatActivity {
                     loutRefCoinSecondLineX.setVisibility(View.GONE);
 
                     LinearLayout loutRefCoinRevDescX = mView.findViewById(R.id.loutRefCoinMain);
-                    loutRefCoinRevDescX.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    loutRefCoinRevDescX.setBackgroundColor(Color.parseColor("#D81B60"));
 
                     TextView txtRefRevDescX = mView.findViewById(R.id.txtRefRevDesc);
-                    txtRefRevDescX.setTextColor(Color.parseColor("#D81B60"));
+                    txtRefRevDescX.setTextColor(Color.parseColor("#FFFFFF"));
                     txtRefRevDescX.setTextSize(20);
+                    txtRefRevDescX.setGravity(Gravity.CENTER_HORIZONTAL);
                     txtRefRevDescX.setTypeface(null, Typeface.BOLD_ITALIC);
 
                 } else {
@@ -865,6 +867,7 @@ public class RefCoinList extends AppCompatActivity {
                    TextView txtRefRevDescX = mView.findViewById(R.id.txtRefRevDesc);
                    txtRefRevDescX.setTextColor(Color.parseColor("#FC0E0D0D"));
                    txtRefRevDescX.setTextSize(15);
+                   txtRefRevDescX.setGravity(Gravity.LEFT);
                    txtRefRevDescX.setTypeface(null, Typeface.NORMAL);
 
                }

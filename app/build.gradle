@@ -71,6 +71,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.1'
     implementation files('libs\\YouTubeAndroidPlayerApi.jar')
 
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
+
 }
 
 repositories {
