@@ -150,6 +150,10 @@ public class CoinList extends AppCompatActivity {
     //for replicate function
     TextView txtCardReplicateBtnX;
 
+    //Recycler view decorator
+
+    RecyclerViewSwipeDecorator deleteDecor;
+
 
     // adMob
 
@@ -808,12 +812,14 @@ public class CoinList extends AppCompatActivity {
 
              DatabaseReference position = firebaseRecyclerAdapter.getRef(viewHolder2.getAdapterPosition());
 
-             deleteItem(position);
+            // deleteItem(position);
+                coinDeletedSnackbar(position);
 
             }
 
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
 
                 new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                         .addBackgroundColor(ContextCompat.getColor(CoinList.this, R.color.colorAccent))
@@ -1491,7 +1497,7 @@ public class CoinList extends AppCompatActivity {
 
 
                         /////////////////////////////////////////////////////////
-                        coinDeletedSnackbar();
+                       // coinDeletedSnackbar(position);
                         pd.dismiss();
 
                         // need an undo or a are you sure logic here
@@ -1665,7 +1671,7 @@ public class CoinList extends AppCompatActivity {
 
                 /////////////////////////////////////////////////////////
 
-                coinDeletedSnackbar();
+                //coinDeletedSnackbar(position);
                 pd.dismiss();
 
                 // need an undo or a are you sure logic here
@@ -1930,21 +1936,79 @@ public class CoinList extends AppCompatActivity {
     }
 
     // called when coin deleted including the picture
-    private void coinDeletedSnackbar() {
+    private void coinDeletedSnackbar(final DatabaseReference position) {
+
+        final CountDownTimer undoTimer;
+
+        undoTimer = new CountDownTimer(3000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish () {
+
+                //Toast.makeText(CoinList.this, "timer test" + position, Toast.LENGTH_LONG).show();
+                deleteItem(position);
+            }
+
+        };
+
+        undoTimer.start();
+
+        int color2 = ContextCompat.getColor(CoinList.this,R.color.lighttext);
 
         Snackbar snackbar;
 
-        snackbar = Snackbar.make(loutCoinListActLOX, "Coin record deleted.", Snackbar.LENGTH_SHORT);
+        snackbar = Snackbar.make(loutCoinListActLOX, "Coin record deleted.", Snackbar.LENGTH_SHORT)
+        .setAction("UNDO", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(CoinList.this, "undo test", Toast.LENGTH_LONG).show();
+
+                undoTimer.cancel();
+
+                undoDelete();
+
+            }
+        }).setActionTextColor(color2)
+        .setDuration(3000);
+
 
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
 
+
         snackbar.show();
+
+
 
         int snackbarTextId = com.google.android.material.R.id.snackbar_text;
         TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
         textView.setTextSize(18);
         textView.setTextColor(getResources().getColor(R.color.lighttext));
+
+
+    }
+
+    private void undoDelete() {
+
+        Intent undoDeleteIntent = new Intent(CoinList.this, CoinList.class);
+
+        undoDeleteIntent.putExtra("coluid", cListuid);
+        undoDeleteIntent.putExtra("title", cListColName);
+        undoDeleteIntent.putExtra("colvalue", coinListColValueInt);
+        undoDeleteIntent.putExtra("coincount", coinListItemCountInt);
+        undoDeleteIntent.putExtra("coincountall", coinListItemCountallInt);
+        undoDeleteIntent.putExtra("standardref", cListStandardRef);
+
+
+        startActivity(undoDeleteIntent);
+
+
+       // onBackPressed();
+        Toast.makeText(CoinList.this, "undo method", Toast.LENGTH_LONG).show();
+
     }
 
 
