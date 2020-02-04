@@ -181,8 +181,8 @@ public class CoinList extends AppCompatActivity {
 
         MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
         mInterstitialAdCoinList = new InterstitialAd(CoinList.this);
-        mInterstitialAdCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
-        //mInterstitialAdCoinList.setAdUnitId(getString(R.string.coinlist_interstitial_ad));
+        //mInterstitialAdCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
+        mInterstitialAdCoinList.setAdUnitId(getString(R.string.coinlist_interstitial_ad));
         mInterstitialAdCoinList.loadAd(new AdRequest.Builder().build());
 
        // Toast.makeText(CoinList.this, mAdvertCounterCoinList + "", Toast.LENGTH_SHORT).show();
@@ -1940,7 +1940,7 @@ public class CoinList extends AppCompatActivity {
 
         final CountDownTimer undoTimer;
 
-        undoTimer = new CountDownTimer(3000, 1000) {
+        undoTimer = new CountDownTimer(2000, 1000) {
 
             public void onTick(long millisUntilFinished) {
 
@@ -2004,10 +2004,6 @@ public class CoinList extends AppCompatActivity {
 
 
         startActivity(undoDeleteIntent);
-
-
-       // onBackPressed();
-        Toast.makeText(CoinList.this, "undo method", Toast.LENGTH_LONG).show();
 
     }
 
