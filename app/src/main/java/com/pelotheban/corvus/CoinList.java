@@ -25,6 +25,9 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -52,6 +55,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -74,7 +78,7 @@ import java.util.Locale;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 
-public class CoinList extends AppCompatActivity {
+public class CoinList extends AppCompatActivity implements RewardedVideoAdListener {
 
 
     // UI and data components for transfering collection ID from Homepage through here to AddCoin and ShowCoin activities
@@ -161,6 +165,11 @@ public class CoinList extends AppCompatActivity {
     int mAdvertCounterCoinList;
     private SharedPreferences sharedAdvertCounterCoinList;
 
+    RewardedVideoAd mRewardedAdCoinList;
+    TextView txtAdMessageX;
+    int adMobToggle;
+    private int adRewFailedToggle;
+
 
 
     @Override
@@ -178,14 +187,34 @@ public class CoinList extends AppCompatActivity {
         sharedAdvertCounterCoinList = getSharedPreferences("adSettingCoinList", MODE_PRIVATE);
         mAdvertCounterCoinList = sharedAdvertCounterCoinList.getInt("CounterCoinList", 0); // where if no settings
 
+        /// Reward video
 
-        MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
+        adRewFailedToggle = 0;
+
+        mRewardedAdCoinList = MobileAds.getRewardedVideoAdInstance(this);
+        mRewardedAdCoinList.setRewardedVideoAdListener(this);
+        //mRewardedAdCoinList.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
+        mRewardedAdCoinList.loadAd("ca-app-pub-1744081621312112/3453836416", new AdRequest.Builder().build()); // REAL
+
+        if (mAdvertCounterCoinList > 10) {
+
+            Log.i("REWARDEDLOG", "in counter if");
+
+            if (mRewardedAdCoinList.isLoaded()) {
+                mRewardedAdCoinList.show();
+
+                Log.i("REWARDEDLOG", "loadedif");
+            }
+        }
+
         mInterstitialAdCoinList = new InterstitialAd(CoinList.this);
-        //mInterstitialAdCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
-        mInterstitialAdCoinList.setAdUnitId(getString(R.string.coinlist_interstitial_ad));
+        mInterstitialAdCoinList.setAdUnitId(getString(R.string.test_interstitial_ad));
+        //mInterstitialAdCoinList.setAdUnitId(getString(R.string.coinlist_interstitial_ad));
         mInterstitialAdCoinList.loadAd(new AdRequest.Builder().build());
 
        // Toast.makeText(CoinList.this, mAdvertCounterCoinList + "", Toast.LENGTH_SHORT).show();
+
+
 
         mInterstitialAdCoinList.setAdListener(new AdListener() {
             @Override
@@ -253,8 +282,6 @@ public class CoinList extends AppCompatActivity {
         sharedFirstCoin = getSharedPreferences("startFirstCoin", MODE_PRIVATE);
         firstCoinToggle = sharedFirstCoin.getInt("FirstCoin", 0);
         if (firstCoinToggle > 0) {
-
-
 
 
         }
@@ -537,13 +564,26 @@ public class CoinList extends AppCompatActivity {
                         editor.apply(); // saves the value
                         mAdvertCounterCoinList = mAdvertCounterCoinList + 1;
 
-                        if (mAdvertCounterCoinList > 12) {
+                        if (mAdvertCounterCoinList > 10) {
+
+                            Log.i("REWARDEDLOG", "in counter if");
+
+                            if (mRewardedAdCoinList.isLoaded()) {
+                                mRewardedAdCoinList.show();
+
+
+                                Log.i("REWARDEDLOG", "loadedif");
+                            }
+                        }
+
+                        if (mAdvertCounterCoinList > 14) {
 
                             mInterstitialAdCoinList.show();
                             editor = sharedAdvertCounterCoinList.edit();
                             editor.putInt("CounterCoinList", 0); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
                             editor.apply(); // saves the value
                             mAdvertCounterCoinList = 0;
+
 
                             mInterstitialAdCoinList.setAdListener(new AdListener() {
                                 @Override
@@ -831,6 +871,88 @@ public class CoinList extends AppCompatActivity {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         }).attachToRecyclerView(rcvCoinsX);
+
+    }
+
+    @Override
+    public void onRewardedVideoAdLoaded() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdOpened() {
+
+
+    }
+
+    @Override
+    public void onRewardedVideoStarted() {
+
+        //mRewardedAdCoinList.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
+        mRewardedAdCoinList.loadAd("ca-app-pub-1744081621312112/3453836416", new AdRequest.Builder().build()); // REAL
+        adMobToggle = 1;
+
+        SharedPreferences.Editor editor = sharedAdvertCounterCoinList.edit();
+        editor = sharedAdvertCounterCoinList.edit();
+        editor.putInt("CounterCoinList", 0); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+        editor.apply(); // saves the value
+        mAdvertCounterCoinList = 0;
+
+    }
+
+    @Override
+    public void onRewardedVideoAdClosed() {
+
+        Log.i("REWARDEDLOG", "in closed");
+
+        if (mRewardedAdCoinList.isLoaded() && adMobToggle == 1) {
+            mRewardedAdCoinList.show();
+            Log.i("REWARDEDLOG", "in closed and loaded   " + adMobToggle );
+        } else if (adMobToggle == 1){
+
+            CountDownTimer adtimer = new CountDownTimer(3000, 500) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+
+                    Log.i("REWARDEDLOG", "in timer");
+                    if (mRewardedAdCoinList.isLoaded()) {
+                        mRewardedAdCoinList.show();
+                        Log.i("REWARDEDLOG", "in closed after timer");
+                    }
+
+                }
+            }.start();
+
+        }
+
+    }
+
+    @Override
+    public void onRewarded(RewardItem rewardItem) {
+
+        adMobToggle = 2;
+
+
+    }
+
+    @Override
+    public void onRewardedVideoAdLeftApplication() {
+
+
+    }
+
+    @Override
+    public void onRewardedVideoAdFailedToLoad(int i) {
+
+    }
+
+    @Override
+    public void onRewardedVideoCompleted() {
 
     }
 

@@ -25,8 +25,8 @@ public class ZZZjcRefCoins {
 
 
     public ZZZjcRefCoins(String personage, String denomination, String imageLink, String ricvar, String coinuid,
-                      String weight, String diameter, int id, String mint, String obvdesc, String obvleg,
-                      String revdesc, String revleg, String provenance, int value, String notes, int sortric) {
+                         String weight, String diameter, int id, String mint, String obvdesc, String obvleg,
+                         String revdesc, String revleg, String provenance, int value, String notes, int sortric) {
         this.personage = personage;
         this.denomination = denomination;
         this.imageLink = imageLink;

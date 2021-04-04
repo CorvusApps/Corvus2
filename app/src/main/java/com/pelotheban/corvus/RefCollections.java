@@ -16,6 +16,9 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -49,7 +53,7 @@ import java.lang.reflect.Method;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class RefCollections extends AppCompatActivity {
+public class RefCollections extends AppCompatActivity implements RewardedVideoAdListener {
 
     private FloatingActionButton fbtnPopUpMenuRefColsX;
     private AlertDialog dialog;
@@ -90,6 +94,11 @@ public class RefCollections extends AppCompatActivity {
     int mAdvertCounter;
     private SharedPreferences sharedAdvertCounter;
 
+    RewardedVideoAd mRewardedAdRefCollections;
+    TextView txtAdMessageX;
+    int adMobToggle;
+    private int adRewFailedToggle;
+
     @Override
     @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,9 +118,73 @@ public class RefCollections extends AppCompatActivity {
 
 
         MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
+
+        adRewFailedToggle = 0;
+
+        mRewardedAdRefCollections = MobileAds.getRewardedVideoAdInstance(this);
+        mRewardedAdRefCollections.setRewardedVideoAdListener(this);
+        //mRewardedAdRefCollections.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
+        mRewardedAdRefCollections.loadAd("ca-app-pub-1744081621312112/5372943816", new AdRequest.Builder().build()); // REAL
+
+        if (mAdvertCounter > 4) {
+
+            Log.i("REWARDEDLOG", "in counter if");
+
+            if (mRewardedAdRefCollections.isLoaded()) {
+                mRewardedAdRefCollections.show();
+
+                Log.i("REWARDEDLOG", "loadedif 1");
+            } else {
+                Log.i("REWARDEDLOG", "in counter if 2");
+
+                CountDownTimer adtimer = new CountDownTimer(3000, 500) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        Log.i("REWARDEDLOG", "in finished first timer");
+
+                        if (mRewardedAdRefCollections.isLoaded()) {
+                            mRewardedAdRefCollections.show();
+                            Log.i("REWARDEDLOG", "in showing after first timer");
+                        } else {
+
+                            Log.i("REWARDEDLOG", "before second timer");
+
+                            CountDownTimer adtimer = new CountDownTimer(3000, 500) {
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+
+                                }
+
+                                @Override
+                                public void onFinish() {
+
+                                    Log.i("REWARDEDLOG", "in finished second timer");
+                                    if (mRewardedAdRefCollections.isLoaded()) {
+                                        mRewardedAdRefCollections.show();
+                                        Log.i("REWARDEDLOG", "in show after second timer");
+                                    }
+
+                                }
+                            }.start();
+
+                        }
+
+                    }
+                }.start();
+
+            }
+        }
+
+
         mInterstitialAd = new InterstitialAd(RefCollections.this);
-       // mInterstitialAd.setAdUnitId(getString(R.string.test_interstitial_ad));
-        mInterstitialAd.setAdUnitId(getString(R.string.refcollections_interstitial_ad));
+        mInterstitialAd.setAdUnitId(getString(R.string.test_interstitial_ad));
+        //mInterstitialAd.setAdUnitId(getString(R.string.refcollections_interstitial_ad));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
        // Toast.makeText(RefCollections.this, mAdvertCounter + "", Toast.LENGTH_SHORT).show();
@@ -121,7 +194,7 @@ public class RefCollections extends AppCompatActivity {
             public void onAdLoaded() {
                 // Code to be executed when an ad finishes loading.
 
-                if (mAdvertCounter > 4) {
+                if (mAdvertCounter > 8) {
 
                     mInterstitialAd.show();
                     SharedPreferences.Editor editor = sharedAdvertCounter.edit();
@@ -403,6 +476,105 @@ public class RefCollections extends AppCompatActivity {
 
     // The onclick methods were in the broader recycler view methods - this calls for the adapter on everything
         rcvRefCollectionsX.setAdapter(firebaseRecyclerAdapter);
+
+    }
+
+    @Override
+    public void onRewardedVideoAdLoaded() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdOpened() {
+
+    }
+
+    @Override
+    public void onRewardedVideoStarted() {
+
+       //mRewardedAdRefCollections.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
+        mRewardedAdRefCollections.loadAd("ca-app-pub-1744081621312112/5372943816", new AdRequest.Builder().build()); // REAL
+        adMobToggle = 1;
+
+        SharedPreferences.Editor editor = sharedAdvertCounter.edit();
+        editor = sharedAdvertCounter.edit();
+        editor.putInt("Counter",0);
+        editor.apply(); // saves the value
+        mAdvertCounter = 0;
+
+    }
+
+    @Override
+    public void onRewardedVideoAdClosed() {
+
+        Log.i("REWARDEDLOG", "in closed");
+
+        if (mRewardedAdRefCollections.isLoaded() && adMobToggle == 1) {
+            mRewardedAdRefCollections.show();
+            Log.i("REWARDEDLOG", "in closed and loaded   " + adMobToggle );
+        } else if (adMobToggle == 1){
+
+            CountDownTimer adtimer = new CountDownTimer(3000, 500) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+
+                    Log.i("REWARDEDLOG", "in timer");
+                    if (mRewardedAdRefCollections.isLoaded()) {
+                        mRewardedAdRefCollections.show();
+                        Log.i("REWARDEDLOG", "in closed after timer");
+                    } else if (adMobToggle == 1){
+
+                        CountDownTimer adtimer = new CountDownTimer(3000, 500) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+
+                                Log.i("REWARDEDLOG", "in timer");
+                                if (mRewardedAdRefCollections.isLoaded()) {
+                                    mRewardedAdRefCollections.show();
+                                    Log.i("REWARDEDLOG", "in closed after timer");
+                                }
+
+                            }
+                        }.start();
+
+                    }
+
+                }
+            }.start();
+
+        }
+
+    }
+
+    @Override
+    public void onRewarded(RewardItem rewardItem) {
+
+        adMobToggle = 2;
+
+    }
+
+    @Override
+    public void onRewardedVideoAdLeftApplication() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdFailedToLoad(int i) {
+
+    }
+
+    @Override
+    public void onRewardedVideoCompleted() {
 
     }
 

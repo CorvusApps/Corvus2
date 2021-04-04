@@ -10,17 +10,17 @@
     <include layout="@layout/content_home_page" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fbtnPopUpMenuHomePage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:outlineProvider="none"
-        app:rippleColor="@color/colorPrimary"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+    android:id="@+id/fbtnPopUpMenuHomePage"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top|end"
+    android:outlineProvider="none"
+    app:rippleColor="@color/colorPrimary"
+    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
 
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/menu"/>
+    android:layout_marginTop="16dp"
+    android:layout_marginRight="16dp"
+    android:src="@drawable/menu"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fbtnPopUp2HomePage"

@@ -14,6 +14,7 @@ import android.os.Bundle;
 
 import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -113,6 +114,8 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
+        MobileAds.initialize(this, "ca-app-pub-1744081621312112~1448123556");
 
         //To be shown first time only as intro info
         if (isFirstTime()) {
