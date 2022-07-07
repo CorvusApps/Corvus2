@@ -66,7 +66,7 @@ public class RefCoinList extends AppCompatActivity implements RewardedVideoAdLis
     private TextView txtRefCListCollUIDX;
     private String cRefListuid;
     private int era;
-     // temp note2
+     // temp note3
     // Firebase related
     private FirebaseAuth firebaseAuthRefCoins;
     private DatabaseReference coinRefDatabase;
