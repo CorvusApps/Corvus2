@@ -323,7 +323,9 @@ public class RefCoinList extends AppCompatActivity implements RewardedVideoAdLis
 
         if(mSorting2.equals("sortric")) {
 
-            sortRefQueryCoins = coinRefDatabase.orderByChild("sortric").endAt(999999999);
+           // sortRefQueryCoins = coinRefDatabase.orderByChild("sortric").endAt(999999999);
+            sortRefQueryCoins = coinRefDatabase.orderByChild("sortric").startAt(1).endAt(999999999);
+                 // the range works so can use to split collection along denomination or mint lines using sort RIC
             layoutManagerCoins = new LinearLayoutManager(this);
             layoutManagerCoins.setReverseLayout(false);
 

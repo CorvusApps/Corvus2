@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    tools:showIn="@layout/activity_ref_collections_dir"
+    >
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/lighttext"
+        android:background="@color/colorAccent"
+        android:text="The Twelve Caesars"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginRight="0dp"
+
+            >
+
+            <com.github.florent37.shapeofview.shapes.CircleView
+                android:id="@+id/crdTwelveCaesars"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_135sdp"
+
+                app:shape_circle_borderWidth="0dp">
+
+                <ImageView
+                    android:id="@+id/crdImgTwelveCaesars"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:elevation="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/elagabalus"
+
+                    />
+            </com.github.florent37.shapeofview.shapes.CircleView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/txtTwelveCaesars"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_1sdp"
+                android:layout_marginTop="-20dp"
+                android:layout_marginRight="@dimen/_1sdp"
+                android:backgroundTint="@color/colorAccent"
+                android:text="The Twelve Caesars"
+                android:textAllCaps="false"
+                android:textColor="@color/lighttext"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/_10sdp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginLeft="0dp"
+
+            >
+
+            <com.github.florent37.shapeofview.shapes.CircleView
+                android:id="@+id/crdGoldenAge"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_135sdp"
+                android:backgroundTint="@color/colorPrimaryDark"
+
+                app:shape_circle_borderColor="@color/colorPrimary"
+                app:shape_circle_borderWidth="2dp">
+
+                <ImageView
+                    android:id="@+id/crdImgGoldenAge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:elevation="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sestnerva"
+
+                    />
+            </com.github.florent37.shapeofview.shapes.CircleView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/txtGoldenAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_1sdp"
+                android:layout_marginTop="-20dp"
+                android:layout_marginRight="@dimen/_1sdp"
+                android:backgroundTint="@color/colorAccent"
+                android:text="Nerva to Cl. Albinus"
+                android:textAllCaps="false"
+                android:textColor="@color/lighttext"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/_10sdp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginRight="0dp"
+
+            >
+
+            <com.github.florent37.shapeofview.shapes.CircleView
+                android:id="@+id/crdSeverans"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_135sdp"
+
+                app:shape_circle_borderWidth="0dp">
+
+                <ImageView
+                    android:id="@+id/crdImgSeverans"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:elevation="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sestcaracalla"
+
+                    />
+            </com.github.florent37.shapeofview.shapes.CircleView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/txtSeverans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_1sdp"
+                android:layout_marginTop="-20dp"
+                android:layout_marginRight="@dimen/_1sdp"
+                android:backgroundTint="@color/colorAccent"
+                android:text="The Severans"
+                android:textAllCaps="false"
+                android:textColor="@color/lighttext"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/_10sdp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginLeft="0dp"
+
+            >
+
+            <com.github.florent37.shapeofview.shapes.CircleView
+                android:id="@+id/crdCrisis"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_135sdp"
+                android:backgroundTint="@color/colorPrimaryDark"
+
+                app:shape_circle_borderColor="@color/colorPrimary"
+                app:shape_circle_borderWidth="2dp">
+
+                <ImageView
+                    android:id="@+id/crdImgCrisis"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:elevation="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sestphilip"
+
+                    />
+            </com.github.florent37.shapeofview.shapes.CircleView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/txtCrisis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_1sdp"
+                android:layout_marginTop="-20dp"
+                android:layout_marginRight="@dimen/_1sdp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="3rd Century Crisis"
+                android:textAllCaps="false"
+                android:textColor="@color/lighttext"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/_10sdp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginRight="0dp"
+
+            >
+
+            <com.github.florent37.shapeofview.shapes.CircleView
+                android:id="@+id/crdSeveransx"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_135sdp"
+
+                app:shape_circle_borderWidth="0dp">
+
+                <ImageView
+                    android:id="@+id/crdImgSeveransx"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:elevation="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sestcaracalla"
+
+                    />
+            </com.github.florent37.shapeofview.shapes.CircleView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/txtSeveransx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_1sdp"
+                android:layout_marginTop="-20dp"
+                android:layout_marginRight="@dimen/_1sdp"
+                android:backgroundTint="@color/colorAccent"
+                android:text="The Severans"
+                android:textAllCaps="false"
+                android:textColor="@color/lighttext"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/_10sdp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginLeft="0dp"
+
+            >
+
+            <com.github.florent37.shapeofview.shapes.CircleView
+                android:id="@+id/crdCrisisx"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_135sdp"
+                android:backgroundTint="@color/colorPrimaryDark"
+
+                app:shape_circle_borderColor="@color/colorPrimary"
+                app:shape_circle_borderWidth="2dp">
+
+                <ImageView
+                    android:id="@+id/crdImgCrisisx"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:elevation="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sestphilip"
+
+                    />
+            </com.github.florent37.shapeofview.shapes.CircleView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/txtCrisisx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_1sdp"
+                android:layout_marginTop="-20dp"
+                android:layout_marginRight="@dimen/_1sdp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="3rd Century Crisis"
+                android:textAllCaps="false"
+                android:textColor="@color/lighttext"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/_10sdp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginRight="0dp"
+
+            >
+
+            <com.github.florent37.shapeofview.shapes.CircleView
+                android:id="@+id/crdSeveransy"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_135sdp"
+
+                app:shape_circle_borderWidth="0dp">
+
+                <ImageView
+                    android:id="@+id/crdImgSeveransy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:elevation="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sestcaracalla"
+
+                    />
+            </com.github.florent37.shapeofview.shapes.CircleView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/txtSeveransy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_1sdp"
+                android:layout_marginTop="-20dp"
+                android:layout_marginRight="@dimen/_1sdp"
+                android:backgroundTint="@color/colorAccent"
+                android:text="The Severans"
+                android:textAllCaps="false"
+                android:textColor="@color/lighttext"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/_10sdp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginLeft="0dp"
+
+            >
+
+            <com.github.florent37.shapeofview.shapes.CircleView
+                android:id="@+id/crdCrisisy"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_135sdp"
+                android:backgroundTint="@color/colorPrimaryDark"
+
+                app:shape_circle_borderColor="@color/colorPrimary"
+                app:shape_circle_borderWidth="2dp">
+
+                <ImageView
+                    android:id="@+id/crdImgCrisisy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:elevation="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sestphilip"
+
+                    />
+            </com.github.florent37.shapeofview.shapes.CircleView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/txtCrisisy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_1sdp"
+                android:layout_marginTop="-20dp"
+                android:layout_marginRight="@dimen/_1sdp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="3rd Century Crisis"
+                android:textAllCaps="false"
+                android:textColor="@color/lighttext"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/_10sdp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnEmperorDir"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:text="!" />
+
+</LinearLayout>
+
+</ScrollView>

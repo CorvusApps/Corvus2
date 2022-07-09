@@ -3,10 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Samuel Puchala/AndroidStudioProjects/Corvus2/app/src/main/res/layout/activity_ref_coin_list.xml" value="0.109375" />
+        <entry key="..\:/Users/Samuel Puchala/AndroidStudioProjects/Corvus2/app/src/main/res/layout/activity_coin_list.xml" value="0.17239583333333333" />
+        <entry key="..\:/Users/Samuel Puchala/AndroidStudioProjects/Corvus2/app/src/main/res/layout/activity_ref_coin_list.xml" value="0.21" />
         <entry key="..\:/Users/Samuel Puchala/AndroidStudioProjects/Corvus2/app/src/main/res/layout/activity_ref_collections.xml" value="0.109375" />
         <entry key="..\:/Users/Samuel Puchala/AndroidStudioProjects/Corvus2/app/src/main/res/layout/activity_ref_collections_dir.xml" value="0.109375" />
         <entry key="..\:/Users/Samuel Puchala/AndroidStudioProjects/Corvus2/app/src/main/res/layout/activity_ref_dup_coin_list.xml" value="0.109375" />
+        <entry key="..\:/Users/Samuel Puchala/AndroidStudioProjects/Corvus2/app/src/main/res/layout/activity_ref_emperor_dir.xml" value="0.22" />
+        <entry key="..\:/Users/Samuel Puchala/AndroidStudioProjects/Corvus2/app/src/main/res/layout/content_coin_list.xml" value="0.17239583333333333" />
+        <entry key="..\:/Users/Samuel Puchala/AndroidStudioProjects/Corvus2/app/src/main/res/layout/content_ref_collections_dir.xml" value="0.22" />
       </map>
     </option>
   </component>
