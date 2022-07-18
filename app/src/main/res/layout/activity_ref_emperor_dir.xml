@@ -58,7 +58,7 @@
                     android:backgroundTint="@color/colorPrimaryDark"
                     android:elevation="5dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/elagabalus"
+                    android:src="@drawable/augustus"
 
                     />
             </com.github.florent37.shapeofview.shapes.CircleView>
@@ -106,7 +106,7 @@
                     android:backgroundTint="@color/colorPrimaryDark"
                     android:elevation="5dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/sestnerva"
+                    android:src="@drawable/tiberius"
 
                     />
             </com.github.florent37.shapeofview.shapes.CircleView>
@@ -163,7 +163,7 @@
                     android:backgroundTint="@color/colorPrimaryDark"
                     android:elevation="5dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/sestcaracalla"
+                    android:src="@drawable/caligula"
 
                     />
             </com.github.florent37.shapeofview.shapes.CircleView>
@@ -211,7 +211,7 @@
                     android:backgroundTint="@color/colorPrimaryDark"
                     android:elevation="5dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/sestphilip"
+                    android:src="@drawable/claudius"
 
                     />
             </com.github.florent37.shapeofview.shapes.CircleView>
@@ -268,7 +268,7 @@
                     android:backgroundTint="@color/colorPrimaryDark"
                     android:elevation="5dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/sestcaracalla"
+                    android:src="@drawable/nero"
 
                     />
             </com.github.florent37.shapeofview.shapes.CircleView>
@@ -316,7 +316,7 @@
                     android:backgroundTint="@color/colorPrimaryDark"
                     android:elevation="5dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/sestphilip"
+                    android:src="@drawable/clodius"
 
                     />
             </com.github.florent37.shapeofview.shapes.CircleView>
@@ -373,7 +373,7 @@
                     android:backgroundTint="@color/colorPrimaryDark"
                     android:elevation="5dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/sestcaracalla"
+                    android:src="@drawable/galba"
 
                     />
             </com.github.florent37.shapeofview.shapes.CircleView>
@@ -421,7 +421,7 @@
                     android:backgroundTint="@color/colorPrimaryDark"
                     android:elevation="5dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/sestphilip"
+                    android:src="@drawable/otho"
 
                     />
             </com.github.florent37.shapeofview.shapes.CircleView>
