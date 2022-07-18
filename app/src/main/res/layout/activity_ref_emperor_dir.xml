@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/lighttext"
         android:background="@color/colorAccent"
-        android:text="The Twelve Caesars"
+        android:text="Augustus"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -44,14 +44,14 @@
             >
 
             <com.github.florent37.shapeofview.shapes.CircleView
-                android:id="@+id/crdTwelveCaesars"
+                android:id="@+id/crdAugustus"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_135sdp"
 
                 app:shape_circle_borderWidth="0dp">
 
                 <ImageView
-                    android:id="@+id/crdImgTwelveCaesars"
+                    android:id="@+id/crdImgAugustus"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/colorPrimaryDark"
@@ -64,14 +64,14 @@
             </com.github.florent37.shapeofview.shapes.CircleView>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/txtTwelveCaesars"
+                android:id="@+id/txtAugustus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_1sdp"
                 android:layout_marginTop="-20dp"
                 android:layout_marginRight="@dimen/_1sdp"
                 android:backgroundTint="@color/colorAccent"
-                android:text="The Twelve Caesars"
+                android:text="Augustus"
                 android:textAllCaps="false"
                 android:textColor="@color/lighttext"
                 android:textSize="@dimen/_10sdp"
@@ -90,7 +90,7 @@
             >
 
             <com.github.florent37.shapeofview.shapes.CircleView
-                android:id="@+id/crdGoldenAge"
+                android:id="@+id/crdTiberius"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_135sdp"
                 android:backgroundTint="@color/colorPrimaryDark"
@@ -99,7 +99,7 @@
                 app:shape_circle_borderWidth="2dp">
 
                 <ImageView
-                    android:id="@+id/crdImgGoldenAge"
+                    android:id="@+id/crdImgTiberius"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/colorPrimaryDark"
@@ -112,14 +112,14 @@
             </com.github.florent37.shapeofview.shapes.CircleView>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/txtGoldenAge"
+                android:id="@+id/txtTiberius"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_1sdp"
                 android:layout_marginTop="-20dp"
                 android:layout_marginRight="@dimen/_1sdp"
                 android:backgroundTint="@color/colorAccent"
-                android:text="Nerva to Cl. Albinus"
+                android:text="Tiberius"
                 android:textAllCaps="false"
                 android:textColor="@color/lighttext"
                 android:textSize="@dimen/_10sdp"
@@ -149,14 +149,14 @@
             >
 
             <com.github.florent37.shapeofview.shapes.CircleView
-                android:id="@+id/crdSeverans"
+                android:id="@+id/crdCaligula"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_135sdp"
 
                 app:shape_circle_borderWidth="0dp">
 
                 <ImageView
-                    android:id="@+id/crdImgSeverans"
+                    android:id="@+id/crdImgCaligula"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/colorPrimaryDark"
@@ -169,14 +169,14 @@
             </com.github.florent37.shapeofview.shapes.CircleView>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/txtSeverans"
+                android:id="@+id/txtCaligula"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_1sdp"
                 android:layout_marginTop="-20dp"
                 android:layout_marginRight="@dimen/_1sdp"
                 android:backgroundTint="@color/colorAccent"
-                android:text="The Severans"
+                android:text="Caligula"
                 android:textAllCaps="false"
                 android:textColor="@color/lighttext"
                 android:textSize="@dimen/_10sdp"
@@ -195,7 +195,7 @@
             >
 
             <com.github.florent37.shapeofview.shapes.CircleView
-                android:id="@+id/crdCrisis"
+                android:id="@+id/crdClaudius"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_135sdp"
                 android:backgroundTint="@color/colorPrimaryDark"
@@ -204,7 +204,7 @@
                 app:shape_circle_borderWidth="2dp">
 
                 <ImageView
-                    android:id="@+id/crdImgCrisis"
+                    android:id="@+id/crdImgClaudius"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/colorPrimaryDark"
@@ -217,14 +217,14 @@
             </com.github.florent37.shapeofview.shapes.CircleView>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/txtCrisis"
+                android:id="@+id/txtClaudius"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_1sdp"
                 android:layout_marginTop="-20dp"
                 android:layout_marginRight="@dimen/_1sdp"
                 android:backgroundTint="@color/colorPrimaryDark"
-                android:text="3rd Century Crisis"
+                android:text="Claudius"
                 android:textAllCaps="false"
                 android:textColor="@color/lighttext"
                 android:textSize="@dimen/_10sdp"

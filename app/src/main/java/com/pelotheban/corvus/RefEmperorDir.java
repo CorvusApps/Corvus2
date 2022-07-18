@@ -22,16 +22,9 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
     private CoordinatorLayout loutRefCollectionsActDirLOX;
 
     // Buttons to collections
-    private ImageView imgVitelliusX, imgNervaX, imgCaracallaX, imgPhilipX;
-    private MaterialButton txtTwelveCaesarsX, txtGoldenAgeX, txtSeveransX, txtCrisisX;
+    private ImageView imgAugustusX, imgTiberiusX, imgCaligulaX, imgClaudiusX;
+    private MaterialButton txtAugustusX, txtTiberiusX, txtCaligulaX, txtClaudiusX;
 
-    // Button to emperor directory
-    private Button btnEmperorDirX;
-
-    // components for new FAB based pop-up menu
-    private FloatingActionButton fbtnPopUp2RefCollectionsDirX, fbtnMiniMyCollectionsRefCollectionsDirX, fbtnMiniFAQRefCollectionsDirX, fbtnMiniLogoutRefCollectionsDirX, fbtnPopUpMenuRefColsDirX;
-    private TextView txtRefCoinsButtonRefCollectionsDirX, txtFAQButtonRefCollectionsDirX, txtLogoutButtonRefCollectionsDirX;
-    private String popupMenuToggle; // need this to know menu state so things like back press and card press buttons do their regular function or toggle the menu
 
     // custom view to use as a shade behind custom dialogs
     private View shadeX;
@@ -54,44 +47,32 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 //        crdSeveransX = findViewById(R.id.crdSeverans);
 //        crdCrisisX = findViewById(R.id.crdCrisis);
 
-        imgVitelliusX = findViewById(R.id.crdImgTwelveCaesars);
-        imgVitelliusX.setOnClickListener(this);
+        imgAugustusX = findViewById(R.id.crdImgAugustus);
+        imgAugustusX.setOnClickListener(this);
 
-        txtTwelveCaesarsX = findViewById(R.id.txtTwelveCaesars);
-        txtTwelveCaesarsX.setOnClickListener(this);
+        txtAugustusX = findViewById(R.id.txtAugustus);
+        txtAugustusX.setOnClickListener(this);
 
-        imgNervaX = findViewById(R.id.crdImgGoldenAge);
-        imgNervaX.setOnClickListener(this);
+        imgTiberiusX = findViewById(R.id.crdImgTiberius);
+        imgTiberiusX.setOnClickListener(this);
 
-        txtGoldenAgeX = findViewById(R.id.txtGoldenAge);
-        txtGoldenAgeX.setOnClickListener(this);
+        txtTiberiusX = findViewById(R.id.txtTiberius);
+        txtTiberiusX.setOnClickListener(this);
 
-        imgCaracallaX = findViewById(R.id.crdImgSeverans);
-        imgCaracallaX.setOnClickListener(this);
+        imgCaligulaX = findViewById(R.id.crdImgCaligula);
+        imgCaligulaX.setOnClickListener(this);
 
-        txtSeveransX = findViewById(R.id.txtSeverans);
-        txtSeveransX.setOnClickListener(this);
+        txtCaligulaX = findViewById(R.id.txtCaligula);
+        txtCaligulaX.setOnClickListener(this);
 
-        imgPhilipX = findViewById(R.id.crdImgCrisis);
-        imgPhilipX.setOnClickListener(this);
+        imgClaudiusX = findViewById(R.id.crdImgClaudius);
+        imgClaudiusX.setOnClickListener(this);
 
-        txtCrisisX = findViewById(R.id.txtCrisis);
-        txtCrisisX.setOnClickListener(this);
-
-        btnEmperorDirX = findViewById(R.id.btnEmperorDir);
-        btnEmperorDirX.setOnClickListener(this);
-
-        // FABs and TXTs for new pop up menu components
-
-        popupMenuToggle = "Not";
+        txtClaudiusX = findViewById(R.id.txtClaudius);
+        txtClaudiusX.setOnClickListener(this);
 
 
-        txtRefCoinsButtonRefCollectionsDirX = findViewById(R.id.txtMyCollectionsButtonRefCollectionsDir);
-        txtFAQButtonRefCollectionsDirX = findViewById(R.id.txtFAQButtonRefCollectionsDir);
-        txtLogoutButtonRefCollectionsDirX = findViewById(R.id.txtLogoutButtonRefCollectionsDir);
-
-
-        // custom view to use as a shade behind custom dialogs
+       // custom view to use as a shade behind custom dialogs
         shadeX = findViewById(R.id.shade);
 
 
@@ -102,7 +83,7 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
         switch (view.getId()){
 
-            case R.id.crdImgTwelveCaesars:
+            case R.id.crdImgAugustus:
 
                 Intent intent = new Intent(RefEmperorDir.this, RefCollections.class);
                 intent.putExtra("era", 1);
@@ -110,13 +91,13 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
                 break;
 
-            case R.id.txtTwelveCaesars:
+            case R.id.txtAugustus:
 
-                imgVitelliusX.performClick();
+                imgAugustusX.performClick();
 
                 break;
 
-            case R.id.crdImgGoldenAge:
+            case R.id.crdImgTiberius:
 
                 Intent intent2 = new Intent(RefEmperorDir.this, RefCollections.class);
                 intent2.putExtra("era", 2);
@@ -124,13 +105,13 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
                 break;
 
-            case R.id.txtGoldenAge:
+            case R.id.txtTiberius:
 
-                imgNervaX.performClick();
+                imgTiberiusX.performClick();
 
                 break;
 
-            case R.id.crdImgSeverans:
+            case R.id.crdImgCaligula:
 
                 Intent intent3 = new Intent(RefEmperorDir.this, RefCollections.class);
                 intent3.putExtra("era", 3);
@@ -138,13 +119,13 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
                 break;
 
-            case R.id.txtSeverans:
+            case R.id.txtCaligula:
 
-                imgCaracallaX.performClick();
+                imgCaligulaX.performClick();
 
                 break;
 
-            case R.id.crdImgCrisis:
+            case R.id.crdImgClaudius:
 
                 Intent intent4 = new Intent(RefEmperorDir.this, RefCollections.class);
                 intent4.putExtra("era", 4);
@@ -152,16 +133,12 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
                 break;
 
-            case R.id.txtCrisis:
+            case R.id.txtClaudius:
 
-                imgPhilipX.performClick();
+                imgClaudiusX.performClick();
 
                 break;
 
-            case R.id.btnEmperorDir:
-
-                Intent intent5 = new Intent(RefEmperorDir.this, RefEmperorDir.class);
-                startActivity(intent5);
 
         }
 
