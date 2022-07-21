@@ -217,7 +217,7 @@
                 android:layout_marginLeft="@dimen/_1sdp"
                 android:layout_marginTop="-20dp"
                 android:layout_marginRight="@dimen/_1sdp"
-                android:backgroundTint="@color/colorPrimaryDark"
+                android:backgroundTint="@color/colorAccent"
                 android:text="3rd Century Crisis"
                 android:textAllCaps="false"
                 android:textColor="@color/lighttext"

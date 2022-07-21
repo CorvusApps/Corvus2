@@ -22,8 +22,11 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
     private CoordinatorLayout loutRefCollectionsActDirLOX;
 
     // Buttons to collections
-    private ImageView imgAugustusX, imgTiberiusX, imgCaligulaX, imgClaudiusX;
-    private MaterialButton txtAugustusX, txtTiberiusX, txtCaligulaX, txtClaudiusX;
+    private ImageView imgAugustusX, imgTiberiusX, imgCaligulaX, imgClaudiusX, imgNeroX, imgClodiusMacerX,
+                      imgGalbaX, imgOthoX, imgVitelliusX, imgVespasianX, imgTitusX, imgDomitianX;
+
+    private MaterialButton txtAugustusX, txtTiberiusX, txtCaligulaX, txtClaudiusX, txtNeroX, txtClodiusMacerX,
+                           txtGalbaX, txtOthoX, txtVitelliusX, txtVespasianX, txtTitusX, txtDomitianX;
 
 
     // custom view to use as a shade behind custom dialogs
@@ -70,6 +73,54 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
         txtClaudiusX = findViewById(R.id.txtClaudius);
         txtClaudiusX.setOnClickListener(this);
+
+        imgNeroX = findViewById(R.id.crdImgNero);
+        imgNeroX.setOnClickListener(this);
+
+        txtNeroX = findViewById(R.id.txtNero);
+        txtNeroX.setOnClickListener(this);
+
+        imgClodiusMacerX = findViewById(R.id.crdImgClodiusMacer);
+        imgClodiusMacerX.setOnClickListener(this);
+
+        txtClodiusMacerX = findViewById(R.id.txtClodiusMacer);
+        txtClodiusMacerX.setOnClickListener(this);
+
+        imgGalbaX = findViewById(R.id.crdImgGalba);
+        imgGalbaX.setOnClickListener(this);
+
+        txtGalbaX = findViewById(R.id.txtGalba);
+        txtGalbaX.setOnClickListener(this);
+
+        imgOthoX = findViewById(R.id.crdImgOtho);
+        imgOthoX.setOnClickListener(this);
+
+        txtOthoX = findViewById(R.id.txtOtho);
+        txtOthoX.setOnClickListener(this);
+
+        imgVitelliusX = findViewById(R.id.crdImgVitellius);
+        imgVitelliusX.setOnClickListener(this);
+
+        txtVitelliusX = findViewById(R.id.txtVitellius);
+        txtVitelliusX.setOnClickListener(this);
+
+        imgVespasianX = findViewById(R.id.crdImgVespasian);
+        imgVespasianX.setOnClickListener(this);
+
+        txtVespasianX = findViewById(R.id.txtVespasian);
+        txtVespasianX.setOnClickListener(this);
+
+        imgTitusX = findViewById(R.id.crdImgTitus);
+        imgTitusX.setOnClickListener(this);
+
+        txtTitusX = findViewById(R.id.txtTitus);
+        txtTitusX.setOnClickListener(this);
+
+        imgDomitianX = findViewById(R.id.crdImgDomitian);
+        imgDomitianX.setOnClickListener(this);
+
+        txtDomitianX = findViewById(R.id.txtDomitian);
+        txtDomitianX.setOnClickListener(this);
 
 
        // custom view to use as a shade behind custom dialogs
@@ -139,6 +190,103 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
                 break;
 
+            case R.id.crdImgNero:
+
+                Intent intent5 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent5.putExtra("era", 5);
+                startActivity(intent5);
+
+                break;
+
+            case R.id.txtNero:
+
+                imgNeroX.performClick();
+
+                break;
+
+            case R.id.crdImgClodiusMacer:
+
+                Intent intent6 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent6.putExtra("era", 6);
+                startActivity(intent6);
+
+                break;
+
+            case R.id.txtClodiusMacer:
+
+                imgClodiusMacerX.performClick();
+
+                break;
+
+            case R.id.crdImgGalba:
+
+                Intent intent7 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent7.putExtra("era", 7);
+                startActivity(intent7);
+
+                break;
+
+            case R.id.txtGalba:
+
+                imgGalbaX.performClick();
+
+                break;
+
+            case R.id.crdImgOtho:
+
+                Intent intent8 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent8.putExtra("era", 8);
+                startActivity(intent8);
+
+                break;
+
+            case R.id.txtOtho:
+
+                imgOthoX.performClick();
+
+                break;
+
+            case R.id.crdImgVitellius:
+
+                Intent intent9 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent9.putExtra("era", 9);
+                startActivity(intent9);
+
+                break;
+
+            case R.id.txtVitellius:
+
+                imgVitelliusX.performClick();
+
+                break;
+
+            case R.id.crdImgVespasian:
+
+                Intent intent10 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent10.putExtra("era", 10);
+                startActivity(intent10);
+
+                break;
+
+            case R.id.txtVespasian:
+
+                imgVespasianX.performClick();
+
+                break;
+
+            case R.id.crdImgTitus:
+
+                Intent intent11 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent11.putExtra("era", 11);
+                startActivity(intent11);
+
+                break;
+
+            case R.id.txtTitus:
+
+                imgTitusX.performClick();
+
+                break;
 
         }
 
