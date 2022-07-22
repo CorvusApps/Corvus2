@@ -23,10 +23,14 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
     // Buttons to collections
     private ImageView imgAugustusX, imgTiberiusX, imgCaligulaX, imgClaudiusX, imgNeroX, imgClodiusMacerX,
-                      imgGalbaX, imgOthoX, imgVitelliusX, imgVespasianX, imgTitusX, imgDomitianX;
+                      imgGalbaX, imgOthoX, imgVitelliusX, imgVespasianX, imgTitusX, imgDomitianX, imgNervaX,
+                      imgTrajanX, imgHadrianX, imgPiusX, imgMarusAureliusX, imgLuciusVerusX, imgCommodusX,
+                      imgPertinaxX;
 
     private MaterialButton txtAugustusX, txtTiberiusX, txtCaligulaX, txtClaudiusX, txtNeroX, txtClodiusMacerX,
-                           txtGalbaX, txtOthoX, txtVitelliusX, txtVespasianX, txtTitusX, txtDomitianX;
+                           txtGalbaX, txtOthoX, txtVitelliusX, txtVespasianX, txtTitusX, txtDomitianX, txtNervaX,
+                           txtTrajanX, txtHadrianX, txtPiusX, txtMarcusAureliusX, txtLuciusVerusX, txtCommodusX,
+                           txtPertinaxX;
 
 
     // custom view to use as a shade behind custom dialogs
@@ -121,6 +125,55 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
         txtDomitianX = findViewById(R.id.txtDomitian);
         txtDomitianX.setOnClickListener(this);
+
+        imgNervaX = findViewById(R.id.crdImgNerva);
+        imgNervaX.setOnClickListener(this);
+
+        txtNervaX = findViewById(R.id.txtNerva);
+        txtNervaX.setOnClickListener(this);
+
+        imgTrajanX = findViewById(R.id.crdImgTrajan);
+        imgTrajanX.setOnClickListener(this);
+
+        txtTrajanX = findViewById(R.id.txtTrajan);
+        txtTrajanX.setOnClickListener(this);
+
+        imgHadrianX = findViewById(R.id.crdImgHadrian);
+        imgHadrianX.setOnClickListener(this);
+
+        txtHadrianX = findViewById(R.id.txtHadrian);
+        txtHadrianX.setOnClickListener(this);
+
+        imgPiusX = findViewById(R.id.crdImgPius);
+        imgPiusX.setOnClickListener(this);
+
+        txtPiusX = findViewById(R.id.txtPius);
+        txtPiusX.setOnClickListener(this);
+
+        imgMarusAureliusX = findViewById(R.id.crdImgMarcusAurelius);
+        imgMarusAureliusX.setOnClickListener(this);
+
+        txtMarcusAureliusX = findViewById(R.id.txtMarcusAurelius);
+        txtMarcusAureliusX.setOnClickListener(this);
+
+        imgLuciusVerusX = findViewById(R.id.crdImgLuciusVerus);
+        imgLuciusVerusX.setOnClickListener(this);
+
+        txtLuciusVerusX = findViewById(R.id.txtLuciusVerus);
+        txtLuciusVerusX.setOnClickListener(this);
+
+        imgCommodusX = findViewById(R.id.crdImgCommodus);
+        imgCommodusX.setOnClickListener(this);
+
+        txtCommodusX = findViewById(R.id.txtCommodus);
+        txtCommodusX.setOnClickListener(this);
+
+        imgPertinaxX = findViewById(R.id.crdImgPertinax);
+        imgPertinaxX.setOnClickListener(this);
+
+        txtPertinaxX = findViewById(R.id.txtPertinax);
+        txtPertinaxX.setOnClickListener(this);
+
 
 
        // custom view to use as a shade behind custom dialogs
@@ -285,6 +338,132 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
             case R.id.txtTitus:
 
                 imgTitusX.performClick();
+
+                break;
+
+            case R.id.crdImgDomitian:
+
+                Intent intent12 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent12.putExtra("era", 12);
+                startActivity(intent12);
+
+                break;
+
+            case R.id.txtDomitian:
+
+                imgDomitianX.performClick();
+
+                break;
+
+            case R.id.crdImgNerva:
+
+                Intent intent13 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent13.putExtra("era", 13);
+                startActivity(intent13);
+
+                break;
+
+            case R.id.txtNerva:
+
+                imgNervaX.performClick();
+
+                break;
+
+            case R.id.crdImgTrajan:
+
+                Intent intent14 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent14.putExtra("era", 14);
+                startActivity(intent14);
+
+                break;
+
+            case R.id.txtTrajan:
+
+                imgTrajanX.performClick();
+
+                break;
+
+            case R.id.crdImgHadrian:
+
+                Intent intent15 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent15.putExtra("era", 15);
+                startActivity(intent15);
+
+                break;
+
+            case R.id.txtHadrian:
+
+                imgHadrianX.performClick();
+
+                break;
+
+            case R.id.crdImgPius:
+
+                Intent intent16 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent16.putExtra("era", 16);
+                startActivity(intent16);
+
+                break;
+
+            case R.id.txtPius:
+
+                imgPiusX.performClick();
+
+                break;
+
+            case R.id.crdImgMarcusAurelius:
+
+                Intent intent17 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent17.putExtra("era", 17);
+                startActivity(intent17);
+
+                break;
+
+            case R.id.txtMarcusAurelius:
+
+                imgMarusAureliusX.performClick();
+
+                break;
+
+            case R.id.crdImgLuciusVerus:
+
+                Intent intent18 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent18.putExtra("era", 18);
+                startActivity(intent18);
+
+                break;
+
+            case R.id.txtLuciusVerus:
+
+                imgLuciusVerusX.performClick();
+
+                break;
+
+            case R.id.crdImgCommodus:
+
+                Intent intent19 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent19.putExtra("era", 19);
+                startActivity(intent19);
+
+                break;
+
+            case R.id.txtCommodus:
+
+                imgCommodusX.performClick();
+
+                break;
+
+            case R.id.crdImgPertinax:
+
+                Intent intent20 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent20.putExtra("era", 20);
+                startActivity(intent20);
+
+                break;
+
+            case R.id.txtPertinax:
+
+                imgPertinaxX.performClick();
 
                 break;
 
