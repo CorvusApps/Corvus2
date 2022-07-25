@@ -25,12 +25,16 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
     private ImageView imgAugustusX, imgTiberiusX, imgCaligulaX, imgClaudiusX, imgNeroX, imgClodiusMacerX,
                       imgGalbaX, imgOthoX, imgVitelliusX, imgVespasianX, imgTitusX, imgDomitianX, imgNervaX,
                       imgTrajanX, imgHadrianX, imgPiusX, imgMarusAureliusX, imgLuciusVerusX, imgCommodusX,
-                      imgPertinaxX,imgDidiusJulianusX, imgPescenniusNigerX,imgClodiusAlbinusX;
+                      imgPertinaxX,imgDidiusJulianusX, imgPescenniusNigerX,imgClodiusAlbinusX,
+                      imgSeptimusSeverusX, imgCaracallaX, imgGetaX, imgMacrinusX, imgDiadumenianX, imgElagabalusX,
+                      imgSeverusAlexanderX;
 
     private MaterialButton txtAugustusX, txtTiberiusX, txtCaligulaX, txtClaudiusX, txtNeroX, txtClodiusMacerX,
                            txtGalbaX, txtOthoX, txtVitelliusX, txtVespasianX, txtTitusX, txtDomitianX, txtNervaX,
                            txtTrajanX, txtHadrianX, txtPiusX, txtMarcusAureliusX, txtLuciusVerusX, txtCommodusX,
-                           txtPertinaxX, txtDidiusJulianusX, txtPescenniusNigerX, txtClodiusAlbinusX;
+                           txtPertinaxX, txtDidiusJulianusX, txtPescenniusNigerX, txtClodiusAlbinusX,
+                           txtSeptimusSeverusX, txtCaracallaX, txtGetaX, txtMacrinusX, txtDiadumenianX, txtElagabalusX,
+                           txtSeverusAlexanderX;
 
 
     // custom view to use as a shade behind custom dialogs
@@ -191,6 +195,48 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
         txtClodiusAlbinusX = findViewById(R.id.txtClodiusAlbinus);
         txtClodiusAlbinusX.setOnClickListener(this);
+
+        imgSeptimusSeverusX = findViewById(R.id.crdImgSeptimiusSeverus);
+        imgSeptimusSeverusX.setOnClickListener(this);
+
+        txtSeptimusSeverusX = findViewById(R.id.txtSeptimiusSeverus);
+        txtSeptimusSeverusX.setOnClickListener(this);
+
+        imgCaracallaX = findViewById(R.id.crdImgCaracalla);
+        imgCaracallaX.setOnClickListener(this);
+
+        txtCaracallaX = findViewById(R.id.txtCaracalla);
+        txtCaracallaX.setOnClickListener(this);
+
+        imgGetaX = findViewById(R.id.crdImgGeta);
+        imgGetaX.setOnClickListener(this);
+
+        txtGetaX = findViewById(R.id.txtGeta);
+        txtGetaX.setOnClickListener(this);
+
+        imgMacrinusX = findViewById(R.id.crdImgMacrinus);
+        imgMacrinusX.setOnClickListener(this);
+
+        txtMacrinusX = findViewById(R.id.txtMacrinus);
+        txtMacrinusX.setOnClickListener(this);
+
+        imgDiadumenianX = findViewById(R.id.crdImgDiadumenian);
+        imgDiadumenianX.setOnClickListener(this);
+
+        txtDiadumenianX = findViewById(R.id.txtDiadumenian);
+        txtDiadumenianX.setOnClickListener(this);
+
+        imgElagabalusX = findViewById(R.id.crdImgElagabalus);
+        imgElagabalusX.setOnClickListener(this);
+
+        txtElagabalusX = findViewById(R.id.txtElagabalus);
+        txtElagabalusX.setOnClickListener(this);
+
+        imgSeverusAlexanderX = findViewById(R.id.crdImgSeverusAlexander);
+        imgSeverusAlexanderX.setOnClickListener(this);
+
+        txtSeverusAlexanderX = findViewById(R.id.txtSeverusAlexander);
+        txtSeverusAlexanderX.setOnClickListener(this);
 
 
 
@@ -526,6 +572,106 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
                 imgClodiusAlbinusX.performClick();
 
                 break;
+
+            case R.id.crdImgSeptimiusSeverus:
+
+                Intent intent24 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent24.putExtra("era", 24);
+                startActivity(intent24);
+
+                break;
+
+            case R.id.txtSeptimiusSeverus:
+
+                imgSeptimusSeverusX.performClick();
+
+                break;
+
+            case R.id.crdImgCaracalla:
+
+                Intent intent25 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent25.putExtra("era", 25);
+                startActivity(intent25);
+
+                break;
+
+            case R.id.txtCaracalla:
+
+                imgCaracallaX.performClick();
+
+                break;
+
+            case R.id.crdImgGeta:
+
+                Intent intent26 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent26.putExtra("era", 26);
+                startActivity(intent26);
+
+                break;
+
+            case R.id.txtGeta:
+
+                imgGetaX.performClick();
+
+                break;
+
+            case R.id.crdImgMacrinus:
+
+                Intent intent27 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent27.putExtra("era", 27);
+                startActivity(intent27);
+
+                break;
+
+            case R.id.txtMacrinus:
+
+                imgMacrinusX.performClick();
+
+                break;
+
+            case R.id.crdImgDiadumenian:
+
+                Intent intent28 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent28.putExtra("era", 28);
+                startActivity(intent28);
+
+                break;
+
+            case R.id.txtDiadumenian:
+
+                imgDiadumenianX.performClick();
+
+                break;
+
+            case R.id.crdImgElagabalus:
+
+                Intent intent29 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent29.putExtra("era", 29);
+                startActivity(intent29);
+
+                break;
+
+            case R.id.txtElagabalus:
+
+                imgElagabalusX.performClick();
+
+                break;
+
+            case R.id.crdImgSeverusAlexander:
+
+                Intent intent30 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent30.putExtra("era", 30);
+                startActivity(intent30);
+
+                break;
+
+            case R.id.txtSeverusAlexander:
+
+                imgSeverusAlexanderX.performClick();
+
+                break;
+
+
 
         }
 
