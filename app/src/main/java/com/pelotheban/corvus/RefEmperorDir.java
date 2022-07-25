@@ -25,12 +25,12 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
     private ImageView imgAugustusX, imgTiberiusX, imgCaligulaX, imgClaudiusX, imgNeroX, imgClodiusMacerX,
                       imgGalbaX, imgOthoX, imgVitelliusX, imgVespasianX, imgTitusX, imgDomitianX, imgNervaX,
                       imgTrajanX, imgHadrianX, imgPiusX, imgMarusAureliusX, imgLuciusVerusX, imgCommodusX,
-                      imgPertinaxX;
+                      imgPertinaxX,imgDidiusJulianusX, imgPescenniusNigerX,imgClodiusAlbinusX;
 
     private MaterialButton txtAugustusX, txtTiberiusX, txtCaligulaX, txtClaudiusX, txtNeroX, txtClodiusMacerX,
                            txtGalbaX, txtOthoX, txtVitelliusX, txtVespasianX, txtTitusX, txtDomitianX, txtNervaX,
                            txtTrajanX, txtHadrianX, txtPiusX, txtMarcusAureliusX, txtLuciusVerusX, txtCommodusX,
-                           txtPertinaxX;
+                           txtPertinaxX, txtDidiusJulianusX, txtPescenniusNigerX, txtClodiusAlbinusX;
 
 
     // custom view to use as a shade behind custom dialogs
@@ -173,6 +173,24 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
         txtPertinaxX = findViewById(R.id.txtPertinax);
         txtPertinaxX.setOnClickListener(this);
+
+        imgDidiusJulianusX = findViewById(R.id.crdImgDidiusJulianus);
+        imgDidiusJulianusX.setOnClickListener(this);
+
+        txtDidiusJulianusX = findViewById(R.id.txtDidiusJulianus);
+        txtDidiusJulianusX.setOnClickListener(this);
+
+        imgPescenniusNigerX = findViewById(R.id.crdImgPescenniusNiger);
+        imgPescenniusNigerX.setOnClickListener(this);
+
+        txtPescenniusNigerX = findViewById(R.id.txtPescenniusNiger);
+        txtPescenniusNigerX.setOnClickListener(this);
+
+        imgClodiusAlbinusX = findViewById(R.id.crdImgClodiusAlbinus);
+        imgClodiusAlbinusX.setOnClickListener(this);
+
+        txtClodiusAlbinusX = findViewById(R.id.txtClodiusAlbinus);
+        txtClodiusAlbinusX.setOnClickListener(this);
 
 
 
@@ -464,6 +482,48 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
             case R.id.txtPertinax:
 
                 imgPertinaxX.performClick();
+
+                break;
+
+            case R.id.crdImgDidiusJulianus:
+
+                Intent intent21 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent21.putExtra("era", 21);
+                startActivity(intent21);
+
+                break;
+
+            case R.id.txtDidiusJulianus:
+
+                imgDidiusJulianusX.performClick();
+
+                break;
+
+            case R.id.crdImgPescenniusNiger:
+
+                Intent intent22 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent22.putExtra("era", 22);
+                startActivity(intent22);
+
+                break;
+
+            case R.id.txtPescenniusNiger:
+
+                imgPescenniusNigerX.performClick();
+
+                break;
+
+            case R.id.crdImgClodiusAlbinus:
+
+                Intent intent23 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent23.putExtra("era", 23);
+                startActivity(intent23);
+
+                break;
+
+            case R.id.txtClodiusAlbinus:
+
+                imgClodiusAlbinusX.performClick();
 
                 break;
 
