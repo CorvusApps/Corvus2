@@ -27,14 +27,20 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
                       imgTrajanX, imgHadrianX, imgPiusX, imgMarusAureliusX, imgLuciusVerusX, imgCommodusX,
                       imgPertinaxX,imgDidiusJulianusX, imgPescenniusNigerX,imgClodiusAlbinusX,
                       imgSeptimusSeverusX, imgCaracallaX, imgGetaX, imgMacrinusX, imgDiadumenianX, imgElagabalusX,
-                      imgSeverusAlexanderX;
+                      imgSeverusAlexanderX, imgMaximinusThraxX, imgGordianIX, imgGordianIIX, imgBalbinusX,
+                      imgPupienusX, imgGordianIIIX, imgPhilipX, imgPhilipIIX, imgTrajanDeciusX, imgHerenniusEtruscusX,
+                      imgHostilianX, imgTrebonianusGAllusX, imgVolusianX, imgAemilianX, imgValerianX,
+                      imgGallienusX, imgSaloninusX, imgRegalianusX, imgMacrianusX, imgQuietusX, imgPostumusX;
 
     private MaterialButton txtAugustusX, txtTiberiusX, txtCaligulaX, txtClaudiusX, txtNeroX, txtClodiusMacerX,
                            txtGalbaX, txtOthoX, txtVitelliusX, txtVespasianX, txtTitusX, txtDomitianX, txtNervaX,
                            txtTrajanX, txtHadrianX, txtPiusX, txtMarcusAureliusX, txtLuciusVerusX, txtCommodusX,
                            txtPertinaxX, txtDidiusJulianusX, txtPescenniusNigerX, txtClodiusAlbinusX,
                            txtSeptimusSeverusX, txtCaracallaX, txtGetaX, txtMacrinusX, txtDiadumenianX, txtElagabalusX,
-                           txtSeverusAlexanderX;
+                           txtSeverusAlexanderX, txtMaximinusThraxX, txtGordianIX, txtGordianIIX, txtBalbinusX,
+                           txtPupienusX, txtGordianIIIX, txtPhilipX, txtPhilipIIX, txtTrajanDeciusX, txtHerenniusEtruscusX,
+                           txtHostilianX, txtTrebonianusGAllusX, txtVolusianX, txtAemilianX, txtValerianX,
+                           txtGallienusX, txtSaloninusX, txtRegalianusX, txtMacrianusX, txtQuietusX, txtPostumusX;
 
 
     // custom view to use as a shade behind custom dialogs
@@ -238,7 +244,131 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
         txtSeverusAlexanderX = findViewById(R.id.txtSeverusAlexander);
         txtSeverusAlexanderX.setOnClickListener(this);
 
+        imgMaximinusThraxX = findViewById(R.id.crdImgMaximinusThrax);
+        imgMaximinusThraxX.setOnClickListener(this);
 
+        txtMaximinusThraxX = findViewById(R.id.txtMaximinusThrax);
+        txtMaximinusThraxX.setOnClickListener(this);
+
+        imgGordianIX = findViewById(R.id.crdImgGordianI);
+        imgGordianIX.setOnClickListener(this);
+
+        txtGordianIX = findViewById(R.id.txtGordianI);
+        txtGordianIX.setOnClickListener(this);
+
+        imgGordianIIX = findViewById(R.id.crdImgGordianII);
+        imgGordianIIX.setOnClickListener(this);
+
+        txtGordianIIX = findViewById(R.id.txtGoridianII);
+        txtGordianIIX.setOnClickListener(this);
+
+        imgBalbinusX = findViewById(R.id.crdImgBalbinus);
+        imgBalbinusX.setOnClickListener(this);
+
+        txtBalbinusX = findViewById(R.id.txtBalbinus);
+        txtBalbinusX.setOnClickListener(this);
+
+        imgPupienusX = findViewById(R.id.crdImgElagabalus);
+        imgPupienusX.setOnClickListener(this);
+
+        txtPupienusX = findViewById(R.id.txtElagabalus);
+        txtPupienusX.setOnClickListener(this);
+
+        imgGordianIIIX = findViewById(R.id.crdImgGordianIII);
+        imgGordianIIIX.setOnClickListener(this);
+
+        txtGordianIIIX = findViewById(R.id.txtGordianIII);
+        txtGordianIIIX.setOnClickListener(this);
+
+        imgPhilipX = findViewById(R.id.crdImgPhilip);
+        imgPhilipX.setOnClickListener(this);
+
+        txtPhilipX = findViewById(R.id.txtPhilip);
+        txtPhilipX.setOnClickListener(this);
+
+        imgPhilipIIX = findViewById(R.id.crdImgPhilipII);
+        imgPhilipIIX.setOnClickListener(this);
+
+        txtPhilipIIX = findViewById(R.id.txtPhilipII);
+        txtPhilipIIX.setOnClickListener(this);
+
+        imgTrajanDeciusX = findViewById(R.id.crdImgTrajanDecius);
+        imgTrajanDeciusX.setOnClickListener(this);
+
+        txtTrajanDeciusX = findViewById(R.id.txtTrajanDecius);
+        txtTrajanDeciusX.setOnClickListener(this);
+
+        imgHerenniusEtruscusX = findViewById(R.id.crdImgHerenniusEtruscus);
+        imgHerenniusEtruscusX.setOnClickListener(this);
+
+        txtHerenniusEtruscusX = findViewById(R.id.txtHereniusEstruscus);
+        txtHerenniusEtruscusX.setOnClickListener(this);
+
+        imgHostilianX = findViewById(R.id.crdImgHostilian);
+        imgHostilianX.setOnClickListener(this);
+
+        txtHostilianX = findViewById(R.id.txtHostilian);
+        txtHostilianX.setOnClickListener(this);
+
+        imgTrebonianusGAllusX = findViewById(R.id.crdImgTrebonianusGallus);
+        imgTrebonianusGAllusX.setOnClickListener(this);
+
+        txtTrebonianusGAllusX = findViewById(R.id.txtTrebonianusGallus);
+        txtTrebonianusGAllusX.setOnClickListener(this);
+
+        imgVolusianX = findViewById(R.id.crdImgVolusian);
+        imgVolusianX.setOnClickListener(this);
+
+        txtVolusianX = findViewById(R.id.txtVolusian);
+        txtVolusianX.setOnClickListener(this);
+
+        imgAemilianX = findViewById(R.id.crdImgAemilian);
+        imgAemilianX.setOnClickListener(this);
+
+        txtAemilianX = findViewById(R.id.txtAemilian);
+        txtAemilianX.setOnClickListener(this);
+
+        imgValerianX = findViewById(R.id.crdImgValerian);
+        imgValerianX.setOnClickListener(this);
+
+        txtValerianX = findViewById(R.id.txtValerian);
+        txtValerianX.setOnClickListener(this);
+
+        imgGallienusX = findViewById(R.id.crdImgGallienus);
+        imgGallienusX.setOnClickListener(this);
+
+        txtGallienusX = findViewById(R.id.txtGallienus);
+        txtGallienusX.setOnClickListener(this);
+
+        imgSaloninusX = findViewById(R.id.crdImgSaloninus);
+        imgSaloninusX.setOnClickListener(this);
+
+        txtSaloninusX = findViewById(R.id.txtSaloninus);
+        txtSaloninusX.setOnClickListener(this);
+
+        imgRegalianusX = findViewById(R.id.crdImgRegalianus);
+        imgRegalianusX.setOnClickListener(this);
+
+        txtRegalianusX = findViewById(R.id.txtRegalianus);
+        txtRegalianusX.setOnClickListener(this);
+
+        imgMacrianusX = findViewById(R.id.crdImgMacrianus);
+        imgMacrianusX.setOnClickListener(this);
+
+        txtMacrianusX = findViewById(R.id.txtMacrianus);
+        txtMacrianusX.setOnClickListener(this);
+
+        imgQuietusX = findViewById(R.id.crdImgQuietus);
+        imgQuietusX.setOnClickListener(this);
+
+        txtQuietusX = findViewById(R.id.txtQuietus);
+        txtQuietusX.setOnClickListener(this);
+
+        imgPostumusX = findViewById(R.id.crdImgPostumus);
+        imgPostumusX.setOnClickListener(this);
+
+        txtPostumusX = findViewById(R.id.txtPostumus);
+        txtPostumusX.setOnClickListener(this);
 
        // custom view to use as a shade behind custom dialogs
         shadeX = findViewById(R.id.shade);
@@ -668,6 +798,188 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
             case R.id.txtSeverusAlexander:
 
                 imgSeverusAlexanderX.performClick();
+
+                break;
+
+            case R.id.crdImgMaximinusThrax:
+
+                Intent intent31 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent31.putExtra("era", 31);
+                startActivity(intent31);
+
+                break;
+
+            case R.id.txtMaximinusThrax:
+
+                imgMaximinusThraxX.performClick();
+
+                break;
+
+            case R.id.crdImgGordianI:
+
+                Intent intent32 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent32.putExtra("era", 32);
+                startActivity(intent32);
+
+                break;
+
+            case R.id.txtGordianI:
+
+                imgGordianIX.performClick();
+
+                break;
+
+            case R.id.crdImgGordianII:
+
+                Intent intent33 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent33.putExtra("era", 33);
+                startActivity(intent33);
+
+                break;
+
+            case R.id.txtGoridianII:
+
+                imgGordianIIX.performClick();
+
+                break;
+
+            case R.id.crdImgBalbinus:
+
+                Intent intent34 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent34.putExtra("era", 34);
+                startActivity(intent34);
+
+                break;
+
+            case R.id.txtBalbinus:
+
+                imgBalbinusX.performClick();
+
+                break;
+
+            case R.id.crdImgPupienus:
+
+                Intent intent35 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent35.putExtra("era", 35);
+                startActivity(intent35);
+
+                break;
+
+            case R.id.txtPupienus:
+
+                imgPupienusX.performClick();
+
+                break;
+
+            case R.id.crdImgGordianIII:
+
+                Intent intent36 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent36.putExtra("era", 36);
+                startActivity(intent36);
+
+                break;
+
+            case R.id.txtGordianIII:
+
+                imgGordianIIIX.performClick();
+
+                break;
+
+            case R.id.crdImgPhilip:
+
+                Intent intent37 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent37.putExtra("era", 37);
+                startActivity(intent37);
+
+                break;
+
+            case R.id.txtPhilip:
+
+                imgPhilipX.performClick();
+
+                break;
+
+            case R.id.crdImgPhilipII:
+
+                Intent intent38 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent38.putExtra("era", 38);
+                startActivity(intent38);
+
+                break;
+
+            case R.id.txtPhilipII:
+
+                imgPhilipIIX.performClick();
+
+                break;
+
+            case R.id.crdImgTrajanDecius:
+
+                Intent intent39 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent39.putExtra("era", 39);
+                startActivity(intent39);
+
+                break;
+
+            case R.id.txtTrajanDecius:
+
+                imgTrajanDeciusX.performClick();
+
+                break;
+
+            case R.id.crdImgHerenniusEtruscus:
+
+                Intent intent40 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent40.putExtra("era", 40);
+                startActivity(intent40);
+
+                break;
+
+            case R.id.txtHereniusEstruscus:
+
+                imgHerenniusEtruscusX.performClick();
+
+                break;
+
+            case R.id.crdImgHostilian:
+
+                Intent intent41 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent41.putExtra("era", 41);
+                startActivity(intent41);
+
+                break;
+
+            case R.id.txtHostilian:
+
+                imgHostilianX.performClick();
+
+                break;
+
+            case R.id.crdImgTrebonianusGallus:
+
+                Intent intent42 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent42.putExtra("era", 42);
+                startActivity(intent42);
+
+                break;
+
+            case R.id.txtTrebonianusGallus:
+
+                imgTrebonianusGAllusX.performClick();
+
+                break;
+
+            case R.id.crdImgVolusian:
+
+                Intent intent43 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent43.putExtra("era", 43);
+                startActivity(intent43);
+
+                break;
+
+            case R.id.txtVolusian:
+
+                imgVolusianX.performClick();
 
                 break;
 
