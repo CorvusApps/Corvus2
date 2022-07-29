@@ -21,6 +21,12 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth firebaseAuthRefCollections;
     private CoordinatorLayout loutRefCollectionsActDirLOX;
 
+    //Input variables and fields to limit which emperors we show
+    private int era;
+    private String displayEra;
+    private TextView txtDisplayEraX;
+
+
     // Buttons to collections
     private ImageView imgAugustusX, imgTiberiusX, imgCaligulaX, imgClaudiusX, imgNeroX, imgClodiusMacerX,
                       imgGalbaX, imgOthoX, imgVitelliusX, imgVespasianX, imgTitusX, imgDomitianX, imgNervaX,
@@ -57,6 +63,36 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
         firebaseAuthRefCollections = FirebaseAuth.getInstance();
         loutRefCollectionsActDirLOX = findViewById(R.id.loutRefCollectionsActDirLO);
+
+        // information from collection directory to limit which collections we show - goes into sort function
+        era = getIntent().getIntExtra("era",0);
+
+        txtDisplayEraX = findViewById(R.id.txtDisplayEra);
+        switch (era){
+
+            case 1:
+
+                txtDisplayEraX.setText("Twelve Caesars");
+
+                break;
+
+            case 2:
+
+                txtDisplayEraX.setText("Nerva to Clodius Albinus");
+                break;
+
+            case 3:
+
+                txtDisplayEraX.setText("The Severans");
+                break;
+
+            case 4:
+
+                txtDisplayEraX.setText("Third Century Crisis");
+                break;
+
+        }
+
 
 
 //        crdTwelveCaesarsX = findViewById(R.id.crdTwelveCaesars);
@@ -980,6 +1016,118 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
             case R.id.txtVolusian:
 
                 imgVolusianX.performClick();
+
+                break;
+
+            case R.id.crdImgAemilian:
+
+                Intent intent44 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent44.putExtra("era", 44);
+                startActivity(intent44);
+
+                break;
+
+            case R.id.txtAemilian:
+
+                imgAemilianX.performClick();
+
+                break;
+
+            case R.id.crdValerian:
+
+                Intent intent45 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent45.putExtra("era", 45);
+                startActivity(intent45);
+
+                break;
+
+            case R.id.txtValerian:
+
+                imgValerianX.performClick();
+
+                break;
+
+            case R.id.crdImgGallienus:
+
+                Intent intent46 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent46.putExtra("era", 46);
+                startActivity(intent46);
+
+                break;
+
+            case R.id.txtGallienus:
+
+                imgGallienusX.performClick();
+
+                break;
+
+            case R.id.crdImgSaloninus:
+
+                Intent intent47 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent47.putExtra("era", 47);
+                startActivity(intent47);
+
+                break;
+
+            case R.id.txtSaloninus:
+
+                imgSaloninusX.performClick();
+
+                break;
+
+            case R.id.crdImgRegalianus:
+
+                Intent intent48 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent48.putExtra("era", 48);
+                startActivity(intent48);
+
+                break;
+
+            case R.id.txtRegalianus:
+
+                imgRegalianusX.performClick();
+
+                break;
+
+            case R.id.crdImgMacrianus:
+
+                Intent intent49 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent49.putExtra("era", 49);
+                startActivity(intent49);
+
+                break;
+
+            case R.id.txtMacrianus:
+
+                imgMacrianusX.performClick();
+
+                break;
+
+            case R.id.crdImgQuietus:
+
+                Intent intent50 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent50.putExtra("era", 50);
+                startActivity(intent50);
+
+                break;
+
+            case R.id.txtQuietus:
+
+                imgQuietusX.performClick();
+
+                break;
+
+            case R.id.crdImgPostumus:
+
+                Intent intent51 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent51.putExtra("era", 51);
+                startActivity(intent51);
+
+                break;
+
+            case R.id.txtPostumus:
+
+                imgPostumusX.performClick();
 
                 break;
 

@@ -145,7 +145,7 @@ public class RefCollectionsDir extends AppCompatActivity implements View.OnClick
 
             case R.id.crdImgTwelveCaesars:
 
-                Intent intent = new Intent(RefCollectionsDir.this, RefCollections.class);
+                Intent intent = new Intent(RefCollectionsDir.this, RefEmperorDir.class);
                 intent.putExtra("era", 1);
                 startActivity(intent);
 
@@ -159,7 +159,7 @@ public class RefCollectionsDir extends AppCompatActivity implements View.OnClick
 
             case R.id.crdImgGoldenAge:
 
-                Intent intent2 = new Intent(RefCollectionsDir.this, RefCollections.class);
+                Intent intent2 = new Intent(RefCollectionsDir.this, RefEmperorDir.class);
                 intent2.putExtra("era", 2);
                 startActivity(intent2);
 
@@ -173,7 +173,7 @@ public class RefCollectionsDir extends AppCompatActivity implements View.OnClick
 
             case R.id.crdImgSeverans:
 
-                Intent intent3 = new Intent(RefCollectionsDir.this, RefCollections.class);
+                Intent intent3 = new Intent(RefCollectionsDir.this, RefEmperorDir.class);
                 intent3.putExtra("era", 3);
                 startActivity(intent3);
 
@@ -187,7 +187,7 @@ public class RefCollectionsDir extends AppCompatActivity implements View.OnClick
 
             case R.id.crdImgCrisis:
 
-                Intent intent4 = new Intent(RefCollectionsDir.this, RefCollections.class);
+                Intent intent4 = new Intent(RefCollectionsDir.this, RefEmperorDir.class);
                 intent4.putExtra("era", 4);
                 startActivity(intent4);
 
