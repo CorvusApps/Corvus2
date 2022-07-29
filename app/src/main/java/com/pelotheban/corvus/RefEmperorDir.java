@@ -6,9 +6,11 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -25,6 +27,8 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
     private int era;
     private String displayEra;
     private TextView txtDisplayEraX;
+
+    private LinearLayout loutTwelveCaesarsX, loutGoldenAgeX, loutSeveransX, loutCrisisX;
 
 
     // Buttons to collections
@@ -67,28 +71,40 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
         // information from collection directory to limit which collections we show - goes into sort function
         era = getIntent().getIntExtra("era",0);
 
+        loutTwelveCaesarsX = findViewById(R.id.loutTwelveCaesars);
+        loutGoldenAgeX = findViewById(R.id.loutGoldenAge);
+        loutSeveransX = findViewById(R.id.loutSeverans);
+        loutCrisisX = findViewById(R.id.loutCrisis);
+
         txtDisplayEraX = findViewById(R.id.txtDisplayEra);
         switch (era){
 
             case 1:
 
                 txtDisplayEraX.setText("Twelve Caesars");
+                loutTwelveCaesarsX.setVisibility(View.VISIBLE);
 
                 break;
 
             case 2:
 
                 txtDisplayEraX.setText("Nerva to Clodius Albinus");
+                loutGoldenAgeX.setVisibility(View.VISIBLE);
+
                 break;
 
             case 3:
 
                 txtDisplayEraX.setText("The Severans");
+                loutSeveransX.setVisibility(View.VISIBLE);
+
                 break;
 
             case 4:
 
                 txtDisplayEraX.setText("Third Century Crisis");
+                loutCrisisX.setVisibility(View.VISIBLE);
+
                 break;
 
         }

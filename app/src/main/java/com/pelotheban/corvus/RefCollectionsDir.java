@@ -39,9 +39,6 @@ public class RefCollectionsDir extends AppCompatActivity implements View.OnClick
     private ImageView imgVitelliusX, imgNervaX, imgCaracallaX, imgPhilipX;
     private MaterialButton txtTwelveCaesarsX, txtGoldenAgeX, txtSeveransX, txtCrisisX;
 
-    // Button to emperor directory
-    private Button btnEmperorDirX;
-
     // components for new FAB based pop-up menu
     private FloatingActionButton fbtnPopUp2RefCollectionsDirX, fbtnMiniMyCollectionsRefCollectionsDirX, fbtnMiniFAQRefCollectionsDirX, fbtnMiniLogoutRefCollectionsDirX, fbtnPopUpMenuRefColsDirX;
     private TextView txtRefCoinsButtonRefCollectionsDirX, txtFAQButtonRefCollectionsDirX, txtLogoutButtonRefCollectionsDirX;
@@ -103,9 +100,6 @@ public class RefCollectionsDir extends AppCompatActivity implements View.OnClick
 
         txtCrisisX = findViewById(R.id.txtCrisis);
         txtCrisisX.setOnClickListener(this);
-
-        btnEmperorDirX = findViewById(R.id.btnEmperorDir);
-        btnEmperorDirX.setOnClickListener(this);
 
         // FABs and TXTs for new pop up menu components
 
@@ -199,10 +193,6 @@ public class RefCollectionsDir extends AppCompatActivity implements View.OnClick
 
                 break;
 
-            case R.id.btnEmperorDir:
-
-                Intent intent5 = new Intent(RefCollectionsDir.this, RefEmperorDir.class);
-                startActivity(intent5);
 
         }
 

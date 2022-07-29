@@ -27,8 +27,10 @@
         android:textStyle="bold" />
 
     <LinearLayout
+        android:id="@+id/loutTwelveCaesars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="vertical">
 
     <LinearLayout
@@ -663,8 +665,10 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/loutGoldenAge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="vertical">
 
     <LinearLayout
@@ -1253,8 +1257,10 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/loutSeverans"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <LinearLayout
@@ -1634,8 +1640,10 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/loutCrisis"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <LinearLayout
