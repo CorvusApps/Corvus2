@@ -63,7 +63,7 @@ public class RefCollections extends AppCompatActivity implements RewardedVideoAd
     private DatabaseReference mDatabase;
 
     // information from collection directory to limit which collections we show - goes into sort function
-    private int era;
+    private int era, eraBack;
     private Query sortQuery;
 
     // components for new FAB based pop-up menu
@@ -259,6 +259,21 @@ public class RefCollections extends AppCompatActivity implements RewardedVideoAd
         // information from collection directory to limit which collections we show - goes into sort function
         era = getIntent().getIntExtra("era",0);
 
+        // setting up eraBack to return to EmperorDir
+        if( era < 13) {
+
+            eraBack = 1;
+        } else if (era < 24) {
+
+            eraBack = 2;
+        } else if (era < 31) {
+
+            eraBack = 3;
+        } else {
+
+            eraBack = 4;
+        }
+
 
         //setting this up so when we have our FAB popup menu clicking anywhere on the scrreen will turn it off
         shadeX.setOnClickListener(new View.OnClickListener() {
@@ -287,24 +302,55 @@ public class RefCollections extends AppCompatActivity implements RewardedVideoAd
                 .child("collections");
 
         // setting up query to be dependent on selection in RefCollectionDir - which is limiting collections to an era
+        // usually era matces the sortric except for postumus who is era 51
 
-        if (era == 1) {
+        int start = era * 1000;
+        int end = start + 999;
+        if (era == 51) {
 
-            sortQuery = sortReference.orderByChild("id").startAt(1).endAt(12999);
+            sortQuery = sortReference.orderByChild("id").startAt(52000).endAt(52999);
 
-        } else if (era == 2){
-
-            sortQuery = sortReference.orderByChild("id").startAt(13000).endAt(23999);
-
-        } else if (era == 3){
-
-            sortQuery = sortReference.orderByChild("id").startAt(24000).endAt(30999);
         } else {
 
-            sortQuery = sortReference.orderByChild("id").startAt(31000).endAt(59999);
-
+            sortQuery = sortReference.orderByChild("id").startAt(start).endAt(end);
 
         }
+
+//        if (era == 1) {
+//
+//            sortQuery = sortReference.orderByChild("id").startAt(1).endAt(12999);
+//
+//        } else if (era == 2){
+//
+//            sortQuery = sortReference.orderByChild("id").startAt(13000).endAt(23999);
+//
+//        } else if (era == 3){
+//
+//            sortQuery = sortReference.orderByChild("id").startAt(24000).endAt(30999);
+//
+//        } else if (era == 50){
+//
+//            sortQuery = sortReference.orderByChild("id").startAt(50000).endAt(50999);
+//
+//        } else if (era == 49){
+//
+//            sortQuery = sortReference.orderByChild("id").startAt(49000).endAt(49999);
+//
+//        } else if (era == 50){
+//
+//            sortQuery = sortReference.orderByChild("id").startAt(50000).endAt(50999);
+//
+//
+//        } else if (era == 51){
+//
+//            sortQuery = sortReference.orderByChild("id").startAt(52000).endAt(52999);
+//
+//        } else {
+//
+//            sortQuery = sortReference.orderByChild("id").startAt(31000).endAt(59999);
+//
+//
+//        }
 
         rcvRefCollectionsX = findViewById(R.id.rcvRefCollections);
         rcvRefCollectionsX.setHasFixedSize(true); //Not sure this applies or why it is here
@@ -1329,7 +1375,8 @@ public class RefCollections extends AppCompatActivity implements RewardedVideoAd
 
         } else {
 
-            Intent intent = new Intent(RefCollections.this, RefCollectionsDir.class);
+            Intent intent = new Intent(RefCollections.this, RefEmperorDir.class); // needs passback of era
+            intent.putExtra("era", eraBack);
             startActivity(intent);
             finish();
 

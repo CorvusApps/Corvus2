@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
@@ -1150,6 +1151,19 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
 
         }
+
+    }
+
+    @Override
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
+    public void onBackPressed(){
+
+
+            Intent intent = new Intent(RefEmperorDir.this, RefCollectionsDir.class); // needs passback of era
+
+            startActivity(intent);
+            finish();
+
 
     }
 
