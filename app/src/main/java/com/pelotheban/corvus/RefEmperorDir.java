@@ -321,10 +321,10 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
         txtBalbinusX = findViewById(R.id.txtBalbinus);
         txtBalbinusX.setOnClickListener(this);
 
-        imgPupienusX = findViewById(R.id.crdImgElagabalus);
+        imgPupienusX = findViewById(R.id.crdImgPupienus);
         imgPupienusX.setOnClickListener(this);
 
-        txtPupienusX = findViewById(R.id.txtElagabalus);
+        txtPupienusX = findViewById(R.id.txtPupienus);
         txtPupienusX.setOnClickListener(this);
 
         imgGordianIIIX = findViewById(R.id.crdImgGordianIII);
@@ -1050,7 +1050,7 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
                 break;
 
-            case R.id.crdValerian:
+            case R.id.crdImgValerian:
 
                 Intent intent45 = new Intent(RefEmperorDir.this, RefCollections.class);
                 intent45.putExtra("era", 45);
