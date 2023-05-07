@@ -78,6 +78,7 @@ public class RefCollections extends AppCompatActivity implements RewardedVideoAd
     private String colNotesY;
     private int colCoinCountY;
     private int colCoinCountallY;
+    private String colStandardRefY;
 
     private Drawable colImageY;
 
@@ -311,8 +312,46 @@ public class RefCollections extends AppCompatActivity implements RewardedVideoAd
             sortQuery = sortReference.orderByChild("id").startAt(52000).endAt(52999);
 
         } else {
+            // setting up exception for the emperors added after the number system was locked in AND for a few emperors pre-existin but affected by this
+            if (era == 38) {
 
-            sortQuery = sortReference.orderByChild("id").startAt(start).endAt(end);
+                sortQuery = sortReference.orderByChild("id").startAt(38000).endAt(38499);
+
+            } else {
+
+                if (era == 53) {
+
+                    sortQuery = sortReference.orderByChild("id").startAt(38500).endAt(38799);
+
+                } else {
+
+                    if (era == 54) {
+
+                        sortQuery = sortReference.orderByChild("id").startAt(38800).endAt(38999);
+
+                    } else {
+
+                        if (era == 46) {
+
+                            sortQuery = sortReference.orderByChild("id").startAt(46000).endAt(46499);
+
+                        } else {
+
+                            if (era == 55) {
+
+                                sortQuery = sortReference.orderByChild("id").startAt(46500).endAt(46999);
+
+                            } else {
+
+                                sortQuery = sortReference.orderByChild("id").startAt(start).endAt(end);
+                            }
+                        }
+                    }
+
+                }
+            }
+
+
 
         }
 
@@ -389,6 +428,8 @@ public class RefCollections extends AppCompatActivity implements RewardedVideoAd
                 viewHolder.setCoincount(model.getCoincount());
                 viewHolder.setCoincountall(model.getCoincountall());
 
+                viewHolder.setStandardref(model.getStandardref());
+
                 }
 
                // The Code setting out recycler view /////////////////////////////////////////////////////////////////
@@ -451,10 +492,13 @@ public class RefCollections extends AppCompatActivity implements RewardedVideoAd
                         TextView colUID = view.findViewById(R.id.crdRefTxtCollectionUID);
                         TextView colTitle = view.findViewById(R.id.crdRefTxtCollectionTitle);
 
+                        TextView colStandardRef = view.findViewById(R.id.crdRefTxtStandardRef);
+
                         //get data from views
 
                         colUIDY = colUID.getText().toString();
                         colTitleY = colTitle.getText().toString();
+                        colStandardRefY = colStandardRef.getText().toString();
 
                         // no need to pass the image to the CoinList Class but keeping the lines below as example code
                         Intent intent = new Intent(view.getContext(), RefCoinList.class);
@@ -465,6 +509,8 @@ public class RefCollections extends AppCompatActivity implements RewardedVideoAd
                         intent.putExtra("coluid", colUIDY);
                         intent.putExtra("title", colTitleY);
                         intent.putExtra("era", era);
+
+                        intent.putExtra("standardref", colStandardRefY); // for Reference type - so RIC or Gnechi for example
                         startActivity(intent);
 
                     }
@@ -719,6 +765,11 @@ public class RefCollections extends AppCompatActivity implements RewardedVideoAd
         public void setImageLink(String imageLink) {
             TextView crdRefTxtCollectionImgLinkX = (TextView)mView.findViewById(R.id.crdRefTxtCollectionImgLink);
             crdRefTxtCollectionImgLinkX.setText(imageLink);
+        }
+
+        public void setStandardref(String standardref) {
+            TextView crdRefTxtCollectionStandardRefX = (TextView)mView.findViewById(R.id.crdRefTxtStandardRef);
+            crdRefTxtCollectionStandardRefX.setText(standardref);
         }
 
 

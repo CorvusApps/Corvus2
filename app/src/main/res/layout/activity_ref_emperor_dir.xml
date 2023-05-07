@@ -2083,6 +2083,112 @@
                 >
 
                 <com.github.florent37.shapeofview.shapes.CircleView
+                    android:id="@+id/crdPacatian"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_135sdp"
+
+                    app:shape_circle_borderWidth="0dp">
+
+                    <ImageView
+                        android:id="@+id/crdImgPacatian"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimaryDark"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:elevation="5dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/pacatiana"
+
+                        />
+                </com.github.florent37.shapeofview.shapes.CircleView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/txtPacatian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_1sdp"
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginRight="@dimen/_1sdp"
+                    android:backgroundTint="@color/colorAccent"
+                    android:text="Pacatian"
+                    android:textAllCaps="false"
+                    android:textColor="@color/lighttext"
+                    android:textSize="@dimen/_10sdp"
+                    android:textStyle="bold"
+                    app:cornerRadius="@dimen/_10sdp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginLeft="0dp"
+
+                >
+
+                <com.github.florent37.shapeofview.shapes.CircleView
+                    android:id="@+id/crdJotapian"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_135sdp"
+                    android:backgroundTint="@color/colorPrimaryDark"
+
+                    app:shape_circle_borderColor="@color/colorPrimary"
+                    app:shape_circle_borderWidth="2dp">
+
+                    <ImageView
+                        android:id="@+id/crdImgJotapian"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimaryDark"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:elevation="5dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/jotapiana"
+
+                        />
+                </com.github.florent37.shapeofview.shapes.CircleView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/txtJotapian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_1sdp"
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginRight="@dimen/_1sdp"
+                    android:backgroundTint="@color/colorAccent"
+                    android:text="Jotapian"
+                    android:textAllCaps="false"
+                    android:textColor="@color/lighttext"
+                    android:textSize="@dimen/_10sdp"
+                    android:textStyle="bold"
+                    app:cornerRadius="@dimen/_10sdp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginRight="0dp"
+
+                >
+
+                <com.github.florent37.shapeofview.shapes.CircleView
                     android:id="@+id/crdTrajanDecius"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_135sdp"
@@ -2473,6 +2579,64 @@
                     android:layout_marginRight="@dimen/_1sdp"
                     android:backgroundTint="@color/colorAccent"
                     android:text="Gallienus"
+                    android:textAllCaps="false"
+                    android:textColor="@color/lighttext"
+                    android:textSize="@dimen/_10sdp"
+                    android:textStyle="bold"
+                    app:cornerRadius="@dimen/_10sdp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginRight="0dp"
+
+                >
+
+                <com.github.florent37.shapeofview.shapes.CircleView
+                    android:id="@+id/crdUraniusAntoninus"
+                    android:layout_marginLeft="@dimen/_67sdp"
+                    android:layout_width="@dimen/_135sdp"
+                    android:layout_height="@dimen/_135sdp"
+
+                    app:shape_circle_borderWidth="0dp">
+
+                    <ImageView
+                        android:id="@+id/crdImgUraniusAntoninus"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimaryDark"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:elevation="5dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/uranus"
+
+                        />
+                </com.github.florent37.shapeofview.shapes.CircleView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/txtUraniusAntoninus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_70sdp"
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginRight="@dimen/_70sdp"
+                    android:backgroundTint="@color/colorAccent"
+                    android:text="Uranius Antoninus"
                     android:textAllCaps="false"
                     android:textColor="@color/lighttext"
                     android:textSize="@dimen/_10sdp"

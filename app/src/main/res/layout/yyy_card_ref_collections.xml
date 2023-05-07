@@ -165,6 +165,13 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:text="TextView" />
+
+        <TextView
+            android:id="@+id/crdRefTxtStandardRef"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="RIC" />
     </LinearLayout>
 
 

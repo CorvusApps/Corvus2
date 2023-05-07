@@ -41,7 +41,8 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
                       imgSeverusAlexanderX, imgMaximinusThraxX, imgGordianIX, imgGordianIIX, imgBalbinusX,
                       imgPupienusX, imgGordianIIIX, imgPhilipX, imgPhilipIIX, imgTrajanDeciusX, imgHerenniusEtruscusX,
                       imgHostilianX, imgTrebonianusGAllusX, imgVolusianX, imgAemilianX, imgValerianX,
-                      imgGallienusX, imgSaloninusX, imgRegalianusX, imgMacrianusX, imgQuietusX, imgPostumusX;
+                      imgGallienusX, imgSaloninusX, imgRegalianusX, imgMacrianusX, imgQuietusX, imgPostumusX,
+                      imgPacatianX, imgJotapianX, imgUraniusAntoninusX;
 
     private MaterialButton txtAugustusX, txtTiberiusX, txtCaligulaX, txtClaudiusX, txtNeroX, txtClodiusMacerX,
                            txtGalbaX, txtOthoX, txtVitelliusX, txtVespasianX, txtTitusX, txtDomitianX, txtNervaX,
@@ -51,7 +52,8 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
                            txtSeverusAlexanderX, txtMaximinusThraxX, txtGordianIX, txtGordianIIX, txtBalbinusX,
                            txtPupienusX, txtGordianIIIX, txtPhilipX, txtPhilipIIX, txtTrajanDeciusX, txtHerenniusEtruscusX,
                            txtHostilianX, txtTrebonianusGAllusX, txtVolusianX, txtAemilianX, txtValerianX,
-                           txtGallienusX, txtSaloninusX, txtRegalianusX, txtMacrianusX, txtQuietusX, txtPostumusX;
+                           txtGallienusX, txtSaloninusX, txtRegalianusX, txtMacrianusX, txtQuietusX, txtPostumusX,
+                           txtPacatianX, txtJotapianX, txtUraniusAntoninusX;
 
 
     // custom view to use as a shade behind custom dialogs
@@ -422,6 +424,27 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
 
         txtPostumusX = findViewById(R.id.txtPostumus);
         txtPostumusX.setOnClickListener(this);
+
+        // late additions that have to be handled a bit differently so setting apart here
+        imgPacatianX = findViewById(R.id.crdImgPacatian);
+        imgPacatianX.setOnClickListener(this);
+
+        txtPacatianX = findViewById(R.id.txtPacatian);
+        txtPacatianX.setOnClickListener(this);
+
+        imgJotapianX = findViewById(R.id.crdImgJotapian);
+        imgJotapianX.setOnClickListener(this);
+
+        txtJotapianX = findViewById(R.id.txtJotapian);
+        txtJotapianX.setOnClickListener(this);
+
+        imgUraniusAntoninusX = findViewById(R.id.crdImgUraniusAntoninus);
+        imgUraniusAntoninusX.setOnClickListener(this);
+
+        txtUraniusAntoninusX = findViewById(R.id.txtUraniusAntoninus);
+        txtUraniusAntoninusX.setOnClickListener(this);
+
+
 
        // custom view to use as a shade behind custom dialogs
         shadeX = findViewById(R.id.shade);
@@ -1147,6 +1170,51 @@ public class RefEmperorDir extends AppCompatActivity implements View.OnClickList
                 imgPostumusX.performClick();
 
                 break;
+
+            // late additions that have to be handled a bit differently so setting apart here
+
+            case R.id.crdImgPacatian:
+
+                Intent intent53 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent53.putExtra("era", 53);
+                startActivity(intent53);
+
+                break;
+
+            case R.id.txtPacatian:
+
+                imgPacatianX.performClick();
+
+                break;
+
+            case R.id.crdImgJotapian:
+
+                Intent intent54 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent54.putExtra("era", 54);
+                startActivity(intent54);
+
+                break;
+
+            case R.id.txtJotapian:
+
+                imgJotapianX.performClick();
+
+                break;
+
+            case R.id.crdImgUraniusAntoninus:
+
+                Intent intent55 = new Intent(RefEmperorDir.this, RefCollections.class);
+                intent55.putExtra("era", 55);
+                startActivity(intent55);
+
+                break;
+
+            case R.id.txtUraniusAntoninus:
+
+                imgUraniusAntoninusX.performClick();
+
+                break;
+
 
 
 

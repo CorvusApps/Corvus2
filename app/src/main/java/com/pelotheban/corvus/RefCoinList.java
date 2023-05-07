@@ -64,7 +64,7 @@ public class RefCoinList extends AppCompatActivity implements RewardedVideoAdLis
 
     // UI and data components for transfering collection ID from Homepage through here to AddCoin and ShowCoin activities - as well as getting back to right RefCollections sort
     private TextView txtRefCListCollUIDX;
-    private String cRefListuid;
+    private String cRefListuid, cListStandardRef;
     private int era;
      // temp note3
     // Firebase related
@@ -397,6 +397,10 @@ public class RefCoinList extends AppCompatActivity implements RewardedVideoAdLis
                 viewHolder.setImageLink(model.getImageLink());
 
                 viewHolder.setLayouts();
+
+                //need to repull the standard ref because it does not transfer to the inner class and can't put it in the parameters
+                cListStandardRef = getIntent().getStringExtra("standardref");
+                viewHolder.setStandardRef(cListStandardRef); // then need to throw it to the viewholder here can do it with params
 
                 viewHolder.setRICLabel(model.getId(), model.getRicvar());
 
@@ -848,6 +852,14 @@ public class RefCoinList extends AppCompatActivity implements RewardedVideoAdLis
 
 
         }
+         // COPIED OVER FROM COIN LIST TO GET FUNCTIONALITY INTO REF
+        public void setStandardRef (String cListStandardRef){
+
+           TextView txtRefLabelRICX = (TextView)mView.findViewById(R.id.txtRefLabelRIC);
+           txtRefLabelRICX.setText(cListStandardRef); // need to bring this in from viewholder vs. developing in here from static variable
+               // To figure out: getting the cListStandardRef value to bring into here
+               // gettin this into the recyler view
+       }
 
         // getting rid of RIC label only if both RIC and RIC var empty so something like Unlisted or Ves281 still get RIC in front
         public void setRICLabel (int id, String ricvar){
