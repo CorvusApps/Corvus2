@@ -193,8 +193,8 @@ public class CoinList extends AppCompatActivity implements RewardedVideoAdListen
 
         mRewardedAdCoinList = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedAdCoinList.setRewardedVideoAdListener(this);
-        //mRewardedAdCoinList.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
-        mRewardedAdCoinList.loadAd("ca-app-pub-1744081621312112/3453836416", new AdRequest.Builder().build()); // REAL
+        mRewardedAdCoinList.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
+        //mRewardedAdCoinList.loadAd("ca-app-pub-1744081621312112/3453836416", new AdRequest.Builder().build()); // REAL
 
         if (mAdvertCounterCoinList > 10) {
 

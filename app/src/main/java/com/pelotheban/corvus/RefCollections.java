@@ -124,8 +124,8 @@ public class RefCollections extends AppCompatActivity implements RewardedVideoAd
 
         mRewardedAdRefCollections = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedAdRefCollections.setRewardedVideoAdListener(this);
-        //mRewardedAdRefCollections.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
-        mRewardedAdRefCollections.loadAd("ca-app-pub-1744081621312112/5372943816", new AdRequest.Builder().build()); // REAL
+        mRewardedAdRefCollections.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
+        //mRewardedAdRefCollections.loadAd("ca-app-pub-1744081621312112/5372943816", new AdRequest.Builder().build()); // REAL
 
         if (mAdvertCounter > 4) {
 
@@ -1450,6 +1450,9 @@ public class RefCollections extends AppCompatActivity implements RewardedVideoAd
 
 
 
+        //$ keytool -export -rfc -keystore corvus2app.jks -alias myCorvus2App -file upload_certificate.pem
+        //!Metallica4!
+        //keytool -v -list -keystore corvus2app3.jks
 
 
 

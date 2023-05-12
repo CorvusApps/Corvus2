@@ -156,8 +156,8 @@ public class RefCoinList extends AppCompatActivity implements RewardedVideoAdLis
 
         mRewardedAdRefCoinList = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedAdRefCoinList.setRewardedVideoAdListener(this);
-       // mRewardedAdRefCoinList.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
-        mRewardedAdRefCoinList.loadAd("ca-app-pub-1744081621312112/8222753841", new AdRequest.Builder().build()); // REAL
+        mRewardedAdRefCoinList.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
+        // mRewardedAdRefCoinList.loadAd("ca-app-pub-1744081621312112/8222753841", new AdRequest.Builder().build()); // REAL
 
         if (mAdvertCounterRefCoinList > 10) {
 
